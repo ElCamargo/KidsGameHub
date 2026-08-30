@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
-<title>Mundi — Kids Game Hub</title>
+<title>Lumus — Kids Game Hub</title>
 <meta name="author" content="ElCamargo Soluções em TI LTDA" />
 <meta name="theme-color" content="#3C4FC4" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Mundi" />
+<meta name="apple-mobile-web-app-title" content="Lumus" />
 <link rel="apple-touch-icon" href="./icon-180.png" />
 <link rel="icon" type="image/png" href="./icon-192.png" />
 <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIk11bmRpIOKAlCBLaWRzIEdhbWUgSHViIiwgInNob3J0X25hbWUiOiAiTXVuZGkiLCAic3RhcnRfdXJsIjogIi4vdGVzdGUuaHRtbCIsICJzY29wZSI6ICIuLyIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMUIyQTZCIiwgInRoZW1lX2NvbG9yIjogIiMzQzRGQzQiLCAiaWNvbnMiOiBbeyJzcmMiOiAiLi9pY29uLTE5Mi5wbmciLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3BuZyJ9LCB7InNyYyI6ICIuL2ljb24tNTEyLnBuZyIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn0sIHsic3JjIjogIi4vaWNvbi01MTIucG5nIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJtYXNrYWJsZSJ9XX0=" />
@@ -24,7 +24,7 @@
 </head>
 <body>
 <div id="root"></div>
-<div id="carregando">🌍<br />Preparando o Mundi...<br /><span style="font-size:12px;opacity:.7">alguns segundos na primeira vez</span></div>
+<div id="carregando">🌍<br />Preparando o Lumus...<br /><span style="font-size:12px;opacity:.7">alguns segundos na primeira vez</span></div>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
@@ -63,7 +63,8 @@ const { useState, useEffect, useRef, useCallback } = React;
 
 
 /* ============================================================
-   MUNDI — Kids Game Hub
+   LUMUS — Kids Game Hub
+   "Iluminar a mente"
    © ElCamargo Soluções em TI LTDA — https://github.com/ElCamargo/KidsGameHub
    Licença MIT (ver LICENSE)
    ------------------------------------------------------------
@@ -142,16 +143,21 @@ const T = {
     home: "Escolha um jogo",
     soon: "Em breve",
     cat: { geo: "Geografia", math: "Matemática", nature: "Natureza", art: "Arte" },
-    games: { flags: "Bandeiras do Mundo", capitals: "Capitais", count: "Contar e Somar", animals: "Animais do Mundo", colors: "Cores e Formas" },
+    games: { flags: "Bandeiras do Mundo", memory: "Memória do Mundo", capitals: "Capitais", count: "Contar e Somar", animals: "Animais do Mundo", color: "Pintar e Colorir", colors: "Cores e Formas" },
     mascotHome: "Oi! Que tal aprender brincando?",
     profileTitle: "Meu perfil",
     statRounds: "Rodadas", statPerfect: "100%", statFlags: "Bandeiras", statDays: "Dias seguidos",
     worldProgress: "Meu mundo", achievementsGot: "Conquistas",
-    installTitle: "Deixe o Mundi na tela inicial",
+    installTitle: "Deixe o Lumus na tela inicial",
     installIOS: "No Safari, toque em Compartilhar e depois em \"Adicionar à Tela de Início\".",
     installAndroid: "No menu do Chrome (⋮), toque em \"Instalar aplicativo\".",
     installWhy: "Assim ele abre em tela cheia, como qualquer outro app.",
     installLater: "Agora não",
+    record: "Recorde", newRecord: "Novo recorde!", pairs: "Pares", moves: "Jogadas",
+    memStarsHint: "As estrelas vêm do tempo: quanto mais rápido, mais estrelas.",
+    badges: "Insígnias",
+    gallery: "Minha galeria", newDrawing: "Escolha um desenho", finish: "Terminei!",
+    paintAll: "Pinte tudo para terminar", dailyCap: "Moedas de hoje já ganhas — mas pode pintar à vontade!",
     players: "Quem vai jogar?", newPlayer: "Novo jogador", switchPlayer: "Trocar jogador",
     language: "Idioma", download: "Baixar", downloading: "Baixando...", installed: "Instalado",
     deleteAsk: "Apagar este jogador e todo o progresso dele?", cancel: "Cancelar", del: "Apagar",
@@ -189,16 +195,21 @@ const T = {
     mascotStage: "Let's go! You can do it!",
     home: "Pick a game", soon: "Coming soon",
     cat: { geo: "Geography", math: "Math", nature: "Nature", art: "Art" },
-    games: { flags: "Flags of the World", capitals: "Capitals", count: "Count and Add", animals: "Animals of the World", colors: "Colors and Shapes" },
+    games: { flags: "Flags of the World", memory: "World Memory", capitals: "Capitals", count: "Count and Add", animals: "Animals of the World", color: "Paint and Color", colors: "Colors and Shapes" },
     mascotHome: "Hi! Want to learn by playing?",
     profileTitle: "My profile",
     statRounds: "Rounds", statPerfect: "100%", statFlags: "Flags", statDays: "Day streak",
     worldProgress: "My world", achievementsGot: "Awards",
-    installTitle: "Keep Mundi on your home screen",
+    installTitle: "Keep Lumus on your home screen",
     installIOS: "In Safari, tap Share and then \"Add to Home Screen\".",
     installAndroid: "In the Chrome menu (⋮), tap \"Install app\".",
     installWhy: "It then opens full screen, like any other app.",
     installLater: "Not now",
+    record: "Record", newRecord: "New record!", pairs: "Pairs", moves: "Moves",
+    memStarsHint: "Stars come from the clock: the faster you are, the more you get.",
+    badges: "Badges",
+    gallery: "My gallery", newDrawing: "Pick a drawing", finish: "Done!",
+    paintAll: "Paint everything to finish", dailyCap: "Today's coins are done — keep painting anyway!",
     players: "Who's playing?", newPlayer: "New player", switchPlayer: "Switch player",
     language: "Language", download: "Download", downloading: "Downloading...", installed: "Installed",
     deleteAsk: "Delete this player and all their progress?", cancel: "Cancel", del: "Delete",
@@ -235,16 +246,21 @@ const T = {
     mascotStage: "¡Vamos! ¡Tú puedes!",
     home: "Elige un juego", soon: "Muy pronto",
     cat: { geo: "Geografía", math: "Matemáticas", nature: "Naturaleza", art: "Arte" },
-    games: { flags: "Banderas del Mundo", capitals: "Capitales", count: "Contar y Sumar", animals: "Animales del Mundo", colors: "Colores y Formas" },
+    games: { flags: "Banderas del Mundo", memory: "Memoria del Mundo", capitals: "Capitales", count: "Contar y Sumar", animals: "Animales del Mundo", color: "Pintar y Colorear", colors: "Colores y Formas" },
     mascotHome: "¡Hola! ¿Aprendemos jugando?",
     profileTitle: "Mi perfil",
     statRounds: "Rondas", statPerfect: "100%", statFlags: "Banderas", statDays: "Días seguidos",
     worldProgress: "Mi mundo", achievementsGot: "Logros",
-    installTitle: "Deja Mundi en tu pantalla de inicio",
+    installTitle: "Deja Lumus en tu pantalla de inicio",
     installIOS: "En Safari, toca Compartir y luego \"Añadir a pantalla de inicio\".",
     installAndroid: "En el menú de Chrome (⋮), toca \"Instalar aplicación\".",
     installWhy: "Así se abre a pantalla completa, como cualquier otra app.",
     installLater: "Ahora no",
+    record: "Récord", newRecord: "¡Nuevo récord!", pairs: "Parejas", moves: "Jugadas",
+    memStarsHint: "Las estrellas vienen del tiempo: cuanto más rápido, más estrellas.",
+    badges: "Insignias",
+    gallery: "Mi galería", newDrawing: "Elige un dibujo", finish: "¡Terminé!",
+    paintAll: "Pinta todo para terminar", dailyCap: "Ya ganaste las monedas de hoy, ¡pero sigue pintando!",
     players: "¿Quién juega?", newPlayer: "Nuevo jugador", switchPlayer: "Cambiar jugador",
     language: "Idioma", download: "Descargar", downloading: "Descargando...", installed: "Instalado",
     deleteAsk: "¿Borrar este jugador y todo su progreso?", cancel: "Cancelar", del: "Borrar",
@@ -257,7 +273,7 @@ const T = {
    vêm de Intl.DisplayNames, que já fala ~100 idiomas de fábrica.
    Cada pacote é um JSON de ~3 KB: baixa uma vez, fica no aparelho para sempre.
    Em produção, PACK_URL aponta para o seu CDN e PACKS some daqui. */
-const PACK_URL = "https://cdn.seu-dominio.com/mundi/locales";
+const PACK_URL = "https://cdn.seu-dominio.com/lumus/locales";
 
 const LANG_CATALOG = {
   pt: "Português", en: "English", es: "Español",
@@ -289,16 +305,21 @@ const PACKS = {
     mascotHub: "Choisis un continent à explorer !", mascotStage: "C'est parti ! Tu peux le faire !",
     home: "Choisis un jeu", soon: "Bientôt",
     cat: { geo: "Géographie", math: "Maths", nature: "Nature", art: "Art" },
-    games: { flags: "Drapeaux du Monde", capitals: "Capitales", count: "Compter et Additionner", animals: "Animaux du Monde", colors: "Couleurs et Formes" },
+    games: { flags: "Drapeaux du Monde", memory: "Mémoire du Monde", capitals: "Capitales", count: "Compter et Additionner", animals: "Animaux du Monde", color: "Peindre et Colorier", colors: "Couleurs et Formes" },
     mascotHome: "Salut ! On apprend en jouant ?",
     profileTitle: "Mon profil",
     statRounds: "Manches", statPerfect: "100%", statFlags: "Drapeaux", statDays: "Jours d'affilée",
     worldProgress: "Mon monde", achievementsGot: "Trophées",
-    installTitle: "Garde Mundi sur ton écran d'accueil",
+    installTitle: "Garde Lumus sur ton écran d'accueil",
     installIOS: "Dans Safari, touche Partager puis \"Sur l'écran d'accueil\".",
     installAndroid: "Dans le menu de Chrome (⋮), touche \"Installer l'application\".",
     installWhy: "Il s'ouvre alors en plein écran, comme toute autre application.",
     installLater: "Plus tard",
+    record: "Record", newRecord: "Nouveau record !", pairs: "Paires", moves: "Coups",
+    memStarsHint: "Les étoiles viennent du chrono : plus tu es rapide, plus tu en gagnes.",
+    badges: "Badges",
+    gallery: "Ma galerie", newDrawing: "Choisis un dessin", finish: "Fini !",
+    paintAll: "Colorie tout pour finir", dailyCap: "Les pièces du jour sont gagnées — continue à colorier !",
     players: "Qui joue ?", newPlayer: "Nouveau joueur", switchPlayer: "Changer de joueur",
     language: "Langue", download: "Télécharger", downloading: "Téléchargement...", installed: "Installé",
     deleteAsk: "Supprimer ce joueur et toute sa progression ?", cancel: "Annuler", del: "Supprimer",
@@ -328,16 +349,21 @@ const PACKS = {
     mascotHub: "Wähle einen Kontinent!", mascotStage: "Los geht's! Du schaffst das!",
     home: "Wähle ein Spiel", soon: "Bald",
     cat: { geo: "Geografie", math: "Mathe", nature: "Natur", art: "Kunst" },
-    games: { flags: "Flaggen der Welt", capitals: "Hauptstädte", count: "Zählen und Rechnen", animals: "Tiere der Welt", colors: "Farben und Formen" },
+    games: { flags: "Flaggen der Welt", memory: "Welt-Memory", capitals: "Hauptstädte", count: "Zählen und Rechnen", animals: "Tiere der Welt", color: "Malen und Ausmalen", colors: "Farben und Formen" },
     mascotHome: "Hallo! Lust, spielend zu lernen?",
     profileTitle: "Mein Profil",
     statRounds: "Runden", statPerfect: "100%", statFlags: "Flaggen", statDays: "Tage in Folge",
     worldProgress: "Meine Welt", achievementsGot: "Trophäen",
-    installTitle: "Mundi auf den Startbildschirm legen",
+    installTitle: "Lumus auf den Startbildschirm legen",
     installIOS: "In Safari auf Teilen tippen und dann \"Zum Home-Bildschirm\".",
     installAndroid: "Im Chrome-Menü (⋮) auf \"App installieren\" tippen.",
     installWhy: "Dann öffnet sie im Vollbild, wie jede andere App.",
     installLater: "Später",
+    record: "Rekord", newRecord: "Neuer Rekord!", pairs: "Paare", moves: "Züge",
+    memStarsHint: "Sterne kommen von der Uhr: je schneller, desto mehr.",
+    badges: "Abzeichen",
+    gallery: "Meine Galerie", newDrawing: "Wähle ein Bild", finish: "Fertig!",
+    paintAll: "Male alles aus, um fertig zu werden", dailyCap: "Die Münzen von heute sind vergeben — mal ruhig weiter!",
     players: "Wer spielt?", newPlayer: "Neuer Spieler", switchPlayer: "Spieler wechseln",
     language: "Sprache", download: "Herunterladen", downloading: "Wird geladen...", installed: "Installiert",
     deleteAsk: "Diesen Spieler und den ganzen Fortschritt löschen?", cancel: "Abbrechen", del: "Löschen",
@@ -367,16 +393,21 @@ const PACKS = {
     mascotHub: "Scegli un continente!", mascotStage: "Andiamo! Ce la puoi fare!",
     home: "Scegli un gioco", soon: "Presto",
     cat: { geo: "Geografia", math: "Matematica", nature: "Natura", art: "Arte" },
-    games: { flags: "Bandiere del Mondo", capitals: "Capitali", count: "Conta e Somma", animals: "Animali del Mondo", colors: "Colori e Forme" },
+    games: { flags: "Bandiere del Mondo", memory: "Memoria del Mondo", capitals: "Capitali", count: "Conta e Somma", animals: "Animali del Mondo", color: "Dipingi e Colora", colors: "Colori e Forme" },
     mascotHome: "Ciao! Impariamo giocando?",
     profileTitle: "Il mio profilo",
     statRounds: "Turni", statPerfect: "100%", statFlags: "Bandiere", statDays: "Giorni di fila",
     worldProgress: "Il mio mondo", achievementsGot: "Premi",
-    installTitle: "Tieni Mundi nella schermata Home",
+    installTitle: "Tieni Lumus nella schermata Home",
     installIOS: "In Safari tocca Condividi e poi \"Aggiungi a Home\".",
     installAndroid: "Nel menu di Chrome (⋮) tocca \"Installa app\".",
     installWhy: "Così si apre a schermo intero, come ogni altra app.",
     installLater: "Non ora",
+    record: "Record", newRecord: "Nuovo record!", pairs: "Coppie", moves: "Mosse",
+    memStarsHint: "Le stelle vengono dal tempo: più sei veloce, più ne prendi.",
+    badges: "Distintivi",
+    gallery: "La mia galleria", newDrawing: "Scegli un disegno", finish: "Finito!",
+    paintAll: "Colora tutto per finire", dailyCap: "Le monete di oggi sono finite — ma continua a colorare!",
     players: "Chi gioca?", newPlayer: "Nuovo giocatore", switchPlayer: "Cambia giocatore",
     language: "Lingua", download: "Scarica", downloading: "Scaricamento...", installed: "Installato",
     deleteAsk: "Eliminare questo giocatore e tutti i suoi progressi?", cancel: "Annulla", del: "Elimina",
@@ -389,7 +420,7 @@ const PACKS = {
 async function loadLang(code) {
   if (T[code]) return true;
   try {
-    const c = await window.storage.get(`mundi:lang:${code}`);
+    const c = await window.storage.get(`lumus:lang:${code}`);
     if (c?.value) { T[code] = JSON.parse(c.value); return true; }
   } catch { }
   try {
@@ -397,13 +428,13 @@ async function loadLang(code) {
     if (r.ok) {
       const j = await r.json();
       T[code] = j;
-      try { window.storage.set(`mundi:lang:${code}`, JSON.stringify(j)); } catch { }
+      try { window.storage.set(`lumus:lang:${code}`, JSON.stringify(j)); } catch { }
       return true;
     }
   } catch { }
   if (PACKS[code]) {
     T[code] = PACKS[code];
-    try { window.storage.set(`mundi:lang:${code}`, JSON.stringify(PACKS[code])); } catch { }
+    try { window.storage.set(`lumus:lang:${code}`, JSON.stringify(PACKS[code])); } catch { }
     return true;
   }
   return false;
@@ -486,6 +517,7 @@ const SUBFLAGS = {
 const CATALOG = [
   { id: "geo", icon: "🌍", color: "#4C6FFF", games: [
       { id: "flags", icon: "🚩", color: "#00B894", ready: true },
+      { id: "memory", icon: "🧠", color: "#4C6FFF", ready: true },
       { id: "capitals", icon: "🏛️", color: "#6A5AE0", ready: false },
   ]},
   { id: "math", icon: "🔢", color: "#F9A826", games: [
@@ -495,7 +527,8 @@ const CATALOG = [
       { id: "animals", icon: "🐘", color: "#00C2CB", ready: false },
   ]},
   { id: "art", icon: "🎨", color: "#E84393", games: [
-      { id: "colors", icon: "🌈", color: "#E84393", ready: false },
+      { id: "color", icon: "🖍️", color: "#E84393", ready: true },
+      { id: "colors", icon: "🌈", color: "#F9A826", ready: false },
   ]},
 ];
 
@@ -536,48 +569,62 @@ const BAND_COLOR = { easy: "#00B894", medium: "#4C6FFF", hard: "#F9A826", genius
 
 /* ---------- Economia ---------- */
 const ECON = {
+  start: 50,                       // com o que se começa
   roundCost: 10,
-  refillAmount: 30,
+  refillAmount: 50,                // a cada 3h
   refillMs: 3 * 60 * 60 * 1000,
-  cap: 200,
+  cap: 10000,                      // teto alto: dá para juntar para os lendários
   hint1: 8, hint2: 20, hint3: 80,
   reward: { 70: 10, 80: 20, 90: 35, 100: 60 },
+  memReward: { 1: 10, 2: 25, 3: 50 },
+  colorReward: 5,
+  colorDailyCap: 50,
 };
 
 /* ---------- Loja de avatar ---------- */
 const SHOP_CATS = ["hairStyle", "cap", "glasses", "shirt", "shirtPattern"];
+
+/* Raridades: poucos itens baratos para dar gosto logo no começo,
+   e uma escada longa até os lendários, que exigem muito jogo. */
+const RARITY = {
+  comum:     { cor: "#8B93AD", label: "•" },
+  raro:      { cor: "#4C6FFF", label: "◆" },
+  epico:     { cor: "#9B59B6", label: "★" },
+  lendario:  { cor: "#F9A826", label: "👑" },
+};
+
 const SHOP_ITEMS = [
-  // cabelo
-  { id: "h_buzz", type: "hairStyle", val: "buzz", price: 30 },
-  { id: "h_curly", type: "hairStyle", val: "curly", price: 50 },
-  { id: "h_long", type: "hairStyle", val: "long", price: 60 },
-  { id: "h_pony", type: "hairStyle", val: "ponytail", price: 60 },
-  { id: "h_afro", type: "hairStyle", val: "afro", price: 80 },
-  // chapéus
-  { id: "c_red", type: "cap", val: "cap|#E74C3C", price: 40 },
-  { id: "c_blue", type: "cap", val: "cap|#3498DB", price: 40 },
-  { id: "c_green", type: "cap", val: "cap|#00B894", price: 40 },
-  { id: "c_beanie", type: "cap", val: "beanie|#9B59B6", price: 70 },
-  { id: "c_beanie2", type: "cap", val: "beanie|#E84393", price: 70 },
-  { id: "c_bow", type: "cap", val: "bow|#FF69B4", price: 70 },
-  { id: "c_explorer", type: "cap", val: "explorer", price: 110 },
-  { id: "c_crown", type: "cap", val: "crown", price: 160 },
-  // óculos
-  { id: "g_round", type: "glasses", val: "round", price: 50 },
-  { id: "g_nerd", type: "glasses", val: "nerd", price: 70 },
-  { id: "g_sun", type: "glasses", val: "sun", price: 110 },
-  { id: "g_heart", type: "glasses", val: "heart", price: 130 },
-  // cor da camisa
-  { id: "s_purple", type: "shirt", val: "#9B59B6", price: 50 },
-  { id: "s_navy", type: "shirt", val: "#2C3E50", price: 60 },
-  { id: "s_lime", type: "shirt", val: "#7BC950", price: 60 },
-  // estampa
-  { id: "p_stripe", type: "shirtPattern", val: "stripe", price: 60 },
-  { id: "p_dots", type: "shirtPattern", val: "dots", price: 70 },
-  { id: "p_star", type: "shirtPattern", val: "star", price: 110 },
-  { id: "p_heart", type: "shirtPattern", val: "heart", price: 120 },
-  { id: "p_rainbow", type: "shirtPattern", val: "rainbow", price: 150 },
+  // ---- comuns (30–90) ----
+  { id: "h_buzz", type: "hairStyle", val: "buzz", price: 30, r: "comum" },
+  { id: "c_red", type: "cap", val: "cap|#E74C3C", price: 40, r: "comum" },
+  { id: "c_blue", type: "cap", val: "cap|#3498DB", price: 40, r: "comum" },
+  { id: "h_curly", type: "hairStyle", val: "curly", price: 60, r: "comum" },
+  { id: "s_purple", type: "shirt", val: "#9B59B6", price: 60, r: "comum" },
+  { id: "g_round", type: "glasses", val: "round", price: 80, r: "comum" },
+  { id: "p_stripe", type: "shirtPattern", val: "stripe", price: 90, r: "comum" },
+  // ---- raros (250–700) ----
+  { id: "h_long", type: "hairStyle", val: "long", price: 250, r: "raro" },
+  { id: "h_pony", type: "hairStyle", val: "ponytail", price: 250, r: "raro" },
+  { id: "c_green", type: "cap", val: "cap|#00B894", price: 300, r: "raro" },
+  { id: "s_navy", type: "shirt", val: "#2C3E50", price: 350, r: "raro" },
+  { id: "s_lime", type: "shirt", val: "#7BC950", price: 350, r: "raro" },
+  { id: "g_nerd", type: "glasses", val: "nerd", price: 450, r: "raro" },
+  { id: "p_dots", type: "shirtPattern", val: "dots", price: 500, r: "raro" },
+  { id: "c_bow", type: "cap", val: "bow|#FF69B4", price: 700, r: "raro" },
+  // ---- épicos (1200–2500) ----
+  { id: "h_afro", type: "hairStyle", val: "afro", price: 1200, r: "epico" },
+  { id: "c_beanie", type: "cap", val: "beanie|#9B59B6", price: 1400, r: "epico" },
+  { id: "c_beanie2", type: "cap", val: "beanie|#E84393", price: 1400, r: "epico" },
+  { id: "g_sun", type: "glasses", val: "sun", price: 1800, r: "epico" },
+  { id: "p_star", type: "shirtPattern", val: "star", price: 2200, r: "epico" },
+  { id: "c_explorer", type: "cap", val: "explorer", price: 2500, r: "epico" },
+  // ---- lendários (4500–9000) ----
+  { id: "g_heart", type: "glasses", val: "heart", price: 4500, r: "lendario" },
+  { id: "p_heart", type: "shirtPattern", val: "heart", price: 5500, r: "lendario" },
+  { id: "p_rainbow", type: "shirtPattern", val: "rainbow", price: 7000, r: "lendario" },
+  { id: "c_crown", type: "cap", val: "crown", price: 9000, r: "lendario" },
 ];
+
 
 
 /* ---------- Conquistas ---------- */
@@ -607,13 +654,41 @@ const ACHIEVEMENTS = [
   { id: "day3", icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
   { id: "day7", icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
   { id: "rich", icon: "💰", pt: "Cofre cheio de moedas", en: "Coin vault full", es: "Alcancía llena", test: s => s.maxCoins >= ECON.cap },
+  { id: "art1", icon: "🖍️", pt: "Primeiro desenho pintado", en: "First drawing painted", es: "Primer dibujo pintado", test: s => (s.colorDone || 0) >= 1 },
+  { id: "art10", icon: "🎨", pt: "10 desenhos pintados", en: "10 drawings painted", es: "10 dibujos pintados", test: s => (s.colorDone || 0) >= 10 },
+  { id: "art50", icon: "🖼️", pt: "50 desenhos pintados", en: "50 drawings painted", es: "50 dibujos pintados", test: s => (s.colorDone || 0) >= 50 },
+  { id: "mem1", icon: "🃏", pt: "Primeira memória", en: "First memory game", es: "Primera memoria", test: s => s.memRounds >= 1 },
+  { id: "mem3s", icon: "🧩", pt: "3 estrelas na memória", en: "3 stars in memory", es: "3 estrellas en memoria", test: s => s.mem3 >= 1 },
+  { id: "memPerf", icon: "🎴", pt: "Memória sem errar par", en: "Memory with no wasted move", es: "Memoria sin fallar", test: s => s.memPerfect >= 1 },
+  { id: "stars45", icon: "✨", pt: "45 estrelas", en: "45 stars", es: "45 estrellas", test: s => s.stars >= 45 },
   { id: "marathon", icon: "🏃", pt: "50 rodadas jogadas", en: "50 rounds played", es: "50 rondas jugadas", test: s => s.rounds >= 50 },
 ];
 
 
+/* Insígnias: raras de propósito. São o que distingue quem jogou muito. */
+const BADGES = [
+  { id: "b_explorer", icon: "🧭", cor: "#00B894", pt: "Explorador", en: "Explorer", es: "Explorador", fr: "Explorateur", de: "Entdecker", it: "Esploratore",
+    dPt: "Abriu 3 continentes", test: s => s.continents >= 3 },
+  { id: "b_navigator", icon: "⛵", cor: "#4C6FFF", pt: "Navegador", en: "Navigator", es: "Navegante", fr: "Navigateur", de: "Navigator", it: "Navigatore",
+    dPt: "Abriu o mapa-múndi inteiro", test: s => s.continents >= 6 },
+  { id: "b_scholar", icon: "📚", cor: "#6A5AE0", pt: "Estudioso", en: "Scholar", es: "Erudito", fr: "Érudit", de: "Gelehrter", it: "Studioso",
+    dPt: "1000 bandeiras certas", test: s => s.correct >= 1000 },
+  { id: "b_lightning", icon: "⚡", cor: "#F9A826", pt: "Relâmpago", en: "Lightning", es: "Relámpago", fr: "Éclair", de: "Blitz", it: "Fulmine",
+    dPt: "250 respostas relâmpago", test: s => s.flash >= 250 },
+  { id: "b_star", icon: "🌟", cor: "#E84393", pt: "Estrela", en: "Star", es: "Estrella", fr: "Étoile", de: "Stern", it: "Stella",
+    dPt: "100 estrelas conquistadas", test: s => s.stars >= 100 },
+  { id: "b_mind", icon: "🧠", cor: "#00C2CB", pt: "Mente Afiada", en: "Sharp Mind", es: "Mente Ágil", fr: "Esprit Vif", de: "Scharfer Geist", it: "Mente Acuta",
+    dPt: "10 memórias com 3 estrelas", test: s => s.mem3 >= 10 },
+  { id: "b_faithful", icon: "📅", cor: "#8D6E3A", pt: "Constante", en: "Steady", es: "Constante", fr: "Assidu", de: "Beständig", it: "Costante",
+    dPt: "30 dias seguidos", test: s => s.dayStreak >= 30 },
+  { id: "b_artist", icon: "🎨", cor: "#E84393", pt: "Artista", en: "Artist", es: "Artista", fr: "Artiste", de: "Künstler", it: "Artista",
+    dPt: "100 desenhos pintados", test: s => (s.colorDone || 0) >= 100 },
+  { id: "b_legend", icon: "👑", cor: "#D4A017", pt: "Lenda", en: "Legend", es: "Leyenda", fr: "Légende", de: "Legende", it: "Leggenda",
+    dPt: "300 rodadas e 50 perfeitas", test: s => s.rounds >= 300 && s.perfect >= 50 },
+];
+
 /* ---------- Helpers ---------- */
-/* BUILD DE TESTE: sem etapa de build não há pasta local de bandeiras,
-   então esta versão volta a buscá-las no flagcdn. */
+/* BUILD DE TESTE: bandeiras via flagcdn. */
 const flagUrl = c => `https://flagcdn.com/w320/${c.toLowerCase()}.png`;
 
 function countryName(code, lang) {
@@ -622,6 +697,7 @@ function countryName(code, lang) {
   } catch { return code; }
 }
 const shuffle = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[b[i], b[j]] = [b[j], b[i]]; } return b; };
+const tempoFmt = seg => `${Math.floor(seg / 60)}:${String(seg % 60).padStart(2, "0")}`;
 const fmt = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return `${h}h ${String(m).padStart(2, "0")}m`; };
 
 /* ---------- Avatar SVG ----------
@@ -794,17 +870,21 @@ function App() {
   const [player, setPlayer] = useState({
     name: "", avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
   });
-  const [coins, setCoins] = useState(120);
+  const [coins, setCoins] = useState(ECON.start);
   const [lastRefill, setLastRefill] = useState(Date.now());
   const [now, setNow] = useState(Date.now());
   const [unlocked, setUnlocked] = useState(["sa"]);
-  const [progress, setProgress] = useState({}); // "sa:easy" -> maior fase concluída
+  const [progress, setProgress] = useState({});
   const [owned, setOwned] = useState([]);
+  const [stars, setStars] = useState({});     // {continente: {fase: 1..3}}
+  const [records, setRecords] = useState({}); // {continente: {fase: segundos}}
+  const [memBest, setMemBest] = useState({}); // {nivel: {stars, time}}
   const [stats, setStats] = useState({
     rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
     noHintRounds: 0, geniusCleared: 0, continents: 1,
     flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
-    contDone: 0, dayStreak: 1, lastDay: "", maxCoins: 120,
+    contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
+      stars: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0,
   });
   const [seenAch, setSeenAch] = useState([]);
   const [toast, setToast] = useState(null);
@@ -815,23 +895,29 @@ function App() {
 
   const [sel, setSel] = useState({ cont: "sa", stage: 1 });
   const [round, setRound] = useState(null);
+  const [mem, setMem] = useState(null);
+  const [gallery, setGallery] = useState([]);
+  const [colorDay, setColorDay] = useState({ dia: "", moedas: 0 });
+  const [pintando, setPintando] = useState(null);
 
   const t = T[lang];
 
   /* ----- perfis: vários jogadores no mesmo aparelho -----
-     Índice leve em "mundi:profiles" (id, nome, avatar) para desenhar a
+     Índice leve em "lumus:profiles" (id, nome, avatar) para desenhar a
      tela de escolha sem abrir todos os saves. O progresso de cada um fica
-     em "mundi:p:<id>", separado — irmão não mexe no do irmão. */
+     em "lumus:p:<id>", separado — irmão não mexe no do irmão. */
   const [profiles, setProfiles] = useState([]);
   const [activeId, setActiveId] = useState(null);
 
   const blankSave = () => ({
-    coins: 120, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
+    coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
+    stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 },
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
       flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
-      contDone: 0, dayStreak: 1, lastDay: "", maxCoins: 120,
+      contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
+      stars: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0,
     },
   });
 
@@ -841,17 +927,35 @@ function App() {
     const oldFmt = Object.keys(d.progress || {}).some(k => k.includes(":"));
     setProgress(oldFmt ? {} : (d.progress || {}));
     setOwned(d.owned || []); setStats(d.stats); setSeenAch(d.seenAch || []);
+    setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(d.memBest || {});
+    setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
   }
 
   useEffect(() => {
     (async () => {
       let list = [];
       try {
-        const r = await window.storage.get("mundi:profiles");
+        const r = await window.storage.get("lumus:profiles");
         if (r?.value) list = JSON.parse(r.value);
       } catch { }
+      // O app já se chamou Mundi: traz o que foi salvo com o nome antigo.
+      if (!list.length) {
+        try {
+          const velho = await window.storage.get("mundi:profiles");
+          if (velho?.value) {
+            list = JSON.parse(velho.value);
+            window.storage.set("lumus:profiles", velho.value);
+            for (const pr of list) {
+              try {
+                const sv = await window.storage.get(`mundi:p:${pr.id}`);
+                if (sv?.value) window.storage.set(`lumus:p:${pr.id}`, sv.value);
+              } catch { }
+            }
+          }
+        } catch { }
+      }
       let chosen = null;
-      try { const l = await window.storage.get("mundi:lang"); chosen = l?.value || null; } catch { }
+      try { const l = await window.storage.get("lumus:lang"); chosen = l?.value || null; } catch { }
       const want = chosen || deviceLang();
       if (await loadLang(want)) setLang(want);
       setProfiles(list);
@@ -865,23 +969,80 @@ function App() {
       // Convite para instalar: só fora do app instalado e só até ser dispensado.
       if (!jaInstalado()) {
         let visto = false;
-        try { const v = await window.storage.get("mundi:installTip"); visto = !!v?.value; } catch { }
+        try { const v = await window.storage.get("lumus:installTip"); visto = !!v?.value; } catch { }
         if (!visto) setInstallTip(true);
       }
       setLoaded(true);
     })();
   }, []);
 
+  /* ----- memória ----- */
+  function comecarMemoria(nivel) {
+    if (coins < ECON.roundCost) { setToast(t.notEnough); return; }
+    setCoins(c => c - ECON.roundCost);
+    const cfg = MEM_LEVELS[nivel];
+    const disponiveis = unlocked.flatMap(c => Object.keys(DATA[c]));
+    const escolhidas = shuffle([...new Set(disponiveis)]).slice(0, cfg.pares);
+    const cartas = shuffle(escolhidas.flatMap(code => [{ code }, { code }]));
+    setMem({ nivel, cartas });
+    setScreen("mem");
+  }
+
+  function fimMemoria({ seg, jogadas }) {
+    const nivel = mem.nivel;
+    const st = memEstrelas(nivel, seg);
+    const reward = st ? ECON.memReward[st] : 0;
+    setCoins(c => Math.min(ECON.cap, c + reward));
+    const antes = memBest[nivel];
+    const recorde = !antes || seg < antes.time;
+    setMemBest(b => ({
+      ...b,
+      [nivel]: { stars: Math.max(antes?.stars || 0, st), time: recorde ? seg : antes.time },
+    }));
+    const today = new Date().toISOString().slice(0, 10);
+    const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+    setStats(x => ({
+      ...x,
+      earned: x.earned + reward,
+      memRounds: x.memRounds + 1,
+      mem3: x.mem3 + (st === 3 ? 1 : 0),
+      memPerfect: x.memPerfect + (jogadas === MEM_LEVELS[nivel].pares ? 1 : 0),
+      maxCoins: Math.max(x.maxCoins, Math.min(ECON.cap, coins + reward)),
+      dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
+      lastDay: today,
+    }));
+    setMem(m => ({ ...m, done: true, seg, jogadas, st, reward, recorde }));
+    setScreen("memResult");
+  }
+
+  /* ----- colorir ----- */
+  function salvarDesenho(fills) {
+    const hoje = new Date().toISOString().slice(0, 10);
+    const dia = colorDay.dia === hoje ? colorDay : { dia: hoje, moedas: 0 };
+    // 5 moedas por desenho, no máximo 50 por dia — mas pintar continua livre.
+    const premio = dia.moedas < ECON.colorDailyCap ? ECON.colorReward : 0;
+    if (premio) {
+      setCoins(c => Math.min(ECON.cap, c + premio));
+      setColorDay({ dia: hoje, moedas: dia.moedas + premio });
+      setStats(x => ({ ...x, earned: x.earned + premio }));
+    } else setColorDay(dia);
+    setGallery(g => [...g, { id: pintando.art.id, fills, data: hoje }].slice(-30));
+    setStats(x => ({ ...x, colorDone: (x.colorDone || 0) + 1 }));
+    setToast(premio ? `🎨 +${premio} 🪙` : "🎨 ✅");
+    setPintando(null);
+    setScreen("gallery");
+  }
+
   function abrir(tela, origem) { setVoltaPara(origem); setScreen(tela); }
 
   function dispensarInstallTip() {
     setInstallTip(false);
-    try { window.storage.set("mundi:installTip", "1"); } catch { }
+    try { window.storage.set("lumus:installTip", "1"); } catch { }
   }
 
   async function openProfile(pr) {
     try {
-      const r = await window.storage.get(`mundi:p:${pr.id}`);
+      const r = await window.storage.get(`lumus:p:${pr.id}`);
       applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr.name, pr.avatar);
     } catch { applySave(blankSave(), pr.name, pr.avatar); }
     setActiveId(pr.id);
@@ -899,8 +1060,8 @@ function App() {
     const next = profiles.filter(p => p.id !== id);
     setProfiles(next);
     try {
-      window.storage.set("mundi:profiles", JSON.stringify(next));
-      window.storage.delete(`mundi:p:${id}`);
+      window.storage.set("lumus:profiles", JSON.stringify(next));
+      window.storage.delete(`lumus:p:${id}`);
     } catch { }
     if (id === activeId) { setActiveId(null); setScreen(next.length ? "profiles" : "create"); }
   }
@@ -909,24 +1070,24 @@ function App() {
     const ok = await loadLang(code);
     if (!ok) return false;
     setLang(code);
-    try { window.storage.set("mundi:lang", code); } catch { }
+    try { window.storage.set("lumus:lang", code); } catch { }
     return true;
   }
 
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { coins, lastRefill, unlocked, progress, owned, stats, seenAch };
-    try { window.storage.set(`mundi:p:${activeId}`, JSON.stringify(d)); } catch { }
+    const d = { coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay };
+    try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
       const next = has
         ? ps.map(p => p.id === activeId ? { ...p, name: player.name, avatar: player.avatar } : p)
         : [...ps, { id: activeId, name: player.name, avatar: player.avatar }];
-      try { window.storage.set("mundi:profiles", JSON.stringify(next)); } catch { }
+      try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, coins, unlocked, progress, owned, stats, player, seenAch]);
+  }, [loaded, activeId, screen, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay]);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -1015,7 +1176,7 @@ function App() {
     }
     // Modo Fácil: sem cronômetro. Depois o tempo cai a cada fase.
     const time = STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1];
-    return { cont, diff, stage, qs, time, i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+    return { cont, diff, stage, qs, time, t0: Date.now(), i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
   }
 
   function startRound() {
@@ -1057,10 +1218,23 @@ function App() {
       dayStreak: s.lastDay === today ? s.dayStreak : s.lastDay === yest ? s.dayStreak + 1 : 1,
       lastDay: today,
     }));
-    if (pct >= 70) {
+    // 1 estrela a partir de 70%, 2 a partir de 90%, 3 só com 100%
+    const st = pct >= 100 ? 3 : pct >= 90 ? 2 : pct >= 70 ? 1 : 0;
+    const seg = Math.round((Date.now() - (r.t0 || Date.now())) / 1000);
+    if (st > 0) {
       setProgress(p => ({ ...p, [r.cont]: Math.max(p[r.cont] || 0, r.stage) }));
+      setStars(x => {
+        const antes = x[r.cont]?.[r.stage] || 0;
+        setStats(s2 => ({ ...s2, stars: s2.stars + Math.max(0, st - antes) }));
+        return { ...x, [r.cont]: { ...(x[r.cont] || {}), [r.stage]: Math.max(antes, st) } };
+      });
+      setRecords(x => {
+        const antes = x[r.cont]?.[r.stage];
+        return { ...x, [r.cont]: { ...(x[r.cont] || {}), [r.stage]: antes ? Math.min(antes, seg) : seg } };
+      });
     }
-    setRound({ ...r, done: true, pct, reward });
+    const recAntigo = records[r.cont]?.[r.stage];
+    setRound({ ...r, done: true, pct, reward, st, seg, novoRecorde: st > 0 && (!recAntigo || seg < recAntigo) });
     setScreen("result");
   }
 
@@ -1132,12 +1306,39 @@ function App() {
 
         {screen === "create" && <Create {...{ t, lang, onLang: () => setScreen("lang"), player, setPlayer, onDone: () => setScreen("home") }} />}
         {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, deleteProfile, setScreen }} />}
+        {screen === "gallery" && <Gallery {...{ t, gallery, setScreen,
+          abrirDesenho: (art, fills) => { setPintando({ art, fills }); setScreen("color"); } }} />}
+        {screen === "color" && pintando && <Coloring {...{ t, art: pintando.art, fillsIniciais: pintando.fills,
+          onSalvar: salvarDesenho, onSair: () => { setPintando(null); setScreen("gallery"); },
+          ganhouHoje: colorDay.dia === new Date().toISOString().slice(0, 10) ? colorDay.moedas : 0 }} />}
+        {screen === "memLevels" && <MemLevels {...{ t, coins, memBest, setScreen, comecar: comecarMemoria }} />}
+        {screen === "mem" && mem && <MemoryGame {...{ t, lang, nivel: mem.nivel, cartas: mem.cartas,
+          onFinish: fimMemoria, onQuit: () => setScreen("memLevels") }} />}
+        {screen === "memResult" && mem && (
+          <div style={{ paddingTop: 20 }}>
+            <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
+              <div style={{ fontSize: 54 }}>{mem.st === 3 ? "🏆" : mem.st ? "🎉" : "💪"}</div>
+              <div className="display" style={{ fontSize: 26, color: "#1B2A6B" }}>{t.roundOver}</div>
+              <div style={{ display: "flex", justifyContent: "center", gap: 4, margin: "10px 0 6px" }}>
+                {[1, 2, 3].map(i => <span key={i} style={{ fontSize: 34, opacity: mem.st >= i ? 1 : .2 }}>⭐</span>)}
+              </div>
+              <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 14 }}>
+                ⏱️ {tempoFmt(mem.seg)} · {t.moves}: {mem.jogadas}{mem.recorde ? ` · 🏆 ${t.newRecord}` : ""}
+              </div>
+              <div className="display" style={{ fontSize: 22, color: "#F9A826", marginBottom: 16 }}>🪙 {mem.reward}</div>
+              <div style={{ display: "grid", gap: 9 }}>
+                <Btn full color="#4C6FFF" onClick={() => comecarMemoria(mem.nivel)} disabled={coins < ECON.roundCost}>{t.again}</Btn>
+                <Btn full color="#8B93AD" onClick={() => setScreen("memLevels")}>←</Btn>
+              </div>
+            </div>
+          </div>
+        )}
         {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, player, coins, nextRefill, setScreen, profiles, abrir,
-          onPickGame: () => { setScreen("map"); if (!stats.rounds) setTutorial(true); } }} />}
+          onPickGame: (g) => { if (g === "color") { setScreen("gallery"); return; } if (g === "memory") { setScreen("memLevels"); return; } setScreen("map"); if (!stats.rounds) setTutorial(true); } }} />}
         {screen === "map" && <MapScreen {...{ t, lang, player, coins, nextRefill, unlocked, progress, unlockContinent, setSel, setScreen, stats, tutorial, setTutorial }} />}
-        {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player }} />}
+        {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records }} />}
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen }} />}
         {screen === "result" && round && <Result {...{ t, round, player, setScreen, setSel, sel, startRound, coins }} />}
         {screen === "shop" && <Shop {...{ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, setScreen, voltaPara }} />}
@@ -1170,7 +1371,7 @@ function Create({ t, lang, onLang, player, setPlayer, onDone }) {
   return (
     <div>
       <div style={{ textAlign: "center", marginBottom: 10 }}>
-        <div className="display" style={{ color: "#fff", fontSize: 44, lineHeight: 1 }}>MUNDI</div>
+        <div className="display" style={{ color: "#fff", fontSize: 44, lineHeight: 1 }}>LUMUS</div>
         <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 14 }}>{t.tagline}</div>
         <button onClick={onLang} className="chunky" style={{ marginTop: 10, padding: "7px 16px", fontSize: 13, background: "rgba(255,255,255,.22)" }}>
           🌐 {LANG_CATALOG[lang] || lang}
@@ -1230,6 +1431,322 @@ function TopBar({ t, player, coins, nextRefill, right, onAvatar }) {
   );
 }
 
+/* ---------- Jogo da memória ----------
+   Mesmas quatro dificuldades do jogo de bandeiras, mas aqui a estrela
+   vem do relógio: saber não basta, tem que lembrar rápido. */
+const MEM_LEVELS = {
+  easy:   { cols: 2, rows: 3, pares: 3,  estrelas: [300, 240, 150] },
+  medium: { cols: 3, rows: 4, pares: 6,  estrelas: [300, 240, 150] },
+  hard:   { cols: 4, rows: 4, pares: 8,  estrelas: [240, 180, 120] },
+  genius: { cols: 4, rows: 6, pares: 12, estrelas: [180, 120,  60] },
+};
+const memEstrelas = (nivel, seg) => {
+  const [um, dois, tres] = MEM_LEVELS[nivel].estrelas;
+  return seg <= tres ? 3 : seg <= dois ? 2 : seg <= um ? 1 : 0;
+};
+
+function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
+  const [viradas, setViradas] = useState([]);   // índices virados agora
+  const [achadas, setAchadas] = useState([]);   // índices já casados
+  const [jogadas, setJogadas] = useState(0);
+  const [seg, setSeg] = useState(0);
+  const travado = useRef(false);
+  const cfg = MEM_LEVELS[nivel];
+
+  useEffect(() => {
+    const i = setInterval(() => setSeg(x => x + 1), 1000);
+    return () => clearInterval(i);
+  }, []);
+
+  useEffect(() => {
+    if (achadas.length && achadas.length === cartas.length) {
+      const id = setTimeout(() => onFinish({ seg, jogadas }), 600);
+      return () => clearTimeout(id);
+    }
+  }, [achadas]);
+
+  function tocar(i) {
+    if (travado.current || viradas.includes(i) || achadas.includes(i)) return;
+    const novas = [...viradas, i];
+    setViradas(novas);
+    if (novas.length === 2) {
+      setJogadas(j => j + 1);
+      travado.current = true;
+      const [a, b] = novas;
+      const igual = cartas[a].code === cartas[b].code;
+      setTimeout(() => {
+        if (igual) setAchadas(x => [...x, a, b]);
+        setViradas([]);
+        travado.current = false;
+      }, igual ? 420 : 850);
+    }
+  }
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={onQuit}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{t.levels[nivel]}</div>
+        <div style={{ background: "rgba(255,255,255,.18)", color: "#fff", borderRadius: 999, padding: "6px 14px", fontWeight: 900 }}>
+          ⏱️ {tempoFmt(seg)}
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${cfg.cols},1fr)`, gap: 8 }}>
+        {cartas.map((c, i) => {
+          const aberta = viradas.includes(i) || achadas.includes(i);
+          const casada = achadas.includes(i);
+          return (
+            <button key={i} onClick={() => tocar(i)} className="chunky"
+              style={{
+                aspectRatio: "1", borderRadius: 16, padding: 4, overflow: "hidden",
+                background: casada ? "#00B894" : aberta ? "#fff" : "#6A5AE0",
+                display: "grid", placeItems: "center", fontSize: 26,
+                transition: "background .2s",
+              }}>
+              {aberta
+                ? <img src={flagUrl(c.code)} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                : "❓"}
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={{ textAlign: "center", color: "#C9D2FF", fontWeight: 800, fontSize: 12, marginTop: 12 }}>
+        {t.pairs}: {achadas.length / 2}/{cfg.pares} · {t.moves}: {jogadas}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Escolha de nível da memória ---------- */
+function MemLevels({ t, coins, memBest, setScreen, comecar }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🧠 {t.games.memory}</div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
+      </div>
+      <div style={{ display: "grid", gap: 10 }}>
+        {DIFFS.map(d => {
+          const cfg = MEM_LEVELS[d];
+          const b = memBest[d];
+          return (
+            <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ width: 52, height: 52, borderRadius: 16, background: BAND_COLOR[d], display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 13 }}>
+                {cfg.cols}×{cfg.rows}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div className="display" style={{ color: "#1B2A6B", fontSize: 18 }}>{t.levels[d]}</div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
+                  {[1, 2, 3].map(i => <span key={i} style={{ opacity: (b?.stars || 0) >= i ? 1 : .25 }}>★</span>)}
+                  {b?.time != null && ` · ⏱️ ${tempoFmt(b.time)}`}
+                </div>
+              </div>
+              <Btn small color={BAND_COLOR[d]} disabled={coins < ECON.roundCost} onClick={() => comecar(d)}>
+                🪙{ECON.roundCost}
+              </Btn>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, textAlign: "center", lineHeight: 1.7 }}>
+        ⭐ {t.memStarsHint}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Colorir ----------
+   Desenhos só de contorno: toca numa cor, toca numa área, pinta.
+   Nada de texto, nada de leitura — feito para quem ainda não lê. */
+const PALETA = [
+  "#E74C3C", "#FF7043", "#F9A826", "#FFE066", "#7BC950", "#00B894",
+  "#00C2CB", "#4C6FFF", "#6A5AE0", "#9B59B6", "#E84393", "#FF8FA3",
+  "#8D5524", "#C68642", "#2C3E50", "#95A5A6", "#FFFFFF", "#2b2b2b",
+];
+
+/* Cada área é uma peça pintável. t: c=círculo, e=elipse, r=retângulo, p=polígono, d=path */
+const DESENHOS = [
+  { id: "casa", emoji: "🏠", vb: "0 0 200 200", areas: [
+      { t: "r", x: 0, y: 150, w: 200, h: 50 },
+      { t: "p", pts: "100,30 180,90 20,90" },
+      { t: "r", x: 40, y: 90, w: 120, h: 60 },
+      { t: "r", x: 88, y: 110, w: 26, h: 40 },
+      { t: "r", x: 52, y: 102, w: 26, h: 24 },
+      { t: "r", x: 124, y: 102, w: 26, h: 24 },
+      { t: "c", cx: 168, cy: 32, r: 18 },
+    ] },
+  { id: "gato", emoji: "🐱", vb: "0 0 200 200", areas: [
+      { t: "p", pts: "58,58 66,20 92,44" },
+      { t: "p", pts: "142,58 134,20 108,44" },
+      { t: "e", cx: 100, cy: 78, rx: 46, ry: 40 },
+      { t: "e", cx: 100, cy: 148, rx: 40, ry: 38 },
+      { t: "d", d: "M138 160 q40 6 34 -34 q-2 -14 -14 -12 q-10 2 -6 14 q4 14 -14 20 z" },
+      { t: "c", cx: 84, cy: 74, r: 8 },
+      { t: "c", cx: 116, cy: 74, r: 8 },
+      { t: "e", cx: 100, cy: 92, rx: 7, ry: 5 },
+    ] },
+  { id: "peixe", emoji: "🐟", vb: "0 0 200 200", areas: [
+      { t: "e", cx: 96, cy: 100, rx: 58, ry: 40 },
+      { t: "p", pts: "154,100 194,68 194,132" },
+      { t: "p", pts: "88,62 116,40 120,66" },
+      { t: "p", pts: "88,138 116,160 120,134" },
+      { t: "c", cx: 62, cy: 88, r: 9 },
+      { t: "c", cx: 30, cy: 50, r: 10 },
+      { t: "c", cx: 48, cy: 28, r: 7 },
+    ] },
+  { id: "flor", emoji: "🌸", vb: "0 0 200 200", areas: [
+      { t: "r", x: 94, y: 100, w: 12, h: 84 },
+      { t: "c", cx: 100, cy: 44, r: 26 },
+      { t: "c", cx: 56, cy: 76, r: 26 },
+      { t: "c", cx: 144, cy: 76, r: 26 },
+      { t: "c", cx: 73, cy: 126, r: 26 },
+      { t: "c", cx: 127, cy: 126, r: 26 },
+      { t: "c", cx: 100, cy: 88, r: 24 },
+      { t: "e", cx: 72, cy: 146, rx: 24, ry: 12 },
+      { t: "e", cx: 128, cy: 162, rx: 24, ry: 12 },
+    ] },
+  { id: "borboleta", emoji: "🦋", vb: "0 0 200 200", areas: [
+      { t: "e", cx: 60, cy: 70, rx: 38, ry: 32 },
+      { t: "e", cx: 140, cy: 70, rx: 38, ry: 32 },
+      { t: "e", cx: 66, cy: 130, rx: 32, ry: 28 },
+      { t: "e", cx: 134, cy: 130, rx: 32, ry: 28 },
+      { t: "e", cx: 100, cy: 100, rx: 11, ry: 52 },
+      { t: "c", cx: 100, cy: 44, r: 12 },
+    ] },
+  { id: "carro", emoji: "🚗", vb: "0 0 200 200", areas: [
+      { t: "r", x: 0, y: 154, w: 200, h: 46 },
+      { t: "d", d: "M20 130 q0 -30 26 -30 l10 -26 q4 -10 16 -10 h58 q12 0 16 10 l10 26 q26 0 26 30 v14 h-162 z" },
+      { t: "p", pts: "70,100 130,100 122,74 78,74" },
+      { t: "c", cx: 58, cy: 148, r: 20 },
+      { t: "c", cx: 142, cy: 148, r: 20 },
+    ] },
+  { id: "foguete", emoji: "🚀", vb: "0 0 200 200", areas: [
+      { t: "d", d: "M100 16 q34 34 34 88 v34 h-68 v-34 q0 -54 34 -88 z" },
+      { t: "p", pts: "66,110 34,150 66,142" },
+      { t: "p", pts: "134,110 166,150 134,142" },
+      { t: "c", cx: 100, cy: 76, r: 18 },
+      { t: "d", d: "M80 138 h40 q-6 40 -20 52 q-14 -12 -20 -52 z" },
+    ] },
+  { id: "solnuvem", emoji: "⛅", vb: "0 0 200 200", areas: [
+      { t: "c", cx: 74, cy: 62, r: 34 },
+      { t: "c", cx: 96, cy: 130, r: 30 },
+      { t: "c", cx: 134, cy: 128, r: 24 },
+      { t: "c", cx: 62, cy: 138, r: 22 },
+      { t: "r", x: 56, y: 138, w: 96, h: 26 },
+    ] },
+];
+
+function Peca({ a, fill, onClick }) {
+  const p = { fill: fill || "#fff", stroke: "#2b2b2b", strokeWidth: 3, strokeLinejoin: "round", onClick, style: { cursor: "pointer" } };
+  if (a.t === "c") return <circle cx={a.cx} cy={a.cy} r={a.r} {...p} />;
+  if (a.t === "e") return <ellipse cx={a.cx} cy={a.cy} rx={a.rx} ry={a.ry} {...p} />;
+  if (a.t === "r") return <rect x={a.x} y={a.y} width={a.w} height={a.h} {...p} />;
+  if (a.t === "p") return <polygon points={a.pts} {...p} />;
+  return <path d={a.d} {...p} />;
+}
+
+/* Miniatura sem interação, para a galeria */
+function Mini({ art, fills, size = 72 }) {
+  return (
+    <svg viewBox={art.vb} width={size} height={size}>
+      {art.areas.map((a, i) => <Peca key={i} a={a} fill={fills?.[i]} />)}
+    </svg>
+  );
+}
+
+function Coloring({ t, art, fillsIniciais, onSalvar, onSair, ganhouHoje }) {
+  const [cor, setCor] = useState(PALETA[0]);
+  const [fills, setFills] = useState(fillsIniciais || {});
+  const total = art.areas.length;
+  const pintadas = Object.values(fills).filter(Boolean).length;
+  const completo = pintadas >= total;
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={onSair}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{art.emoji} {pintadas}/{total}</div>
+        <Btn small color="#8B93AD" onClick={() => setFills({})}>🧽</Btn>
+      </div>
+
+      <div className="card" style={{ padding: 10, marginBottom: 10 }}>
+        <svg viewBox={art.vb} style={{ width: "100%", display: "block", touchAction: "manipulation" }}>
+          {art.areas.map((a, i) => (
+            <Peca key={i} a={a} fill={fills[i]} onClick={() => setFills(f => ({ ...f, [i]: cor }))} />
+          ))}
+        </svg>
+      </div>
+
+      <div className="card" style={{ padding: 10, marginBottom: 10 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(9,1fr)", gap: 6 }}>
+          {PALETA.map(c => (
+            <button key={c} onClick={() => setCor(c)} aria-label={c}
+              style={{
+                aspectRatio: "1", borderRadius: 12, background: c, cursor: "pointer",
+                border: cor === c ? "4px solid #1B2A6B" : "2px solid #E4E8F5",
+              }} />
+          ))}
+        </div>
+      </div>
+
+      <Btn full color={completo ? "#00B894" : "#8B93AD"} disabled={!completo}
+        onClick={() => onSalvar(fills)}>
+        {completo ? `✅ ${t.finish}` : `🎨 ${t.paintAll}`}
+      </Btn>
+      {ganhouHoje >= ECON.colorDailyCap && (
+        <div style={{ textAlign: "center", color: "#C9D2FF", fontSize: 11, fontWeight: 800, marginTop: 10 }}>
+          {t.dailyCap}
+        </div>
+      )}
+      <div style={{ height: 16 }} />
+    </div>
+  );
+}
+
+/* ---------- Galeria ---------- */
+function Gallery({ t, gallery, setScreen, abrirDesenho }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🎨 {t.games.color}</div>
+      </div>
+
+      {gallery.length > 0 && (
+        <>
+          <div className="display" style={{ color: "#C9D2FF", fontSize: 15, marginBottom: 8 }}>🖼️ {t.gallery} ({gallery.length})</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 18 }}>
+            {gallery.slice().reverse().map((g, i) => {
+              const art = DESENHOS.find(d => d.id === g.id);
+              if (!art) return null;
+              return (
+                <button key={i} onClick={() => abrirDesenho(art, g.fills)} className="card"
+                  style={{ border: "none", padding: 6, cursor: "pointer", display: "grid", placeItems: "center" }}>
+                  <Mini art={art} fills={g.fills} size={80} />
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      <div className="display" style={{ color: "#C9D2FF", fontSize: 15, marginBottom: 8 }}>✏️ {t.newDrawing}</div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8 }}>
+        {DESENHOS.map(art => (
+          <button key={art.id} onClick={() => abrirDesenho(art, null)} className="card"
+            style={{ border: "none", padding: 6, cursor: "pointer", display: "grid", placeItems: "center" }}>
+            <Mini art={art} fills={null} size={80} />
+          </button>
+        ))}
+      </div>
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+
 /* ---------- Quem vai jogar ---------- */
 function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, setScreen }) {
   const [editing, setEditing] = useState(false);
@@ -1237,7 +1754,7 @@ function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, setScre
   return (
     <div style={{ paddingTop: 24 }}>
       <div style={{ textAlign: "center", marginBottom: 18 }}>
-        <div className="display" style={{ color: "#fff", fontSize: 40, lineHeight: 1 }}>MUNDI</div>
+        <div className="display" style={{ color: "#fff", fontSize: 40, lineHeight: 1 }}>LUMUS</div>
         <div className="display" style={{ color: "#C9D2FF", fontSize: 18, marginTop: 6 }}>{t.players}</div>
       </div>
 
@@ -1360,7 +1877,28 @@ function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch
       <div className="card" style={{ padding: 14, marginBottom: 12, display: "flex" }}>
         <Num icon="🪙" n={stats.earned} label={t.coins} />
         <Num icon="📅" n={stats.dayStreak} label={t.statDays} />
+        <Num icon="⭐" n={stats.stars || 0} label={t.awards} />
         <Num icon="🏅" n={`${seenAch.length}/${ACHIEVEMENTS.length}`} label={t.achievementsGot} />
+      </div>
+
+      <div className="card" style={{ padding: 14, marginBottom: 12 }}>
+        <div className="display" style={{ color: "#1B2A6B", fontSize: 16, marginBottom: 10 }}>🎖️ {t.badges}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8 }}>
+          {BADGES.map(b => {
+            const tem = b.test(stats);
+            return (
+              <div key={b.id} title={b.dPt} style={{ textAlign: "center", opacity: tem ? 1 : .35 }}>
+                <div style={{
+                  width: 46, height: 46, margin: "0 auto", borderRadius: 23,
+                  background: tem ? b.cor : "#E4E8F5", display: "grid", placeItems: "center", fontSize: 22,
+                  filter: tem ? "none" : "grayscale(1)",
+                  boxShadow: tem ? `0 3px 0 rgba(0,0,0,.18)` : "none",
+                }}>{tem ? b.icon : "🔒"}</div>
+                <div style={{ fontSize: 9, fontWeight: 800, color: "#6C7695", marginTop: 3, lineHeight: 1.2 }}>{b[lang] || b.en}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="card" style={{ padding: 14, marginBottom: 12 }}>
@@ -1520,7 +2058,7 @@ function Modal({ children, onClose }) {
 }
 
 /* ---------- Seleção de fases ---------- */
-function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player }) {
+function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records }) {
   const cont = ROUTE.find(r => r.id === sel.cont);
   const done = progress[sel.cont] || 0;
   const band = bandFor(sel.stage);
@@ -1549,14 +2087,23 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
             const open = n <= done + 1;
             const cleared = n <= done;
             const b = bandFor(n);
+            const st = stars?.[sel.cont]?.[n] || 0;
             return (
               <button key={n} disabled={!open} onClick={() => setSel(s => ({ ...s, stage: n }))}
                 className="chunky" style={{
-                  aspectRatio: "1", fontSize: 16, borderRadius: 16,
+                  aspectRatio: "1", fontSize: 15, borderRadius: 16, padding: 2,
                   background: !open ? "#DDE2F0" : cleared ? "#00B894" : BAND_COLOR[b],
                   outline: sel.stage === n && open ? "4px solid #1B2A6B" : "none",
                   color: open ? "#fff" : "#A6AFC6",
-                }}>{cleared ? "⭐" : n}</button>
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 1,
+                }}>
+                <span>{n}</span>
+                <span style={{ fontSize: 9, letterSpacing: -1 }}>
+                  {[1, 2, 3].map(i => (
+                    <span key={i} style={{ opacity: st >= i ? 1 : .28 }}>★</span>
+                  ))}
+                </span>
+              </button>
             );
           })}
         </div>
@@ -1569,6 +2116,11 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
         </div>
       </div>
 
+      {records?.[sel.cont]?.[sel.stage] != null && (
+        <div style={{ textAlign: "center", color: "#C9D2FF", fontSize: 12, fontWeight: 800, marginBottom: 8 }}>
+          ⏱️ {t.record}: {tempoFmt(records[sel.cont][sel.stage])}
+        </div>
+      )}
       <Btn full color={BAND_COLOR[band]} disabled={coins < ECON.roundCost} onClick={startRound}>
         ▶ {t.stage} {sel.stage} · {t.levels[band]} · {t.cost} 🪙{ECON.roundCost}
       </Btn>
@@ -1735,8 +2287,11 @@ function Result({ t, round, player, setScreen, setSel, sel, startRound, coins })
             <div className="display" style={{ fontSize: 26, color: "#F9A826" }}>🪙{round.reward}</div></div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 16 }}>
-          {[1, 2, 3].map(s => <span key={s} style={{ fontSize: 30, opacity: round.pct >= s * 30 + 10 ? 1 : .22 }}>⭐</span>)}
+        <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 6 }}>
+          {[1, 2, 3].map(i => <span key={i} style={{ fontSize: 34, opacity: (round.st || 0) >= i ? 1 : .2 }}>⭐</span>)}
+        </div>
+        <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 14 }}>
+          ⏱️ {tempoFmt(round.seg || 0)}{round.novoRecorde ? ` · 🏆 ${t.newRecord}` : ""}
         </div>
 
         <div style={{ display: "grid", gap: 9 }}>
@@ -1808,9 +2363,10 @@ function Shop({ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, se
           const on = a[it.type] === it.val;
           const preview = { ...a, [it.type]: it.val };
           return (
-            <div key={it.id} className="card" style={{ padding: 8, textAlign: "center" }}>
-              <div style={{ height: 74, display: "grid", placeItems: "center", overflow: "hidden" }}>
+            <div key={it.id} className="card" style={{ padding: 8, textAlign: "center", borderTop: `6px solid ${RARITY[it.r].cor}` }}>
+              <div style={{ height: 74, display: "grid", placeItems: "center", overflow: "hidden", position: "relative" }}>
                 <Avatar a={preview} size={74} />
+                <span style={{ position: "absolute", top: 0, right: 0, fontSize: 11 }}>{RARITY[it.r].label}</span>
               </div>
               <Btn small full color={on ? "#00B894" : has ? "#4C6FFF" : coins >= it.price ? "#E84393" : "#8B93AD"}
                 disabled={!has && coins < it.price} onClick={() => act(it)}>
