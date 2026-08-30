@@ -1,0 +1,1693 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+<title>Mundi — Kids Game Hub</title>
+<meta name="author" content="ElCamargo Soluções em TI LTDA" />
+<meta name="theme-color" content="#3C4FC4" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Mundi" />
+<link rel="apple-touch-icon" href="./icon-180.png" />
+<link rel="icon" type="image/png" href="./icon-192.png" />
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIk11bmRpIOKAlCBLaWRzIEdhbWUgSHViIiwgInNob3J0X25hbWUiOiAiTXVuZGkiLCAic3RhcnRfdXJsIjogIi4vdGVzdGUuaHRtbCIsICJzY29wZSI6ICIuLyIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMUIyQTZCIiwgInRoZW1lX2NvbG9yIjogIiMzQzRGQzQiLCAiaWNvbnMiOiBbeyJzcmMiOiAiLi9pY29uLTE5Mi5wbmciLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3BuZyJ9LCB7InNyYyI6ICIuL2ljb24tNTEyLnBuZyIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn0sIHsic3JjIjogIi4vaWNvbi01MTIucG5nIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJtYXNrYWJsZSJ9XX0=" />
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body,#root{margin:0;min-height:100%;background:#1B2A6B}
+  body{touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior-y:contain}
+  input{-webkit-user-select:text;user-select:text}
+  button:focus-visible{outline:4px solid #F9A826;outline-offset:2px}
+  #carregando{position:fixed;inset:0;display:grid;place-items:center;color:#C9D2FF;
+    font:700 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-align:center;padding:24px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="carregando">🌍<br />Preparando o Mundi...<br /><span style="font-size:12px;opacity:.7">alguns segundos na primeira vez</span></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js" crossorigin></script>
+
+<script>
+/* Persistência sobre localStorage, mesma API usada pelo app */
+(function () {
+  var P = "kgh:";
+  window.storage = {
+    get: function (k) {
+      var v = localStorage.getItem(P + k);
+      if (v === null) return Promise.reject(new Error("sem chave"));
+      return Promise.resolve({ key: k, value: v, shared: false });
+    },
+    set: function (k, v) {
+      try { localStorage.setItem(P + k, String(v)); return Promise.resolve({ key: k, value: String(v), shared: false }); }
+      catch (e) { console.error(e); return Promise.resolve(null); }
+    },
+    delete: function (k) { localStorage.removeItem(P + k); return Promise.resolve({ key: k, deleted: true, shared: false }); },
+    list: function (p) {
+      var ks = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf(P + (p || "")) === 0) ks.push(k.slice(P.length));
+      }
+      return Promise.resolve({ keys: ks, prefix: p || "", shared: false });
+    }
+  };
+})();
+</script>
+
+<script type="text/babel" data-presets="react,env">
+const { useState, useEffect, useRef, useCallback } = React;
+
+
+
+/* ============================================================
+   MUNDI — Kids Game Hub
+   © ElCamargo Soluções em TI LTDA — https://github.com/ElCamargo/KidsGameHub
+   Licença MIT (ver LICENSE)
+   ------------------------------------------------------------
+   Jogo 1: Bandeiras do Mundo
+   Persistência via window.storage (ver src/lib/storage.js).
+   ============================================================ */
+
+/* ---------- i18n ---------- */
+/* Assinatura da criadora, exibida na abertura e na área dos pais. */
+const MADE_BY = "ElCamargo Soluções em TI LTDA";
+
+/* Idiomas embutidos no app; os demais vêm por download (ver LANG_CATALOG). */
+
+const T = {
+  pt: {
+    tagline: "Viaje pelo mundo brincando",
+    play: "Jogar",
+    start: "Começar",
+    hi: "Oi",
+    createAvatar: "Crie seu personagem",
+    name: "Seu nome",
+    skin: "Pele", hair: "Cabelo", cap: "Boné", glasses: "Óculos", shirt: "Camisa",
+    none: "Nenhum",
+    remove: "Tirar",
+    shopHint: "Chapéus, óculos e estampas você ganha na loja jogando!",
+    slots: { hairStyle: "Cabelo", cap: "Chapéu", glasses: "Óculos", shirt: "Camisa", shirtPattern: "Estampa" },
+    ready: "Pronto!",
+    map: "Mapa",
+    shop: "Loja",
+    awards: "Conquistas",
+    coins: "moedas",
+    nextCoins: "Próximas moedas em",
+    locked: "Bloqueado",
+    unlockFor: "Abrir por",
+    levels: { easy: "Fácil", medium: "Médio", hard: "Difícil", genius: "Gênio" },
+    stage: "Fase",
+    cost: "Custa",
+    notEnough: "Moedas insuficientes. Espere as moedas grátis!",
+    question: "Pergunta",
+    whichCountry: "Que país é essa bandeira?",
+    whichRegion: "Que estado ou região é essa bandeira?",
+    hints: "Dicas",
+    remove1: "Tirar 1 errada",
+    remove2: "Tirar 2 erradas",
+    remove3: "Tirar 3 erradas",
+    noRush: "SEM PRESSA",
+    timeUp: "Acabou o tempo!",
+    correct: "Isso aí!",
+    wrong: "Quase!",
+    roundOver: "Fim da rodada",
+    score: "Pontos",
+    accuracy: "Acertos",
+    reward: "Prêmio",
+    perfect: "PERFEITO!",
+    again: "Jogar de novo",
+    backMap: "Voltar ao mapa",
+    nextStage: "Próxima fase",
+    buy: "Comprar",
+    owned: "Você tem",
+    equip: "Usar",
+    equipped: "Usando",
+    streak: "Sequência",
+    tutorial: "Como jogar",
+    tut1: "A bandeira aparece aqui em cima.",
+    tut2: "Escolha o nome certo entre as 4 opções.",
+    tut3: "Você tem 15 segundos. Rápido!",
+    tut4: "Sem saber? Use moedas para tirar respostas erradas.",
+    gotIt: "Entendi!",
+    travel: "Boa viagem!",
+    continents: {
+      sa: "América do Sul", na: "América do Norte", eu: "Europa",
+      af: "África", as: "Ásia", oc: "Oceania",
+    },
+    mascotHub: "Escolha um continente para explorar!",
+    mascotStage: "Vamos lá! Você consegue!",
+    home: "Escolha um jogo",
+    soon: "Em breve",
+    cat: { geo: "Geografia", math: "Matemática", nature: "Natureza", art: "Arte" },
+    games: { flags: "Bandeiras do Mundo", capitals: "Capitais", count: "Contar e Somar", animals: "Animais do Mundo", colors: "Cores e Formas" },
+    mascotHome: "Oi! Que tal aprender brincando?",
+    players: "Quem vai jogar?", newPlayer: "Novo jogador", switchPlayer: "Trocar jogador",
+    language: "Idioma", download: "Baixar", downloading: "Baixando...", installed: "Instalado",
+    deleteAsk: "Apagar este jogador e todo o progresso dele?", cancel: "Cancelar", del: "Apagar",
+    parents: "Área dos pais",
+    parentsInfo: "Sem anúncios. Sem links externos. Sem coleta de dados. Funciona offline.",
+  },
+  en: {
+    tagline: "Travel the world by playing",
+    play: "Play", start: "Start", hi: "Hi",
+    createAvatar: "Create your character", name: "Your name",
+    skin: "Skin", hair: "Hair", cap: "Cap", glasses: "Glasses", shirt: "Shirt",
+    none: "None", remove: "Take off",
+    shopHint: "Earn hats, glasses and prints in the shop by playing!",
+    slots: { hairStyle: "Hair", cap: "Hat", glasses: "Glasses", shirt: "Shirt", shirtPattern: "Print" },
+    ready: "Ready!", map: "Map", shop: "Shop", awards: "Awards",
+    coins: "coins", nextCoins: "Free coins in", locked: "Locked", unlockFor: "Unlock for",
+    levels: { easy: "Easy", medium: "Medium", hard: "Hard", genius: "Genius" },
+    stage: "Stage", cost: "Costs",
+    notEnough: "Not enough coins. Wait for your free coins!",
+    question: "Question", whichCountry: "Which country is this flag?",
+    whichRegion: "Which state or region is this flag?",
+    hints: "Hints", remove1: "Remove 1 wrong", remove2: "Remove 2 wrong", remove3: "Remove 3 wrong",
+    noRush: "NO RUSH", timeUp: "Time's up!", correct: "Yes!", wrong: "So close!",
+    roundOver: "Round over", score: "Score", accuracy: "Correct", reward: "Reward",
+    perfect: "PERFECT!", again: "Play again", backMap: "Back to map", nextStage: "Next stage",
+    buy: "Buy", owned: "You own", equip: "Wear", equipped: "Wearing", streak: "Streak",
+    tutorial: "How to play",
+    tut1: "The flag shows up here.",
+    tut2: "Pick the right name out of 4.",
+    tut3: "You get 15 seconds. Be quick!",
+    tut4: "Stuck? Spend coins to remove wrong answers.",
+    gotIt: "Got it!", travel: "Have a good trip!",
+    continents: { sa: "South America", na: "North America", eu: "Europe", af: "Africa", as: "Asia", oc: "Oceania" },
+    mascotHub: "Pick a continent to explore!",
+    mascotStage: "Let's go! You can do it!",
+    home: "Pick a game", soon: "Coming soon",
+    cat: { geo: "Geography", math: "Math", nature: "Nature", art: "Art" },
+    games: { flags: "Flags of the World", capitals: "Capitals", count: "Count and Add", animals: "Animals of the World", colors: "Colors and Shapes" },
+    mascotHome: "Hi! Want to learn by playing?",
+    players: "Who's playing?", newPlayer: "New player", switchPlayer: "Switch player",
+    language: "Language", download: "Download", downloading: "Downloading...", installed: "Installed",
+    deleteAsk: "Delete this player and all their progress?", cancel: "Cancel", del: "Delete",
+    parents: "Parents", parentsInfo: "No ads. No external links. No data collection. Works offline.",
+  },
+  es: {
+    tagline: "Viaja por el mundo jugando",
+    play: "Jugar", start: "Empezar", hi: "Hola",
+    createAvatar: "Crea tu personaje", name: "Tu nombre",
+    skin: "Piel", hair: "Pelo", cap: "Gorra", glasses: "Gafas", shirt: "Camisa",
+    none: "Ninguno", remove: "Quitar",
+    shopHint: "¡Gorros, gafas y estampados se ganan jugando!",
+    slots: { hairStyle: "Pelo", cap: "Gorro", glasses: "Gafas", shirt: "Camisa", shirtPattern: "Estampado" },
+    ready: "¡Listo!", map: "Mapa", shop: "Tienda", awards: "Logros",
+    coins: "monedas", nextCoins: "Monedas gratis en", locked: "Bloqueado", unlockFor: "Abrir por",
+    levels: { easy: "Fácil", medium: "Medio", hard: "Difícil", genius: "Genio" },
+    stage: "Nivel", cost: "Cuesta",
+    notEnough: "No hay monedas. ¡Espera las gratis!",
+    question: "Pregunta", whichCountry: "¿De qué país es esta bandera?",
+    whichRegion: "¿De qué estado o región es esta bandera?",
+    hints: "Pistas", remove1: "Quitar 1 mala", remove2: "Quitar 2 malas", remove3: "Quitar 3 malas",
+    noRush: "SIN PRISA", timeUp: "¡Se acabó!", correct: "¡Muy bien!", wrong: "¡Casi!",
+    roundOver: "Fin de la ronda", score: "Puntos", accuracy: "Aciertos", reward: "Premio",
+    perfect: "¡PERFECTO!", again: "Jugar otra vez", backMap: "Volver al mapa", nextStage: "Siguiente nivel",
+    buy: "Comprar", owned: "Tienes", equip: "Usar", equipped: "Usando", streak: "Racha",
+    tutorial: "Cómo jugar",
+    tut1: "La bandera aparece arriba.",
+    tut2: "Elige el nombre correcto entre 4.",
+    tut3: "Tienes 15 segundos. ¡Rápido!",
+    tut4: "¿No sabes? Gasta monedas para quitar respuestas malas.",
+    gotIt: "¡Entendido!", travel: "¡Buen viaje!",
+    continents: { sa: "América del Sur", na: "América del Norte", eu: "Europa", af: "África", as: "Asia", oc: "Oceanía" },
+    mascotHub: "¡Elige un continente!",
+    mascotStage: "¡Vamos! ¡Tú puedes!",
+    home: "Elige un juego", soon: "Muy pronto",
+    cat: { geo: "Geografía", math: "Matemáticas", nature: "Naturaleza", art: "Arte" },
+    games: { flags: "Banderas del Mundo", capitals: "Capitales", count: "Contar y Sumar", animals: "Animales del Mundo", colors: "Colores y Formas" },
+    mascotHome: "¡Hola! ¿Aprendemos jugando?",
+    players: "¿Quién juega?", newPlayer: "Nuevo jugador", switchPlayer: "Cambiar jugador",
+    language: "Idioma", download: "Descargar", downloading: "Descargando...", installed: "Instalado",
+    deleteAsk: "¿Borrar este jugador y todo su progreso?", cancel: "Cancelar", del: "Borrar",
+    parents: "Padres", parentsInfo: "Sin anuncios. Sin enlaces externos. Sin datos. Funciona sin internet.",
+  },
+};
+
+/* ---------- Pacotes de idioma baixáveis ----------
+   Só a INTERFACE precisa de tradução (~70 frases). Os nomes dos países
+   vêm de Intl.DisplayNames, que já fala ~100 idiomas de fábrica.
+   Cada pacote é um JSON de ~3 KB: baixa uma vez, fica no aparelho para sempre.
+   Em produção, PACK_URL aponta para o seu CDN e PACKS some daqui. */
+const PACK_URL = "https://cdn.seu-dominio.com/mundi/locales";
+
+const LANG_CATALOG = {
+  pt: "Português", en: "English", es: "Español",
+  fr: "Français", de: "Deutsch", it: "Italiano",
+};
+
+const PACKS = {
+  fr: {
+    tagline: "Voyage autour du monde en jouant", play: "Jouer", start: "Commencer", hi: "Salut",
+    createAvatar: "Crée ton personnage", name: "Ton prénom",
+    skin: "Peau", hair: "Cheveux", cap: "Chapeau", glasses: "Lunettes", shirt: "T-shirt",
+    none: "Aucun", remove: "Enlever",
+    slots: { hairStyle: "Cheveux", cap: "Chapeau", glasses: "Lunettes", shirt: "T-shirt", shirtPattern: "Motif" },
+    shopHint: "Gagne chapeaux, lunettes et motifs en jouant !", ready: "Prêt !",
+    map: "Carte", shop: "Boutique", awards: "Trophées", coins: "pièces",
+    nextCoins: "Pièces gratuites dans", locked: "Verrouillé", unlockFor: "Ouvrir pour",
+    levels: { easy: "Facile", medium: "Moyen", hard: "Difficile", genius: "Génie" },
+    stage: "Niveau", cost: "Coûte", notEnough: "Pas assez de pièces. Attends les pièces gratuites !",
+    question: "Question", whichCountry: "Quel pays est ce drapeau ?", whichRegion: "Quelle région est ce drapeau ?",
+    hints: "Indices", remove1: "Enlever 1 fausse", remove2: "Enlever 2 fausses", remove3: "Enlever 3 fausses",
+    noRush: "SANS PRESSION", timeUp: "Temps écoulé !", correct: "Bravo !", wrong: "Presque !",
+    roundOver: "Fin de la manche", score: "Points", accuracy: "Bonnes réponses", reward: "Récompense",
+    perfect: "PARFAIT !", again: "Rejouer", backMap: "Retour à la carte", nextStage: "Niveau suivant",
+    buy: "Acheter", owned: "Tu as", equip: "Porter", equipped: "Porté", streak: "Série",
+    tutorial: "Comment jouer", tut1: "Le drapeau apparaît ici.", tut2: "Choisis le bon nom parmi 4.",
+    tut3: "Tu as quelques secondes. Vite !", tut4: "Bloqué ? Dépense des pièces pour enlever de mauvaises réponses.",
+    gotIt: "Compris !", travel: "Bon voyage !",
+    continents: { sa: "Amérique du Sud", na: "Amérique du Nord", eu: "Europe", af: "Afrique", as: "Asie", oc: "Océanie" },
+    mascotHub: "Choisis un continent à explorer !", mascotStage: "C'est parti ! Tu peux le faire !",
+    home: "Choisis un jeu", soon: "Bientôt",
+    cat: { geo: "Géographie", math: "Maths", nature: "Nature", art: "Art" },
+    games: { flags: "Drapeaux du Monde", capitals: "Capitales", count: "Compter et Additionner", animals: "Animaux du Monde", colors: "Couleurs et Formes" },
+    mascotHome: "Salut ! On apprend en jouant ?",
+    players: "Qui joue ?", newPlayer: "Nouveau joueur", switchPlayer: "Changer de joueur",
+    language: "Langue", download: "Télécharger", downloading: "Téléchargement...", installed: "Installé",
+    deleteAsk: "Supprimer ce joueur et toute sa progression ?", cancel: "Annuler", del: "Supprimer",
+    parents: "Espace parents", parentsInfo: "Sans pub. Sans liens externes. Sans collecte de données. Fonctionne hors ligne.",
+  },
+  de: {
+    tagline: "Spielend um die Welt reisen", play: "Spielen", start: "Los", hi: "Hallo",
+    createAvatar: "Erstelle deine Figur", name: "Dein Name",
+    skin: "Haut", hair: "Haare", cap: "Hut", glasses: "Brille", shirt: "Shirt",
+    none: "Keins", remove: "Abnehmen",
+    slots: { hairStyle: "Haare", cap: "Hut", glasses: "Brille", shirt: "Shirt", shirtPattern: "Muster" },
+    shopHint: "Hüte, Brillen und Muster verdienst du beim Spielen!", ready: "Fertig!",
+    map: "Karte", shop: "Shop", awards: "Trophäen", coins: "Münzen",
+    nextCoins: "Gratis-Münzen in", locked: "Gesperrt", unlockFor: "Öffnen für",
+    levels: { easy: "Leicht", medium: "Mittel", hard: "Schwer", genius: "Genie" },
+    stage: "Stufe", cost: "Kostet", notEnough: "Nicht genug Münzen. Warte auf die Gratis-Münzen!",
+    question: "Frage", whichCountry: "Welches Land ist diese Flagge?", whichRegion: "Welche Region ist diese Flagge?",
+    hints: "Tipps", remove1: "1 falsche entfernen", remove2: "2 falsche entfernen", remove3: "3 falsche entfernen",
+    noRush: "OHNE ZEITDRUCK", timeUp: "Zeit ist um!", correct: "Richtig!", wrong: "Fast!",
+    roundOver: "Runde vorbei", score: "Punkte", accuracy: "Richtig", reward: "Belohnung",
+    perfect: "PERFEKT!", again: "Nochmal spielen", backMap: "Zurück zur Karte", nextStage: "Nächste Stufe",
+    buy: "Kaufen", owned: "Du hast", equip: "Tragen", equipped: "Getragen", streak: "Serie",
+    tutorial: "So wird gespielt", tut1: "Die Flagge erscheint hier.", tut2: "Wähle den richtigen Namen von 4.",
+    tut3: "Du hast ein paar Sekunden. Schnell!", tut4: "Keine Ahnung? Gib Münzen aus, um falsche Antworten zu entfernen.",
+    gotIt: "Verstanden!", travel: "Gute Reise!",
+    continents: { sa: "Südamerika", na: "Nordamerika", eu: "Europa", af: "Afrika", as: "Asien", oc: "Ozeanien" },
+    mascotHub: "Wähle einen Kontinent!", mascotStage: "Los geht's! Du schaffst das!",
+    home: "Wähle ein Spiel", soon: "Bald",
+    cat: { geo: "Geografie", math: "Mathe", nature: "Natur", art: "Kunst" },
+    games: { flags: "Flaggen der Welt", capitals: "Hauptstädte", count: "Zählen und Rechnen", animals: "Tiere der Welt", colors: "Farben und Formen" },
+    mascotHome: "Hallo! Lust, spielend zu lernen?",
+    players: "Wer spielt?", newPlayer: "Neuer Spieler", switchPlayer: "Spieler wechseln",
+    language: "Sprache", download: "Herunterladen", downloading: "Wird geladen...", installed: "Installiert",
+    deleteAsk: "Diesen Spieler und den ganzen Fortschritt löschen?", cancel: "Abbrechen", del: "Löschen",
+    parents: "Elternbereich", parentsInfo: "Keine Werbung. Keine externen Links. Keine Datensammlung. Offline nutzbar.",
+  },
+  it: {
+    tagline: "Viaggia per il mondo giocando", play: "Gioca", start: "Inizia", hi: "Ciao",
+    createAvatar: "Crea il tuo personaggio", name: "Il tuo nome",
+    skin: "Pelle", hair: "Capelli", cap: "Cappello", glasses: "Occhiali", shirt: "Maglietta",
+    none: "Nessuno", remove: "Togli",
+    slots: { hairStyle: "Capelli", cap: "Cappello", glasses: "Occhiali", shirt: "Maglietta", shirtPattern: "Fantasia" },
+    shopHint: "Cappelli, occhiali e fantasie si guadagnano giocando!", ready: "Pronto!",
+    map: "Mappa", shop: "Negozio", awards: "Premi", coins: "monete",
+    nextCoins: "Monete gratis tra", locked: "Bloccato", unlockFor: "Apri con",
+    levels: { easy: "Facile", medium: "Medio", hard: "Difficile", genius: "Genio" },
+    stage: "Livello", cost: "Costa", notEnough: "Monete insufficienti. Aspetta quelle gratis!",
+    question: "Domanda", whichCountry: "Di che paese è questa bandiera?", whichRegion: "Di che regione è questa bandiera?",
+    hints: "Aiuti", remove1: "Togli 1 sbagliata", remove2: "Togli 2 sbagliate", remove3: "Togli 3 sbagliate",
+    noRush: "SENZA FRETTA", timeUp: "Tempo scaduto!", correct: "Bravo!", wrong: "Quasi!",
+    roundOver: "Fine del turno", score: "Punti", accuracy: "Giuste", reward: "Premio",
+    perfect: "PERFETTO!", again: "Gioca ancora", backMap: "Torna alla mappa", nextStage: "Livello successivo",
+    buy: "Compra", owned: "Hai", equip: "Indossa", equipped: "Indossato", streak: "Serie",
+    tutorial: "Come si gioca", tut1: "La bandiera appare qui.", tut2: "Scegli il nome giusto tra 4.",
+    tut3: "Hai pochi secondi. Veloce!", tut4: "Non lo sai? Spendi monete per togliere risposte sbagliate.",
+    gotIt: "Ho capito!", travel: "Buon viaggio!",
+    continents: { sa: "Sud America", na: "Nord America", eu: "Europa", af: "Africa", as: "Asia", oc: "Oceania" },
+    mascotHub: "Scegli un continente!", mascotStage: "Andiamo! Ce la puoi fare!",
+    home: "Scegli un gioco", soon: "Presto",
+    cat: { geo: "Geografia", math: "Matematica", nature: "Natura", art: "Arte" },
+    games: { flags: "Bandiere del Mondo", capitals: "Capitali", count: "Conta e Somma", animals: "Animali del Mondo", colors: "Colori e Forme" },
+    mascotHome: "Ciao! Impariamo giocando?",
+    players: "Chi gioca?", newPlayer: "Nuovo giocatore", switchPlayer: "Cambia giocatore",
+    language: "Lingua", download: "Scarica", downloading: "Scaricamento...", installed: "Installato",
+    deleteAsk: "Eliminare questo giocatore e tutti i suoi progressi?", cancel: "Annulla", del: "Elimina",
+    parents: "Area genitori", parentsInfo: "Niente pubblicità. Niente link esterni. Nessun dato raccolto. Funziona offline.",
+  },
+};
+
+/* Baixa (ou recupera do cache) um idioma. Ordem: já carregado → cache do
+   aparelho → CDN → pacote embutido. Nunca deixa o app sem texto. */
+async function loadLang(code) {
+  if (T[code]) return true;
+  try {
+    const c = await window.storage.get(`mundi:lang:${code}`);
+    if (c?.value) { T[code] = JSON.parse(c.value); return true; }
+  } catch { }
+  try {
+    const r = await fetch(`${PACK_URL}/${code}.json`);
+    if (r.ok) {
+      const j = await r.json();
+      T[code] = j;
+      try { window.storage.set(`mundi:lang:${code}`, JSON.stringify(j)); } catch { }
+      return true;
+    }
+  } catch { }
+  if (PACKS[code]) {
+    T[code] = PACKS[code];
+    try { window.storage.set(`mundi:lang:${code}`, JSON.stringify(PACKS[code])); } catch { }
+    return true;
+  }
+  return false;
+}
+
+/* Idioma do aparelho, se o app já falar */
+function deviceLang() {
+  try {
+    const l = (navigator.language || "en").slice(0, 2).toLowerCase();
+    return LANG_CATALOG[l] ? l : "en";
+  } catch { return "en"; }
+}
+
+/* ---------- Dados: países por continente + tier de dificuldade ----------
+   tier 1 = muito conhecido ... 4 = raro.
+   Nomes vêm de Intl.DisplayNames → i18n automático em ~100 idiomas.        */
+const DATA = {
+  sa: { AR:1, BR:1, CL:1, UY:2, PY:2, BO:2, PE:2, EC:2, CO:1, VE:2, GY:4, SR:4 },
+  na: { US:1, CA:1, MX:1, CU:2, JM:2, HT:3, DO:3, GT:3, CR:2, PA:3, HN:3, NI:3, SV:3, BZ:4, BS:4, TT:4,
+        // ilhas do Caribe
+        AG:4, BB:4, DM:4, GD:4, KN:4, LC:4, VC:4, PR:3 },
+  eu: { PT:1, ES:1, FR:1, IT:1, DE:1, GB:1, IE:2, NL:2, BE:2, CH:2, AT:2, GR:2, SE:2, NO:2, FI:2, DK:2, PL:3, RU:1, UA:2, HU:3, CZ:3, RO:3, HR:3, IS:3, RS:4, BG:4, SK:4, SI:4, LT:4, LV:4, EE:4, AL:4, MT:4, LU:4,
+        CY:4, ME:4, MC:4, AD:4, SM:4 },
+  af: { ZA:1, EG:1, NG:2, KE:2, MA:2, AO:2, MZ:2, GH:2, ET:3, SN:3, CM:3, TZ:3, DZ:3, TN:3, CD:3, CI:3, ZW:4, NA:4, UG:4, ZM:4, ML:4, MG:3, BW:4, RW:4,
+        // ilhas africanas
+        CV:4, MU:4, SC:4, KM:4, ST:4 },
+  as: { CN:1, JP:1, IN:1, KR:1, TH:2, VN:2, ID:2, PH:2, MY:2, SG:2, SA:2, AE:2, IL:2, TR:2, PK:3, BD:3, NP:3, LK:3, IR:3, IQ:3, MN:4, KZ:4, UZ:4, KH:4, LA:4, MM:4, QA:4, JO:4, LB:4, SY:4, AF:4, BT:4,
+        // ilhas asiáticas
+        MV:4, BN:4, TL:4, BH:4 },
+  oc: { AU:1, NZ:1, FJ:3, PG:4, WS:4, TO:4, VU:4, SB:4,
+        KI:4, TV:4, NR:4, MH:4, FM:4, PW:4 },
+};
+
+/* Nível Gênio: bandeiras subnacionais (estados / regiões).
+   ATENÇÃO: o flagcdn só serve subdivisões de alguns países (us-*, gb-*, es-* são
+   os confiáveis). Estados do Brasil, prefeituras do Japão, províncias do Canadá,
+   Länder alemães e QUALQUER bandeira de cidade exigem hospedar os SVGs no app.
+   Ver nota no final do arquivo. */
+const SUBFLAGS = {
+  eu: [
+    { code: "gb-eng", pt: "Inglaterra", en: "England", es: "Inglaterra" },
+    { code: "gb-sct", pt: "Escócia", en: "Scotland", es: "Escocia" },
+    { code: "gb-wls", pt: "País de Gales", en: "Wales", es: "Gales" },
+    { code: "gb-nir", pt: "Irlanda do Norte", en: "Northern Ireland", es: "Irlanda del Norte" },
+    { code: "es-ct", pt: "Catalunha", en: "Catalonia", es: "Cataluña" },
+    { code: "es-pv", pt: "País Basco", en: "Basque Country", es: "País Vasco" },
+    { code: "es-ga", pt: "Galícia", en: "Galicia", es: "Galicia" },
+    { code: "es-an", pt: "Andaluzia", en: "Andalusia", es: "Andalucía" },
+    { code: "es-cn", pt: "Ilhas Canárias", en: "Canary Islands", es: "Islas Canarias" },
+    { code: "es-ib", pt: "Ilhas Baleares", en: "Balearic Islands", es: "Islas Baleares" },
+  ],
+  na: [
+    { code: "us-ca", pt: "Califórnia", en: "California", es: "California" },
+    { code: "us-tx", pt: "Texas", en: "Texas", es: "Texas" },
+    { code: "us-ny", pt: "Nova York", en: "New York", es: "Nueva York" },
+    { code: "us-fl", pt: "Flórida", en: "Florida", es: "Florida" },
+    { code: "us-ak", pt: "Alasca", en: "Alaska", es: "Alaska" },
+    { code: "us-hi", pt: "Havaí", en: "Hawaii", es: "Hawái" },
+    { code: "us-az", pt: "Arizona", en: "Arizona", es: "Arizona" },
+    { code: "us-nm", pt: "Novo México", en: "New Mexico", es: "Nuevo México" },
+    { code: "us-co", pt: "Colorado", en: "Colorado", es: "Colorado" },
+    { code: "us-md", pt: "Maryland", en: "Maryland", es: "Maryland" },
+    { code: "us-oh", pt: "Ohio", en: "Ohio", es: "Ohio" },
+    { code: "us-la", pt: "Luisiana", en: "Louisiana", es: "Luisiana" },
+  ],
+};
+
+/* Catálogo do hub: categorias e seus jogos. Só "flags" está pronto. */
+const CATALOG = [
+  { id: "geo", icon: "🌍", color: "#4C6FFF", games: [
+      { id: "flags", icon: "🚩", color: "#00B894", ready: true },
+      { id: "capitals", icon: "🏛️", color: "#6A5AE0", ready: false },
+  ]},
+  { id: "math", icon: "🔢", color: "#F9A826", games: [
+      { id: "count", icon: "🧮", color: "#F9A826", ready: false },
+  ]},
+  { id: "nature", icon: "🦁", color: "#00C2CB", games: [
+      { id: "animals", icon: "🐘", color: "#00C2CB", ready: false },
+  ]},
+  { id: "art", icon: "🎨", color: "#E84393", games: [
+      { id: "colors", icon: "🌈", color: "#E84393", ready: false },
+  ]},
+];
+
+/* Países-ilha, para a conquista "Caçador de ilhas" */
+const ISLANDS = new Set(["CU","JM","HT","DO","BS","TT","AG","BB","DM","GD","KN","LC","VC","PR",
+  "IE","IS","MT","CY","GB","MG","CV","MU","SC","KM","ST","JP","ID","PH","LK","MV","BN","TL","BH","SG",
+  "AU","NZ","FJ","PG","WS","TO","VU","SB","KI","TV","NR","MH","FM","PW"]);
+
+/* Ordem de desbloqueio + meio de transporte para chegar lá */
+const ROUTE = [
+  { id: "sa", cost: 0, emoji: "🚗", color: "#00B894" },
+  { id: "na", cost: 150, emoji: "🚗", color: "#FF7043" },
+  { id: "eu", cost: 300, emoji: "✈️", color: "#4C6FFF" },
+  { id: "af", cost: 450, emoji: "🚢", color: "#F9A826" },
+  { id: "as", cost: 600, emoji: "✈️", color: "#E84393" },
+  { id: "oc", cost: 800, emoji: "🚢", color: "#00C2CB" },
+];
+
+/* Uma escada de 15 fases por continente, subindo de dificuldade:
+   fases 1-5 Fácil · 6-9 Médio · 10-12 Difícil · 13-15 Gênio */
+const DIFFS = ["easy", "medium", "hard", "genius"];
+const STAGE_PLAN = [
+  ...Array(5).fill("easy"),
+  ...Array(4).fill("medium"),
+  ...Array(3).fill("hard"),
+  ...Array(3).fill("genius"),
+];
+const TOTAL_STAGES = STAGE_PLAN.length;
+const bandFor = stage => STAGE_PLAN[Math.min(stage, TOTAL_STAGES) - 1];
+// O relógio aperta a cada fase. No Gênio, saber não basta: tem que ser rápido.
+const STAGE_TIME = [
+  null, null, null, null, null,   // 1-5  Fácil: sem cronômetro
+  16, 14, 12, 10,                 // 6-9  Médio
+  9, 8, 7,                        // 10-12 Difícil
+  6, 5, 4,                        // 13-15 Gênio: reflexo puro
+];
+const BAND_COLOR = { easy: "#00B894", medium: "#4C6FFF", hard: "#F9A826", genius: "#E84393" };
+
+/* ---------- Economia ---------- */
+const ECON = {
+  roundCost: 10,
+  refillAmount: 30,
+  refillMs: 3 * 60 * 60 * 1000,
+  cap: 200,
+  hint1: 8, hint2: 20, hint3: 80,
+  reward: { 70: 10, 80: 20, 90: 35, 100: 60 },
+};
+
+/* ---------- Loja de avatar ---------- */
+const SHOP_CATS = ["hairStyle", "cap", "glasses", "shirt", "shirtPattern"];
+const SHOP_ITEMS = [
+  // cabelo
+  { id: "h_buzz", type: "hairStyle", val: "buzz", price: 30 },
+  { id: "h_curly", type: "hairStyle", val: "curly", price: 50 },
+  { id: "h_long", type: "hairStyle", val: "long", price: 60 },
+  { id: "h_pony", type: "hairStyle", val: "ponytail", price: 60 },
+  { id: "h_afro", type: "hairStyle", val: "afro", price: 80 },
+  // chapéus
+  { id: "c_red", type: "cap", val: "cap|#E74C3C", price: 40 },
+  { id: "c_blue", type: "cap", val: "cap|#3498DB", price: 40 },
+  { id: "c_green", type: "cap", val: "cap|#00B894", price: 40 },
+  { id: "c_beanie", type: "cap", val: "beanie|#9B59B6", price: 70 },
+  { id: "c_beanie2", type: "cap", val: "beanie|#E84393", price: 70 },
+  { id: "c_bow", type: "cap", val: "bow|#FF69B4", price: 70 },
+  { id: "c_explorer", type: "cap", val: "explorer", price: 110 },
+  { id: "c_crown", type: "cap", val: "crown", price: 160 },
+  // óculos
+  { id: "g_round", type: "glasses", val: "round", price: 50 },
+  { id: "g_nerd", type: "glasses", val: "nerd", price: 70 },
+  { id: "g_sun", type: "glasses", val: "sun", price: 110 },
+  { id: "g_heart", type: "glasses", val: "heart", price: 130 },
+  // cor da camisa
+  { id: "s_purple", type: "shirt", val: "#9B59B6", price: 50 },
+  { id: "s_navy", type: "shirt", val: "#2C3E50", price: 60 },
+  { id: "s_lime", type: "shirt", val: "#7BC950", price: 60 },
+  // estampa
+  { id: "p_stripe", type: "shirtPattern", val: "stripe", price: 60 },
+  { id: "p_dots", type: "shirtPattern", val: "dots", price: 70 },
+  { id: "p_star", type: "shirtPattern", val: "star", price: 110 },
+  { id: "p_heart", type: "shirtPattern", val: "heart", price: 120 },
+  { id: "p_rainbow", type: "shirtPattern", val: "rainbow", price: 150 },
+];
+
+
+/* ---------- Conquistas ---------- */
+const ACHIEVEMENTS = [
+  { id: "first", icon: "🎬", pt: "Primeira rodada", en: "First round", es: "Primera ronda", test: s => s.rounds >= 1 },
+  { id: "perfect1", icon: "💯", pt: "Um 100%", en: "One perfect round", es: "Una ronda perfecta", test: s => s.perfect >= 1 },
+  { id: "perfect5", icon: "🏆", pt: "Cinco 100%", en: "Five perfect rounds", es: "Cinco rondas perfectas", test: s => s.perfect >= 5 },
+  { id: "perfect20", icon: "👑", pt: "Vinte 100%", en: "Twenty perfect rounds", es: "Veinte perfectas", test: s => s.perfect >= 20 },
+  { id: "streak5", icon: "🔥", pt: "5 acertos seguidos", en: "5 in a row", es: "5 seguidas", test: s => s.bestStreak >= 5 },
+  { id: "streak20", icon: "⚡", pt: "20 acertos seguidos", en: "20 in a row", es: "20 seguidas", test: s => s.bestStreak >= 20 },
+  { id: "coins500", icon: "🪙", pt: "500 moedas ganhas", en: "500 coins earned", es: "500 monedas", test: s => s.earned >= 500 },
+  { id: "trav2", icon: "🗺️", pt: "2 continentes", en: "2 continents", es: "2 continentes", test: s => s.continents >= 2 },
+  { id: "trav6", icon: "🌍", pt: "Mapa-múndi completo", en: "Whole world map", es: "Mapamundi completo", test: s => s.continents >= 6 },
+  { id: "flags100", icon: "🎯", pt: "100 bandeiras certas", en: "100 flags right", es: "100 banderas", test: s => s.correct >= 100 },
+  { id: "flags500", icon: "🎖️", pt: "500 bandeiras certas", en: "500 flags right", es: "500 banderas", test: s => s.correct >= 500 },
+  { id: "nohint", icon: "🧠", pt: "10 rodadas sem dica", en: "10 rounds, no hints", es: "10 rondas sin pistas", test: s => s.noHintRounds >= 10 },
+  { id: "genius", icon: "🎓", pt: "Fase Gênio vencida", en: "Genius stage cleared", es: "Nivel Genio superado", test: s => s.geniusCleared >= 1 },
+  /* --- novas --- */
+  { id: "flash20", icon: "💨", pt: "20 respostas relâmpago", en: "20 lightning answers", es: "20 respuestas relámpago", test: s => s.flash >= 20 },
+  { id: "flash100", icon: "🚀", pt: "100 respostas relâmpago", en: "100 lightning answers", es: "100 respuestas relámpago", test: s => s.flash >= 100 },
+  { id: "cleanperfect", icon: "✨", pt: "100% sem usar dica", en: "Perfect with no hints", es: "Perfecta sin pistas", test: s => s.perfectNoHint >= 1 },
+  { id: "speedking", icon: "⏱️", pt: "100% na fase 15", en: "Perfect on stage 15", es: "Perfecta en el nivel 15", test: s => s.lastStagePerfect >= 1 },
+  { id: "islands", icon: "🏝️", pt: "25 bandeiras de ilhas", en: "25 island flags", es: "25 banderas de islas", test: s => s.islandRight >= 25 },
+  { id: "regions", icon: "🏴", pt: "20 estados e regiões", en: "20 states and regions", es: "20 estados y regiones", test: s => s.subRight >= 20 },
+  { id: "cont1done", icon: "🥇", pt: "Um continente inteiro", en: "A whole continent", es: "Un continente entero", test: s => s.contDone >= 1 },
+  { id: "cont3done", icon: "🌟", pt: "Três continentes inteiros", en: "Three whole continents", es: "Tres continentes enteros", test: s => s.contDone >= 3 },
+  { id: "day3", icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
+  { id: "day7", icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
+  { id: "rich", icon: "💰", pt: "Cofre cheio de moedas", en: "Coin vault full", es: "Alcancía llena", test: s => s.maxCoins >= ECON.cap },
+  { id: "marathon", icon: "🏃", pt: "50 rodadas jogadas", en: "50 rounds played", es: "50 rondas jugadas", test: s => s.rounds >= 50 },
+];
+
+
+/* ---------- Helpers ---------- */
+/* BUILD DE TESTE: sem etapa de build não há pasta local de bandeiras,
+   então esta versão volta a buscá-las no flagcdn. A versão definitiva,
+   compilada no notebook, usa os SVGs empacotados e não acessa terceiros. */
+const flagUrl = c => `https://flagcdn.com/w320/${c.toLowerCase()}.png`;
+
+function countryName(code, lang) {
+  try {
+    return new Intl.DisplayNames([lang], { type: "region" }).of(code);
+  } catch { return code; }
+}
+const shuffle = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[b[i], b[j]] = [b[j], b[i]]; } return b; };
+const fmt = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return `${h}h ${String(m).padStart(2, "0")}m`; };
+
+/* ---------- Avatar SVG ----------
+   Um único desenho serve para o jogo E para a vitrine da loja,
+   então o que a criança vê na loja é exatamente o que ela leva. */
+const SKINS = ["#FFDBAC", "#F1C27D", "#E0AC69", "#C68642", "#8D5524", "#5C3317"];
+const HAIRS = ["#2C1B10", "#6B3E26", "#C68642", "#E8B923", "#D64545", "#7B4EBE", "#2E86DE"];
+const SHIRTS = ["#4C6FFF", "#00B894", "#FF7043", "#E84393", "#F9A826", "#00C2CB"];
+const HAIR_STYLES = ["short", "buzz", "curly", "long", "ponytail", "afro", null];
+
+function HairBack({ style, color }) {
+  if (style === "afro") return <circle cx="50" cy="36" r="31" fill={color} />;
+  if (style === "long") return <path d="M20 40 Q20 14 50 14 Q80 14 80 40 L80 76 Q71 70 71 52 L29 52 Q29 70 20 76 Z" fill={color} />;
+  if (style === "ponytail") return <ellipse cx="80" cy="48" rx="9" ry="15" fill={color} />;
+  return null;
+}
+function HairFront({ style, color }) {
+  if (!style) return null;
+  if (style === "buzz") return <path d="M25 40 Q28 22 50 22 Q72 22 75 40 Q62 32 50 32 Q38 32 25 40 Z" fill={color} />;
+  if (style === "curly") return (
+    <g fill={color}>
+      <circle cx="30" cy="31" r="11" /><circle cx="44" cy="23" r="12" />
+      <circle cx="58" cy="23" r="12" /><circle cx="71" cy="32" r="11" />
+    </g>
+  );
+  return <path d="M24 40 Q26 16 50 16 Q74 16 76 40 Q66 28 50 30 Q34 32 24 40 Z" fill={color} />;
+}
+
+function Glasses({ kind }) {
+  if (kind === "round") return <g stroke="#2b2b2b" strokeWidth="2.5" fill="none"><circle cx="40" cy="45" r="8" /><circle cx="60" cy="45" r="8" /><path d="M48 45 H52" /></g>;
+  if (kind === "nerd") return <g stroke="#2b2b2b" strokeWidth="3.5" fill="none"><rect x="30" y="38" width="18" height="14" rx="4" /><rect x="52" y="38" width="18" height="14" rx="4" /><path d="M48 45 H52" /></g>;
+  if (kind === "sun") return <g><rect x="29" y="38" width="19" height="13" rx="5" fill="#2b2b2b" /><rect x="52" y="38" width="19" height="13" rx="5" fill="#2b2b2b" /><path d="M48 44 H52" stroke="#2b2b2b" strokeWidth="3" /><path d="M31 41 L36 41" stroke="#fff" strokeWidth="2" opacity=".6" /></g>;
+  if (kind === "heart") return (
+    <g stroke="#E84393" strokeWidth="2.5" fill="none">
+      <path d="M40 40 c -1.6 -3.6 -8 -2.6 -8 1.8 c 0 3.6 5.2 6 8 8.4 c 2.8 -2.4 8 -4.8 8 -8.4 c 0 -4.4 -6.4 -5.4 -8 -1.8 z" transform="translate(-1,0)" />
+      <path d="M60 40 c -1.6 -3.6 -8 -2.6 -8 1.8 c 0 3.6 5.2 6 8 8.4 c 2.8 -2.4 8 -4.8 8 -8.4 c 0 -4.4 -6.4 -5.4 -8 -1.8 z" transform="translate(3,0)" />
+    </g>
+  );
+  return null;
+}
+
+function Headwear({ value }) {
+  if (!value) return null;
+  const [shape, color] = String(value).split("|");
+  if (shape === "crown") return (
+    <g>
+      <path d="M24 32 L24 14 L36 24 L50 10 L64 24 L76 14 L76 32 Z" fill="#F1C40F" stroke="#D4A017" strokeWidth="2" strokeLinejoin="round" />
+      <rect x="23" y="31" width="54" height="8" rx="4" fill="#F1C40F" stroke="#D4A017" strokeWidth="2" />
+      <circle cx="50" cy="35" r="3" fill="#E74C3C" /><circle cx="34" cy="35" r="2.4" fill="#4C6FFF" /><circle cx="66" cy="35" r="2.4" fill="#00B894" />
+    </g>
+  );
+  if (shape === "explorer") return (
+    <g>
+      <path d="M6 40 Q50 30 94 40 Q50 50 6 40 Z" fill="#8D6E3A" />
+      <path d="M28 38 Q30 14 50 14 Q70 14 72 38 Z" fill="#A98047" />
+      <path d="M28 34 H72 V39 H28 Z" fill="#5C4326" />
+    </g>
+  );
+  if (shape === "beanie") return (
+    <g>
+      <path d="M24 34 Q24 12 50 12 Q76 12 76 34 Z" fill={color} />
+      <rect x="21" y="32" width="58" height="9" rx="4.5" fill="#fff" opacity=".85" />
+      <circle cx="50" cy="10" r="5" fill="#fff" opacity=".85" />
+    </g>
+  );
+  if (shape === "bow") return (
+    <g fill={color}>
+      <path d="M50 24 L34 15 L34 33 Z" /><path d="M50 24 L66 15 L66 33 Z" /><circle cx="50" cy="24" r="5" />
+    </g>
+  );
+  // boné
+  return (
+    <g>
+      <path d="M22 34 Q24 12 50 12 Q76 12 78 34 Z" fill={color} />
+      <path d="M22 34 Q10 36 8 42 Q30 42 50 36 Z" fill={color} opacity=".85" />
+      <circle cx="50" cy="13" r="3.5" fill="#fff" opacity=".8" />
+    </g>
+  );
+}
+
+function ShirtPattern({ kind }) {
+  if (kind === "stripe") return <path d="M23 86 H77 M22 94 H78" stroke="#fff" strokeWidth="5" opacity=".75" />;
+  if (kind === "dots") return (
+    <g fill="#fff" opacity=".8">
+      <circle cx="36" cy="85" r="3" /><circle cx="50" cy="92" r="3" /><circle cx="64" cy="85" r="3" />
+      <circle cx="43" cy="98" r="3" /><circle cx="57" cy="98" r="3" />
+    </g>
+  );
+  if (kind === "star") return <path d="M50 80 L54 89 L64 90 L56 96 L59 100 L50 95 L41 100 L44 96 L36 90 L46 89 Z" fill="#FFE066" />;
+  if (kind === "heart") return <path d="M50 100 C40 93 34 89 34 84 c 0 -5 7 -6 9 -1 c 2 -5 9 -4 9 1 c 0 5 -6 9 -2 16 z" fill="#fff" opacity=".85" transform="translate(-1,-4)" />;
+  if (kind === "rainbow") return (
+    <g fill="none" strokeWidth="4" strokeLinecap="round">
+      <path d="M34 100 A16 16 0 0 1 66 100" stroke="#E74C3C" />
+      <path d="M40 100 A10 10 0 0 1 60 100" stroke="#F9A826" />
+      <path d="M46 100 A4 4 0 0 1 54 100" stroke="#00B894" />
+    </g>
+  );
+  return null;
+}
+
+function Avatar({ a, size = 96 }) {
+  const hs = a.hairStyle === undefined ? "short" : a.hairStyle;
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" style={{ display: "block" }}>
+      <path d="M20 100 Q20 74 50 74 Q80 74 80 100 Z" fill={a.shirt} />
+      <ShirtPattern kind={a.shirtPattern} />
+      <rect x="43" y="64" width="14" height="14" rx="6" fill={a.skin} />
+      <HairBack style={hs} color={a.hair} />
+      <ellipse cx="50" cy="44" rx="26" ry="27" fill={a.skin} />
+      <circle cx="23" cy="46" r="5" fill={a.skin} />
+      <circle cx="77" cy="46" r="5" fill={a.skin} />
+      <HairFront style={hs} color={a.hair} />
+      <ellipse cx="40" cy="45" rx="4" ry="5" fill="#2b2b2b" />
+      <ellipse cx="60" cy="45" rx="4" ry="5" fill="#2b2b2b" />
+      <circle cx="41.5" cy="43" r="1.4" fill="#fff" />
+      <circle cx="61.5" cy="43" r="1.4" fill="#fff" />
+      <circle cx="32" cy="53" r="4.5" fill="#FF8FA3" opacity=".55" />
+      <circle cx="68" cy="53" r="4.5" fill="#FF8FA3" opacity=".55" />
+      <path d="M42 57 Q50 64 58 57" stroke="#2b2b2b" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <Glasses kind={a.glasses} />
+      <Headwear value={a.cap} />
+    </svg>
+  );
+}
+
+/* ---------- Mundi, o mascote ---------- */
+function Mundi({ size = 72, bounce = true }) {
+  return (
+    <div className={bounce ? "mundi-bob" : ""} style={{ width: size, height: size }}>
+      <svg viewBox="0 0 100 100" width={size} height={size}>
+        <circle cx="50" cy="46" r="34" fill="#4C6FFF" />
+        <path d="M22 36 Q34 30 44 38 Q52 46 44 54 Q32 58 24 52 Z" fill="#00B894" />
+        <path d="M58 26 Q72 28 76 40 Q70 48 60 44 Q54 34 58 26 Z" fill="#00B894" />
+        <path d="M56 56 Q72 54 78 62 Q68 74 58 70 Q52 62 56 56 Z" fill="#00B894" />
+        <circle cx="40" cy="44" r="7" fill="#fff" /><circle cx="41" cy="45" r="3.4" fill="#222" />
+        <circle cx="62" cy="44" r="7" fill="#fff" /><circle cx="63" cy="45" r="3.4" fill="#222" />
+        <path d="M42 60 Q50 68 60 60" stroke="#fff" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+        <path d="M38 82 L34 94 M62 82 L66 94" stroke="#F9A826" strokeWidth="6" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+/* ---------- UI base ---------- */
+const Btn = ({ children, onClick, color = "#4C6FFF", disabled, full, small }) => (
+  <button onClick={onClick} disabled={disabled}
+    className={`chunky ${full ? "w-full" : ""}`}
+    style={{
+      background: disabled ? "#B9C0CC" : color,
+      padding: small ? "10px 16px" : "16px 22px",
+      fontSize: small ? 15 : 19,
+      opacity: disabled ? .8 : 1,
+      cursor: disabled ? "not-allowed" : "pointer",
+    }}>{children}</button>
+);
+
+const Coin = ({ n }) => (
+  <span className="inline-flex items-center gap-1 font-extrabold">
+    <span style={{ fontSize: "1.05em" }}>🪙</span>{n}
+  </span>
+);
+
+/* ============================================================
+   APP
+   ============================================================ */
+function App() {
+  const [loaded, setLoaded] = useState(false);
+  const [lang, setLang] = useState("pt");
+  const [screen, setScreen] = useState("boot"); // boot|create|map|stages|game|result|shop|awards
+  const [player, setPlayer] = useState({
+    name: "", avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
+  });
+  const [coins, setCoins] = useState(120);
+  const [lastRefill, setLastRefill] = useState(Date.now());
+  const [now, setNow] = useState(Date.now());
+  const [unlocked, setUnlocked] = useState(["sa"]);
+  const [progress, setProgress] = useState({}); // "sa:easy" -> maior fase concluída
+  const [owned, setOwned] = useState([]);
+  const [stats, setStats] = useState({
+    rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
+    noHintRounds: 0, geniusCleared: 0, continents: 1,
+    flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
+    contDone: 0, dayStreak: 1, lastDay: "", maxCoins: 120,
+  });
+  const [seenAch, setSeenAch] = useState([]);
+  const [toast, setToast] = useState(null);
+  const [travelFx, setTravelFx] = useState(null);
+  const [tutorial, setTutorial] = useState(false);
+
+  const [sel, setSel] = useState({ cont: "sa", stage: 1 });
+  const [round, setRound] = useState(null);
+
+  const t = T[lang];
+
+  /* ----- perfis: vários jogadores no mesmo aparelho -----
+     Índice leve em "mundi:profiles" (id, nome, avatar) para desenhar a
+     tela de escolha sem abrir todos os saves. O progresso de cada um fica
+     em "mundi:p:<id>", separado — irmão não mexe no do irmão. */
+  const [profiles, setProfiles] = useState([]);
+  const [activeId, setActiveId] = useState(null);
+
+  const blankSave = () => ({
+    coins: 120, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
+    stats: {
+      rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
+      noHintRounds: 0, geniusCleared: 0, continents: 1,
+      flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
+      contDone: 0, dayStreak: 1, lastDay: "", maxCoins: 120,
+    },
+  });
+
+  function applySave(d, name, avatar) {
+    setPlayer({ name, avatar });
+    setCoins(d.coins); setLastRefill(d.lastRefill); setUnlocked(d.unlocked);
+    const oldFmt = Object.keys(d.progress || {}).some(k => k.includes(":"));
+    setProgress(oldFmt ? {} : (d.progress || {}));
+    setOwned(d.owned || []); setStats(d.stats); setSeenAch(d.seenAch || []);
+  }
+
+  useEffect(() => {
+    (async () => {
+      let list = [];
+      try {
+        const r = await window.storage.get("mundi:profiles");
+        if (r?.value) list = JSON.parse(r.value);
+      } catch { }
+      let chosen = null;
+      try { const l = await window.storage.get("mundi:lang"); chosen = l?.value || null; } catch { }
+      const want = chosen || deviceLang();
+      if (await loadLang(want)) setLang(want);
+      setProfiles(list);
+      setScreen(list.length ? "profiles" : "create");
+      setLoaded(true);
+    })();
+  }, []);
+
+  async function openProfile(pr) {
+    try {
+      const r = await window.storage.get(`mundi:p:${pr.id}`);
+      applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr.name, pr.avatar);
+    } catch { applySave(blankSave(), pr.name, pr.avatar); }
+    setActiveId(pr.id);
+    setScreen("home");
+  }
+
+  function newProfile() {
+    const d = blankSave();
+    setActiveId(`p${Date.now()}`);
+    applySave(d, "", { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null });
+    setScreen("create");
+  }
+
+  function deleteProfile(id) {
+    const next = profiles.filter(p => p.id !== id);
+    setProfiles(next);
+    try {
+      window.storage.set("mundi:profiles", JSON.stringify(next));
+      window.storage.delete(`mundi:p:${id}`);
+    } catch { }
+    if (id === activeId) { setActiveId(null); setScreen(next.length ? "profiles" : "create"); }
+  }
+
+  async function pickLang(code) {
+    const ok = await loadLang(code);
+    if (!ok) return false;
+    setLang(code);
+    try { window.storage.set("mundi:lang", code); } catch { }
+    return true;
+  }
+
+  /* grava o jogador ativo a cada mudança */
+  useEffect(() => {
+    if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
+    const d = { coins, lastRefill, unlocked, progress, owned, stats, seenAch };
+    try { window.storage.set(`mundi:p:${activeId}`, JSON.stringify(d)); } catch { }
+    setProfiles(ps => {
+      const has = ps.some(p => p.id === activeId);
+      const next = has
+        ? ps.map(p => p.id === activeId ? { ...p, name: player.name, avatar: player.avatar } : p)
+        : [...ps, { id: activeId, name: player.name, avatar: player.avatar }];
+      try { window.storage.set("mundi:profiles", JSON.stringify(next)); } catch { }
+      return next;
+    });
+  }, [loaded, activeId, screen, coins, unlocked, progress, owned, stats, player, seenAch]);
+
+  /* ----- relógio + refill ----- */
+  useEffect(() => {
+    const i = setInterval(() => {
+      setNow(Date.now());
+      setLastRefill(lr => {
+        if (Date.now() - lr >= ECON.refillMs) {
+          setCoins(c => Math.min(ECON.cap, c + ECON.refillAmount));
+          setToast(`+${ECON.refillAmount} 🪙`);
+          return lr + ECON.refillMs;
+        }
+        return lr;
+      });
+    }, 1000);
+    return () => clearInterval(i);
+  }, []);
+
+  useEffect(() => { if (toast) { const x = setTimeout(() => setToast(null), 2200); return () => clearTimeout(x); } }, [toast]);
+
+  /* ----- conquistas ----- */
+  useEffect(() => {
+    const got = ACHIEVEMENTS.filter(a => a.test(stats)).map(a => a.id);
+    const nw = got.filter(id => !seenAch.includes(id));
+    if (nw.length) {
+      const a = ACHIEVEMENTS.find(x => x.id === nw[0]);
+      setToast(`${a.icon} ${a[lang]}`);
+      setSeenAch(s => [...s, ...nw]);
+    }
+  }, [stats]);
+
+  /* ----- montar rodada ----- */
+  // REGRA DE OURO: nunca sai do continente escolhido.
+  // A dificuldade vem de QUAIS bandeiras daquele continente entram no sorteio:
+  // as mais conhecidas primeiro, as raras nas fases finais.
+  function poolFor(cont, diff) {
+    const ranked = Object.entries(DATA[cont])
+      .sort((a, b) => (a[1] - b[1]) || (Math.random() - .5))
+      .map(([c]) => c);
+    const n = ranked.length;
+    const cut = (from, to) => ranked.slice(Math.floor(n * from), Math.ceil(n * to));
+    let pool;
+    if (diff === "easy") pool = cut(0, .55);
+    else if (diff === "medium") pool = cut(0, .8);
+    else if (diff === "hard") pool = cut(.25, 1);
+    else pool = cut(.45, 1);
+    // continentes pequenos: usa o continente inteiro em vez de sair dele
+    return pool.length >= 10 ? pool : ranked;
+  }
+
+  function buildRound(cont, stage) {
+    const diff = bandFor(stage);
+    const pool = poolFor(cont, diff);
+    const wide = Object.keys(DATA[cont]); // distratores também só do continente
+    const subs = (SUBFLAGS[cont] || []);
+    const subDeck = shuffle(subs);
+    let subAt = 0;
+    // Gênio (13-15): metade da rodada vira estado/região.
+    // Difícil (10-12): só a última pergunta, como aperitivo.
+    const subSlots = new Set();
+    if (subs.length) {
+      if (diff === "genius") [1, 3, 5, 7, 9].forEach(n => subSlots.add(n));  // 5 de 10
+      else if (diff === "hard" && stage >= 12) subSlots.add(9);
+    }
+    // Rodadas curtas para os pequenos, longas para quem já pegou o jeito
+    const qCount = (diff === "easy" || diff === "medium") ? 5 : 10;
+    const deck = shuffle(pool).slice(0, qCount); // bandeiras SEMPRE diferentes
+    const qs = [];
+    for (let i = 0; i < qCount; i++) {
+      const useSub = subSlots.has(i) && subAt < subDeck.length;
+      if (useSub) {
+        const s = subDeck[subAt++];
+        const others = shuffle(subs.filter(x => x.code !== s.code)).slice(0, 3);
+        qs.push({
+          flag: s.code, answer: s[lang], sub: true,
+          options: shuffle([s[lang], ...others.map(o => o[lang])]).slice(0, 4),
+        });
+      } else {
+        const code = deck[i];
+        const ans = countryName(code, lang);
+        const distr = shuffle(wide).filter(c => c !== code && countryName(c, lang) !== ans).slice(0, 3);
+        qs.push({
+          flag: code, answer: ans,
+          options: shuffle([ans, ...distr.map(c => countryName(c, lang))]),
+        });
+      }
+    }
+    // Modo Fácil: sem cronômetro. Depois o tempo cai a cada fase.
+    const time = STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1];
+    return { cont, diff, stage, qs, time, i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+  }
+
+  function startRound() {
+    if (coins < ECON.roundCost) { setToast(t.notEnough); return; }
+    setCoins(c => c - ECON.roundCost);
+    setRound(buildRound(sel.cont, sel.stage));
+    setScreen("game");
+  }
+
+  function finishRound(r) {
+    const pct = Math.round((r.right / r.qs.length) * 100);
+    let reward = 0;
+    if (pct >= 100) reward = ECON.reward[100];
+    else if (pct >= 90) reward = ECON.reward[90];
+    else if (pct >= 80) reward = ECON.reward[80];
+    else if (pct >= 70) reward = ECON.reward[70];
+    if (r.hintsUsed === 0 && pct >= 70) reward += 5;
+    setCoins(c => Math.min(ECON.cap, c + reward));
+    const today = new Date().toISOString().slice(0, 10);
+    const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+    const clearedAll = pct >= 70 && r.stage === TOTAL_STAGES;
+    setStats(s => ({
+      ...s,
+      rounds: s.rounds + 1,
+      perfect: s.perfect + (pct === 100 ? 1 : 0),
+      streak: pct >= 70 ? s.streak + 1 : 0,
+      bestStreak: Math.max(s.bestStreak, r.bestStreak || s.streak),
+      earned: s.earned + reward,
+      correct: s.correct + r.right,
+      noHintRounds: s.noHintRounds + (r.hintsUsed === 0 ? 1 : 0),
+      geniusCleared: s.geniusCleared + (r.diff === "genius" && pct >= 70 ? 1 : 0),
+      flash: s.flash + r.flash,
+      islandRight: s.islandRight + r.islandRight,
+      subRight: s.subRight + r.subRight,
+      perfectNoHint: s.perfectNoHint + (pct === 100 && r.hintsUsed === 0 ? 1 : 0),
+      lastStagePerfect: s.lastStagePerfect + (pct === 100 && r.stage === TOTAL_STAGES ? 1 : 0),
+      contDone: s.contDone + (clearedAll ? 1 : 0),
+      maxCoins: Math.max(s.maxCoins, Math.min(ECON.cap, coins + reward)),
+      dayStreak: s.lastDay === today ? s.dayStreak : s.lastDay === yest ? s.dayStreak + 1 : 1,
+      lastDay: today,
+    }));
+    if (pct >= 70) {
+      setProgress(p => ({ ...p, [r.cont]: Math.max(p[r.cont] || 0, r.stage) }));
+    }
+    setRound({ ...r, done: true, pct, reward });
+    setScreen("result");
+  }
+
+  function unlockContinent(id, cost) {
+    if (coins < cost) { setToast(t.notEnough); return; }
+    setCoins(c => c - cost);
+    setUnlocked(u => [...u, id]);
+    setStats(s => ({ ...s, continents: s.continents + 1 }));
+    const r = ROUTE.find(x => x.id === id);
+    setTravelFx(r.emoji);
+    setTimeout(() => setTravelFx(null), 2600);
+  }
+
+  const nextRefill = ECON.refillMs - (now - lastRefill);
+
+  /* ============================================================ */
+  const styles = `
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap');
+    .app{font-family:'Nunito',system-ui,-apple-system,sans-serif;}
+    .display{font-family:'Baloo 2','Nunito',system-ui,sans-serif;letter-spacing:.4px;}
+    .chunky{border:none;border-radius:20px;color:#fff;font-family:'Baloo 2',system-ui,sans-serif;
+      font-weight:800;box-shadow:0 5px 0 rgba(0,0,0,.22);transition:transform .08s, box-shadow .08s;}
+    .chunky:active:not(:disabled){transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.22);}
+    .card{border-radius:26px;background:#fff;box-shadow:0 6px 0 rgba(20,25,60,.13);}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+    .mundi-bob{animation:bob 2.2s ease-in-out infinite}
+    @keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+    .pop{animation:pop .3s ease-out}
+    @keyframes cross{0%{left:-18%;transform:scaleX(1)}100%{left:104%;transform:scaleX(1)}}
+    .crossing{position:absolute;top:38%;font-size:56px;animation:cross 2.6s ease-in-out forwards}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+    .shake{animation:shake .32s}
+    @media (prefers-reduced-motion: reduce){.mundi-bob,.pop,.crossing,.shake{animation:none!important}}
+  `;
+
+  if (!loaded) return <div style={{ padding: 40, textAlign: "center" }}>🌍</div>;
+
+  return (
+    <div className="app" style={{ background: "linear-gradient(175deg,#1B2A6B 0%,#3C4FC4 45%,#6A5AE0 100%)", minHeight: "100vh", padding: "14px 12px 28px" }}>
+      <style>{styles}</style>
+      <div style={{ maxWidth: 460, margin: "0 auto" }}>
+
+        {toast && (
+          <div className="pop" style={{ position: "fixed", top: 12, left: "50%", transform: "translateX(-50%)", zIndex: 60, background: "#fff", color: "#1B2A6B", padding: "12px 20px", borderRadius: 999, fontWeight: 800, boxShadow: "0 6px 20px rgba(0,0,0,.3)" }}>{toast}</div>
+        )}
+        {travelFx && (
+          <div style={{ position: "fixed", inset: 0, zIndex: 55, pointerEvents: "none", overflow: "hidden" }}>
+            <div className="crossing">{travelFx}</div>
+          </div>
+        )}
+
+        {screen === "create" && <Create {...{ t, lang, onLang: () => setScreen("lang"), player, setPlayer, onDone: () => setScreen("home") }} />}
+        {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, deleteProfile, setScreen }} />}
+        {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
+        {screen === "home" && <Home {...{ t, player, coins, nextRefill, setScreen, profiles,
+          onPickGame: () => { setScreen("map"); if (!stats.rounds) setTutorial(true); } }} />}
+        {screen === "map" && <MapScreen {...{ t, lang, player, coins, nextRefill, unlocked, progress, unlockContinent, setSel, setScreen, stats, tutorial, setTutorial }} />}
+        {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player }} />}
+        {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen }} />}
+        {screen === "result" && round && <Result {...{ t, round, player, setScreen, setSel, sel, startRound, coins }} />}
+        {screen === "shop" && <Shop {...{ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, setScreen }} />}
+        {screen === "awards" && <Awards {...{ t, lang, stats, seenAch, setScreen, player }} />}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Criação do avatar ----------
+   Aqui só o básico e de graça. Chapéu, óculos e estampa vêm da loja,
+   para a criança ter o que conquistar com as moedas. */
+function Create({ t, lang, onLang, player, setPlayer, onDone }) {
+  const a = player.avatar;
+  const set = (k, v) => setPlayer(p => ({ ...p, avatar: { ...p.avatar, [k]: v } }));
+  const Swatches = ({ label, items, k }) => (
+    <div style={{ marginBottom: 14 }}>
+      <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{label}</div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        {items.map((v, i) => (
+          <button key={i} onClick={() => set(k, v)} style={{
+            width: 40, height: 40, borderRadius: 14,
+            border: a[k] === v ? "4px solid #1B2A6B" : "3px solid #E4E8F5",
+            background: v, cursor: "pointer",
+          }} />
+        ))}
+      </div>
+    </div>
+  );
+  return (
+    <div>
+      <div style={{ textAlign: "center", marginBottom: 10 }}>
+        <div className="display" style={{ color: "#fff", fontSize: 44, lineHeight: 1 }}>MUNDI</div>
+        <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 14 }}>{t.tagline}</div>
+        <button onClick={onLang} className="chunky" style={{ marginTop: 10, padding: "7px 16px", fontSize: 13, background: "rgba(255,255,255,.22)" }}>
+          🌐 {LANG_CATALOG[lang] || lang}
+        </button>
+      </div>
+      <div className="card" style={{ padding: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+          <div style={{ background: "#EEF1FF", borderRadius: 24, padding: 6 }}><Avatar a={a} size={92} /></div>
+          <div style={{ flex: 1 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 20 }}>{t.createAvatar}</div>
+            <input value={player.name} onChange={e => setPlayer(p => ({ ...p, name: e.target.value }))}
+              placeholder={t.name} maxLength={12}
+              style={{ marginTop: 8, width: "100%", padding: "10px 12px", borderRadius: 14, border: "3px solid #E4E8F5", fontWeight: 800, fontSize: 16, outline: "none" }} />
+          </div>
+        </div>
+
+        <Swatches label={t.skin} items={SKINS} k="skin" />
+        <Swatches label={t.hair} items={HAIRS} k="hair" />
+
+        <div style={{ marginBottom: 14 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.slots.hairStyle}</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            {["short", "buzz", null].map((v, i) => (
+              <button key={i} onClick={() => set("hairStyle", v)} style={{
+                width: 56, height: 56, borderRadius: 16, padding: 0, overflow: "hidden",
+                border: a.hairStyle === v ? "4px solid #1B2A6B" : "3px solid #E4E8F5",
+                background: "#EEF1FF", cursor: "pointer", display: "grid", placeItems: "center",
+              }}><Avatar a={{ ...a, hairStyle: v, cap: null, glasses: null }} size={50} /></button>
+            ))}
+          </div>
+        </div>
+
+        <Swatches label={t.shirt} items={SHIRTS} k="shirt" />
+
+        <div style={{ color: "#6C7695", fontWeight: 700, fontSize: 12, marginBottom: 12 }}>🛍️ {t.shopHint}</div>
+        <Btn full color="#00B894" onClick={onDone} disabled={!player.name.trim()}>{t.ready} 🎉</Btn>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Topo com moedas ---------- */
+function TopBar({ t, player, coins, nextRefill, right }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+      <div style={{ background: "rgba(255,255,255,.16)", borderRadius: 20, padding: 4 }}><Avatar a={player.avatar} size={44} /></div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="display" style={{ color: "#fff", fontSize: 17, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{player.name}</div>
+        {nextRefill != null && <div style={{ color: "#B9C6FF", fontSize: 11, fontWeight: 700 }}>{t.nextCoins} {fmt(nextRefill)}</div>}
+      </div>
+      <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "8px 14px", fontWeight: 900, fontSize: 17 }}><Coin n={coins} /></div>
+      {right}
+    </div>
+  );
+}
+
+/* ---------- Quem vai jogar ---------- */
+function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, setScreen }) {
+  const [editing, setEditing] = useState(false);
+  const [ask, setAsk] = useState(null);
+  return (
+    <div style={{ paddingTop: 24 }}>
+      <div style={{ textAlign: "center", marginBottom: 18 }}>
+        <div className="display" style={{ color: "#fff", fontSize: 40, lineHeight: 1 }}>MUNDI</div>
+        <div className="display" style={{ color: "#C9D2FF", fontSize: 18, marginTop: 6 }}>{t.players}</div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        {profiles.map(pr => (
+          <div key={pr.id} style={{ position: "relative" }}>
+            <button onClick={() => !editing && openProfile(pr)} className="card"
+              style={{ border: "none", width: "100%", padding: 14, display: "grid", placeItems: "center", cursor: "pointer" }}>
+              <Avatar a={pr.avatar} size={84} />
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 17, marginTop: 6 }}>{pr.name}</div>
+            </button>
+            {editing && (
+              <button onClick={() => setAsk(pr)} className="chunky"
+                style={{ position: "absolute", top: -6, right: -6, width: 34, height: 34, borderRadius: 17, background: "#E74C3C", fontSize: 15 }}>✕</button>
+            )}
+          </div>
+        ))}
+        <button onClick={newProfile} className="card"
+          style={{ border: "none", padding: 14, display: "grid", placeItems: "center", cursor: "pointer", background: "rgba(255,255,255,.9)" }}>
+          <div style={{ width: 84, height: 84, borderRadius: 42, background: "#EEF1FF", display: "grid", placeItems: "center", fontSize: 40, color: "#4C6FFF" }}>+</div>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginTop: 6 }}>{t.newPlayer}</div>
+        </button>
+      </div>
+
+      <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+        <Btn full small color="rgba(255,255,255,.2)" onClick={() => setEditing(e => !e)}>{editing ? "✓" : "✏️"}</Btn>
+        <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("lang")}>🌐 {t.language}</Btn>
+      </div>
+
+      <div style={{ textAlign: "center", marginTop: 22, color: "#8E9CE0", fontSize: 11, fontWeight: 700, lineHeight: 1.6 }}>
+        {t.parentsInfo}<br />
+        <span style={{ color: "#6E7FCC" }}>{MADE_BY}</span>
+      </div>
+
+      {ask && (
+        <Modal onClose={() => setAsk(null)}>
+          <div style={{ textAlign: "center" }}>
+            <Avatar a={ask.avatar} size={70} />
+            <div style={{ color: "#1B2A6B", fontWeight: 800, margin: "12px 0", fontSize: 15 }}>{t.deleteAsk}</div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Btn full small color="#8B93AD" onClick={() => setAsk(null)}>{t.cancel}</Btn>
+              <Btn full small color="#E74C3C" onClick={() => { deleteProfile(ask.id); setAsk(null); }}>{t.del}</Btn>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+/* ---------- Idiomas ---------- */
+function LangScreen({ t, lang, pickLang, setScreen, back }) {
+  const [busy, setBusy] = useState(null);
+  const [ready, setReady] = useState(() => Object.keys(T));
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(back)}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 24 }}>🌐 {t.language}</div>
+      </div>
+      <div style={{ display: "grid", gap: 8 }}>
+        {Object.entries(LANG_CATALOG).map(([code, label]) => {
+          const has = ready.includes(code);
+          const on = lang === code;
+          return (
+            <div key={code} className="card" style={{ padding: 12, display: "flex", alignItems: "center", gap: 10 }}>
+              <div className="display" style={{ flex: 1, color: "#1B2A6B", fontSize: 17 }}>{label}</div>
+              <Btn small color={on ? "#00B894" : has ? "#4C6FFF" : "#6A5AE0"}
+                disabled={busy === code}
+                onClick={async () => {
+                  setBusy(code);
+                  const ok = await pickLang(code);
+                  if (ok) setReady(Object.keys(T));
+                  setBusy(null);
+                }}>
+                {busy === code ? t.downloading : on ? "✓" : has ? t.installed : `⬇ ${t.download}`}
+              </Btn>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, textAlign: "center" }}>
+        ~3 KB
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Home do hub ---------- */
+function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame }) {
+  return (
+    <div>
+      <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill} />
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-end", marginBottom: 16 }}>
+        <Mundi size={64} />
+        <div className="card" style={{ padding: "12px 14px", flex: 1, borderBottomLeftRadius: 6 }}>
+          <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 14 }}>{t.mascotHome}</div>
+        </div>
+      </div>
+
+      <div className="display" style={{ color: "#fff", fontSize: 22, marginBottom: 10 }}>{t.home}</div>
+
+      {CATALOG.map(c => (
+        <div key={c.id} style={{ marginBottom: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <span style={{ fontSize: 20 }}>{c.icon}</span>
+            <span className="display" style={{ color: "#C9D2FF", fontSize: 16 }}>{t.cat[c.id]}</span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            {c.games.map(g => (
+              <button key={g.id} disabled={!g.ready} onClick={() => g.ready && onPickGame(g.id)}
+                className="card" style={{
+                  border: "none", padding: 14, textAlign: "left", cursor: g.ready ? "pointer" : "default",
+                  opacity: g.ready ? 1 : .45, borderTop: `7px solid ${g.color}`,
+                }}>
+                <div style={{ fontSize: 32 }}>{g.ready ? g.icon : "🔒"}</div>
+                <div className="display" style={{ color: "#1B2A6B", fontSize: 15, lineHeight: 1.15, marginTop: 4 }}>{t.games[g.id]}</div>
+                {!g.ready && <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 800, marginTop: 2 }}>{t.soon}</div>}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
+        <Btn full color="#E84393" onClick={() => setScreen("shop")}>🛍️ {t.shop}</Btn>
+        <Btn full color="#00C2CB" onClick={() => setScreen("awards")}>🏅 {t.awards}</Btn>
+      </div>
+      <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+        <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("profiles")}>
+          👥 {t.switchPlayer}{profiles?.length > 1 ? ` (${profiles.length})` : ""}
+        </Btn>
+        <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("lang")}>🌐 {t.language}</Btn>
+      </div>
+      <div style={{ textAlign: "center", color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, lineHeight: 1.6 }}>
+        🔒 {t.parentsInfo}<br />
+        <span style={{ color: "#7E8CD0" }}>{MADE_BY}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Mapa ---------- */
+function MapScreen({ t, lang, player, coins, nextRefill, unlocked, progress, unlockContinent, setSel, setScreen, stats, tutorial, setTutorial }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🚩 {t.games.flags}</div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
+      </div>
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-end", marginBottom: 14 }}>
+        <Mundi size={64} />
+        <div className="card" style={{ padding: "12px 14px", flex: 1, borderBottomLeftRadius: 6 }}>
+          <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 14 }}>{t.mascotHub}</div>
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gap: 10 }}>
+        {ROUTE.map((r, i) => {
+          const open = unlocked.includes(r.id);
+          const prev = i === 0 || unlocked.includes(ROUTE[i - 1].id);
+          const stars = progress[r.id] || 0;
+          return (
+            <div key={r.id} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12, opacity: open || prev ? 1 : .45 }}>
+              <div style={{ width: 52, height: 52, borderRadius: 18, background: r.color, display: "grid", placeItems: "center", fontSize: 26 }}>
+                {open ? "🌍" : r.emoji}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div className="display" style={{ color: "#1B2A6B", fontSize: 19 }}>{t.continents[r.id]}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#6C7695" }}>
+                  {open ? `⭐ ${stars}/${TOTAL_STAGES}` : `${t.unlockFor} 🪙${r.cost}`}
+                </div>
+              </div>
+              {open
+                ? <Btn small color={r.color} onClick={() => { setSel({ cont: r.id, stage: Math.min(TOTAL_STAGES, (progress[r.id] || 0) + 1) }); setScreen("stages"); }}>{t.play}</Btn>
+                : <Btn small color="#8B93AD" disabled={!prev || coins < r.cost} onClick={() => unlockContinent(r.id, r.cost)}>{r.emoji}</Btn>}
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ textAlign: "center", color: "#A7B3EA", fontSize: 12, fontWeight: 700, marginTop: 16 }}>
+        {t.nextCoins} {fmt(nextRefill)}
+      </div>
+
+      {tutorial && (
+        <Modal onClose={() => setTutorial(false)}>
+          <div style={{ textAlign: "center" }}>
+            <Mundi size={80} />
+            <div className="display" style={{ fontSize: 24, color: "#1B2A6B", marginTop: 6 }}>{t.tutorial}</div>
+            <div style={{ textAlign: "left", margin: "12px 0", color: "#3B4468", fontWeight: 700, lineHeight: 1.7, fontSize: 15 }}>
+              🚩 {t.tut1}<br />👆 {t.tut2}<br />⏱️ {t.tut3}<br />🪙 {t.tut4}
+            </div>
+            <Btn full color="#00B894" onClick={() => setTutorial(false)}>{t.gotIt}</Btn>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+function Modal({ children, onClose }) {
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(15,20,55,.66)", zIndex: 50, display: "grid", placeItems: "center", padding: 20 }}>
+      <div className="card pop" onClick={e => e.stopPropagation()} style={{ padding: 20, maxWidth: 380, width: "100%" }}>{children}</div>
+    </div>
+  );
+}
+
+/* ---------- Seleção de fases ---------- */
+function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player }) {
+  const cont = ROUTE.find(r => r.id === sel.cont);
+  const done = progress[sel.cont] || 0;
+  const band = bandFor(sel.stage);
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("map")}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 24, flex: 1 }}>{t.continents[sel.cont]}</div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
+      </div>
+
+      {/* legenda das faixas de dificuldade */}
+      <div style={{ display: "flex", gap: 6, marginBottom: 12 }}>
+        {DIFFS.map(d => (
+          <div key={d} style={{
+            flex: 1, textAlign: "center", borderRadius: 12, padding: "6px 2px",
+            background: BAND_COLOR[d], color: "#fff", fontWeight: 900, fontSize: 11,
+            opacity: band === d ? 1 : .45,
+          }}>{t.levels[d]}</div>
+        ))}
+      </div>
+
+      <div className="card" style={{ padding: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8 }}>
+          {Array.from({ length: TOTAL_STAGES }, (_, i) => i + 1).map(n => {
+            const open = n <= done + 1;
+            const cleared = n <= done;
+            const b = bandFor(n);
+            return (
+              <button key={n} disabled={!open} onClick={() => setSel(s => ({ ...s, stage: n }))}
+                className="chunky" style={{
+                  aspectRatio: "1", fontSize: 16, borderRadius: 16,
+                  background: !open ? "#DDE2F0" : cleared ? "#00B894" : BAND_COLOR[b],
+                  outline: sel.stage === n && open ? "4px solid #1B2A6B" : "none",
+                  color: open ? "#fff" : "#A6AFC6",
+                }}>{cleared ? "⭐" : n}</button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-end", margin: "14px 0" }}>
+        <Mundi size={56} />
+        <div className="card" style={{ padding: "10px 12px", flex: 1, borderBottomLeftRadius: 6, color: "#1B2A6B", fontWeight: 800, fontSize: 13 }}>
+          {t.mascotStage}
+        </div>
+      </div>
+
+      <Btn full color={BAND_COLOR[band]} disabled={coins < ECON.roundCost} onClick={startRound}>
+        ▶ {t.stage} {sel.stage} · {t.levels[band]} · {t.cost} 🪙{ECON.roundCost}
+      </Btn>
+    </div>
+  );
+}
+
+/* ---------- Jogo ---------- */
+function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen }) {
+  const q = round.qs[round.i];
+  const [left, setLeft] = useState(round.time);
+  const [removed, setRemoved] = useState([]);
+  const [picked, setPicked] = useState(null);
+  const [hintLevel, setHintLevel] = useState(0);
+  const [imgOk, setImgOk] = useState(true);
+  const lockRef = useRef(false);
+
+  useEffect(() => {
+    setLeft(round.time); setRemoved([]); setPicked(null); setHintLevel(0); setImgOk(true);
+    lockRef.current = false;
+  }, [round.i]);
+
+  useEffect(() => {
+    if (round.time == null || picked !== null) return; // Fácil não tem cronômetro
+    if (left <= 0) { answer(null); return; }
+    const x = setTimeout(() => setLeft(l => l - 1), 1000);
+    return () => clearTimeout(x);
+  }, [left, picked, round.time]);
+
+  function answer(opt) {
+    if (lockRef.current) return;
+    lockRef.current = true;
+    setPicked(opt ?? "__timeout__");
+    const ok = opt === q.answer;
+    setTimeout(() => {
+      const streak = ok ? round.streak + 1 : 0;
+      const fast = ok && round.time != null && left >= round.time - 3; // respondeu em ~3s
+      const next = {
+        ...round,
+        i: round.i + 1,
+        right: round.right + (ok ? 1 : 0),
+        flash: round.flash + (fast ? 1 : 0),
+        islandRight: round.islandRight + (ok && !q.sub && ISLANDS.has(q.flag.toUpperCase()) ? 1 : 0),
+        subRight: round.subRight + (ok && q.sub ? 1 : 0),
+        score: round.score + (ok ? 100 + (round.time == null ? 30 : left * 10) : 0),
+        streak,
+        bestStreak: Math.max(round.bestStreak || 0, streak),
+      };
+      if (next.i >= round.qs.length) finishRound(next); else setRound(next);
+    }, 900);
+  }
+
+  function useHint(n) {
+    const cost = n === 1 ? ECON.hint1 : n === 2 ? ECON.hint2 : ECON.hint3;
+    if (coins < cost || hintLevel >= n || picked) return;
+    setCoins(c => c - cost);
+    const wrongs = shuffle(q.options.filter(o => o !== q.answer && !removed.includes(o)));
+    setRemoved(r => [...r, ...wrongs.slice(0, n - hintLevel)]);
+    setHintLevel(n);
+    setRound(r => ({ ...r, hintsUsed: r.hintsUsed + 1 }));
+  }
+
+  const pct = round.time == null ? 100 : (left / round.time) * 100;
+  const barColor = pct > 55 ? "#00B894" : pct > 25 ? "#F9A826" : "#E74C3C";
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+        <div className="display" style={{ color: "#fff", fontSize: 15 }}>{t.question} {round.i + 1}/{round.qs.length}</div>
+        <div style={{ flex: 1, display: "flex", gap: 3 }}>
+          {Array.from({ length: round.qs.length }, (_, i) => (
+            <div key={i} style={{ flex: 1, height: 7, borderRadius: 4, background: i < round.i ? "#00E5A0" : "rgba(255,255,255,.25)" }} />
+          ))}
+        </div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "5px 10px", fontWeight: 900, fontSize: 14 }}><Coin n={coins} /></div>
+      </div>
+
+      {/* timer (o modo Fácil joga sem cronômetro) */}
+      {round.time == null ? (
+        <div style={{ height: 14, borderRadius: 10, background: "rgba(0,229,160,.22)", marginBottom: 12, display: "grid", placeItems: "center", color: "#9BF3D6", fontWeight: 900, fontSize: 10, letterSpacing: 1 }}>
+          🐢 {t.noRush}
+        </div>
+      ) : (
+        <div style={{ height: 14, borderRadius: 10, background: "rgba(0,0,0,.22)", overflow: "hidden", marginBottom: 12, position: "relative" }}>
+          <div style={{ width: `${pct}%`, height: "100%", background: barColor, transition: "width 1s linear", borderRadius: 10 }} />
+          <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 11 }}>{left}s</div>
+        </div>
+      )}
+
+      {/* bandeira */}
+      <div className="card" style={{ padding: 14, marginBottom: 12, textAlign: "center" }}>
+        <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 8 }}>{q.sub ? t.whichRegion : t.whichCountry}</div>
+        <div className={picked && picked !== q.answer ? "shake" : ""} style={{ display: "inline-block", borderRadius: 16, overflow: "hidden", boxShadow: "0 4px 14px rgba(20,25,60,.25)", background: "#EEF1FF" }}>
+          {imgOk
+            ? <img src={flagUrl(q.flag)} alt="" onError={() => setImgOk(false)} style={{ width: 210, height: 140, objectFit: "cover", display: "block" }} />
+            : <div style={{ width: 210, height: 140, display: "grid", placeItems: "center", fontSize: 64 }}>
+              {q.sub
+                ? "🏴"
+                : String.fromCodePoint(...q.flag.slice(0, 2).toUpperCase().split("").map(c => 127397 + c.charCodeAt(0)))}
+            </div>}
+        </div>
+      </div>
+
+      {/* opções */}
+      <div style={{ display: "grid", gap: 9 }}>
+        {q.options.map(o => {
+          const gone = removed.includes(o);
+          const isAns = picked && o === q.answer;
+          const isBad = picked === o && o !== q.answer;
+          return (
+            <button key={o} disabled={gone || !!picked} onClick={() => answer(o)} className="chunky"
+              style={{
+                padding: "16px 14px", fontSize: 18, textAlign: "left",
+                background: gone ? "#7C86A8" : isAns ? "#00B894" : isBad ? "#E74C3C" : "#fff",
+                color: gone ? "rgba(255,255,255,.35)" : (isAns || isBad) ? "#fff" : "#1B2A6B",
+                textDecoration: gone ? "line-through" : "none",
+                opacity: gone ? .5 : 1,
+              }}>
+              {isAns ? "✅ " : isBad ? "❌ " : ""}{o}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* dicas */}
+      <div style={{ marginTop: 14 }}>
+        <div style={{ color: "#C9D2FF", fontWeight: 800, fontSize: 12, marginBottom: 6 }}>💡 {t.hints}</div>
+        <div style={{ display: "flex", gap: 7 }}>
+          {[[1, ECON.hint1, t.remove1], [2, ECON.hint2, t.remove2], [3, ECON.hint3, t.remove3]].map(([n, c, label]) => (
+            <button key={n} onClick={() => useHint(n)} disabled={coins < c || hintLevel >= n || !!picked} className="chunky"
+              style={{ flex: 1, padding: "10px 4px", fontSize: 11, lineHeight: 1.3, background: hintLevel >= n ? "#7C86A8" : coins < c ? "#8B93AD" : "#6A5AE0" }}>
+              {label}<br />🪙{c}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {picked && (
+        <div className="pop" style={{ textAlign: "center", marginTop: 12, color: "#fff" }}>
+          <span className="display" style={{ fontSize: 22 }}>
+            {picked === q.answer ? `🎉 ${t.correct}` : picked === "__timeout__" ? `⏰ ${t.timeUp}` : `💪 ${t.wrong}`}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------- Resultado ---------- */
+function Result({ t, round, player, setScreen, setSel, sel, startRound, coins }) {
+  const perfect = round.pct === 100;
+  return (
+    <div style={{ paddingTop: 20 }}>
+      <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
+        <div style={{ fontSize: 54 }}>{perfect ? "🏆" : round.pct >= 70 ? "🎉" : "💪"}</div>
+        <div className="display" style={{ fontSize: 28, color: "#1B2A6B" }}>{perfect ? t.perfect : t.roundOver}</div>
+
+        <div style={{ display: "flex", justifyContent: "center", gap: 18, margin: "16px 0" }}>
+          <div><div style={{ fontSize: 12, color: "#6C7695", fontWeight: 800 }}>{t.accuracy}</div>
+            <div className="display" style={{ fontSize: 26, color: "#00B894" }}>{round.right}/{round.qs.length}</div></div>
+          <div><div style={{ fontSize: 12, color: "#6C7695", fontWeight: 800 }}>{t.score}</div>
+            <div className="display" style={{ fontSize: 26, color: "#4C6FFF" }}>{round.score}</div></div>
+          <div><div style={{ fontSize: 12, color: "#6C7695", fontWeight: 800 }}>{t.reward}</div>
+            <div className="display" style={{ fontSize: 26, color: "#F9A826" }}>🪙{round.reward}</div></div>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 16 }}>
+          {[1, 2, 3].map(s => <span key={s} style={{ fontSize: 30, opacity: round.pct >= s * 30 + 10 ? 1 : .22 }}>⭐</span>)}
+        </div>
+
+        <div style={{ display: "grid", gap: 9 }}>
+          {round.pct >= 70 && round.stage < TOTAL_STAGES && (
+            <Btn full color="#00B894" disabled={coins < ECON.roundCost}
+              onClick={() => { setSel(s => ({ ...s, stage: round.stage + 1 })); setScreen("stages"); }}>
+              {t.nextStage} →
+            </Btn>
+          )}
+          <Btn full color="#4C6FFF" onClick={() => setScreen("stages")}>{t.again}</Btn>
+          <Btn full color="#8B93AD" onClick={() => setScreen("map")}>{t.backMap}</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Loja ----------
+   Cada vitrine é o avatar do jogador com a peça já vestida:
+   o que aparece no cartão é literalmente o que ele leva. */
+function Shop({ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, setScreen }) {
+  const [cat, setCat] = useState("hairStyle");
+  const a = player.avatar;
+  const optional = ["cap", "glasses", "shirtPattern"]; // dá para não usar nada
+
+  const wear = (type, val) => setPlayer(p => ({ ...p, avatar: { ...p.avatar, [type]: val } }));
+  const act = it => {
+    if (owned.includes(it.id)) { wear(it.type, it.val); return; }
+    if (coins < it.price) return;
+    setCoins(c => c - it.price);
+    setOwned(o => [...o, it.id]);
+    wear(it.type, it.val);
+  };
+
+  const items = SHOP_ITEMS.filter(i => i.type === cat);
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 24, flex: 1 }}>🛍️ {t.shop}</div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
+      </div>
+
+      <div className="card" style={{ padding: 14, marginBottom: 12, display: "grid", placeItems: "center" }}>
+        <Avatar a={a} size={130} />
+      </div>
+
+      <div style={{ display: "flex", gap: 5, marginBottom: 12 }}>
+        {SHOP_CATS.map(c => (
+          <button key={c} onClick={() => setCat(c)} className="chunky"
+            style={{ flex: 1, padding: "9px 2px", fontSize: 11, background: cat === c ? "#6A5AE0" : "rgba(255,255,255,.18)" }}>
+            {t.slots[c]}
+          </button>
+        ))}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 9 }}>
+        {optional.includes(cat) && (
+          <div className="card" style={{ padding: 8, textAlign: "center" }}>
+            <div style={{ height: 74, display: "grid", placeItems: "center", fontSize: 30, color: "#B9C0CC" }}>🚫</div>
+            <Btn small full color={a[cat] == null ? "#00B894" : "#8B93AD"} onClick={() => wear(cat, null)}>
+              {a[cat] == null ? t.equipped : t.remove}
+            </Btn>
+          </div>
+        )}
+        {items.map(it => {
+          const has = owned.includes(it.id);
+          const on = a[it.type] === it.val;
+          const preview = { ...a, [it.type]: it.val };
+          return (
+            <div key={it.id} className="card" style={{ padding: 8, textAlign: "center" }}>
+              <div style={{ height: 74, display: "grid", placeItems: "center", overflow: "hidden" }}>
+                <Avatar a={preview} size={74} />
+              </div>
+              <Btn small full color={on ? "#00B894" : has ? "#4C6FFF" : coins >= it.price ? "#E84393" : "#8B93AD"}
+                disabled={!has && coins < it.price} onClick={() => act(it)}>
+                {on ? t.equipped : has ? t.equip : `🪙${it.price}`}
+              </Btn>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+
+/* ---------- Conquistas ---------- */
+function Awards({ t, lang, stats, seenAch, setScreen, player }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 24 }}>🏅 {t.awards}</div>
+      </div>
+      <div className="card" style={{ padding: 14, marginBottom: 12, display: "flex", justifyContent: "space-around", textAlign: "center" }}>
+        {[["💯", stats.perfect], ["🔥", stats.bestStreak], ["🎯", stats.correct], ["🪙", stats.earned]].map(([i, v]) => (
+          <div key={i}><div style={{ fontSize: 22 }}>{i}</div><div className="display" style={{ fontSize: 19, color: "#1B2A6B" }}>{v}</div></div>
+        ))}
+      </div>
+      <div style={{ display: "grid", gap: 8 }}>
+        {ACHIEVEMENTS.map(a => {
+          const got = a.test(stats);
+          return (
+            <div key={a.id} className="card" style={{ padding: 12, display: "flex", alignItems: "center", gap: 12, opacity: got ? 1 : .5 }}>
+              <div style={{ fontSize: 28, filter: got ? "none" : "grayscale(1)" }}>{a.icon}</div>
+              <div style={{ flex: 1, fontWeight: 800, color: "#1B2A6B", fontSize: 14 }}>{a[lang]}</div>
+              <div style={{ fontSize: 20 }}>{got ? "✅" : "🔒"}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+
+const el = document.getElementById("carregando");
+if (el) el.remove();
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
