@@ -730,7 +730,7 @@ const ECON = {
   refillMs: 3 * 60 * 60 * 1000,
   cap: Infinity,                   // sem teto: o contador só anda quando se resgata
   hint1: 8, hint2: 20, hint3: 80,
-  reward: { 70: 15, 80: 30, 90: 45, 100: 65 },   // +5 extra se não usar dica
+  reward: { 1: 25, 2: 45, 3: 65 },  // por estrela, +5 extra se não usar dica
   memReward: { 1: 10, 2: 25, 3: 50 },
   colorReward: 5,
   colorDailyCap: 50,
@@ -1446,21 +1446,22 @@ function App() {
 
   function finishRound(r) {
     const pct = Math.round((r.right / r.qs.length) * 100);
-    let reward = 0;
-    if (pct >= 100) reward = ECON.reward[100];
-    else if (pct >= 90) reward = ECON.reward[90];
-    else if (pct >= 80) reward = ECON.reward[80];
-    else if (pct >= 70) reward = ECON.reward[70];
-    if (r.hintsUsed === 0 && pct >= 70) reward += 5;
+    // As estrelas contam ERROS, não porcentagem: numa rodada de 5 perguntas
+    // a régua de porcentagem pula de 80% para 100% e as 2 estrelas somem.
+    const erros = r.qs.length - r.right;
+    const limite1 = r.qs.length >= 10 ? 3 : 2;   // erros ainda aceitos para 1 estrela
+    const st = erros === 0 ? 3 : erros === 1 ? 2 : erros <= limite1 ? 1 : 0;
+    let reward = ECON.reward[st] || 0;
+    if (r.hintsUsed === 0 && st > 0) reward += 5;
     setCoins(c => Math.min(ECON.cap, c + reward));
     const today = new Date().toISOString().slice(0, 10);
     const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
-    const clearedAll = pct >= 70 && r.stage === TOTAL_STAGES;
+    const clearedAll = st > 0 && r.stage === TOTAL_STAGES;
     setStats(s => ({
       ...s,
       rounds: s.rounds + 1,
       perfect: s.perfect + (pct === 100 ? 1 : 0),
-      streak: pct >= 70 ? s.streak + 1 : 0,
+      streak: st > 0 ? s.streak + 1 : 0,
       bestStreak: Math.max(s.bestStreak, r.bestStreak || s.streak),
       earned: s.earned + reward,
       correct: s.correct + (quizDe(r.cont) ? 0 : r.right),
@@ -1468,11 +1469,11 @@ function App() {
       engRight: (s.engRight || 0) + (alvoDe(r.cont) ? r.right : 0),
       bibRight: (s.bibRight || 0) + (r.cont === "bible" ? r.right : 0),
       capRight: (s.capRight || 0) + (r.cont.startsWith("cap_") ? r.right : 0),
-      capBrDone: r.cont === "cap_br" && pct >= 70 ? Math.max(s.capBrDone || 0, r.stage) : (s.capBrDone || 0),
+      capBrDone: r.cont === "cap_br" && st > 0 ? Math.max(s.capBrDone || 0, r.stage) : (s.capBrDone || 0),
       mathRight: (s.mathRight || 0) + (r.cont === "math" ? r.right : 0),
-      mathStage: r.cont === "math" && pct >= 70 ? Math.max(s.mathStage || 0, r.stage) : (s.mathStage || 0),
+      mathStage: r.cont === "math" && st > 0 ? Math.max(s.mathStage || 0, r.stage) : (s.mathStage || 0),
       noHintRounds: s.noHintRounds + (r.hintsUsed === 0 ? 1 : 0),
-      geniusCleared: s.geniusCleared + (r.diff === "genius" && pct >= 70 ? 1 : 0),
+      geniusCleared: s.geniusCleared + (r.diff === "genius" && st > 0 ? 1 : 0),
       flash: s.flash + r.flash,
       islandRight: s.islandRight + r.islandRight,
       subRight: s.subRight + r.subRight,
@@ -1483,8 +1484,6 @@ function App() {
       dayStreak: s.lastDay === today ? s.dayStreak : s.lastDay === yest ? s.dayStreak + 1 : 1,
       lastDay: today,
     }));
-    // 1 estrela a partir de 70%, 2 a partir de 90%, 3 só com 100%
-    const st = pct >= 100 ? 3 : pct >= 90 ? 2 : pct >= 70 ? 1 : 0;
     const seg = Math.round((Date.now() - (r.t0 || Date.now())) / 1000);
     if (st > 0) {
       setProgress(p => ({ ...p, [r.cont]: Math.max(p[r.cont] || 0, r.stage) }));
@@ -3986,7 +3985,7 @@ function Result({ t, round, player, setScreen, setSel, sel, startRound, coins })
   return (
     <div style={{ paddingTop: 20 }}>
       <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
-        <div style={{ fontSize: 54 }}>{perfect ? "🏆" : round.pct >= 70 ? "🎉" : "💪"}</div>
+        <div style={{ fontSize: 54 }}>{perfect ? "🏆" : round.st > 0 ? "🎉" : "💪"}</div>
         <div className="display" style={{ fontSize: 28, color: "#1B2A6B" }}>{perfect ? t.perfect : t.roundOver}</div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 18, margin: "16px 0" }}>
@@ -4006,7 +4005,7 @@ function Result({ t, round, player, setScreen, setSel, sel, startRound, coins })
         </div>
 
         <div style={{ display: "grid", gap: 9 }}>
-          {round.pct >= 70 && round.stage < TOTAL_STAGES && (
+          {round.st > 0 && round.stage < TOTAL_STAGES && (
             <Btn full color="#00B894" disabled={coins < ECON.roundCost}
               onClick={() => { setSel(s => ({ ...s, stage: round.stage + 1 })); setScreen("stages"); }}>
               {t.nextStage} →
