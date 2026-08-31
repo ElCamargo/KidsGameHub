@@ -117,7 +117,7 @@ const T = {
     claimTitle: "Suas moedas chegaram!",
     needPrev: "Abra o jogo anterior",
     players: "Quem vai jogar?", newPlayer: "Novo jogador", switchPlayer: "Trocar jogador",
-    language: "Idioma", download: "Baixar", downloading: "Baixando...", installed: "Instalado",
+    language: "Idioma", use: "Usar",
     deleteAsk: "Apagar este jogador e todo o progresso dele?", cancel: "Cancelar", del: "Apagar",
     parents: "Área dos pais",
     parentsInfo: "Sem anúncios. Sem links externos. Sem coleta de dados. Funciona offline.",
@@ -189,7 +189,7 @@ const T = {
     claimTitle: "Your coins have arrived!",
     needPrev: "Unlock the previous game",
     players: "Who's playing?", newPlayer: "New player", switchPlayer: "Switch player",
-    language: "Language", download: "Download", downloading: "Downloading...", installed: "Installed",
+    language: "Language", use: "Use",
     deleteAsk: "Delete this player and all their progress?", cancel: "Cancel", del: "Delete",
     parents: "Parents", parentsInfo: "No ads. No external links. No data collection. Works offline.",
   },
@@ -260,7 +260,7 @@ const T = {
     claimTitle: "¡Llegaron tus monedas!",
     needPrev: "Abre el juego anterior",
     players: "¿Quién juega?", newPlayer: "Nuevo jugador", switchPlayer: "Cambiar jugador",
-    language: "Idioma", download: "Descargar", downloading: "Descargando...", installed: "Instalado",
+    language: "Idioma", use: "Usar",
     deleteAsk: "¿Borrar este jugador y todo su progreso?", cancel: "Cancelar", del: "Borrar",
     parents: "Padres", parentsInfo: "Sin anuncios. Sin enlaces externos. Sin datos. Funciona sin internet.",
   },
@@ -339,7 +339,7 @@ const PACKS = {
     claimTitle: "Tes pièces sont arrivées !",
     needPrev: "Débloque le jeu précédent",
     players: "Qui joue ?", newPlayer: "Nouveau joueur", switchPlayer: "Changer de joueur",
-    language: "Langue", download: "Télécharger", downloading: "Téléchargement...", installed: "Installé",
+    language: "Langue", use: "Utiliser",
     deleteAsk: "Supprimer ce joueur et toute sa progression ?", cancel: "Annuler", del: "Supprimer",
     parents: "Espace parents", parentsInfo: "Sans pub. Sans liens externes. Sans collecte de données. Fonctionne hors ligne.",
   },
@@ -403,7 +403,7 @@ const PACKS = {
     claimTitle: "Deine Münzen sind da!",
     needPrev: "Vorheriges Spiel freischalten",
     players: "Wer spielt?", newPlayer: "Neuer Spieler", switchPlayer: "Spieler wechseln",
-    language: "Sprache", download: "Herunterladen", downloading: "Wird geladen...", installed: "Installiert",
+    language: "Sprache", use: "Verwenden",
     deleteAsk: "Diesen Spieler und den ganzen Fortschritt löschen?", cancel: "Abbrechen", del: "Löschen",
     parents: "Elternbereich", parentsInfo: "Keine Werbung. Keine externen Links. Keine Datensammlung. Offline nutzbar.",
   },
@@ -467,7 +467,7 @@ const PACKS = {
     claimTitle: "Le tue monete sono arrivate!",
     needPrev: "Sblocca il gioco precedente",
     players: "Chi gioca?", newPlayer: "Nuovo giocatore", switchPlayer: "Cambia giocatore",
-    language: "Lingua", download: "Scarica", downloading: "Scaricamento...", installed: "Installato",
+    language: "Lingua", use: "Usa",
     deleteAsk: "Eliminare questo giocatore e tutti i suoi progressi?", cancel: "Annulla", del: "Elimina",
     parents: "Area genitori", parentsInfo: "Niente pubblicità. Niente link esterni. Nessun dato raccolto. Funziona offline.",
   },
@@ -3345,8 +3345,6 @@ function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, resetPr
 
 /* ---------- Idiomas ---------- */
 function LangScreen({ t, lang, pickLang, setScreen, back }) {
-  const [busy, setBusy] = useState(null);
-  const [ready, setReady] = useState(() => Object.keys(T));
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
@@ -3355,27 +3353,16 @@ function LangScreen({ t, lang, pickLang, setScreen, back }) {
       </div>
       <div style={{ display: "grid", gap: 8 }}>
         {Object.entries(LANG_CATALOG).map(([code, label]) => {
-          const has = ready.includes(code);
           const on = lang === code;
           return (
             <div key={code} className="card" style={{ padding: 12, display: "flex", alignItems: "center", gap: 10 }}>
               <div className="display" style={{ flex: 1, color: "#1B2A6B", fontSize: 17 }}>{label}</div>
-              <Btn small color={on ? "#00B894" : has ? "#4C6FFF" : "#6A5AE0"}
-                disabled={busy === code}
-                onClick={async () => {
-                  setBusy(code);
-                  const ok = await pickLang(code);
-                  if (ok) setReady(Object.keys(T));
-                  setBusy(null);
-                }}>
-                {busy === code ? t.downloading : on ? "✓" : has ? t.installed : `⬇ ${t.download}`}
+              <Btn small color={on ? "#00B894" : "#4C6FFF"} onClick={() => pickLang(code)}>
+                {on ? "✓" : t.use}
               </Btn>
             </div>
           );
         })}
-      </div>
-      <div style={{ color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, textAlign: "center" }}>
-        ~3 KB
       </div>
     </div>
   );
