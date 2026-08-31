@@ -1859,7 +1859,7 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{icone} {titulo}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
-      <div style={{ display: "grid", gap: 10 }}>
+      <div className="lista">
         {DIFFS.map((d, di) => {
           const cfg = MEM_LEVELS[d];
           const b = memBest[`${tema}:${d}`];
@@ -3494,7 +3494,7 @@ function CapMap({ t, lang, progress, coins, setSel, setScreen, temSecao, comprar
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
 
-      <div style={{ display: "grid", gap: 9 }}>
+      <div className="lista">
         {CAP_REGIOES.map((r, i) => {
           const feitas = progress[r.id] || 0;
           const preco = CAP_PRECO[r.id];
@@ -3539,7 +3539,7 @@ function LangGame({ t, lang, escolher, setScreen }) {
         <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🔤 {t.whichLang}</div>
       </div>
-      <div style={{ display: "grid", gap: 9 }}>
+      <div className="lista">
         {opcoes.map(c => (
           <button key={c} onClick={() => escolher(c)} className="card"
             style={{ border: "none", padding: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 12 }}>
@@ -3721,7 +3721,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
     return !ant || bandaAberta(ant);
   };
   return (
-    <div>
+    <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
         <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(sel.cont.startsWith("cap_") ? "capMap" : quiz ? "home" : "map")}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{quiz
@@ -4109,12 +4109,12 @@ function Awards({ t, lang, stats, seenAch, setScreen, player, voltaPara = "home"
         <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltaPara)}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 24 }}>🏅 {t.awards}</div>
       </div>
-      <div className="card" style={{ padding: 14, marginBottom: 12, display: "flex", justifyContent: "space-around", textAlign: "center" }}>
+      <div className="card" style={{ padding: 14, marginBottom: 12, maxWidth: 520, marginLeft: "auto", marginRight: "auto", display: "flex", justifyContent: "space-around", textAlign: "center" }}>
         {[["💯", stats.perfect], ["🔥", stats.bestStreak], ["🎯", stats.correct], ["🪙", stats.earned]].map(([i, v]) => (
           <div key={i}><div style={{ fontSize: 22 }}>{i}</div><div className="display" style={{ fontSize: 19, color: "#1B2A6B" }}>{v}</div></div>
         ))}
       </div>
-      <div style={{ display: "grid", gap: 8 }}>
+      <div className="lista">
         {ACHIEVEMENTS.map(a => {
           const got = a.test(stats);
           return (
