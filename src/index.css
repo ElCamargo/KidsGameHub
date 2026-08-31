@@ -1,0 +1,29 @@
+/* KidsGameHub — ElCamargo Soluções em TI LTDA
+   Fontes empacotadas no app: nada é buscado no Google Fonts. */
+@import "@fontsource/baloo-2/400.css";
+@import "@fontsource/baloo-2/600.css";
+@import "@fontsource/baloo-2/800.css";
+@import "@fontsource/nunito/400.css";
+@import "@fontsource/nunito/600.css";
+@import "@fontsource/nunito/800.css";
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+  background: #1B2A6B;
+}
+
+body {
+  /* Impede o zoom por duplo toque e a seleção acidental de texto:
+     dedo de criança de 5 anos toca em tudo. */
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior-y: auto;
+}
+
+input { -webkit-user-select: text; user-select: text; }
+
+button:focus-visible { outline: 4px solid #F9A826; outline-offset: 2px; }

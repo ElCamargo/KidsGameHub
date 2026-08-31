@@ -1,0 +1,17 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+npm-debug.log*
+yarn-error.log*
+dev-dist/
+
+# gerado por scripts/prepare-flags.mjs
+public/flags/
+
+# config local de ferramentas
+.claude/

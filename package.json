@@ -1,0 +1,33 @@
+{
+  "name": "kidsgamehub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lumus — hub de jogos educativos para crianças. Sem anúncios, sem links externos, sem coleta de dados.",
+  "author": "ElCamargo Soluções em TI LTDA",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ElCamargo/KidsGameHub.git"
+  },
+  "type": "module",
+  "scripts": {
+    "prepare-flags": "node scripts/prepare-flags.mjs",
+    "predev": "npm run prepare-flags",
+    "dev": "vite --host",
+    "prebuild": "npm run prepare-flags",
+    "build": "vite build",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "@fontsource/baloo-2": "^5.1.0",
+    "@fontsource/nunito": "^5.1.0",
+    "flag-icons": "^7.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.7",
+    "vite-plugin-pwa": "^0.21.1"
+  }
+}
