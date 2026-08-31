@@ -661,8 +661,8 @@ const ECON = {
   hint1: 8, hint2: 20, hint3: 80,
   reward: { 1: 25, 2: 45, 3: 65 },  // por estrela, +5 extra se não usar dica
   memReward: { 1: 10, 2: 25, 3: 50 },
-  colorReward: 5,
-  colorDailyCap: 50,
+  colorReward: 10,                 // por desenho terminado
+  colorDailyCap: 200,              // 20 desenhos premiados por dia (20 × 10)
 };
 
 /* ---------- Loja de avatar ---------- */
@@ -1240,7 +1240,7 @@ function AppInterno() {
   function salvarDesenho(fills, completo) {
     const hoje = new Date().toISOString().slice(0, 10);
     const dia = colorDay.dia === hoje ? colorDay : { dia: hoje, moedas: 0 };
-    // 5 moedas por desenho, no máximo 50 por dia — mas pintar continua livre.
+    // 10 moedas por desenho, até 20 desenhos por dia — mas pintar continua livre.
     const premio = (completo && dia.moedas < ECON.colorDailyCap) ? ECON.colorReward : 0;
     if (premio) {
       setCoins(c => Math.min(ECON.cap, c + premio));
@@ -1522,6 +1522,23 @@ function AppInterno() {
     @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
     .shake{animation:shake .32s}
     @media (prefers-reduced-motion: reduce){.mundi-bob,.pop,.crossing,.shake{animation:none!important}}
+
+    /* No celular tudo é uma coluna de 460 — é o formato certo para o polegar.
+       No desktop a mesma coluna vira uma folha larga e as listas ganham
+       colunas em vez de esticar cada card até virar uma faixa. */
+    .shell{max-width:460px;margin:0 auto;}
+    .grid2{display:grid;gap:10px;grid-template-columns:1fr 1fr;}
+    .grid3{display:grid;gap:9px;grid-template-columns:1fr 1fr 1fr;}
+    .lista{display:grid;gap:10px;}
+    /* Telas de jogar seguem estreitas de propósito: bandeira, cartas e desenho
+       perto dos olhos, sem obrigar a criança a varrer 900px com a vista. */
+    .narrow{max-width:520px;margin:0 auto;}
+    @media (min-width:860px){
+      .shell{max-width:920px;}
+      .grid2{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));}
+      .grid3{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}
+      .lista{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));}
+    }
   `;
 
   if (!loaded) return <div style={{ padding: 40, textAlign: "center" }}>🌍</div>;
@@ -1529,7 +1546,7 @@ function AppInterno() {
   return (
     <div className="app" style={{ background: "linear-gradient(175deg,#1B2A6B 0%,#3C4FC4 45%,#6A5AE0 100%)", minHeight: "100vh", padding: "14px 12px 28px" }}>
       <style>{styles}</style>
-      <div style={{ maxWidth: 460, margin: "0 auto" }}>
+      <div className="shell">
 
         {toast && (
           <div className="pop" style={{ position: "fixed", top: 12, left: "50%", transform: "translateX(-50%)", zIndex: 60, background: "#fff", color: "#1B2A6B", padding: "12px 20px", borderRadius: 999, fontWeight: 800, boxShadow: "0 6px 20px rgba(0,0,0,.3)" }}>{toast}</div>
@@ -1654,7 +1671,7 @@ function Create({ t, lang, onLang, player, setPlayer, onDone }) {
     </div>
   );
   return (
-    <div>
+    <div className="narrow">
       <div style={{ textAlign: "center", marginBottom: 10 }}>
         <div className="display" style={{ color: "#fff", fontSize: 44, lineHeight: 1 }}>LUMUS</div>
         <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 14 }}>{t.tagline}</div>
@@ -1794,7 +1811,7 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
   }
 
   return (
-    <div>
+    <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
         <Btn small color="rgba(255,255,255,.2)" onClick={onQuit}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{t.levels[nivel]}</div>
@@ -3125,7 +3142,7 @@ function Coloring({ t, art, fillsIniciais, onSalvar, onSair, ganhouHoje }) {
   const completo = pintadas >= total;
 
   return (
-    <div>
+    <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
         <Btn small color="rgba(255,255,255,.2)" onClick={onSair}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{art.emoji} {pintadas}/{total}</div>
@@ -3189,7 +3206,7 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
   const trocarAba = a => { setAba(a); setPag(0); };
 
   return (
-    <div>
+    <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
         <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🎨 {t.games.color}</div>
@@ -3279,7 +3296,7 @@ function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, resetPr
         <div className="display" style={{ color: "#C9D2FF", fontSize: 18, marginTop: 6 }}>{t.players}</div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div className="grid2">
         {profiles.map(pr => (
           <div key={pr.id} style={{ position: "relative" }}>
             <button onClick={() => !editing && openProfile(pr)} className="card"
@@ -3346,7 +3363,7 @@ function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, resetPr
 /* ---------- Idiomas ---------- */
 function LangScreen({ t, lang, pickLang, setScreen, back }) {
   return (
-    <div>
+    <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
         <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(back)}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 24 }}>🌐 {t.language}</div>
@@ -3574,7 +3591,7 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
             <span style={{ fontSize: 20 }}>{c.icon}</span>
             <span className="display" style={{ color: "#C9D2FF", fontSize: 16 }}>{t.cat[c.id]}</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <div className="grid2">
             {c.games.map((g, gi) => {
               const aberto = !g.preco || jogosAbertos.includes(g.id);
               const anteriorOk = gi === 0 || jogosAbertos.includes(c.games[gi - 1].id);
@@ -3638,7 +3655,7 @@ function MapScreen({ t, lang, player, coins, nextRefill, unlocked, progress, unl
         </div>
       </div>
 
-      <div style={{ display: "grid", gap: 10 }}>
+      <div className="lista">
         {ROUTE.map((r, i) => {
           const open = unlocked.includes(r.id);
           const prev = i === 0 || unlocked.includes(ROUTE[i - 1].id);
@@ -3855,7 +3872,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
   const barColor = pct > 55 ? "#00B894" : pct > 25 ? "#F9A826" : "#E74C3C";
 
   return (
-    <div>
+    <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
         <button onClick={() => setSair(true)} aria-label={t.quit} className="chunky"
           style={{ background: "rgba(255,255,255,.18)", padding: "6px 11px", fontSize: 15 }}>✕</button>
@@ -3976,7 +3993,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
 function Result({ t, round, player, setScreen, setSel, sel, startRound, coins }) {
   const perfect = round.pct === 100;
   return (
-    <div style={{ paddingTop: 20 }}>
+    <div className="narrow" style={{ paddingTop: 20 }}>
       <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
         <div style={{ fontSize: 54 }}>{perfect ? "🏆" : round.st > 0 ? "🎉" : "💪"}</div>
         <div className="display" style={{ fontSize: 28, color: "#1B2A6B" }}>{perfect ? t.perfect : t.roundOver}</div>
@@ -4052,7 +4069,7 @@ function Shop({ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, se
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 9 }}>
+      <div className="grid3">
         {optional.includes(cat) && (
           <div className="card" style={{ padding: 8, textAlign: "center" }}>
             <div style={{ height: 74, display: "grid", placeItems: "center", fontSize: 30, color: "#B9C0CC" }}>🚫</div>
