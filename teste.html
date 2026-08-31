@@ -1703,7 +1703,7 @@ function Create({ t, lang, onLang, player, setPlayer, onDone }) {
 }
 
 /* ---------- Topo com moedas ---------- */
-function TopBar({ t, player, coins, nextRefill, right, onAvatar, podeResgatar, resgatar }) {
+function TopBar({ t, player, coins, nextRefill, right, onAvatar, onSwitch, quantos, podeResgatar, resgatar }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
       <button onClick={onAvatar} aria-label={t.profileTitle}
@@ -1715,7 +1715,19 @@ function TopBar({ t, player, coins, nextRefill, right, onAvatar, podeResgatar, r
         {nextRefill != null && !podeResgatar && <div style={{ color: "#B9C6FF", fontSize: 11, fontWeight: 700 }}>{t.nextCoins} {fmt(nextRefill)}</div>}
         {podeResgatar && <div style={{ color: "#9BF3D6", fontSize: 11, fontWeight: 800 }}>🎁 {t.claimReady}</div>}
       </div>
-      <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "8px 14px", fontWeight: 900, fontSize: 17 }}><Coin n={coins} /></div>
+      {onSwitch && (
+        <button onClick={onSwitch} aria-label={t.switchPlayer} className="chunky"
+          style={{ background: "rgba(255,255,255,.18)", padding: "9px 11px", fontSize: 16, position: "relative" }}>
+          👥
+          {quantos > 1 && (
+            <span style={{
+              position: "absolute", top: -5, right: -5, background: "#E84393", color: "#fff",
+              borderRadius: 999, fontSize: 10, fontWeight: 900, padding: "1px 5px",
+            }}>{quantos}</span>
+          )}
+        </button>
+      )}
+      <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "8px 12px", fontWeight: 900, fontSize: 16 }}><Coin n={coins} /></div>
       {podeResgatar && <Btn small color="#00B894" onClick={resgatar}>🎁</Btn>}
       {right}
     </div>
@@ -3549,7 +3561,8 @@ function LangGame({ t, lang, escolher, setScreen }) {
 function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo }) {
   return (
     <div>
-      <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill} onAvatar={() => setScreen("player")}
+      <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill}
+        onAvatar={() => setScreen("player")} onSwitch={() => setScreen("profiles")} quantos={profiles?.length || 1}
         podeResgatar={podeResgatar} resgatar={resgatar} />
 
       {podeResgatar && (
@@ -3615,9 +3628,6 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
         <Btn full color="#00C2CB" onClick={() => abrir("awards", "home")}>🏅 {t.awards}</Btn>
       </div>
       <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
-        <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("profiles")}>
-          👥 {t.switchPlayer}{profiles?.length > 1 ? ` (${profiles.length})` : ""}
-        </Btn>
         <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("lang")}>🌐 {t.language}</Btn>
       </div>
       <div style={{ textAlign: "center", color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, lineHeight: 1.6 }}>
