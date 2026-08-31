@@ -672,6 +672,21 @@ const JOGOS_GRATIS = CATALOG.flatMap(c => c.games.filter(g => !g.preco).map(g =>
    então sempre há algo novo para fazer em outro canto do hub. */
 const PRECO_GERAR = 100;   // 9 desenhos novos no jogo de pintar
 
+/* Dentro de cada jogo a progressão também se compra, como os continentes
+   das bandeiras: o primeiro trecho é livre e os seguintes vão custando mais. */
+/* Cada trilha compra os próprios níveis: abrir o Gênio da Europa não abre o
+   da Ásia. Os preços saem do que a própria trilha rende — zerar o nível
+   anterior com 100% quase paga o seguinte, e a folga vai diminuindo:
+     Fácil   5 fases × 55 líquidos = 275  →  Médio  custa 200 (sobra)
+     Médio   4 fases × 55          = 220  →  Difícil custa 250 (falta pouco)
+     Difícil 3 fases × 55          = 165  →  Gênio  custa 300 (exige repetir)   */
+const BAND_PRECO = { easy: 0, medium: 200, hard: 250, genius: 300 };
+const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200 };   // ~3 a 5 rodadas boas cada
+const CAP_PRECO  = {                                                    // regiões das capitais
+  cap_br: 0, cap_sa: 100, cap_na: 150, cap_eu: 250,
+  cap_af: 350, cap_as: 450, cap_oc: 550, cap_us: 700,
+};
+
 /* Países-ilha, para a conquista "Caçador de ilhas" */
 const ISLANDS = new Set(["CU","JM","HT","DO","BS","TT","AG","BB","DM","GD","KN","LC","VC","PR",
   "IE","IS","MT","CY","GB","MG","CV","MU","SC","KM","ST","JP","ID","PH","LK","MV","BN","TL","BH","SG",
@@ -715,7 +730,7 @@ const ECON = {
   refillMs: 3 * 60 * 60 * 1000,
   cap: Infinity,                   // sem teto: o contador só anda quando se resgata
   hint1: 8, hint2: 20, hint3: 80,
-  reward: { 70: 10, 80: 20, 90: 35, 100: 60 },
+  reward: { 70: 15, 80: 30, 90: 45, 100: 65 },   // +5 extra se não usar dica
   memReward: { 1: 10, 2: 25, 3: 50 },
   colorReward: 5,
   colorDailyCap: 50,
@@ -1058,6 +1073,7 @@ function App() {
   const [memTema, setMemTema] = useState("flags");
   const [gerados, setGerados] = useState([]);
   const [jogosAbertos, setJogosAbertos] = useState(JOGOS_GRATIS);
+  const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
   const [destinoIdioma, setDestinoIdioma] = useState("quiz"); // quiz ou memória
 
   const t = T[lang];
@@ -1071,7 +1087,7 @@ function App() {
 
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
-    stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS,
+    stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
@@ -1090,6 +1106,7 @@ function App() {
     setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(d.memBest || {});
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
     setGerados(d.gerados || []); setJogosAbertos([...new Set([...JOGOS_GRATIS, ...(d.jogosAbertos || [])])]);
+    setSecoes(d.secoes || []);
   }
 
   useEffect(() => {
@@ -1206,6 +1223,15 @@ function App() {
   }
 
   /* Abre o próximo jogo da área, se o anterior dela já estiver aberto */
+  const temSecao = k => secoes.includes(k);
+  function comprarSecao(k, preco) {
+    if (temSecao(k) || !preco) return;
+    if (coins < preco) { setToast(t.notEnough); return; }
+    setCoins(c => c - preco);
+    setSecoes(x => [...x, k]);
+    setToast("🔓");
+  }
+
   function abrirJogo(id) {
     const area = CATALOG.find(c => c.games.some(g => g.id === id));
     if (!area) return;
@@ -1318,7 +1344,7 @@ function App() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos };
+    const d = { coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1328,7 +1354,7 @@ function App() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos]);
+  }, [loaded, activeId, screen, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes]);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -1550,7 +1576,7 @@ function App() {
         {screen === "color" && pintando && <Coloring {...{ t, art: pintando.art, fillsIniciais: pintando.fills,
           onSalvar: salvarDesenho, onSair: () => { setPintando(null); setScreen("gallery"); },
           ganhouHoje: colorDay.dia === new Date().toISOString().slice(0, 10) ? colorDay.moedas : 0 }} />}
-        {screen === "capMap" && <CapMap {...{ t, lang, progress, coins, setSel, setScreen }} />}
+        {screen === "capMap" && <CapMap {...{ t, lang, progress, coins, setSel, setScreen, temSecao, comprarSecao }} />}
         {screen === "langGame" && <LangGame {...{ t, lang, setScreen,
           escolher: alvo => {
             if (destinoIdioma === "mem") { setMemTema(`idiomas_${alvo}`); setScreen("memLevels"); return; }
@@ -1558,7 +1584,7 @@ function App() {
             setSel({ cont: k, stage: Math.min(TOTAL_STAGES, (progress[k] || 0) + 1) });
             setScreen("stages");
           } }} />}
-        {screen === "memLevels" && <MemLevels {...{ t, coins, memBest, setScreen, comecar: comecarMemoria, tema: memTema,
+        {screen === "memLevels" && <MemLevels {...{ t, coins, memBest, setScreen, comecar: comecarMemoria, tema: memTema, temSecao, comprarSecao,
           titulo: alvoDe(memTema) ? `${t.games.wordMem} · ${LANG_CATALOG[alvoDe(memTema)]}`
             : { flags: t.games.memory, animals: t.games.animals, arts: t.games.artMem, bible: t.games.bibleMem }[memTema],
           icone: alvoDe(memTema) ? "🃏" : { flags: "🧠", animals: "🐾", arts: "🧩", bible: "🕊️" }[memTema] }} />}
@@ -1601,7 +1627,7 @@ function App() {
             setScreen("map"); if (!stats.rounds) setTutorial(true);
           } }} />}
         {screen === "map" && <MapScreen {...{ t, lang, player, coins, nextRefill, unlocked, progress, unlockContinent, setSel, setScreen, stats, tutorial, setTutorial }} />}
-        {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records }} />}
+        {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao }} />}
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen,
           onQuit: () => { setRound(null); setScreen("stages"); } }} />}
         {screen === "result" && round && <Result {...{ t, round, player, setScreen, setSel, sel, startRound, coins }} />}
@@ -1801,7 +1827,7 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
 }
 
 /* ---------- Escolha de nível da memória ---------- */
-function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titulo, icone }) {
+function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titulo, icone, temSecao, comprarSecao }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
@@ -1810,24 +1836,37 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
       <div style={{ display: "grid", gap: 10 }}>
-        {DIFFS.map(d => {
+        {DIFFS.map((d, di) => {
           const cfg = MEM_LEVELS[d];
           const b = memBest[`${tema}:${d}`];
+          const chave = `m:${tema}:${d}`;
+          const preco = MEM_PRECO[d];
+          const aberto = !preco || temSecao(chave);
+          const anteriorOk = di === 0 || !MEM_PRECO[DIFFS[di - 1]] || temSecao(`m:${tema}:${DIFFS[di - 1]}`);
           return (
-            <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ width: 52, height: 52, borderRadius: 16, background: BAND_COLOR[d], display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 13 }}>
-                {cfg.cols}×{cfg.rows}
+            <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12, opacity: aberto || anteriorOk ? 1 : .45 }}>
+              <div style={{ width: 52, height: 52, borderRadius: 16, background: aberto ? BAND_COLOR[d] : "#B9C0CC", display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 13 }}>
+                {aberto ? `${cfg.cols}×${cfg.rows}` : "🔒"}
               </div>
               <div style={{ flex: 1 }}>
                 <div className="display" style={{ color: "#1B2A6B", fontSize: 18 }}>{t.levels[d]}</div>
                 <div style={{ fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
-                  {[1, 2, 3].map(i => <span key={i} style={{ opacity: (b?.stars || 0) >= i ? 1 : .25 }}>★</span>)}
-                  {b?.time != null && ` · ⏱️ ${tempoFmt(b.time)}`}
+                  {aberto ? (
+                    <>
+                      {[1, 2, 3].map(i2 => <span key={i2} style={{ opacity: (b?.stars || 0) >= i2 ? 1 : .25 }}>★</span>)}
+                      {b?.time != null && ` · ⏱️ ${tempoFmt(b.time)}`}
+                    </>
+                  ) : anteriorOk ? `${t.unlockFor} 🪙${preco}` : t.needPrev}
                 </div>
               </div>
-              <Btn small color={BAND_COLOR[d]} disabled={coins < ECON.roundCost} onClick={() => comecar(d)}>
-                🪙{ECON.roundCost}
-              </Btn>
+              {aberto ? (
+                <Btn small color={BAND_COLOR[d]} disabled={coins < ECON.roundCost} onClick={() => comecar(d)}>
+                  🪙{ECON.roundCost}
+                </Btn>
+              ) : anteriorOk ? (
+                <Btn small color={coins >= preco ? "#E84393" : "#8B93AD"} disabled={coins < preco}
+                  onClick={() => comprarSecao(chave, preco)}>🔓 🪙{preco}</Btn>
+              ) : null}
             </div>
           );
         })}
@@ -3431,7 +3470,7 @@ function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch
 }
 
 /* ---------- Mapa das capitais ---------- */
-function CapMap({ t, lang, progress, coins, setSel, setScreen }) {
+function CapMap({ t, lang, progress, coins, setSel, setScreen, temSecao, comprarSecao }) {
   const nomeRegiao = r =>
     r.id === "cap_br" ? t.capBrasil
     : r.id === "cap_us" ? t.capEUA
@@ -3447,25 +3486,30 @@ function CapMap({ t, lang, progress, coins, setSel, setScreen }) {
       <div style={{ display: "grid", gap: 9 }}>
         {CAP_REGIOES.map((r, i) => {
           const feitas = progress[r.id] || 0;
-          const anterior = i === 0 ? 99 : (progress[CAP_REGIOES[i - 1].id] || 0);
-          const aberto = i === 0 || anterior >= 10;
+          const preco = CAP_PRECO[r.id];
+          const chave = `r:${r.id}`;
+          const aberto = !preco || temSecao(chave);
+          const anteriorOk = i === 0 || !CAP_PRECO[CAP_REGIOES[i - 1].id] || temSecao(`r:${CAP_REGIOES[i - 1].id}`);
           return (
-            <div key={r.id} className="card" style={{ padding: 13, display: "flex", alignItems: "center", gap: 12, opacity: aberto ? 1 : .45 }}>
+            <div key={r.id} className="card" style={{ padding: 13, display: "flex", alignItems: "center", gap: 12, opacity: aberto || anteriorOk ? 1 : .45 }}>
               <div style={{ width: 48, height: 48, borderRadius: 16, background: aberto ? r.cor : "#B9C0CC", display: "grid", placeItems: "center", fontSize: 24 }}>
                 {aberto ? r.icone : "🔒"}
               </div>
               <div style={{ flex: 1 }}>
                 <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{nomeRegiao(r)}</div>
                 <div style={{ fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
-                  {aberto ? `⭐ ${feitas}/${TOTAL_STAGES}` : t.needTen}
+                  {aberto ? `⭐ ${feitas}/${TOTAL_STAGES}` : anteriorOk ? `${t.unlockFor} 🪙${preco}` : t.needPrev}
                 </div>
               </div>
-              {aberto && (
+              {aberto ? (
                 <Btn small color={r.cor}
                   onClick={() => { setSel({ cont: r.id, stage: Math.min(TOTAL_STAGES, feitas + 1) }); setScreen("stages"); }}>
                   {t.play}
                 </Btn>
-              )}
+              ) : anteriorOk ? (
+                <Btn small color={coins >= preco ? "#E84393" : "#8B93AD"} disabled={coins < preco}
+                  onClick={() => comprarSecao(chave, preco)}>🔓 🪙{preco}</Btn>
+              ) : null}
             </div>
           );
         })}
@@ -3655,11 +3699,18 @@ function Modal({ children, onClose }) {
 }
 
 /* ---------- Seleção de fases ---------- */
-function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records }) {
+function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao }) {
   const quiz = quizDe(sel.cont);             // jogos fora do mapa-múndi
   const cont = quiz ? { color: quiz.cor } : ROUTE.find(r => r.id === sel.cont);
   const done = progress[sel.cont] || 0;
   const band = bandFor(sel.stage);
+  const chaveBanda = b => `b:${sel.cont}:${b}`;
+  const bandaAberta = b => !BAND_PRECO[b] || temSecao(chaveBanda(b));
+  const bandaAnterior = b => DIFFS[DIFFS.indexOf(b) - 1];
+  const podeComprar = b => {
+    const ant = bandaAnterior(b);
+    return !ant || bandaAberta(ant);
+  };
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -3675,19 +3726,23 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
 
       {/* legenda das faixas de dificuldade */}
       <div style={{ display: "flex", gap: 6, marginBottom: 12 }}>
-        {DIFFS.map(d => (
-          <div key={d} style={{
-            flex: 1, textAlign: "center", borderRadius: 12, padding: "6px 2px",
-            background: BAND_COLOR[d], color: "#fff", fontWeight: 900, fontSize: 11,
-            opacity: band === d ? 1 : .45,
-          }}>{t.levels[d]}</div>
-        ))}
+        {DIFFS.map(d => {
+          const aberta = bandaAberta(d);
+          return (
+            <div key={d} style={{
+              flex: 1, textAlign: "center", borderRadius: 12, padding: "6px 2px",
+              background: aberta ? BAND_COLOR[d] : "#8B93AD", color: "#fff", fontWeight: 900, fontSize: 11,
+              opacity: !aberta ? .6 : band === d ? 1 : .45,
+            }}>{aberta ? t.levels[d] : `🔒 ${t.levels[d]}`}</div>
+          );
+        })}
       </div>
 
       <div className="card" style={{ padding: 14 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8 }}>
           {Array.from({ length: TOTAL_STAGES }, (_, i) => i + 1).map(n => {
-            const open = n <= done + 1;
+            const b0 = bandFor(n);
+            const open = n <= done + 1 && bandaAberta(b0);
             const cleared = n <= done;
             const b = bandFor(n);
             const st = stars?.[sel.cont]?.[n] || 0;
@@ -3712,6 +3767,23 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
         </div>
       </div>
 
+      {(() => {
+        const prox = DIFFS.find(d => !bandaAberta(d) && podeComprar(d));
+        if (!prox) return null;
+        const preco = BAND_PRECO[prox];
+        return (
+          <div className="card" style={{ padding: 13, marginTop: 12, display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 14, background: BAND_COLOR[prox], display: "grid", placeItems: "center", fontSize: 20 }}>🔓</div>
+            <div style={{ flex: 1 }}>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.levels[prox]}</div>
+              <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>{t.unlockFor} 🪙{preco}</div>
+            </div>
+            <Btn small color={coins >= preco ? BAND_COLOR[prox] : "#8B93AD"} disabled={coins < preco}
+              onClick={() => comprarSecao(chaveBanda(prox), preco)}>🪙{preco}</Btn>
+          </div>
+        );
+      })()}
+
       <div style={{ display: "flex", gap: 10, alignItems: "flex-end", margin: "14px 0" }}>
         <Mundi size={56} />
         <div className="card" style={{ padding: "10px 12px", flex: 1, borderBottomLeftRadius: 6, color: "#1B2A6B", fontWeight: 800, fontSize: 13 }}>
@@ -3724,7 +3796,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
           ⏱️ {t.record}: {tempoFmt(records[sel.cont][sel.stage])}
         </div>
       )}
-      <Btn full color={BAND_COLOR[band]} disabled={coins < ECON.roundCost} onClick={startRound}>
+      <Btn full color={BAND_COLOR[band]} disabled={coins < ECON.roundCost || !bandaAberta(band)} onClick={startRound}>
         ▶ {t.stage} {sel.stage} · {t.levels[band]} · {t.cost} 🪙{ECON.roundCost}
       </Btn>
     </div>
