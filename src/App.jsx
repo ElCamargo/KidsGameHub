@@ -529,10 +529,12 @@ const DATA = {
 };
 
 /* Nível Gênio: bandeiras subnacionais (estados / regiões).
-   ATENÇÃO: o flagcdn só serve subdivisões de alguns países (us-*, gb-*, es-* são
-   os confiáveis). Estados do Brasil, prefeituras do Japão, províncias do Canadá,
-   Länder alemães e QUALQUER bandeira de cidade exigem hospedar os SVGs no app.
-   Ver nota no final do arquivo. */
+   ATENÇÃO: o pacote flag-icons, de onde scripts/prepare-flags.mjs copia os SVGs,
+   só traz 7 subnacionais: gb-eng, gb-sct, gb-wls, gb-nir, es-ct, es-pv e es-ga.
+   Todos os us-* daqui, mais es-an, es-cn e es-ib, ficam sem arquivo e caem no
+   desenho de reserva do jogo. Para acender qualquer uma delas — inclusive
+   estados do Brasil, províncias do Canadá ou bandeiras de cidade — basta salvar
+   o SVG em public/flags/ com o mesmo código; nada é buscado na internet. */
 const SUBFLAGS = {
   eu: [
     { code: "gb-eng", pt: "Inglaterra", en: "England", es: "Inglaterra" },
