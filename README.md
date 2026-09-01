@@ -9,6 +9,7 @@ Uma criação da **ElCamargo Soluções em TI LTDA**.
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
+São **15 jogos em 6 áreas**.
 
 ### Jogos
 
@@ -17,15 +18,17 @@ Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e 
 | 🌍 Geografia | Bandeiras do Mundo | 176 bandeiras, 15 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras |
 | 🌍 Geografia | Capitais | 27 estados do BR → países por continente → estados dos EUA |
+| 🌍 Geografia | Curiosidades do Mundo | 235 lugares reais: em que país, cidade, mar ou continente |
 | 🔢 Matemática | Contas e Números | soma a decimais, até 5º ano |
 | 🦁 Natureza | Memória dos Animais | 50 animais |
 | 🦁 Natureza | Quiz dos Animais | classes, habitat, características |
+| 🦁 Natureza | Curiosidades dos Animais | 400 perguntas de 94 animais: grupo, dieta, casa, nascimento |
 | 🎨 Arte | Pintar e Colorir | 58 desenhos + gerador infinito |
 | 🎨 Arte | Cores e Formas | cor, forma e as duas juntas |
 | 🎨 Arte | Memória das Formas | 27 combinações |
 | 🔤 Idiomas | Palavras do Mundo | 45 palavras em 6 idiomas, escolhe qual aprender |
 | 🔤 Idiomas | Memória de Palavras | casa figura com a palavra no idioma escolhido |
-| ✝️ Fé e Bíblia | Quiz da Bíblia | 42 perguntas narrativas por idioma |
+| ✝️ Fé e Bíblia | Quiz da Bíblia | 2000+ perguntas por idioma, em 100 fases |
 | ✝️ Fé e Bíblia | Memória da Bíblia | símbolos bíblicos |
 
 O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe o país entre quatro opções.
@@ -34,9 +37,23 @@ O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe 
 - Modo Fácil sem cronômetro; depois o tempo aperta a cada fase, até 4 segundos
 - Moedas do hub: cada rodada custa, dicas custam, acertar rende
 - Mapa-múndi que se abre continente a continente, de carro, barco e avião
-- 25 conquistas, avatar personalizável e loja de itens
+- 63 conquistas em 10 categorias, valendo de 30 a 250 moedas cada
+- Avatar personalizável e loja de itens
 - Vários jogadores no mesmo aparelho, com progresso separado
-- 6 idiomas, com pacotes baixáveis de ~3 KB
+- 6 idiomas, todos embutidos no app
+
+### Escada de fases
+
+Cada trilha tem o número de fases que o banco de perguntas dela aguenta, mas
+todas sobem pelas mesmas quatro faixas, na mesma proporção e com a mesma
+pressão de relógio. É isso que mantém a experiência coesa entre os jogos.
+
+| Trilha | Fases |
+|---|---|
+| Bandeiras (por continente), Capitais (por região), Contas, Cores e Formas, Palavras, Quiz dos Animais | 15 |
+| Curiosidades dos Animais | 25 |
+| Curiosidades do Mundo | 30 |
+| Quiz da Bíblia | 100 |
 
 ## Rodando na sua máquina
 
@@ -82,6 +99,17 @@ src/
   main.jsx         ponto de entrada
   lib/storage.js   persistência sobre localStorage
   index.css        base
+  data/            bancos de perguntas (só dados, nenhuma lógica de jogo)
+    curiosidades.js      235 lugares do mundo
+    ciencias.js          94 animais e os moldes de pergunta
+    biblia.js            junta as tabelas e monta o banco
+    biblia-livros.js     os 66 livros: grupo, capítulos, autor
+    biblia-pessoas.js    201 personagens, parentescos e papéis
+    biblia-lugares.js    lugares, milagres e parábolas
+    biblia-fatos.js      versículos, falas, números e fatos avulsos
+scripts/
+  prepare-flags.mjs  copia só as bandeiras usadas
+  check-bancos.mjs   confere os bancos antes de todo build
 public/            ícones do app
 vite.config.js     build e configuração do PWA
 ```
@@ -98,6 +126,37 @@ O script avisa quais códigos não existem no pacote e quais SVGs passam de 60 K
 
 Nada é buscado em servidor externo em tempo de execução.
 
+### Sobre os bancos de perguntas
+
+Os três bancos maiores não são listas escritas à mão: são **tabelas de fatos**
+que moldes transformam em perguntas. `biblia-pessoas.js` guarda quem a pessoa
+foi, o que fez, em que livro está e que papel teve; daí saem quatro perguntas
+por personagem. `ciencias.js` guarda os fatos de cada animal; daí saem cinco.
+
+Isso foi escolhido por um motivo prático: uma tabela é **revisável**. Um pastor
+consegue ler os 66 livros e os 201 personagens e apontar o que está errado.
+Duas mil perguntas soltas ninguém revisa. E acrescentar um personagem
+acrescenta quatro perguntas de uma vez.
+
+A regra que vale mais que o total: **pergunta com duas respostas certas é
+pergunta errada**. Os moldes pulam nomes repetidos, livros com o mesmo número
+de capítulos e tudo que não tenha resposta única.
+
+`scripts/check-bancos.mjs` roda antes de todo `dev` e `build`. Ele conta o que
+os geradores realmente produzem, exige um mínimo e procura pergunta ambígua,
+alternativa repetida, resposta certa entre as erradas e referência a livro que
+não existe. Se um banco encolher por acidente, o build quebra em vez de sair
+calado para as crianças.
+
+```
+📖 Bíblia        pt 2013 · en 2029 · es 2023 perguntas
+🗺️  Curiosidades  235 lugares do mundo
+🔬 Ciências      400 perguntas de 94 animais
+```
+
+Os versículos vêm de traduções em domínio público (Almeida, KJV,
+Reina-Valera 1909) e são sempre curtos.
+
 ### Offline
 
 O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2 e Nunito, via `@fontsource`) estão empacotadas. O service worker precarrega tudo na instalação, então depois da primeira abertura o jogo roda em modo avião.
@@ -105,7 +164,7 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 ## Roadmap
 
 - [ ] Bandeiras dos 27 estados brasileiros (destrava Capitais e o nível Gênio da América do Sul)
-- [ ] Revisão pastoral do banco de perguntas bíblicas
+- [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
 - [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
 - [ ] Capitais com grafia própria em francês, alemão e italiano (hoje usa a forma canônica)
 - [ ] Quebrar `App.jsx` em componentes
