@@ -298,4 +298,8 @@ export const CURIOSIDADES = [
 
 /* Quais dificuldades cada faixa da escada usa. As faixas se sobrepõem de
    propósito: a criança revê o que já sabe enquanto encontra o que não sabe. */
-export const CURIOSIDADE_NIVEL = { easy: [1], medium: [1, 2], hard: [2, 3], genius: [3, 4] };
+export const CURIOSIDADE_NIVEL = {
+  easy: [1], medium: [1, 2], hard: [2, 3], genius: [3, 4],
+  // No topo só entram as que quase ninguém sabe de cabeça.
+  mestre: [4], lenda: [4],
+};

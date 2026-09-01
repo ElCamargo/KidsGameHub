@@ -335,7 +335,10 @@ export function todasPerguntasBiblia(lang) {
 
 /* As faixas se sobrepõem: a criança revê o que já sabe enquanto encontra o
    que não sabe. */
-const BIBLIA_NIVEL = { easy: [1, 2], medium: [2], hard: [2, 3], genius: [3, 4] };
+const BIBLIA_NIVEL = {
+  easy: [1, 2], medium: [2], hard: [2, 3], genius: [3, 4],
+  mestre: [4], lenda: [4],
+};
 
 export function bancoBiblia(lang, band) {
   const niveis = BIBLIA_NIVEL[band] || BIBLIA_NIVEL.easy;

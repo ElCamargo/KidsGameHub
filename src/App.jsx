@@ -692,7 +692,7 @@ const PRECO_GERAR = 100;   // 9 desenhos novos no jogo de pintar
      Fácil   5 fases × 55 líquidos = 275  →  Médio  custa 200 (sobra)
      Médio   4 fases × 55          = 220  →  Difícil custa 250 (falta pouco)
      Difícil 3 fases × 55          = 165  →  Gênio  custa 300 (exige repetir)   */
-const BAND_PRECO = { easy: 0, medium: 200, hard: 250, genius: 300 };
+const BAND_PRECO = { easy: 0, medium: 200, hard: 250, genius: 300, mestre: 400, lenda: 500 };
 const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200, mestre: 400, lenda: 700 };   // ~3 a 5 rodadas boas cada
 const CAP_PRECO  = {                                                    // regiões das capitais
   cap_br: 0, cap_sa: 100, cap_na: 150, cap_eu: 250,
@@ -721,24 +721,33 @@ const ROUTE = [
    banco pequeno e param em 15, a Bíblia tem milhares de perguntas e vai a 100.
    Assim a sensação é a mesma em todo o app — muda o tamanho da escada, não o
    jeito de subir. */
-const DIFFS = ["easy", "medium", "hard", "genius"];
+/* Seis faixas, as mesmas em todo jogo: quiz, memória, tudo. Mestre e Lenda
+   são o topo — sorteiam só do pool mais difícil de cada banco, o relógio
+   aperta mais e a rodada tem mais perguntas. */
+const DIFFS = ["easy", "medium", "hard", "genius", "mestre", "lenda"];
+
+/* Quantas perguntas por rodada. Rodada curta para os pequenos, longa para
+   quem já chegou no topo — é parte do que faz o Lenda ser Lenda. */
+const PERGUNTAS_RODADA = { easy: 5, medium: 5, hard: 10, genius: 10, mestre: 12, lenda: 15 };
+const qtdPerguntas = band => PERGUNTAS_RODADA[band] || 10;
 
 /* O relógio só entra no Médio e vai apertando dentro de cada faixa.
-   Em 15 fases: 25-23-20-18 · 16-14-12 · 11-10-8.
 
    Esses números são o dobro dos primeiros que escrevi. O jogo é para criança
    de 5 e 6 anos: ela ainda soletra, e um cronômetro de 4 segundos não mede o
    que ela sabe, mede se ela consegue ler a tempo. A pressa continua existindo
    — o Gênio ainda é bem mais apertado que o Médio —, só que agora sobra tempo
    para pensar entre ler e responder. */
-const FAIXA_TEMPO = { medium: [25, 18], hard: [16, 12], genius: [11, 8] };
+const FAIXA_TEMPO = { medium: [25, 18], hard: [16, 13], genius: [12, 10], mestre: [10, 8], lenda: [8, 6] };
 
 function montarEscada(total) {
-  const nE = Math.round(total * 0.34);
-  const nM = Math.round(total * 0.26);
-  const nH = Math.round(total * 0.20);
-  const nG = total - nE - nM - nH;
-  const porFaixa = { easy: nE, medium: nM, hard: nH, genius: nG };
+  const nE = Math.round(total * 0.24);
+  const nM = Math.round(total * 0.20);
+  const nH = Math.round(total * 0.17);
+  const nG = Math.round(total * 0.15);
+  const nX = Math.round(total * 0.13);
+  const porFaixa = { easy: nE, medium: nM, hard: nH, genius: nG, mestre: nX,
+    lenda: total - nE - nM - nH - nG - nX };
   const plan = DIFFS.flatMap(d => Array(porFaixa[d]).fill(d));
   const times = [];
   let i = 0;
@@ -880,7 +889,7 @@ const ACHIEVEMENTS = [
   { id: "cur1", cat: "geo", n: 1, icon: "🧭", pt: "Primeira curiosidade", en: "First fun fact", es: "Primera curiosidad", test: s => (s.curRight || 0) >= 1 },
   { id: "cur100", cat: "geo", n: 2, icon: "🗽", pt: "100 curiosidades certas", en: "100 fun facts right", es: "100 curiosidades correctas", test: s => (s.curRight || 0) >= 100 },
   { id: "cur500", cat: "geo", n: 3, icon: "🗿", pt: "500 curiosidades certas", en: "500 fun facts right", es: "500 curiosidades correctas", test: s => (s.curRight || 0) >= 500 },
-  { id: "curEnd", cat: "geo", n: 4, icon: "🌐", pt: "Curiosidades até o fim", en: "Fun facts to the end", es: "Curiosidades hasta el final", test: s => (s.curStage || 0) >= 30 },
+  { id: "curEnd", cat: "geo", n: 4, icon: "🌐", pt: "Curiosidades até o fim", en: "Fun facts to the end", es: "Curiosidades hasta el final", test: s => (s.curStage || 0) >= 60 },
 
   /* --- capitais --- */
   { id: "cap1", cat: "cap", n: 1, icon: "🏛️", pt: "Primeira capital certa", en: "First capital right", es: "Primera capital correcta", test: s => (s.capRight || 0) >= 1 },
@@ -894,13 +903,13 @@ const ACHIEVEMENTS = [
   { id: "sci1", cat: "nature", n: 1, icon: "🔬", pt: "Primeira ciência certa", en: "First science answer", es: "Primera respuesta de ciencias", test: s => (s.sciRight || 0) >= 1 },
   { id: "sci100", cat: "nature", n: 2, icon: "🐘", pt: "100 respostas de ciências", en: "100 science answers", es: "100 respuestas de ciencias", test: s => (s.sciRight || 0) >= 100 },
   { id: "sci500", cat: "nature", n: 3, icon: "🐋", pt: "500 respostas de ciências", en: "500 science answers", es: "500 respuestas de ciencias", test: s => (s.sciRight || 0) >= 500 },
-  { id: "sciEnd", cat: "nature", n: 4, icon: "🧬", pt: "Ciências até o fim", en: "Science to the end", es: "Ciencias hasta el final", test: s => (s.sciStage || 0) >= 25 },
+  { id: "sciEnd", cat: "nature", n: 4, icon: "🧬", pt: "Ciências até o fim", en: "Science to the end", es: "Ciencias hasta el final", test: s => (s.sciStage || 0) >= 60 },
 
   /* --- matemática --- */
   { id: "math1", cat: "math", n: 1, icon: "🧮", pt: "Primeira conta certa", en: "First sum right", es: "Primera cuenta correcta", test: s => (s.mathRight || 0) >= 1 },
   { id: "math100", cat: "math", n: 2, icon: "➕", pt: "100 contas certas", en: "100 sums right", es: "100 cuentas correctas", test: s => (s.mathRight || 0) >= 100 },
   { id: "math500", cat: "math", n: 3, icon: "✖️", pt: "500 contas certas", en: "500 sums right", es: "500 cuentas correctas", test: s => (s.mathRight || 0) >= 500 },
-  { id: "mathGenius", cat: "math", n: 3, icon: "🎓", pt: "Fase 15 de matemática", en: "Math stage 15", es: "Nivel 15 de matemáticas", test: s => (s.mathStage || 0) >= 15 },
+  { id: "mathGenius", cat: "math", n: 3, icon: "🎓", pt: "Fase 40 de matemática", en: "Math stage 40", es: "Nivel 40 de matemáticas", test: s => (s.mathStage || 0) >= 40 },
 
   /* --- arte --- */
   { id: "art1", cat: "art", n: 1, icon: "🖍️", pt: "Primeiro desenho pintado", en: "First drawing painted", es: "Primer dibujo pintado", test: s => (s.colorDone || 0) >= 1 },
@@ -1579,6 +1588,44 @@ function AppInterno() {
 
   useEffect(() => { if (toast) { const x = setTimeout(() => setToast(null), 2200); return () => clearTimeout(x); } }, [toast]);
 
+  /* ----- botão voltar do aparelho -----
+     Sem isto, o "voltar" do Android fecha o app no meio da partida: como o
+     jogo é uma tela só, o navegador não tem para onde voltar e sai.
+
+     Guardo o caminho que a criança percorreu e devolvo um passo por vez. A
+     casa é o chão: chegando na home, "voltar" não faz mais nada em vez de
+     fechar. E a cada volta reponho uma entrada no histórico, senão o toque
+     seguinte cai fora do app de novo. */
+  const trilha = useRef(["home"]);
+  const voltandoRef = useRef(false);
+
+  useEffect(() => {
+    if (screen === "boot") return;
+    if (voltandoRef.current) { voltandoRef.current = false; return; }
+    const t = trilha.current;
+    if (t[t.length - 1] !== screen) t.push(screen);
+    if (t.length > 50) t.shift();
+  }, [screen]);
+
+  useEffect(() => {
+    try { window.history.pushState({ lumus: true }, ""); } catch { }
+    const aoVoltar = () => {
+      try { window.history.pushState({ lumus: true }, ""); } catch { }
+      const t = trilha.current;
+      if (t.length > 1) {
+        t.pop();
+        voltandoRef.current = true;
+        setScreen(t[t.length - 1]);
+      } else {
+        // já está na primeira tela: fica onde está em vez de fechar
+        voltandoRef.current = true;
+        setScreen(t[0] || "home");
+      }
+    };
+    window.addEventListener("popstate", aoVoltar);
+    return () => window.removeEventListener("popstate", aoVoltar);
+  }, []);
+
   /* ----- conquistas -----
      Acendeu, paga. O prêmio vem do nível da conquista e entra uma vez só —
      seenAch é a garantia de que ninguém recebe duas vezes pela mesma. */
@@ -1609,7 +1656,9 @@ function AppInterno() {
     if (diff === "easy") pool = cut(0, .55);
     else if (diff === "medium") pool = cut(0, .8);
     else if (diff === "hard") pool = cut(.25, 1);
-    else pool = cut(.45, 1);
+    else if (diff === "genius") pool = cut(.45, 1);
+    else if (diff === "mestre") pool = cut(.6, 1);
+    else pool = cut(.7, 1);          // Lenda: só as mais raras do continente
     // continentes pequenos: usa o continente inteiro em vez de sair dele
     return pool.length >= 10 ? pool : ranked;
   }
@@ -1629,7 +1678,7 @@ function AppInterno() {
       else if (diff === "hard" && stage >= 12) subSlots.add(9);
     }
     // Rodadas curtas para os pequenos, longas para quem já pegou o jeito
-    const qCount = (diff === "easy" || diff === "medium") ? 5 : 10;
+    const qCount = qtdPerguntas(diff);
     const deck = shuffle(pool).slice(0, qCount); // bandeiras SEMPRE diferentes
     const qs = [];
     for (let i = 0; i < qCount; i++) {
@@ -2070,8 +2119,7 @@ const MEM_LEVELS = {
   // sem rolagem porque, com 5 colunas, cada carta fica mais estreita.
   lenda:  { cols: 5, rows: 8, pares: 20, estrelas: [420, 300, 210] },
 };
-/* As quatro faixas dos quizzes mais os dois níveis que só a memória tem. */
-const MEM_DIFFS = [...DIFFS, "mestre", "lenda"];
+/* A memória usa as mesmas seis faixas do resto do app. */
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
    vale — e mais pesa errar. Zero quando a fase já foi vencida com as três
@@ -2176,13 +2224,13 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
       <div className="lista">
-        {MEM_DIFFS.map((d, di) => {
+        {DIFFS.map((d, di) => {
           const cfg = MEM_LEVELS[d];
           const b = memBest[`${tema}:${d}`];
           const chave = `m:${tema}:${d}`;
           const preco = MEM_PRECO[d];
           const aberto = !preco || temSecao(chave);
-          const anteriorOk = di === 0 || !MEM_PRECO[MEM_DIFFS[di - 1]] || temSecao(`m:${tema}:${MEM_DIFFS[di - 1]}`);
+          const anteriorOk = di === 0 || !MEM_PRECO[DIFFS[di - 1]] || temSecao(`m:${tema}:${DIFFS[di - 1]}`);
           return (
             <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12, opacity: aberto || anteriorOk ? 1 : .45 }}>
               <div style={{ width: 52, height: 52, borderRadius: 16, background: aberto ? BAND_COLOR[d] : "#B9C0CC", display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 13 }}>
@@ -2278,7 +2326,7 @@ function opcoesConta(certa) {
 
 function montarRodadaMath(stage) {
   const band = bandFor("math", stage);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const qs = [];
   const vistas = new Set();
   let guarda = 0;
@@ -2350,11 +2398,15 @@ const PERGUNTAS_BICHO = {
   medium: [["ave", 0], ["mamifero", 0], ["inseto", 0], ["selva", 0]],
   hard:   [["reptil", 0], ["ovos", 0], ["peixe", 0], ["patas4", 0], ["gelo", 0]],
   genius: [["anfibio", 0], ["mamifero", 1], ["reptil", 1], ["inseto", 1], ["ave", 1]],
+  // Mestre e Lenda só perguntam pelo avesso: achar quem NÃO tem a etiqueta
+  // exige olhar os quatro bichos, não reconhecer um.
+  mestre: [["agua", 1], ["voa", 1], ["fazenda", 1], ["peixe", 1], ["selva", 1]],
+  lenda:  [["patas4", 1], ["ovos", 1], ["domestico", 1], ["gelo", 1], ["anfibio", 1]],
 };
 
 function montarRodadaBichos(stage, t) {
   const band = bandFor("bichos", stage);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const qs = [];
   const usadas = new Set();
   let guarda = 0;
@@ -2433,11 +2485,11 @@ const VOCAB = [
   { e: "🪞", n: 3, w: { pt: "espelho", en: "mirror", es: "espejo", fr: "miroir", de: "Spiegel", it: "specchio" } },
 ];
 
-const VOCAB_NIVEL = { easy: [1], medium: [1, 2], hard: [2, 3], genius: [3] };
+const VOCAB_NIVEL = { easy: [1], medium: [1, 2], hard: [2, 3], genius: [3], mestre: [3], lenda: [3] };
 
 function montarRodadaIdioma(stage, t, alvo) {
   const band = bandFor(`idiomas_${alvo}`, stage);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const pool = VOCAB.filter(v => VOCAB_NIVEL[band].includes(v.n));
   const escolhidos = shuffle(pool).slice(0, qCount);
   const qs = escolhidos.map(v => {
@@ -2468,7 +2520,7 @@ const todosEmojis = () => FORMAS_LISTA.flatMap(f => CORES_LISTA.map(c => ({ f, c
 
 function montarRodadaArte(stage, t) {
   const band = bandFor("arts", stage);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const todos = todosEmojis();
   const qs = [];
   let guarda = 0;
@@ -2524,7 +2576,7 @@ function universoCuriosidade(tipo) {
 
 function montarRodadaCuriosidades(stage, t, lang) {
   const band = bandFor("curiosidades", stage);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const pool = CURIOSIDADES.filter(c => CURIOSIDADE_NIVEL[band].includes(c.n));
   const escolhidas = shuffle(pool).slice(0, qCount);
   const qs = [];
@@ -2553,7 +2605,7 @@ const DICS_CIENCIA = { grupo: GRUPOS, dieta: DIETAS, casa: CASAS, nasce: NASCE }
 
 function montarRodadaCiencias(stage, t, lang) {
   const band = bandFor("ciencias", stage);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const pool = PERGUNTAS_CIENCIA.filter(x => CIENCIA_NIVEL[band].includes(x.n));
   const escolhidas = shuffle(pool).slice(0, qCount);
   const qs = [];
@@ -2739,7 +2791,7 @@ const BIBLIA = {
 function montarRodadaBiblia(stage, lang) {
   const band = bandFor("bible", stage);
   const banco = bancoBiblia(lang, band);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const escolhidas = shuffle(banco).slice(0, Math.min(qCount, banco.length));
   const qs = escolhidas.map(([pergunta, certa, erradas]) => ({
     kind: "texto", prompt: pergunta, answer: certa, options: shuffle([certa, ...erradas]),
@@ -2845,7 +2897,7 @@ function paresCapitais(regiao, lang) {
 
 function montarRodadaCapitais(stage, t, lang, cont) {
   const band = bandFor(cont, stage);
-  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const qCount = qtdPerguntas(band);
   const pares = paresCapitais(cont, lang).filter(([n, c]) => n && c);
   // As fases fáceis usam os primeiros da lista; as difíceis, o conjunto todo
   const fatia = band === "easy" ? Math.ceil(pares.length * 0.5)
@@ -4259,12 +4311,14 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
       </div>
 
       {/* legenda das faixas de dificuldade */}
-      <div style={{ display: "flex", gap: 6, marginBottom: 12 }}>
+      {/* Seis faixas não cabem numa fileira de celular: deixo quebrar, dá três
+          por linha em 375px e as seis numa só quando a tela é larga. */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
         {DIFFS.map(d => {
           const aberta = bandaAberta(d);
           return (
             <div key={d} style={{
-              flex: 1, textAlign: "center", borderRadius: 12, padding: "6px 2px",
+              flex: "1 1 28%", textAlign: "center", borderRadius: 12, padding: "6px 2px",
               background: aberta ? BAND_COLOR[d] : "#8B93AD", color: "#fff", fontWeight: 900, fontSize: 11,
               opacity: !aberta ? .6 : band === d ? 1 : .45,
             }}>{aberta ? t.levels[d] : `🔒 ${t.levels[d]}`}</div>
