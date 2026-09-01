@@ -17,6 +17,7 @@ import { LIVROS } from "../src/data/biblia-livros.js";
 import { PERSONAGENS, PARENTESCO, MAES } from "../src/data/biblia-pessoas.js";
 import { LUGARES, MILAGRES, PARABOLAS } from "../src/data/biblia-lugares.js";
 import { VERSICULOS, CITACOES, NUMEROS, FATOS } from "../src/data/biblia-fatos.js";
+import { conferirFaixas } from "./check-faixas.mjs";
 
 const MIN_BIBLIA = 2000;
 const MIN_CURIOSIDADES = 200;
@@ -83,6 +84,9 @@ for (const [band, niveis] of Object.entries(CURIOSIDADE_NIVEL)) {
 if (CURIOSIDADES.length < MIN_CURIOSIDADES)
   aviso(`curiosidades: ${CURIOSIDADES.length}, mínimo ${MIN_CURIOSIDADES}`);
 
+/* ---------- faixas de dificuldade ---------- */
+const faixas = conferirFaixas(aviso);
+
 /* ---------- Ciências ---------- */
 const ciencia = perguntasCiencia();
 for (const a of ANIMAIS) if (a.onde && !conts.has(a.onde)) aviso(`animal ${a.e}: continente desconhecido "${a.onde}"`);
@@ -95,6 +99,7 @@ console.log(`   fontes: ${LIVROS.length} livros · ${PERSONAGENS.length} pessoas
 console.log(`           ${VERSICULOS.length} versículos · ${CITACOES.length} falas · ${NUMEROS.length} números · ${FATOS.length} fatos · ${PARENTESCO.length + MAES.length} parentescos`);
 console.log(`🗺️  Curiosidades  ${CURIOSIDADES.length} lugares do mundo`);
 console.log(`🔬 Ciências      ${ciencia.length} perguntas de ${ANIMAIS.length} animais`);
+console.log(`🎚️  Faixas        ${faixas.join(" · ")}`);
 
 if (erros.length) {
   console.error(`\n✗ ${erros.length} problema(s):`);
