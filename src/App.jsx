@@ -675,6 +675,10 @@ const precoDe = g => g.preco || PRECO_PADRAO;
    ninguém fica sem ver o que ainda vai poder jogar. */
 const jogosGratisPara = leitor =>
   TODOS_JOGOS.filter(g => leitor ? !g.preco : !g.leitura).map(g => g.id);
+
+/* Se a pergunta da leitura ficou sem resposta, a idade responde por ela. */
+const ehLeitor = perfil =>
+  perfil?.leitor != null ? perfil.leitor : (perfil?.idade ?? 6) >= 5;
 const JOGOS_GRATIS = jogosGratisPara(true);
 
 
@@ -1227,7 +1231,7 @@ function AppInterno() {
      nasce aberto — ver jogosGratisPara. Perfis antigos não têm esses campos:
      tratamos como criança que já lê, que era o comportamento de antes. */
   const [player, setPlayer] = useState({
-    name: "", papel: "filho", idade: null, leitor: true,
+    name: "", papel: "filho", idade: null, leitor: null,
     avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
   });
   const [coins, setCoins] = useState(ECON.start);
@@ -1291,7 +1295,7 @@ function AppInterno() {
       name: perfil.name, avatar: perfil.avatar,
       papel: perfil.papel || "filho",
       idade: perfil.idade ?? null,
-      leitor: perfil.leitor !== false,
+      leitor: perfil.leitor ?? null,
     });
     // Cada jogador tem o seu idioma: um irmão pode jogar em inglês e o outro
     // em português no mesmo aparelho.
@@ -1304,7 +1308,7 @@ function AppInterno() {
     setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(d.memBest || {});
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
     setGerados(d.gerados || []);
-    setJogosAbertos([...new Set([...jogosGratisPara(perfil.leitor !== false), ...(d.jogosAbertos || [])])]);
+    setJogosAbertos([...new Set([...jogosGratisPara(ehLeitor(perfil)), ...(d.jogosAbertos || [])])]);
     setSecoes(d.secoes || []);
   }
 
@@ -1514,7 +1518,7 @@ function AppInterno() {
     const d = blankSave();
     setActiveId(`p${Date.now()}`);
     applySave(d, {
-      name: "", papel: "filho", idade: null, leitor: true,
+      name: "", papel: "filho", idade: null, leitor: null,
       avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
     });
     setScreen("create");
@@ -1868,7 +1872,7 @@ function AppInterno() {
           onDone: () => {
             // Só agora sabemos se a criança lê: refaz o conjunto que nasce
             // aberto, preservando o que já tenha sido comprado.
-            const gratis = jogosGratisPara(player.leitor !== false);
+            const gratis = jogosGratisPara(ehLeitor(player));
             setJogosAbertos(js => [...new Set([...gratis, ...js.filter(id => !JOGOS_GRATIS.includes(id))])]);
             if (player.papel === "pai") { carregarFamilia(); setScreen("familia"); }
             else setScreen("home");
@@ -3876,7 +3880,7 @@ function FamilyScreen({ t, lang, familia, setScreen }) {
                   <div className="display" style={{ color: "#1B2A6B", fontSize: 19 }}>{perfil.name || "—"}</div>
                   <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 12 }}>
                     {perfil.idade ? `${perfil.idade} ${t.years} · ` : ""}
-                    {perfil.leitor === false ? t.readsNot : t.reads}
+                    {ehLeitor(perfil) ? t.reads : t.readsNot}
                   </div>
                 </div>
               </div>
@@ -4144,7 +4148,7 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
       <div className="display" style={{ color: "#fff", fontSize: 22, marginBottom: 10 }}>{t.home}</div>
       {/* Para quem ainda não lê, os jogos de texto aparecem trancados. Dizer
           por quê evita a criança achar que quebrou — e o adulto, que faltou. */}
-      {player.leitor === false && (
+      {!ehLeitor(player) && (
         <div style={{ color: "#A7B3EA", fontWeight: 700, fontSize: 11, marginTop: -6, marginBottom: 10 }}>
           🔒 {t.needsReading}
         </div>
