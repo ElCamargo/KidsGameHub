@@ -3954,7 +3954,16 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
   const done = progress[sel.cont] || 0;
   const band = bandFor(sel.cont, sel.stage);
   const totalFases = totalDe(sel.cont);
-  const colunasFases = totalFases <= 20 ? 5 : totalFases <= 40 ? 6 : 8;
+  /* Trilha de 100 fases não cabe num tabuleiro só: 20 linhas de botões
+     empurram o "Jogar" para fora da tela. Página de 20, sempre 5 colunas,
+     e a página abre junto com a fase — a de número 21 só existe quando a 20
+     estiver vencida. */
+  const POR_PAGINA = 20;
+  const paginas = Math.ceil(totalFases / POR_PAGINA);
+  const [pag, setPag] = useState(Math.min(paginas - 1, Math.floor((sel.stage - 1) / POR_PAGINA)));
+  const p0 = pag * POR_PAGINA;
+  const fasesDaPagina = Array.from({ length: Math.min(POR_PAGINA, totalFases - p0) }, (_, i) => p0 + i + 1);
+  const paginaAberta = i => done >= i * POR_PAGINA;
   const chaveBanda = b => `b:${sel.cont}:${b}`;
   const bandaAberta = b => !BAND_PRECO[b] || temSecao(chaveBanda(b));
   const bandaAnterior = b => DIFFS[DIFFS.indexOf(b) - 1];
@@ -3990,8 +3999,8 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
       </div>
 
       <div className="card" style={{ padding: 14 }}>
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${colunasFases},1fr)`, gap: colunasFases > 6 ? 5 : 8 }}>
-          {Array.from({ length: totalFases }, (_, i) => i + 1).map(n => {
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8 }}>
+          {fasesDaPagina.map(n => {
             const b0 = bandFor(sel.cont, n);
             const open = n <= done + 1 && bandaAberta(b0);
             const cleared = n <= done;
@@ -4016,6 +4025,22 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
             );
           })}
         </div>
+
+        {paginas > 1 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12 }}>
+            <Btn small color={pag === 0 ? "#C7CEE0" : "#4C6FFF"} disabled={pag === 0}
+              onClick={() => setPag(pag - 1)}>◀</Btn>
+            <div style={{ flex: 1, textAlign: "center" }}>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 15 }}>
+                {t.stage} {p0 + 1}–{p0 + fasesDaPagina.length}
+              </div>
+              <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 11 }}>{pag + 1}/{paginas}</div>
+            </div>
+            <Btn small color={pag >= paginas - 1 || !paginaAberta(pag + 1) ? "#C7CEE0" : "#4C6FFF"}
+              disabled={pag >= paginas - 1 || !paginaAberta(pag + 1)}
+              onClick={() => setPag(pag + 1)}>{pag < paginas - 1 && !paginaAberta(pag + 1) ? "🔒" : "▶"}</Btn>
+          </div>
+        )}
       </div>
 
       {(() => {
