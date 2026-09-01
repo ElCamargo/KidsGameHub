@@ -172,7 +172,10 @@ export const MOLDES_CIENCIA = [
   { id: "onde",  campo: "onde",  peso: 3 },
 ];
 
-export const CIENCIA_NIVEL = { easy: [1], medium: [1, 2], hard: [2, 3], genius: [3, 4] };
+export const CIENCIA_NIVEL = {
+  easy: [1], medium: [1, 2], hard: [2, 3], genius: [3, 4],
+  mestre: [4], lenda: [4],
+};
 
 /* Monta a lista inteira de perguntas possíveis: um par (animal, molde) por
    pergunta. É esta lista que o quiz sorteia — e que o script de verificação

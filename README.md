@@ -15,8 +15,8 @@ São **15 jogos em 6 áreas**.
 
 | Área | Jogo | O que treina |
 |---|---|---|
-| 🌍 Geografia | Bandeiras do Mundo | 176 bandeiras, 15 fases por continente |
-| 🌍 Geografia | Memória do Mundo | memória visual com bandeiras |
+| 🌍 Geografia | Bandeiras do Mundo | 176 bandeiras, 60 fases por continente |
+| 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR → países por continente → estados dos EUA |
 | 🌍 Geografia | Curiosidades do Mundo | 235 lugares reais: em que país, cidade, mar ou continente |
 | 🔢 Matemática | Contas e Números | soma a decimais, até 5º ano |
@@ -33,27 +33,56 @@ São **15 jogos em 6 áreas**.
 
 O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe o país entre quatro opções.
 
-- 15 fases por continente, em escada: 5 Fácil, 4 Médio, 3 Difícil, 3 Gênio
-- Modo Fácil sem cronômetro; depois o tempo aperta a cada fase, até 4 segundos
-- Moedas do hub: cada rodada custa, dicas custam, acertar rende
+- 60 fases por continente, em escada de seis faixas (ver abaixo)
+- Modo Fácil sem cronômetro; depois o tempo aperta a cada fase, até 6 segundos
+- Lumicoins: cada rodada custa conforme a faixa, dicas custam, acertar rende
 - Mapa-múndi que se abre continente a continente, de carro, barco e avião
-- 63 conquistas em 10 categorias, valendo de 30 a 250 moedas cada
+- 63 conquistas em 10 categorias, valendo de 30 a 250 lumicoins cada
 - Avatar personalizável e loja de itens
 - Vários jogadores no mesmo aparelho, com progresso separado
 - 6 idiomas, todos embutidos no app
 
 ### Escada de fases
 
-Cada trilha tem o número de fases que o banco de perguntas dela aguenta, mas
-todas sobem pelas mesmas quatro faixas, na mesma proporção e com a mesma
-pressão de relógio. É isso que mantém a experiência coesa entre os jogos.
+Toda trilha tem **60 fases**; o Quiz da Bíblia vai a **100**, porque o banco
+dele aguenta. Todas sobem pelas mesmas **seis faixas**, na mesma proporção e
+com a mesma pressão de relógio — é isso que mantém a experiência coesa entre
+os jogos, e vale igual para os níveis do jogo da memória.
 
-| Trilha | Fases |
-|---|---|
-| Bandeiras (por continente), Capitais (por região), Contas, Cores e Formas, Palavras, Quiz dos Animais | 15 |
-| Curiosidades dos Animais | 25 |
-| Curiosidades do Mundo | 30 |
-| Quiz da Bíblia | 100 |
+| Faixa | Fases (de 60) | Relógio | Perguntas na rodada | Custa |
+|---|---|---|---|---|
+| Fácil | 1–14 | sem cronômetro | 5 | 🪙 5 |
+| Médio | 15–26 | 25s → 18s | 5 | 🪙 10 |
+| Difícil | 27–36 | 16s → 13s | 10 | 🪙 15 |
+| Gênio | 37–45 | 12s → 10s | 10 | 🪙 20 |
+| Mestre | 46–53 | 10s → 8s | 12 | 🪙 25 |
+| Lenda | 54–60 | 8s → 6s | 15 | 🪙 30 |
+
+O cronômetro ainda ganha uma **folga de leitura**: cada 10 caracteres de
+pergunta e alternativas além de uma pergunta curta valem mais um segundo, até
+25. Uma bandeira não muda nada; uma pergunta bíblica de quatro frases ganha
+15 segundos. O relógio mede o que a criança sabe, não o quanto ela lê rápido.
+
+**Fase já vencida com 3 estrelas custa zero.** Cobrar de novo por algo que a
+criança já dominou só a afasta de repetir, que é quando ela fixa.
+
+O tabuleiro é paginado de 20 em 20 fases, e a página seguinte só abre quando
+a anterior termina.
+
+### Quem está jogando
+
+O cadastro pergunta três coisas antes da aparência: **criança ou
+responsável**, a **idade**, e se **já sabe ler**.
+
+Quem ainda não lê começa com os jogos que se joga olhando — as memórias, a
+pintura e as contas, onde o conteúdo são números e figuras. Os de texto
+aparecem trancados, com o preço à vista e a razão escrita. Quem já lê começa
+pelos mesmos jogos grátis de sempre. Cada jogo declara se exige leitura, e é
+esse campo — não o preço — que decide o que nasce aberto.
+
+Um perfil marcado como **responsável** não joga: abre a tela *Meus filhos*,
+com cada criança do aparelho, idade, se lê, rodadas, estrelas, conquistas,
+dias seguidos, lumicoins e o progresso por trilha. Nada sai do aparelho.
 
 ## Rodando na sua máquina
 
