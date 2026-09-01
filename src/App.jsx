@@ -53,7 +53,7 @@ const T = {
     pinSet: "Senha definida", pinNone: "Sem senha", pinRemove: "Tirar",
     keepsProgress: "Editar a ficha não apaga nada do que já foi jogado.",
     howOld: "Quantos anos?", canRead: "Já sabe ler?", readNo: "Ainda não", readYes: "Sim",
-    years: "anos", family: "Meus filhos", reads: "Já lê", readsNot: "Ainda não lê",
+    ageMore: "10+", ageAny: "Ou escreva a idade — o jogo serve para qualquer uma.",    years: "anos", family: "Meus filhos", reads: "Já lê", readsNot: "Ainda não lê",
     familyEmpty: "Ainda não há nenhuma criança neste aparelho.",
     familyHint: "Você acompanha, eles jogam.", byGame: "Por jogo",
     needsReading: "Abre quando souber ler — ou com lumicoins",
@@ -162,7 +162,7 @@ const T = {
     pinSet: "Password set", pinNone: "No password", pinRemove: "Remove",
     keepsProgress: "Editing the details erases nothing that was already played.",
     howOld: "How old?", canRead: "Can you read yet?", readNo: "Not yet", readYes: "Yes",
-    years: "years old", family: "My children", reads: "Reads", readsNot: "Not reading yet",
+    ageMore: "10+", ageAny: "Or type the age — the game works at any age.",    years: "years old", family: "My children", reads: "Reads", readsNot: "Not reading yet",
     familyEmpty: "No child on this device yet.",
     familyHint: "You follow along, they play.", byGame: "By game",
     needsReading: "Opens when you can read — or with lumicoins",
@@ -247,7 +247,7 @@ const T = {
     pinSet: "Contraseña puesta", pinNone: "Sin contraseña", pinRemove: "Quitar",
     keepsProgress: "Editar la ficha no borra nada de lo ya jugado.",
     howOld: "¿Cuántos años?", canRead: "¿Ya sabes leer?", readNo: "Todavía no", readYes: "Sí",
-    years: "años", family: "Mis hijos", reads: "Ya lee", readsNot: "Todavía no lee",
+    ageMore: "10+", ageAny: "O escribe la edad — el juego sirve para cualquiera.",    years: "años", family: "Mis hijos", reads: "Ya lee", readsNot: "Todavía no lee",
     familyEmpty: "Aún no hay ningún niño en este aparato.",
     familyHint: "Tú acompañas, ellos juegan.", byGame: "Por juego",
     needsReading: "Se abre cuando sepas leer — o con lumicoins",
@@ -346,7 +346,7 @@ const PACKS = {
     pinSet: "Mot de passe défini", pinNone: "Sans mot de passe", pinRemove: "Retirer",
     keepsProgress: "Modifier la fiche n'efface rien de ce qui a été joué.",
     howOld: "Quel âge ?", canRead: "Tu sais déjà lire ?", readNo: "Pas encore", readYes: "Oui",
-    years: "ans", family: "Mes enfants", reads: "Sait lire", readsNot: "Ne lit pas encore",
+    ageMore: "10+", ageAny: "Ou écris l'âge — le jeu marche à tout âge.",    years: "ans", family: "Mes enfants", reads: "Sait lire", readsNot: "Ne lit pas encore",
     familyEmpty: "Aucun enfant sur cet appareil pour l'instant.",
     familyHint: "Tu suis, ils jouent.", byGame: "Par jeu",
     needsReading: "S'ouvre quand tu sauras lire — ou avec des lumicoins",
@@ -424,7 +424,7 @@ const PACKS = {
     pinSet: "Passwort gesetzt", pinNone: "Kein Passwort", pinRemove: "Entfernen",
     keepsProgress: "Die Angaben zu ändern löscht nichts vom Gespielten.",
     howOld: "Wie alt?", canRead: "Kannst du schon lesen?", readNo: "Noch nicht", readYes: "Ja",
-    years: "Jahre", family: "Meine Kinder", reads: "Liest schon", readsNot: "Liest noch nicht",
+    ageMore: "10+", ageAny: "Oder das Alter eintippen — das Spiel passt zu jedem Alter.",    years: "Jahre", family: "Meine Kinder", reads: "Liest schon", readsNot: "Liest noch nicht",
     familyEmpty: "Noch kein Kind auf diesem Gerät.",
     familyHint: "Du begleitest, sie spielen.", byGame: "Nach Spiel",
     needsReading: "Öffnet sich, wenn du lesen kannst — oder mit Lumicoins",
@@ -502,7 +502,7 @@ const PACKS = {
     pinSet: "Password impostata", pinNone: "Senza password", pinRemove: "Togli",
     keepsProgress: "Modificare la scheda non cancella nulla di già giocato.",
     howOld: "Quanti anni?", canRead: "Sai già leggere?", readNo: "Non ancora", readYes: "Sì",
-    years: "anni", family: "I miei figli", reads: "Sa leggere", readsNot: "Non legge ancora",
+    ageMore: "10+", ageAny: "Oppure scrivi l'età — il gioco va bene a ogni età.",    years: "anni", family: "I miei figli", reads: "Sa leggere", readsNot: "Non legge ancora",
     familyEmpty: "Ancora nessun bambino su questo apparecchio.",
     familyHint: "Tu segui, loro giocano.", byGame: "Per gioco",
     needsReading: "Si apre quando saprai leggere — o con lumicoins",
@@ -2118,14 +2118,29 @@ function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false, 
           <>
             <div style={{ marginBottom: 14 }}>
               <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.howOld}</div>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
                 {[3, 4, 5, 6, 7, 8, 9, 10].map(i => (
                   <button key={i} onClick={() => campo("idade", i)} className="chunky"
                     style={{ width: 40, padding: "9px 0", fontSize: 14,
                       background: player.idade === i ? "#00B894" : "#E4E8F5",
                       color: player.idade === i ? "#fff" : "#6C7695" }}>{i}</button>
                 ))}
+                <input
+                  value={player.idade > 10 ? String(player.idade) : ""}
+                  onChange={e => {
+                    const n = parseInt(e.target.value.replace(/D/g, "").slice(0, 3), 10);
+                    campo("idade", Number.isFinite(n) && n > 10 ? Math.min(n, 120) : null);
+                  }}
+                  inputMode="numeric" placeholder={t.ageMore} aria-label={t.ageAny}
+                  style={{
+                    width: 62, padding: "9px 6px", borderRadius: 20, textAlign: "center",
+                    fontWeight: 900, fontSize: 14, outline: "none",
+                    border: player.idade > 10 ? "3px solid #00B894" : "3px solid #E4E8F5",
+                    background: player.idade > 10 ? "#00B894" : "#E4E8F5",
+                    color: player.idade > 10 ? "#fff" : "#6C7695",
+                  }} />
               </div>
+              <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, marginTop: 5 }}>{t.ageAny}</div>
             </div>
 
             <div style={{ marginBottom: 14 }}>
