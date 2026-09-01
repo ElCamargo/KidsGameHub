@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { bancoBiblia } from "./data/biblia.js";
 import { CURIOSIDADES, CURIOSIDADE_NIVEL, AGUAS } from "./data/curiosidades.js";
 import { perguntasCiencia, CIENCIA_NIVEL, GRUPOS, DIETAS, CASAS, NASCE } from "./data/ciencias.js";
+import { versoDoDia } from "./data/versos.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -670,8 +671,14 @@ const ROUTE = [
 const DIFFS = ["easy", "medium", "hard", "genius"];
 
 /* O relógio só entra no Médio e vai apertando dentro de cada faixa.
-   Em 15 fases isso devolve exatamente a curva antiga: 16-14-12-10 · 9-8-7 · 6-5-4. */
-const FAIXA_TEMPO = { medium: [16, 10], hard: [9, 7], genius: [6, 4] };
+   Em 15 fases: 25-23-20-18 · 16-14-12 · 11-10-8.
+
+   Esses números são o dobro dos primeiros que escrevi. O jogo é para criança
+   de 5 e 6 anos: ela ainda soletra, e um cronômetro de 4 segundos não mede o
+   que ela sabe, mede se ela consegue ler a tempo. A pressa continua existindo
+   — o Gênio ainda é bem mais apertado que o Médio —, só que agora sobra tempo
+   para pensar entre ler e responder. */
+const FAIXA_TEMPO = { medium: [25, 18], hard: [16, 12], genius: [11, 8] };
 
 function montarEscada(total) {
   const nE = Math.round(total * 0.34);
@@ -3604,6 +3611,7 @@ function LangScreen({ t, lang, pickLang, setScreen, back }) {
 
 /* ---------- Perfil do jogador ---------- */
 function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar }) {
+  const verso = versoDoDia(lang);
   const Num = ({ icon, n, label }) => (
     <div style={{ textAlign: "center", flex: 1 }}>
       <div style={{ fontSize: 20 }}>{icon}</div>
@@ -3619,8 +3627,23 @@ function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch
       </div>
 
       <div className="card" style={{ padding: 18, textAlign: "center", marginBottom: 12 }}>
-        <Avatar a={player.avatar} size={120} />
-        <div className="display" style={{ color: "#1B2A6B", fontSize: 24, marginTop: 6 }}>{player.name}</div>
+        {/* O avatar sozinho deixava metade do cartão em branco. Ali agora fica
+            o versículo do dia — o mesmo o dia inteiro, para dar tempo de
+            decorar, e só de Salmos e Provérbios. */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
+          <Avatar a={player.avatar} size={104} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 4 }}>
+              <Mundi size={24} />
+              <span className="display" style={{ color: "#8B93AD", fontSize: 12, letterSpacing: 1 }}>LUMUS</span>
+            </div>
+            <div style={{ color: "#3B4468", fontWeight: 800, fontSize: 13, lineHeight: 1.45 }}>
+              “{verso.texto}”
+            </div>
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginTop: 5 }}>{verso.ref}</div>
+          </div>
+        </div>
+        <div className="display" style={{ color: "#1B2A6B", fontSize: 24, marginTop: 10 }}>{player.name}</div>
         <div style={{ display: "inline-block", background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 16px", fontWeight: 900, marginTop: 8 }}>
           <Coin n={coins} />
         </div>
@@ -4032,9 +4055,29 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
 }
 
 /* ---------- Jogo ---------- */
+/* ---------- Folga de leitura ----------
+   O cronômetro existe para medir o que a criança SABE, não a velocidade com
+   que ela lê. Uma bandeira tem quatro nomes curtos; uma pergunta da Bíblia
+   pode ter quatro frases inteiras. Sem esta folga, a fase 100 dava 4 segundos
+   para ler quase 200 caracteres — nem adulto faz isso.
+
+   O tempo base já cobre uma pergunta curta (50 caracteres com as quatro
+   opções). Cada 10 caracteres além disso valem mais um segundo, até 25.
+   Perguntas de bandeira quase não mudam: quatro nomes de país cabem na base. */
+const LEITURA_BASE = 50;
+const LEITURA_POR_SEG = 10;
+const FOLGA_MAX = 25;
+
+function folgaLeitura(q) {
+  const texto = ((q.ask || q.prompt || "") + q.options.join("")).length;
+  return Math.min(FOLGA_MAX, Math.max(0, Math.round((texto - LEITURA_BASE) / LEITURA_POR_SEG)));
+}
+const tempoDaPergunta = (round, q) => round.time == null ? null : round.time + folgaLeitura(q);
+
 function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen, onQuit }) {
   const q = round.qs[round.i];
-  const [left, setLeft] = useState(round.time);
+  const tempoQ = tempoDaPergunta(round, q);
+  const [left, setLeft] = useState(tempoQ);
   const [removed, setRemoved] = useState([]);
   const [picked, setPicked] = useState(null);
   const [hintLevel, setHintLevel] = useState(0);
@@ -4043,7 +4086,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
   const lockRef = useRef(false);
 
   useEffect(() => {
-    setLeft(round.time); setRemoved([]); setPicked(null); setHintLevel(0); setImgOk(true);
+    setLeft(tempoDaPergunta(round, round.qs[round.i])); setRemoved([]); setPicked(null); setHintLevel(0); setImgOk(true);
     lockRef.current = false;
   }, [round.i]);
 
@@ -4061,7 +4104,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
     const ok = opt === q.answer;
     setTimeout(() => {
       const streak = ok ? round.streak + 1 : 0;
-      const fast = ok && round.time != null && left >= round.time - 3; // respondeu em ~3s
+      const fast = ok && tempoQ != null && left >= tempoQ - 3;   // respondeu em ~3s
       const next = {
         ...round,
         i: round.i + 1,
@@ -4069,7 +4112,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
         flash: round.flash + (fast ? 1 : 0),
         islandRight: round.islandRight + (ok && q.flag && !q.sub && ISLANDS.has(q.flag.toUpperCase()) ? 1 : 0),
         subRight: round.subRight + (ok && q.sub ? 1 : 0),
-        score: round.score + (ok ? 100 + (round.time == null ? 30 : left * 10) : 0),
+        score: round.score + (ok ? 100 + (tempoQ == null ? 30 : left * 10) : 0),
         streak,
         bestStreak: Math.max(round.bestStreak || 0, streak),
       };
@@ -4087,7 +4130,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
     setRound(r => ({ ...r, hintsUsed: r.hintsUsed + 1 }));
   }
 
-  const pct = round.time == null ? 100 : (left / round.time) * 100;
+  const pct = tempoQ == null ? 100 : (left / tempoQ) * 100;
   const barColor = pct > 55 ? "#00B894" : pct > 25 ? "#F9A826" : "#E74C3C";
 
   return (
