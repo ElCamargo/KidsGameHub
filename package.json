@@ -12,11 +12,12 @@
   "type": "module",
   "scripts": {
     "prepare-flags": "node scripts/prepare-flags.mjs",
-    "predev": "npm run prepare-flags",
+    "predev": "npm run prepare-flags && npm run check-bancos",
     "dev": "vite --host",
-    "prebuild": "npm run prepare-flags",
+    "prebuild": "npm run prepare-flags && npm run check-bancos",
     "build": "vite build",
-    "preview": "vite preview --host"
+    "preview": "vite preview --host",
+    "check-bancos": "node scripts/check-bancos.mjs"
   },
   "dependencies": {
     "@fontsource/baloo-2": "^5.1.0",
