@@ -41,14 +41,20 @@ const T = {
     map: "Mapa",
     shop: "Loja",
     awards: "Conquistas",
-    coins: "moedas",
-    nextCoins: "Próximas moedas em",
+    coins: "lumicoins",
+    nextCoins: "Próximas lumicoins em",
     locked: "Bloqueado",
     unlockFor: "Abrir por",
-    levels: { easy: "Fácil", medium: "Médio", hard: "Difícil", genius: "Gênio" },
+    levels: { easy: "Fácil", medium: "Médio", hard: "Difícil", genius: "Gênio", mestre: "Mestre", lenda: "Lenda" },
+    whoIsIt: "Quem vai usar?", roleChild: "Criança", roleParent: "Responsável",
+    howOld: "Quantos anos?", canRead: "Já sabe ler?", readNo: "Ainda não", readYes: "Sim",
+    years: "anos", family: "Meus filhos", reads: "Já lê", readsNot: "Ainda não lê",
+    familyEmpty: "Ainda não há nenhuma criança neste aparelho.",
+    familyHint: "Você acompanha, eles jogam.", byGame: "Por jogo",
+    needsReading: "Abre quando souber ler — ou com lumicoins",
     stage: "Fase",
     cost: "Custa",
-    notEnough: "Moedas insuficientes. Espere as moedas grátis!",
+    notEnough: "Lumicoins insuficientes. Espere as lumicoins grátis!",
     question: "Pergunta",
     whichCountry: "Que país é essa bandeira?",
     whichRegion: "Que estado ou região é essa bandeira?",
@@ -78,7 +84,7 @@ const T = {
     tut1: "A bandeira aparece aqui em cima.",
     tut2: "Escolha o nome certo entre as 4 opções.",
     tut3: "Você tem 15 segundos. Rápido!",
-    tut4: "Sem saber? Use moedas para tirar respostas erradas.",
+    tut4: "Sem saber? Use lumicoins para tirar respostas erradas.",
     gotIt: "Entendi!",
     travel: "Boa viagem!",
     continents: {
@@ -104,8 +110,8 @@ const T = {
     memStarsHint: "As estrelas vêm do tempo: quanto mais rápido, mais estrelas.",
     badges: "Insígnias",
     gallery: "Minha galeria", newDrawing: "Escolha um desenho", finish: "Terminei!",
-    paintAll: "Pinte tudo para terminar", dailyCap: "Moedas de hoje já ganhas — mas pode pintar à vontade!",
-    quit: "Sair", quitAsk: "Sair da rodada? As moedas gastas não voltam.", howMuch: "Quanto é?",
+    paintAll: "Pinte tudo para terminar", dailyCap: "Lumicoins de hoje já ganhas — mas pode pintar à vontade!",
+    quit: "Sair", quitAsk: "Sair da rodada? As lumicoins gastas não voltam.", howMuch: "Quanto é?",
     reset: "Reiniciar", resetAsk: "Zerar o progresso deste jogador? O nome e o avatar continuam.",
     saveAnyway: "Salvar assim", emptyGallery: "Nada aqui ainda. Escolha um desenho e pinte!",
     bicho: { voa: "Qual destes voa?", agua: "Qual destes vive na água?", fazenda: "Qual destes vive na fazenda?",
@@ -124,8 +130,8 @@ const T = {
     whichCapital: "Qual é a capital?", capBrasil: "Estados do Brasil", capEUA: "Estados dos EUA",
     curQ: { pais: "Em que país encontramos {x}?", cidade: "Em que cidade encontramos {x}?", agua: "Em que mar ou oceano encontramos {x}?", continente: "Em que continente encontramos {x}?" },
     sciQ: { grupo: "A que grupo pertence este animal?", dieta: "O que este animal come?", casa: "Onde este animal vive?", nasce: "Como nasce o filhote deste animal?", onde: "Em que continente este animal vive na natureza?" },
-    needTen: "Vença 10 fases da região anterior", claim: "Resgatar", claimReady: "Moedas prontas!",
-    claimTitle: "Suas moedas chegaram!",
+    needTen: "Vença 10 fases da região anterior", claim: "Resgatar", claimReady: "Lumicoins prontas!",
+    claimTitle: "Suas lumicoins chegaram!",
     needPrev: "Abra o jogo anterior",
     players: "Quem vai jogar?", newPlayer: "Novo jogador", switchPlayer: "Trocar jogador",
     language: "Idioma", use: "Usar",
@@ -142,10 +148,16 @@ const T = {
     shopHint: "Earn hats, glasses and prints in the shop by playing!",
     slots: { hairStyle: "Hair", cap: "Hat", glasses: "Glasses", shirt: "Shirt", shirtPattern: "Print" },
     ready: "Ready!", map: "Map", shop: "Shop", awards: "Awards",
-    coins: "coins", nextCoins: "Free coins in", locked: "Locked", unlockFor: "Unlock for",
-    levels: { easy: "Easy", medium: "Medium", hard: "Hard", genius: "Genius" },
+    coins: "lumicoins", nextCoins: "Free lumicoins in", locked: "Locked", unlockFor: "Unlock for",
+    levels: { easy: "Easy", medium: "Medium", hard: "Hard", genius: "Genius", mestre: "Master", lenda: "Legend" },
+    whoIsIt: "Who is this for?", roleChild: "Child", roleParent: "Grown-up",
+    howOld: "How old?", canRead: "Can you read yet?", readNo: "Not yet", readYes: "Yes",
+    years: "years old", family: "My children", reads: "Reads", readsNot: "Not reading yet",
+    familyEmpty: "No child on this device yet.",
+    familyHint: "You follow along, they play.", byGame: "By game",
+    needsReading: "Opens when you can read — or with lumicoins",
     stage: "Stage", cost: "Costs",
-    notEnough: "Not enough coins. Wait for your free coins!",
+    notEnough: "Not enough lumicoins. Wait for your free lumicoins!",
     question: "Question", whichCountry: "Which country is this flag?",
     whichRegion: "Which state or region is this flag?",
     hints: "Hints", remove1: "Remove 1 wrong", remove2: "Remove 2 wrong", remove3: "Remove 3 wrong",
@@ -158,7 +170,7 @@ const T = {
     tut1: "The flag shows up here.",
     tut2: "Pick the right name out of 4.",
     tut3: "You get 15 seconds. Be quick!",
-    tut4: "Stuck? Spend coins to remove wrong answers.",
+    tut4: "Stuck? Spend lumicoins to remove wrong answers.",
     gotIt: "Got it!", travel: "Have a good trip!",
     continents: { sa: "South America", na: "North America", eu: "Europe", af: "Africa", as: "Asia", oc: "Oceania" },
     mascotHub: "Pick a continent to explore!",
@@ -179,8 +191,8 @@ const T = {
     memStarsHint: "Stars come from the clock: the faster you are, the more you get.",
     badges: "Badges",
     gallery: "My gallery", newDrawing: "Pick a drawing", finish: "Done!",
-    paintAll: "Paint everything to finish", dailyCap: "Today's coins are done — keep painting anyway!",
-    quit: "Quit", quitAsk: "Leave this round? Spent coins are not refunded.", howMuch: "How much is it?",
+    paintAll: "Paint everything to finish", dailyCap: "Today's lumicoins are done — keep painting anyway!",
+    quit: "Quit", quitAsk: "Leave this round? Spent lumicoins are not refunded.", howMuch: "How much is it?",
     reset: "Reset", resetAsk: "Reset this player's progress? Name and avatar stay.",
     saveAnyway: "Save it like this", emptyGallery: "Nothing here yet. Pick a drawing and paint!",
     bicho: { voa: "Which one flies?", agua: "Which one lives in water?", fazenda: "Which one lives on a farm?",
@@ -199,8 +211,8 @@ const T = {
     whichCapital: "What is the capital?", capBrasil: "States of Brazil", capEUA: "US States",
     curQ: { pais: "In which country do we find {x}?", cidade: "In which city do we find {x}?", agua: "In which sea or ocean do we find {x}?", continente: "On which continent do we find {x}?" },
     sciQ: { grupo: "Which group does this animal belong to?", dieta: "What does this animal eat?", casa: "Where does this animal live?", nasce: "How is this animal's baby born?", onde: "On which continent does this animal live in the wild?" },
-    needTen: "Clear 10 stages of the previous region", claim: "Claim", claimReady: "Coins ready!",
-    claimTitle: "Your coins have arrived!",
+    needTen: "Clear 10 stages of the previous region", claim: "Claim", claimReady: "Lumicoins ready!",
+    claimTitle: "Your lumicoins have arrived!",
     needPrev: "Unlock the previous game",
     players: "Who's playing?", newPlayer: "New player", switchPlayer: "Switch player",
     language: "Language", use: "Use",
@@ -216,10 +228,16 @@ const T = {
     shopHint: "¡Gorros, gafas y estampados se ganan jugando!",
     slots: { hairStyle: "Pelo", cap: "Gorro", glasses: "Gafas", shirt: "Camisa", shirtPattern: "Estampado" },
     ready: "¡Listo!", map: "Mapa", shop: "Tienda", awards: "Logros",
-    coins: "monedas", nextCoins: "Monedas gratis en", locked: "Bloqueado", unlockFor: "Abrir por",
-    levels: { easy: "Fácil", medium: "Medio", hard: "Difícil", genius: "Genio" },
+    coins: "lumicoins", nextCoins: "Lumicoins gratis en", locked: "Bloqueado", unlockFor: "Abrir por",
+    levels: { easy: "Fácil", medium: "Medio", hard: "Difícil", genius: "Genio", mestre: "Maestro", lenda: "Leyenda" },
+    whoIsIt: "¿Quién va a usar?", roleChild: "Niño", roleParent: "Adulto",
+    howOld: "¿Cuántos años?", canRead: "¿Ya sabes leer?", readNo: "Todavía no", readYes: "Sí",
+    years: "años", family: "Mis hijos", reads: "Ya lee", readsNot: "Todavía no lee",
+    familyEmpty: "Aún no hay ningún niño en este aparato.",
+    familyHint: "Tú acompañas, ellos juegan.", byGame: "Por juego",
+    needsReading: "Se abre cuando sepas leer — o con lumicoins",
     stage: "Nivel", cost: "Cuesta",
-    notEnough: "No hay monedas. ¡Espera las gratis!",
+    notEnough: "No hay lumicoins. ¡Espera las gratis!",
     question: "Pregunta", whichCountry: "¿De qué país es esta bandera?",
     whichRegion: "¿De qué estado o región es esta bandera?",
     hints: "Pistas", remove1: "Quitar 1 mala", remove2: "Quitar 2 malas", remove3: "Quitar 3 malas",
@@ -232,7 +250,7 @@ const T = {
     tut1: "La bandera aparece arriba.",
     tut2: "Elige el nombre correcto entre 4.",
     tut3: "Tienes 15 segundos. ¡Rápido!",
-    tut4: "¿No sabes? Gasta monedas para quitar respuestas malas.",
+    tut4: "¿No sabes? Gasta lumicoins para quitar respuestas malas.",
     gotIt: "¡Entendido!", travel: "¡Buen viaje!",
     continents: { sa: "América del Sur", na: "América del Norte", eu: "Europa", af: "África", as: "Asia", oc: "Oceanía" },
     mascotHub: "¡Elige un continente!",
@@ -253,8 +271,8 @@ const T = {
     memStarsHint: "Las estrellas vienen del tiempo: cuanto más rápido, más estrellas.",
     badges: "Insignias",
     gallery: "Mi galería", newDrawing: "Elige un dibujo", finish: "¡Terminé!",
-    paintAll: "Pinta todo para terminar", dailyCap: "Ya ganaste las monedas de hoy, ¡pero sigue pintando!",
-    quit: "Salir", quitAsk: "¿Salir de la ronda? Las monedas gastadas no vuelven.", howMuch: "¿Cuánto es?",
+    paintAll: "Pinta todo para terminar", dailyCap: "Ya ganaste las lumicoins de hoy, ¡pero sigue pintando!",
+    quit: "Salir", quitAsk: "¿Salir de la ronda? Las lumicoins gastadas no vuelven.", howMuch: "¿Cuánto es?",
     reset: "Reiniciar", resetAsk: "¿Borrar el progreso de este jugador? El nombre y el avatar quedan.",
     saveAnyway: "Guardar así", emptyGallery: "Nada aquí todavía. ¡Elige un dibujo y pinta!",
     bicho: { voa: "¿Cuál de estos vuela?", agua: "¿Cuál vive en el agua?", fazenda: "¿Cuál vive en la granja?",
@@ -273,8 +291,8 @@ const T = {
     whichCapital: "¿Cuál es la capital?", capBrasil: "Estados de Brasil", capEUA: "Estados de EE. UU.",
     curQ: { pais: "¿En qué país encontramos {x}?", cidade: "¿En qué ciudad encontramos {x}?", agua: "¿En qué mar u océano encontramos {x}?", continente: "¿En qué continente encontramos {x}?" },
     sciQ: { grupo: "¿A qué grupo pertenece este animal?", dieta: "¿Qué come este animal?", casa: "¿Dónde vive este animal?", nasce: "¿Cómo nace la cría de este animal?", onde: "¿En qué continente vive este animal en la naturaleza?" },
-    needTen: "Supera 10 niveles de la región anterior", claim: "Reclamar", claimReady: "¡Monedas listas!",
-    claimTitle: "¡Llegaron tus monedas!",
+    needTen: "Supera 10 niveles de la región anterior", claim: "Reclamar", claimReady: "¡Lumicoins listas!",
+    claimTitle: "¡Llegaron tus lumicoins!",
     needPrev: "Abre el juego anterior",
     players: "¿Quién juega?", newPlayer: "Nuevo jugador", switchPlayer: "Cambiar jugador",
     language: "Idioma", use: "Usar",
@@ -303,10 +321,16 @@ const PACKS = {
     none: "Aucun", remove: "Enlever",
     slots: { hairStyle: "Cheveux", cap: "Chapeau", glasses: "Lunettes", shirt: "T-shirt", shirtPattern: "Motif" },
     shopHint: "Gagne chapeaux, lunettes et motifs en jouant !", ready: "Prêt !",
-    map: "Carte", shop: "Boutique", awards: "Trophées", coins: "pièces",
-    nextCoins: "Pièces gratuites dans", locked: "Verrouillé", unlockFor: "Ouvrir pour",
-    levels: { easy: "Facile", medium: "Moyen", hard: "Difficile", genius: "Génie" },
-    stage: "Niveau", cost: "Coûte", notEnough: "Pas assez de pièces. Attends les pièces gratuites !",
+    map: "Carte", shop: "Boutique", awards: "Trophées", coins: "lumicoins",
+    nextCoins: "Lumicoins gratuites dans", locked: "Verrouillé", unlockFor: "Ouvrir pour",
+    levels: { easy: "Facile", medium: "Moyen", hard: "Difficile", genius: "Génie", mestre: "Maître", lenda: "Légende" },
+    whoIsIt: "Qui va jouer ?", roleChild: "Enfant", roleParent: "Adulte",
+    howOld: "Quel âge ?", canRead: "Tu sais déjà lire ?", readNo: "Pas encore", readYes: "Oui",
+    years: "ans", family: "Mes enfants", reads: "Sait lire", readsNot: "Ne lit pas encore",
+    familyEmpty: "Aucun enfant sur cet appareil pour l'instant.",
+    familyHint: "Tu suis, ils jouent.", byGame: "Par jeu",
+    needsReading: "S'ouvre quand tu sauras lire — ou avec des lumicoins",
+    stage: "Niveau", cost: "Coûte", notEnough: "Pas assez de lumicoins. Attends les lumicoins gratuites !",
     question: "Question", whichCountry: "Quel pays est ce drapeau ?", whichRegion: "Quelle région est ce drapeau ?",
     hints: "Indices", remove1: "Enlever 1 fausse", remove2: "Enlever 2 fausses", remove3: "Enlever 3 fausses",
     noRush: "SANS PRESSION", timeUp: "Temps écoulé !", correct: "Bravo !", wrong: "Presque !",
@@ -315,7 +339,7 @@ const PACKS = {
     free: "Gratuit",
     buy: "Acheter", owned: "Tu as", equip: "Porter", equipped: "Porté", streak: "Série",
     tutorial: "Comment jouer", tut1: "Le drapeau apparaît ici.", tut2: "Choisis le bon nom parmi 4.",
-    tut3: "Tu as quelques secondes. Vite !", tut4: "Bloqué ? Dépense des pièces pour enlever de mauvaises réponses.",
+    tut3: "Tu as quelques secondes. Vite !", tut4: "Bloqué ? Dépense des lumicoins pour enlever de mauvaises réponses.",
     gotIt: "Compris !", travel: "Bon voyage !",
     continents: { sa: "Amérique du Sud", na: "Amérique du Nord", eu: "Europe", af: "Afrique", as: "Asie", oc: "Océanie" },
     mascotHub: "Choisis un continent à explorer !", mascotStage: "C'est parti ! Tu peux le faire !",
@@ -335,8 +359,8 @@ const PACKS = {
     memStarsHint: "Les étoiles viennent du chrono : plus tu es rapide, plus tu en gagnes.",
     badges: "Badges",
     gallery: "Ma galerie", newDrawing: "Choisis un dessin", finish: "Fini !",
-    paintAll: "Colorie tout pour finir", dailyCap: "Les pièces du jour sont gagnées — continue à colorier !",
-    quit: "Quitter", quitAsk: "Quitter la manche ? Les pièces dépensées ne reviennent pas.", howMuch: "Combien ça fait ?",
+    paintAll: "Colorie tout pour finir", dailyCap: "Les lumicoins du jour sont gagnées — continue à colorier !",
+    quit: "Quitter", quitAsk: "Quitter la manche ? Les lumicoins dépensées ne reviennent pas.", howMuch: "Combien ça fait ?",
     reset: "Réinitialiser", resetAsk: "Remettre à zéro la progression ? Le nom et l'avatar restent.",
     saveAnyway: "Garder comme ça", emptyGallery: "Rien ici pour l'instant. Choisis un dessin !",
     bicho: { voa: "Lequel vole ?", agua: "Lequel vit dans l'eau ?", fazenda: "Lequel vit à la ferme ?",
@@ -355,8 +379,8 @@ const PACKS = {
     whichCapital: "Quelle est la capitale ?", capBrasil: "États du Brésil", capEUA: "États des USA",
     curQ: { pais: "Dans quel pays trouve-t-on {x} ?", cidade: "Dans quelle ville trouve-t-on {x} ?", agua: "Dans quelle mer ou quel océan trouve-t-on {x} ?", continente: "Sur quel continent trouve-t-on {x} ?" },
     sciQ: { grupo: "À quel groupe appartient cet animal ?", dieta: "Que mange cet animal ?", casa: "Où vit cet animal ?", nasce: "Comment naît le petit de cet animal ?", onde: "Sur quel continent cet animal vit-il à l'état sauvage ?" },
-    needTen: "Termine 10 niveaux de la région précédente", claim: "Récupérer", claimReady: "Pièces prêtes !",
-    claimTitle: "Tes pièces sont arrivées !",
+    needTen: "Termine 10 niveaux de la région précédente", claim: "Récupérer", claimReady: "Lumicoins prêtes !",
+    claimTitle: "Tes lumicoins sont arrivées !",
     needPrev: "Débloque le jeu précédent",
     players: "Qui joue ?", newPlayer: "Nouveau joueur", switchPlayer: "Changer de joueur",
     language: "Langue", use: "Utiliser",
@@ -370,10 +394,16 @@ const PACKS = {
     none: "Keins", remove: "Abnehmen",
     slots: { hairStyle: "Haare", cap: "Hut", glasses: "Brille", shirt: "Shirt", shirtPattern: "Muster" },
     shopHint: "Hüte, Brillen und Muster verdienst du beim Spielen!", ready: "Fertig!",
-    map: "Karte", shop: "Shop", awards: "Trophäen", coins: "Münzen",
-    nextCoins: "Gratis-Münzen in", locked: "Gesperrt", unlockFor: "Öffnen für",
-    levels: { easy: "Leicht", medium: "Mittel", hard: "Schwer", genius: "Genie" },
-    stage: "Stufe", cost: "Kostet", notEnough: "Nicht genug Münzen. Warte auf die Gratis-Münzen!",
+    map: "Karte", shop: "Shop", awards: "Trophäen", coins: "Lumicoins",
+    nextCoins: "Gratis-Lumicoins in", locked: "Gesperrt", unlockFor: "Öffnen für",
+    levels: { easy: "Leicht", medium: "Mittel", hard: "Schwer", genius: "Genie", mestre: "Meister", lenda: "Legende" },
+    whoIsIt: "Wer spielt hier?", roleChild: "Kind", roleParent: "Erwachsener",
+    howOld: "Wie alt?", canRead: "Kannst du schon lesen?", readNo: "Noch nicht", readYes: "Ja",
+    years: "Jahre", family: "Meine Kinder", reads: "Liest schon", readsNot: "Liest noch nicht",
+    familyEmpty: "Noch kein Kind auf diesem Gerät.",
+    familyHint: "Du begleitest, sie spielen.", byGame: "Nach Spiel",
+    needsReading: "Öffnet sich, wenn du lesen kannst — oder mit Lumicoins",
+    stage: "Stufe", cost: "Kostet", notEnough: "Nicht genug Lumicoins. Warte auf die Gratis-Lumicoins!",
     question: "Frage", whichCountry: "Welches Land ist diese Flagge?", whichRegion: "Welche Region ist diese Flagge?",
     hints: "Tipps", remove1: "1 falsche entfernen", remove2: "2 falsche entfernen", remove3: "3 falsche entfernen",
     noRush: "OHNE ZEITDRUCK", timeUp: "Zeit ist um!", correct: "Richtig!", wrong: "Fast!",
@@ -382,7 +412,7 @@ const PACKS = {
     free: "Gratis",
     buy: "Kaufen", owned: "Du hast", equip: "Tragen", equipped: "Getragen", streak: "Serie",
     tutorial: "So wird gespielt", tut1: "Die Flagge erscheint hier.", tut2: "Wähle den richtigen Namen von 4.",
-    tut3: "Du hast ein paar Sekunden. Schnell!", tut4: "Keine Ahnung? Gib Münzen aus, um falsche Antworten zu entfernen.",
+    tut3: "Du hast ein paar Sekunden. Schnell!", tut4: "Keine Ahnung? Gib Lumicoins aus, um falsche Antworten zu entfernen.",
     gotIt: "Verstanden!", travel: "Gute Reise!",
     continents: { sa: "Südamerika", na: "Nordamerika", eu: "Europa", af: "Afrika", as: "Asien", oc: "Ozeanien" },
     mascotHub: "Wähle einen Kontinent!", mascotStage: "Los geht's! Du schaffst das!",
@@ -402,8 +432,8 @@ const PACKS = {
     memStarsHint: "Sterne kommen von der Uhr: je schneller, desto mehr.",
     badges: "Abzeichen",
     gallery: "Meine Galerie", newDrawing: "Wähle ein Bild", finish: "Fertig!",
-    paintAll: "Male alles aus, um fertig zu werden", dailyCap: "Die Münzen von heute sind vergeben — mal ruhig weiter!",
-    quit: "Beenden", quitAsk: "Runde verlassen? Ausgegebene Münzen gibt es nicht zurück.", howMuch: "Wie viel ist das?",
+    paintAll: "Male alles aus, um fertig zu werden", dailyCap: "Die Lumicoins von heute sind vergeben — mal ruhig weiter!",
+    quit: "Beenden", quitAsk: "Runde verlassen? Ausgegebene Lumicoins gibt es nicht zurück.", howMuch: "Wie viel ist das?",
     reset: "Zurücksetzen", resetAsk: "Fortschritt zurücksetzen? Name und Avatar bleiben.",
     saveAnyway: "So speichern", emptyGallery: "Noch nichts hier. Wähle ein Bild und male!",
     bicho: { voa: "Welches fliegt?", agua: "Welches lebt im Wasser?", fazenda: "Welches lebt auf dem Bauernhof?",
@@ -422,8 +452,8 @@ const PACKS = {
     whichCapital: "Wie heißt die Hauptstadt?", capBrasil: "Bundesstaaten Brasiliens", capEUA: "US-Bundesstaaten",
     curQ: { pais: "In welchem Land finden wir {x}?", cidade: "In welcher Stadt finden wir {x}?", agua: "In welchem Meer oder Ozean finden wir {x}?", continente: "Auf welchem Kontinent finden wir {x}?" },
     sciQ: { grupo: "Zu welcher Gruppe gehört dieses Tier?", dieta: "Was frisst dieses Tier?", casa: "Wo lebt dieses Tier?", nasce: "Wie kommt das Junge dieses Tieres zur Welt?", onde: "Auf welchem Kontinent lebt dieses Tier in freier Natur?" },
-    needTen: "Schaffe 10 Stufen der vorigen Region", claim: "Abholen", claimReady: "Münzen bereit!",
-    claimTitle: "Deine Münzen sind da!",
+    needTen: "Schaffe 10 Stufen der vorigen Region", claim: "Abholen", claimReady: "Lumicoins bereit!",
+    claimTitle: "Deine Lumicoins sind da!",
     needPrev: "Vorheriges Spiel freischalten",
     players: "Wer spielt?", newPlayer: "Neuer Spieler", switchPlayer: "Spieler wechseln",
     language: "Sprache", use: "Verwenden",
@@ -437,10 +467,16 @@ const PACKS = {
     none: "Nessuno", remove: "Togli",
     slots: { hairStyle: "Capelli", cap: "Cappello", glasses: "Occhiali", shirt: "Maglietta", shirtPattern: "Fantasia" },
     shopHint: "Cappelli, occhiali e fantasie si guadagnano giocando!", ready: "Pronto!",
-    map: "Mappa", shop: "Negozio", awards: "Premi", coins: "monete",
-    nextCoins: "Monete gratis tra", locked: "Bloccato", unlockFor: "Apri con",
-    levels: { easy: "Facile", medium: "Medio", hard: "Difficile", genius: "Genio" },
-    stage: "Livello", cost: "Costa", notEnough: "Monete insufficienti. Aspetta quelle gratis!",
+    map: "Mappa", shop: "Negozio", awards: "Premi", coins: "lumicoins",
+    nextCoins: "Lumicoins gratis tra", locked: "Bloccato", unlockFor: "Apri con",
+    levels: { easy: "Facile", medium: "Medio", hard: "Difficile", genius: "Genio", mestre: "Maestro", lenda: "Leggenda" },
+    whoIsIt: "Chi lo userà?", roleChild: "Bambino", roleParent: "Adulto",
+    howOld: "Quanti anni?", canRead: "Sai già leggere?", readNo: "Non ancora", readYes: "Sì",
+    years: "anni", family: "I miei figli", reads: "Sa leggere", readsNot: "Non legge ancora",
+    familyEmpty: "Ancora nessun bambino su questo apparecchio.",
+    familyHint: "Tu segui, loro giocano.", byGame: "Per gioco",
+    needsReading: "Si apre quando saprai leggere — o con lumicoins",
+    stage: "Livello", cost: "Costa", notEnough: "Lumicoins insufficienti. Aspetta quelle gratis!",
     question: "Domanda", whichCountry: "Di che paese è questa bandiera?", whichRegion: "Di che regione è questa bandiera?",
     hints: "Aiuti", remove1: "Togli 1 sbagliata", remove2: "Togli 2 sbagliate", remove3: "Togli 3 sbagliate",
     noRush: "SENZA FRETTA", timeUp: "Tempo scaduto!", correct: "Bravo!", wrong: "Quasi!",
@@ -449,7 +485,7 @@ const PACKS = {
     free: "Gratis",
     buy: "Compra", owned: "Hai", equip: "Indossa", equipped: "Indossato", streak: "Serie",
     tutorial: "Come si gioca", tut1: "La bandiera appare qui.", tut2: "Scegli il nome giusto tra 4.",
-    tut3: "Hai pochi secondi. Veloce!", tut4: "Non lo sai? Spendi monete per togliere risposte sbagliate.",
+    tut3: "Hai pochi secondi. Veloce!", tut4: "Non lo sai? Spendi lumicoins per togliere risposte sbagliate.",
     gotIt: "Ho capito!", travel: "Buon viaggio!",
     continents: { sa: "Sud America", na: "Nord America", eu: "Europa", af: "Africa", as: "Asia", oc: "Oceania" },
     mascotHub: "Scegli un continente!", mascotStage: "Andiamo! Ce la puoi fare!",
@@ -469,8 +505,8 @@ const PACKS = {
     memStarsHint: "Le stelle vengono dal tempo: più sei veloce, più ne prendi.",
     badges: "Distintivi",
     gallery: "La mia galleria", newDrawing: "Scegli un disegno", finish: "Finito!",
-    paintAll: "Colora tutto per finire", dailyCap: "Le monete di oggi sono finite — ma continua a colorare!",
-    quit: "Esci", quitAsk: "Uscire dal turno? Le monete spese non tornano.", howMuch: "Quanto fa?",
+    paintAll: "Colora tutto per finire", dailyCap: "Le lumicoins di oggi sono finite — ma continua a colorare!",
+    quit: "Esci", quitAsk: "Uscire dal turno? Le lumicoins spese non tornano.", howMuch: "Quanto fa?",
     reset: "Azzera", resetAsk: "Azzerare i progressi di questo giocatore? Nome e avatar restano.",
     saveAnyway: "Salva così", emptyGallery: "Ancora niente qui. Scegli un disegno e colora!",
     bicho: { voa: "Quale vola?", agua: "Quale vive nell'acqua?", fazenda: "Quale vive nella fattoria?",
@@ -489,8 +525,8 @@ const PACKS = {
     whichCapital: "Qual è la capitale?", capBrasil: "Stati del Brasile", capEUA: "Stati degli USA",
     curQ: { pais: "In quale paese troviamo {x}?", cidade: "In quale città troviamo {x}?", agua: "In quale mare o oceano troviamo {x}?", continente: "In quale continente troviamo {x}?" },
     sciQ: { grupo: "A quale gruppo appartiene questo animale?", dieta: "Cosa mangia questo animale?", casa: "Dove vive questo animale?", nasce: "Come nasce il cucciolo di questo animale?", onde: "In quale continente vive questo animale in natura?" },
-    needTen: "Supera 10 livelli della regione precedente", claim: "Riscuoti", claimReady: "Monete pronte!",
-    claimTitle: "Le tue monete sono arrivate!",
+    needTen: "Supera 10 livelli della regione precedente", claim: "Riscuoti", claimReady: "Lumicoins pronte!",
+    claimTitle: "Le tue lumicoins sono arrivate!",
     needPrev: "Sblocca il gioco precedente",
     players: "Chi gioca?", newPlayer: "Nuovo giocatore", switchPlayer: "Cambia giocatore",
     language: "Lingua", use: "Usa",
@@ -590,39 +626,56 @@ const SUBFLAGS = {
   ],
 };
 
-/* Catálogo do hub: categorias e seus jogos. Só "flags" está pronto. */
+/* Catálogo do hub: categorias e seus jogos.
+   O campo leitura marca o jogo que só faz sentido para quem já lê — a
+   pergunta é uma frase, ou a resposta é uma palavra escrita. Os de
+   leitura: false uma criança de 3 anos joga olhando: memória, pintura e
+   as contas, onde o conteúdo são números e figuras.
+
+   É esse campo que decide o que nasce aberto para cada jogador. */
 const CATALOG = [
   { id: "geo", icon: "🌍", color: "#4C6FFF", games: [
-      { id: "flags", icon: "🚩", color: "#00B894", preco: 0, ready: true },
-      { id: "memory", icon: "🧠", color: "#4C6FFF", preco: 150, ready: true },
-      { id: "capitals", icon: "🏛️", color: "#6A5AE0", preco: 500, ready: true },
-      { id: "curiosidades", icon: "🗺️", color: "#00C2CB", preco: 800, ready: true },
+      { id: "flags", icon: "🚩", color: "#00B894", preco: 0, leitura: true, ready: true },
+      { id: "memory", icon: "🧠", color: "#4C6FFF", preco: 150, leitura: false, ready: true },
+      { id: "capitals", icon: "🏛️", color: "#6A5AE0", preco: 500, leitura: true, ready: true },
+      { id: "curiosidades", icon: "🗺️", color: "#00C2CB", preco: 800, leitura: true, ready: true },
   ]},
   { id: "math", icon: "🔢", color: "#F9A826", games: [
-      { id: "count", icon: "🧮", color: "#F9A826", preco: 0, ready: true },
+      { id: "count", icon: "🧮", color: "#F9A826", preco: 0, leitura: false, ready: true },
   ]},
   { id: "nature", icon: "🦁", color: "#00C2CB", games: [
-      { id: "animals", icon: "🐾", color: "#00C2CB", preco: 0, ready: true },
-      { id: "animalQuiz", icon: "🦉", color: "#00B894", preco: 300, ready: true },
-      { id: "sciAnimals", icon: "🔬", color: "#6A5AE0", preco: 600, ready: true },
+      { id: "animals", icon: "🐾", color: "#00C2CB", preco: 0, leitura: false, ready: true },
+      { id: "animalQuiz", icon: "🦉", color: "#00B894", preco: 300, leitura: true, ready: true },
+      { id: "sciAnimals", icon: "🔬", color: "#6A5AE0", preco: 600, leitura: true, ready: true },
   ]},
   { id: "art", icon: "🎨", color: "#E84393", games: [
-      { id: "color", icon: "🖍️", color: "#E84393", preco: 0, ready: true },
-      { id: "colors", icon: "🌈", color: "#F9A826", preco: 200, ready: true },
-      { id: "artMem", icon: "🧩", color: "#9B59B6", preco: 500, ready: true },
+      { id: "color", icon: "🖍️", color: "#E84393", preco: 0, leitura: false, ready: true },
+      { id: "colors", icon: "🌈", color: "#F9A826", preco: 200, leitura: true, ready: true },
+      { id: "artMem", icon: "🧩", color: "#9B59B6", preco: 500, leitura: false, ready: true },
   ]},
   { id: "eng", icon: "🔤", color: "#4C6FFF", games: [
-      { id: "words", icon: "🔤", color: "#4C6FFF", preco: 0, ready: true },
-      { id: "wordMem", icon: "🃏", color: "#6A5AE0", preco: 350, ready: true },
+      { id: "words", icon: "🔤", color: "#4C6FFF", preco: 0, leitura: true, ready: true },
+      { id: "wordMem", icon: "🃏", color: "#6A5AE0", preco: 350, leitura: true, ready: true },
   ]},
   { id: "faith", icon: "✝️", color: "#8D6E3A", games: [
-      { id: "bible", icon: "✝️", color: "#8D6E3A", preco: 0, ready: true },
-      { id: "bibleMem", icon: "🕊️", color: "#00C2CB", preco: 350, ready: true },
+      { id: "bible", icon: "✝️", color: "#8D6E3A", preco: 0, leitura: true, ready: true },
+      { id: "bibleMem", icon: "🕊️", color: "#00C2CB", preco: 350, leitura: false, ready: true },
   ]},
 ];
 
-/* Os grátis já nascem abertos */
-const JOGOS_GRATIS = CATALOG.flatMap(c => c.games.filter(g => !g.preco).map(g => g.id));
+const TODOS_JOGOS = CATALOG.flatMap(c => c.games);
+/* Um jogo que nasce grátis para uns e trancado para outros ainda precisa de
+   preço quando aparece trancado. */
+const PRECO_PADRAO = 150;
+const precoDe = g => g.preco || PRECO_PADRAO;
+
+/* O que já nasce aberto depende de quem está jogando: quem lê começa pelos
+   jogos grátis de sempre; quem ainda não lê começa pelos que se joga
+   olhando. Os outros continuam ali, à vista, para abrir com lumicoins —
+   ninguém fica sem ver o que ainda vai poder jogar. */
+const jogosGratisPara = leitor =>
+  TODOS_JOGOS.filter(g => leitor ? !g.preco : !g.leitura).map(g => g.id);
+const JOGOS_GRATIS = jogosGratisPara(true);
 
 
 
@@ -640,7 +693,7 @@ const PRECO_GERAR = 100;   // 9 desenhos novos no jogo de pintar
      Médio   4 fases × 55          = 220  →  Difícil custa 250 (falta pouco)
      Difícil 3 fases × 55          = 165  →  Gênio  custa 300 (exige repetir)   */
 const BAND_PRECO = { easy: 0, medium: 200, hard: 250, genius: 300 };
-const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200 };   // ~3 a 5 rodadas boas cada
+const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200, mestre: 400, lenda: 700 };   // ~3 a 5 rodadas boas cada
 const CAP_PRECO  = {                                                    // regiões das capitais
   cap_br: 0, cap_sa: 100, cap_na: 150, cap_eu: 250,
   cap_af: 350, cap_as: 450, cap_oc: 550, cap_us: 700,
@@ -700,23 +753,22 @@ function montarEscada(total) {
   return { total, plan, times };
 }
 
-const ESCADA_PADRAO = montarEscada(15);
-/* Só as trilhas de banco grande esticam. O resto herda os 15 degraus. */
+/* Sessenta degraus é o padrão de toda trilha. A Bíblia vai a cem porque o
+   banco dela aguenta: são mais de duas mil perguntas por idioma. O tabuleiro
+   é paginado de 20 em 20, então escada longa não vira tela longa. */
+const ESCADA_PADRAO = montarEscada(60);
 const ESCADAS = {
-  curiosidades: montarEscada(30),
-  ciencias: montarEscada(25),
   bible: montarEscada(100),
 };
 const escadaDe = cont => ESCADAS[cont] || ESCADA_PADRAO;
 const totalDe = cont => escadaDe(cont).total;
 const bandFor = (cont, stage) => escadaDe(cont).plan[Math.min(stage, totalDe(cont)) - 1];
 const tempoDe = (cont, stage) => escadaDe(cont).times[Math.min(stage, totalDe(cont)) - 1];
-const BAND_COLOR = { easy: "#00B894", medium: "#4C6FFF", hard: "#F9A826", genius: "#E84393" };
+const BAND_COLOR = { easy: "#00B894", medium: "#4C6FFF", hard: "#F9A826", genius: "#E84393", mestre: "#6A5AE0", lenda: "#D4A017" };
 
 /* ---------- Economia ---------- */
 const ECON = {
   start: 50,                       // com o que se começa
-  roundCost: 10,
   refillAmount: 100,               // liberadas a cada 3h, mas só entram se resgatar
   refillMs: 3 * 60 * 60 * 1000,
   cap: Infinity,                   // sem teto: o contador só anda quando se resgata
@@ -803,8 +855,8 @@ const ACHIEVEMENTS = [
   { id: "perfect20", cat: "geral", n: 3, icon: "👑", pt: "Vinte 100%", en: "Twenty perfect rounds", es: "Veinte perfectas", test: s => s.perfect >= 20 },
   { id: "streak5", cat: "geral", n: 1, icon: "🔥", pt: "5 acertos seguidos", en: "5 in a row", es: "5 seguidas", test: s => s.bestStreak >= 5 },
   { id: "streak20", cat: "geral", n: 3, icon: "⚡", pt: "20 acertos seguidos", en: "20 in a row", es: "20 seguidas", test: s => s.bestStreak >= 20 },
-  { id: "coins500", cat: "geral", n: 2, icon: "🪙", pt: "500 moedas ganhas", en: "500 coins earned", es: "500 monedas", test: s => s.earned >= 500 },
-  { id: "rich", cat: "geral", n: 3, icon: "💰", pt: "2000 moedas no cofre", en: "2000 coins saved", es: "2000 monedas ahorradas", test: s => s.maxCoins >= 2000 },
+  { id: "coins500", cat: "geral", n: 2, icon: "🪙", pt: "500 lumicoins ganhas", en: "500 lumicoins earned", es: "500 lumicoins", test: s => s.earned >= 500 },
+  { id: "rich", cat: "geral", n: 3, icon: "💰", pt: "2000 lumicoins no cofre", en: "2000 lumicoins saved", es: "2000 lumicoins ahorradas", test: s => s.maxCoins >= 2000 },
   { id: "nohint", cat: "geral", n: 2, icon: "🧠", pt: "10 rodadas sem dica", en: "10 rounds, no hints", es: "10 rondas sin pistas", test: s => s.noHintRounds >= 10 },
   { id: "genius", cat: "geral", n: 2, icon: "🎓", pt: "Fase Gênio vencida", en: "Genius stage cleared", es: "Nivel Genio superado", test: s => s.geniusCleared >= 1 },
   { id: "flash20", cat: "geral", n: 1, icon: "💨", pt: "20 respostas relâmpago", en: "20 lightning answers", es: "20 respuestas relámpago", test: s => s.flash >= 20 },
@@ -1162,8 +1214,12 @@ function AppInterno() {
   const [loaded, setLoaded] = useState(false);
   const [lang, setLang] = useState("pt");
   const [screen, setScreen] = useState("boot"); // boot|create|map|stages|game|result|shop|awards
+  /* papel: "filho" joga; "pai" só acompanha. idade e leitor decidem o que
+     nasce aberto — ver jogosGratisPara. Perfis antigos não têm esses campos:
+     tratamos como criança que já lê, que era o comportamento de antes. */
   const [player, setPlayer] = useState({
-    name: "", avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
+    name: "", papel: "filho", idade: null, leitor: true,
+    avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
   });
   const [coins, setCoins] = useState(ECON.start);
   const [lastRefill, setLastRefill] = useState(Date.now());
@@ -1221,8 +1277,13 @@ function AppInterno() {
     },
   });
 
-  function applySave(d, name, avatar) {
-    setPlayer({ name, avatar });
+  function applySave(d, perfil) {
+    setPlayer({
+      name: perfil.name, avatar: perfil.avatar,
+      papel: perfil.papel || "filho",
+      idade: perfil.idade ?? null,
+      leitor: perfil.leitor !== false,
+    });
     // Cada jogador tem o seu idioma: um irmão pode jogar em inglês e o outro
     // em português no mesmo aparelho.
     if (d.lang && T[d.lang]) setLang(d.lang);
@@ -1233,7 +1294,8 @@ function AppInterno() {
     setOwned(d.owned || []); setStats(d.stats); setSeenAch(d.seenAch || []);
     setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(d.memBest || {});
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
-    setGerados(d.gerados || []); setJogosAbertos([...new Set([...JOGOS_GRATIS, ...(d.jogosAbertos || [])])]);
+    setGerados(d.gerados || []);
+    setJogosAbertos([...new Set([...jogosGratisPara(perfil.leitor !== false), ...(d.jogosAbertos || [])])]);
     setSecoes(d.secoes || []);
   }
 
@@ -1284,8 +1346,9 @@ function AppInterno() {
 
   /* ----- memória ----- */
   function comecarMemoria(nivel, tema = memTema) {
-    if (coins < ECON.roundCost) { setToast(t.notEnough); return; }
-    setCoins(c => c - ECON.roundCost);
+    const custo = custoDaMemoria(memBest, tema, nivel);
+    if (coins < custo) { setToast(t.notEnough); return; }
+    if (custo) setCoins(c => c - custo);
     const cfg = MEM_LEVELS[nivel];
     let cartas;
     const alvoMem = alvoDe(tema);
@@ -1329,7 +1392,7 @@ function AppInterno() {
       earned: x.earned + reward,
       memRounds: x.memRounds + 1,
       mem3: x.mem3 + (st === 3 ? 1 : 0),
-      memPerfect: x.memPerfect + (jogadas === MEM_LEVELS[nivel].pares ? 1 : 0),
+      memPerfect: x.memPerfect + (jogadas === mem.cartas.length / 2 ? 1 : 0),
       maxCoins: Math.max(x.maxCoins, Math.min(ECON.cap, coins + reward)),
       dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
       lastDay: today,
@@ -1365,11 +1428,12 @@ function AppInterno() {
     if (!area) return;
     const i = area.games.findIndex(g => g.id === id);
     const jogo = area.games[i];
-    if (jogosAbertos.includes(id) || !jogo.preco) return;
+    if (jogosAbertos.includes(id)) return;
     const anteriorOk = i === 0 || jogosAbertos.includes(area.games[i - 1].id);
     if (!anteriorOk) return;
-    if (coins < jogo.preco) { setToast(t.notEnough); return; }
-    setCoins(c => c - jogo.preco);
+    const preco = precoDe(jogo);
+    if (coins < preco) { setToast(t.notEnough); return; }
+    setCoins(c => c - preco);
     setJogosAbertos(g => [...g, id]);
     setToast(`🔓 ${t.games[id]}`);
   }
@@ -1429,24 +1493,45 @@ function AppInterno() {
   async function openProfile(pr) {
     try {
       const r = await window.storage.get(`lumus:p:${pr.id}`);
-      applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr.name, pr.avatar);
-    } catch { applySave(blankSave(), pr.name, pr.avatar); }
+      applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr);
+    } catch { applySave(blankSave(), pr); }
     setActiveId(pr.id);
-    setScreen("home");
+    // Responsável não joga: entra direto no acompanhamento dos filhos.
+    if (pr.papel === "pai") { carregarFamilia(); setScreen("familia"); }
+    else setScreen("home");
   }
 
   function newProfile() {
     const d = blankSave();
     setActiveId(`p${Date.now()}`);
-    applySave(d, "", { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null });
+    applySave(d, {
+      name: "", papel: "filho", idade: null, leitor: true,
+      avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
+    });
     setScreen("create");
+  }
+
+  /* ----- acompanhamento dos filhos -----
+     O responsável lê o save de cada criança do próprio aparelho. Nada sai
+     daqui: é o mesmo localStorage, só que aberto por outra tela. */
+  const [familia, setFamilia] = useState([]);
+  async function carregarFamilia() {
+    const filhos = [];
+    for (const pr of profiles) {
+      if (pr.papel === "pai") continue;
+      try {
+        const r = await window.storage.get(`lumus:p:${pr.id}`);
+        filhos.push({ perfil: pr, save: r?.value ? JSON.parse(r.value) : null });
+      } catch { filhos.push({ perfil: pr, save: null }); }
+    }
+    setFamilia(filhos);
   }
 
   function resetProfile(id) {
     const zerado = blankSave();
     try { window.storage.set(`lumus:p:${id}`, JSON.stringify(zerado)); } catch { }
     if (id === activeId) {
-      applySave(zerado, player.name, player.avatar);
+      applySave(zerado, player);
       setToast("↺");
     }
   }
@@ -1477,8 +1562,10 @@ function AppInterno() {
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
       const next = has
-        ? ps.map(p => p.id === activeId ? { ...p, name: player.name, avatar: player.avatar } : p)
-        : [...ps, { id: activeId, name: player.name, avatar: player.avatar }];
+        ? ps.map(p => p.id === activeId
+            ? { ...p, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor }
+            : p)
+        : [...ps, { id: activeId, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor }];
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
@@ -1569,9 +1656,13 @@ function AppInterno() {
     return { cont, diff, stage, qs, time, t0: Date.now(), i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
   }
 
+  /* Fase já vencida com 3 estrelas é treino livre: cobrar de novo por algo
+     que a criança já dominou só a empurra para longe de repetir. As outras
+     continuam custando — é o que dá sentido às lumicoins. */
   function startRound() {
-    if (coins < ECON.roundCost) { setToast(t.notEnough); return; }
-    setCoins(c => c - ECON.roundCost);
+    const custo = custoDaFase(stars, sel.cont, sel.stage);
+    if (coins < custo) { setToast(t.notEnough); return; }
+    if (custo) setCoins(c => c - custo);
     const quiz = quizDe(sel.cont);
     setRound(quiz ? quiz.montar(sel.stage, t, lang, sel.cont) : buildRound(sel.cont, sel.stage));
     setScreen("game");
@@ -1724,7 +1815,15 @@ function AppInterno() {
 
         {!["boot", "create", "profiles"].includes(screen) && <Marca />}
 
-        {screen === "create" && <Create {...{ t, lang, onLang: () => setScreen("lang"), player, setPlayer, onDone: () => setScreen("home") }} />}
+        {screen === "create" && <Create {...{ t, lang, onLang: () => setScreen("lang"), player, setPlayer,
+          onDone: () => {
+            // Só agora sabemos se a criança lê: refaz o conjunto que nasce
+            // aberto, preservando o que já tenha sido comprado.
+            const gratis = jogosGratisPara(player.leitor !== false);
+            setJogosAbertos(js => [...new Set([...gratis, ...js.filter(id => !JOGOS_GRATIS.includes(id))])]);
+            if (player.papel === "pai") { carregarFamilia(); setScreen("familia"); }
+            else setScreen("home");
+          } }} />}
         {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, deleteProfile, resetProfile, setScreen }} />}
         {screen === "gallery" && <Gallery {...{ t, gallery, setScreen, gerados, gerarMais, coins,
           abrirDesenho: (art, fills) => { setPintando({ art, fills }); setScreen("color"); } }} />}
@@ -1758,12 +1857,13 @@ function AppInterno() {
               </div>
               <div className="display" style={{ fontSize: 22, color: "#F9A826", marginBottom: 16 }}>🪙 {mem.reward}</div>
               <div style={{ display: "grid", gap: 9 }}>
-                <Btn full color="#4C6FFF" onClick={() => comecarMemoria(mem.nivel, mem.tema)} disabled={coins < ECON.roundCost}>{t.again}</Btn>
+                <Btn full color="#4C6FFF" onClick={() => comecarMemoria(mem.nivel, mem.tema)} disabled={coins < custoDaMemoria(memBest, mem.tema, mem.nivel)}>{t.again}</Btn>
                 <Btn full color="#8B93AD" onClick={() => setScreen("memLevels")}>←</Btn>
               </div>
             </div>
           </div>
         )}
+        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen }} />}
         {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
@@ -1804,6 +1904,7 @@ export default function App() {
 function Create({ t, lang, onLang, player, setPlayer, onDone }) {
   const a = player.avatar;
   const set = (k, v) => setPlayer(p => ({ ...p, avatar: { ...p.avatar, [k]: v } }));
+  const campo = (k, v) => setPlayer(p => ({ ...p, [k]: v }));
   const Swatches = ({ label, items, k }) => (
     <div style={{ marginBottom: 14 }}>
       <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{label}</div>
@@ -1837,6 +1938,53 @@ function Create({ t, lang, onLang, player, setPlayer, onDone }) {
               style={{ marginTop: 8, width: "100%", padding: "10px 12px", borderRadius: 14, border: "3px solid #E4E8F5", fontWeight: 800, fontSize: 16, outline: "none" }} />
           </div>
         </div>
+
+        {/* Três perguntas antes da aparência. Elas decidem o que a criança
+            encontra aberto no hub: quem ainda não lê começa pelos jogos que
+            se joga olhando, e não por uma tela de texto que ela não entende. */}
+        <div style={{ marginBottom: 14 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.whoIsIt}</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            {[["filho", "🧒", t.roleChild], ["pai", "🧑‍🏫", t.roleParent]].map(([v, ic, rot]) => (
+              <button key={v} onClick={() => campo("papel", v)} className="chunky"
+                style={{ flex: 1, padding: "10px 6px", fontSize: 13,
+                  background: player.papel === v ? "#4C6FFF" : "#E4E8F5",
+                  color: player.papel === v ? "#fff" : "#6C7695" }}>
+                {ic} {rot}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {player.papel !== "pai" && (
+          <>
+            <div style={{ marginBottom: 14 }}>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.howOld}</div>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {[3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+                  <button key={i} onClick={() => campo("idade", i)} className="chunky"
+                    style={{ width: 40, padding: "9px 0", fontSize: 14,
+                      background: player.idade === i ? "#00B894" : "#E4E8F5",
+                      color: player.idade === i ? "#fff" : "#6C7695" }}>{i}</button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 14 }}>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.canRead}</div>
+              <div style={{ display: "flex", gap: 8 }}>
+                {[[false, "🙂", t.readNo], [true, "📖", t.readYes]].map(([v, ic, rot]) => (
+                  <button key={String(v)} onClick={() => campo("leitor", v)} className="chunky"
+                    style={{ flex: 1, padding: "10px 6px", fontSize: 13,
+                      background: player.leitor === v ? "#6A5AE0" : "#E4E8F5",
+                      color: player.leitor === v ? "#fff" : "#6C7695" }}>
+                    {ic} {rot}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
 
         <Swatches label={t.skin} items={SKINS} k="skin" />
         <Swatches label={t.hair} items={HAIRS} k="hair" />
@@ -1897,7 +2045,8 @@ function TopBar({ t, player, coins, nextRefill, right, onAvatar, onSwitch, quant
 
 /* Animais em emoji: nada para baixar, nada de licença, e o desenho já
    vem pronto em qualquer aparelho. Serve à memória e, depois, ao quiz. */
-const BIBLIA_EMOJI = ["🕊️","✝️","📖","🐑","🌈","🐟","🍞","🔥","⭐","⛵","🌿","🦁","👑","🎺","🕯️","⛰️"];
+const BIBLIA_EMOJI = ["🕊️","✝️","📖","🐑","🌈","🐟","🍞","🔥","⭐","⛵","🌿","🦁","👑","🎺","🕯️","⛰️",
+  "🍇","🫒","🏺","🧺","🐫","🌾"];
 
 const ANIMAIS = [
   "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯",
@@ -1915,7 +2064,26 @@ const MEM_LEVELS = {
   medium: { cols: 3, rows: 4, pares: 6,  estrelas: [300, 240, 150] },
   hard:   { cols: 4, rows: 4, pares: 8,  estrelas: [240, 180, 120] },
   genius: { cols: 4, rows: 6, pares: 12, estrelas: [180, 120,  60] },
+  // 4 de largura por 7 de altura: 28 casas, 14 pares certinhos.
+  mestre: { cols: 4, rows: 7, pares: 14, estrelas: [300, 210, 150] },
+  // O topo: 5 por 8, 40 casas, 20 pares. Ainda cabe numa tela de celular
+  // sem rolagem porque, com 5 colunas, cada carta fica mais estreita.
+  lenda:  { cols: 5, rows: 8, pares: 20, estrelas: [420, 300, 210] },
 };
+/* As quatro faixas dos quizzes mais os dois níveis que só a memória tem. */
+const MEM_DIFFS = [...DIFFS, "mestre", "lenda"];
+/* Quanto custa jogar uma fase.
+   Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
+   vale — e mais pesa errar. Zero quando a fase já foi vencida com as três
+   estrelas: cobrar de novo por algo que a criança já dominou só a empurra
+   para longe de repetir. É o que dá sentido às lumicoins sem punir treino. */
+const CUSTO_FAIXA = { easy: 5, medium: 10, hard: 15, genius: 20, mestre: 25, lenda: 30 };
+const custoDaFase = (stars, cont, stage) =>
+  (stars?.[cont]?.[stage] || 0) >= 3 ? 0 : CUSTO_FAIXA[bandFor(cont, stage)];
+/* Na memória a "fase" é o próprio nível, e o recorde guarda as estrelas. */
+const custoDaMemoria = (memBest, tema, nivel) =>
+  (memBest?.[`${tema}:${nivel}`]?.stars || 0) >= 3 ? 0 : CUSTO_FAIXA[nivel];
+
 const memEstrelas = (nivel, seg) => {
   const [um, dois, tres] = MEM_LEVELS[nivel].estrelas;
   return seg <= tres ? 3 : seg <= dois ? 2 : seg <= um ? 1 : 0;
@@ -1992,7 +2160,7 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
       </div>
 
       <div style={{ textAlign: "center", color: "#C9D2FF", fontWeight: 800, fontSize: 12, marginTop: 12 }}>
-        {t.pairs}: {achadas.length / 2}/{cfg.pares} · {t.moves}: {jogadas}
+        {t.pairs}: {achadas.length / 2}/{cartas.length / 2} · {t.moves}: {jogadas}
       </div>
     </div>
   );
@@ -2008,13 +2176,13 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
       <div className="lista">
-        {DIFFS.map((d, di) => {
+        {MEM_DIFFS.map((d, di) => {
           const cfg = MEM_LEVELS[d];
           const b = memBest[`${tema}:${d}`];
           const chave = `m:${tema}:${d}`;
           const preco = MEM_PRECO[d];
           const aberto = !preco || temSecao(chave);
-          const anteriorOk = di === 0 || !MEM_PRECO[DIFFS[di - 1]] || temSecao(`m:${tema}:${DIFFS[di - 1]}`);
+          const anteriorOk = di === 0 || !MEM_PRECO[MEM_DIFFS[di - 1]] || temSecao(`m:${tema}:${MEM_DIFFS[di - 1]}`);
           return (
             <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12, opacity: aberto || anteriorOk ? 1 : .45 }}>
               <div style={{ width: 52, height: 52, borderRadius: 16, background: aberto ? BAND_COLOR[d] : "#B9C0CC", display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 13 }}>
@@ -2032,8 +2200,8 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
                 </div>
               </div>
               {aberto ? (
-                <Btn small color={BAND_COLOR[d]} disabled={coins < ECON.roundCost} onClick={() => comecar(d)}>
-                  🪙{ECON.roundCost}
+                <Btn small color={BAND_COLOR[d]} disabled={coins < custoDaMemoria(memBest, tema, d)} onClick={() => comecar(d)}>
+                  {custoDaMemoria(memBest, tema, d) ? `🪙${custoDaMemoria(memBest, tema, d)}` : `⭐ ${t.free}`}
                 </Btn>
               ) : anteriorOk ? (
                 <Btn small color={coins >= preco ? "#E84393" : "#8B93AD"} disabled={coins < preco}
@@ -3527,6 +3695,9 @@ function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, resetPr
               style={{ border: "none", width: "100%", padding: 14, display: "grid", placeItems: "center", cursor: "pointer" }}>
               <Avatar a={pr.avatar} size={84} />
               <div className="display" style={{ color: "#1B2A6B", fontSize: 17, marginTop: 6 }}>{pr.name}</div>
+              {pr.papel === "pai" && (
+                <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11 }}>🧑‍🏫 {t.roleParent}</div>
+              )}
             </button>
             {editing && (
               <>
@@ -3605,6 +3776,101 @@ function LangScreen({ t, lang, pickLang, setScreen, back }) {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+/* ---------- Acompanhamento do responsável ----------
+   Um perfil marcado como responsável não joga: abre esta tela, que lê o
+   save de cada criança do próprio aparelho e mostra até onde ela chegou.
+   Nada sai do aparelho — é o mesmo localStorage, aberto por outra porta. */
+function nomeDaTrilha(cont, t) {
+  if (t.continents?.[cont]) return `${t.games.flags} · ${t.continents[cont]}`;
+  if (cont.startsWith("cap_")) {
+    const r = cont.slice(4);
+    return `${t.games.capitals} · ${r === "br" ? t.capBrasil : r === "us" ? t.capEUA : t.continents[r] || r}`;
+  }
+  const alvo = alvoDe(cont);
+  if (alvo) return `${t.games.words} · ${LANG_CATALOG[alvo] || alvo}`;
+  const q = QUIZZES[cont];
+  return q ? q.nome(t) : cont;
+}
+
+function FamilyScreen({ t, lang, familia, setScreen }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("profiles")}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 22, flex: 1 }}>👨‍👩‍👧 {t.family}</div>
+      </div>
+      <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 12, marginBottom: 12 }}>{t.familyHint}</div>
+
+      {!familia.length && (
+        <div className="card" style={{ padding: 20, textAlign: "center", color: "#6C7695", fontWeight: 800, fontSize: 14 }}>
+          {t.familyEmpty}
+        </div>
+      )}
+
+      <div className="lista">
+        {familia.map(({ perfil, save }) => {
+          const st = save?.stats || {};
+          const conquistas = ACHIEVEMENTS.filter(a => a.test(st)).length;
+          const trilhas = Object.entries(save?.progress || {}).filter(([, v]) => v > 0);
+          return (
+            <div key={perfil.id} className="card" style={{ padding: 14 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                <Avatar a={perfil.avatar} size={64} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="display" style={{ color: "#1B2A6B", fontSize: 19 }}>{perfil.name || "—"}</div>
+                  <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 12 }}>
+                    {perfil.idade ? `${perfil.idade} ${t.years} · ` : ""}
+                    {perfil.leitor === false ? t.readsNot : t.reads}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", marginBottom: 10 }}>
+                {[["🎮", st.rounds || 0], ["⭐", st.stars || 0], ["🏅", `${conquistas}/${ACHIEVEMENTS.length}`],
+                  ["📅", st.dayStreak || 0], ["🪙", st.earned || 0]].map(([ic, v]) => (
+                  <div key={ic} style={{ flex: 1, textAlign: "center" }}>
+                    <div style={{ fontSize: 16 }}>{ic}</div>
+                    <div className="display" style={{ fontSize: 16, color: "#1B2A6B" }}>{v}</div>
+                  </div>
+                ))}
+              </div>
+
+              {trilhas.length > 0 && (
+                <>
+                  <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>{t.byGame}</div>
+                  <div style={{ display: "grid", gap: 5 }}>
+                    {trilhas.map(([cont, feitas]) => {
+                      const total = totalDe(cont);
+                      return (
+                        <div key={cont} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            {nomeDaTrilha(cont, t)}
+                          </div>
+                          <div style={{ width: 70, height: 8, borderRadius: 5, background: "#E9ECF7", overflow: "hidden" }}>
+                            <div style={{ width: `${Math.min(100, (feitas / total) * 100)}%`, height: "100%", background: "#00B894" }} />
+                          </div>
+                          <div style={{ width: 46, textAlign: "right", fontSize: 11, fontWeight: 900, color: "#6C7695" }}>
+                            {feitas}/{total}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+        <Btn full color="#4C6FFF" onClick={() => setScreen("profiles")}>👥 {t.switchPlayer}</Btn>
+      </div>
+      <div style={{ height: 20 }} />
     </div>
   );
 }
@@ -3824,6 +4090,13 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
       </div>
 
       <div className="display" style={{ color: "#fff", fontSize: 22, marginBottom: 10 }}>{t.home}</div>
+      {/* Para quem ainda não lê, os jogos de texto aparecem trancados. Dizer
+          por quê evita a criança achar que quebrou — e o adulto, que faltou. */}
+      {player.leitor === false && (
+        <div style={{ color: "#A7B3EA", fontWeight: 700, fontSize: 11, marginTop: -6, marginBottom: 10 }}>
+          🔒 {t.needsReading}
+        </div>
+      )}
 
       {CATALOG.map(c => (
         <div key={c.id} style={{ marginBottom: 16 }}>
@@ -3833,7 +4106,7 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
           </div>
           <div className="grid2">
             {c.games.map((g, gi) => {
-              const aberto = !g.preco || jogosAbertos.includes(g.id);
+              const aberto = jogosAbertos.includes(g.id);
               const anteriorOk = gi === 0 || jogosAbertos.includes(c.games[gi - 1].id);
               const compravel = !aberto && anteriorOk && g.ready;
               return (
@@ -3849,8 +4122,8 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
                   <div className="display" style={{ color: "#1B2A6B", fontSize: 15, lineHeight: 1.15, marginTop: 4 }}>{t.games[g.id]}</div>
                   {!g.ready && <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 800, marginTop: 2 }}>{t.soon}</div>}
                   {g.ready && compravel && (
-                    <div style={{ color: coins >= g.preco ? "#E84393" : "#8B93AD", fontSize: 12, fontWeight: 900, marginTop: 3 }}>
-                      🪙 {g.preco}
+                    <div style={{ color: coins >= precoDe(g) ? "#E84393" : "#8B93AD", fontSize: 12, fontWeight: 900, marginTop: 3 }}>
+                      🪙 {precoDe(g)}
                     </div>
                   )}
                   {g.ready && !aberto && !compravel && (
@@ -3958,6 +4231,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
      empurram o "Jogar" para fora da tela. Página de 20, sempre 5 colunas,
      e a página abre junto com a fase — a de número 21 só existe quando a 20
      estiver vencida. */
+  const custoFase = custoDaFase(stars, sel.cont, sel.stage);
   const POR_PAGINA = 20;
   const paginas = Math.ceil(totalFases / POR_PAGINA);
   const [pag, setPag] = useState(Math.min(paginas - 1, Math.floor((sel.stage - 1) / POR_PAGINA)));
@@ -4072,8 +4346,8 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
           ⏱️ {t.record}: {tempoFmt(records[sel.cont][sel.stage])}
         </div>
       )}
-      <Btn full color={BAND_COLOR[band]} disabled={coins < ECON.roundCost || !bandaAberta(band)} onClick={startRound}>
-        ▶ {t.stage} {sel.stage} · {t.levels[band]} · {t.cost} 🪙{ECON.roundCost}
+      <Btn full color={BAND_COLOR[band]} disabled={coins < custoFase || !bandaAberta(band)} onClick={startRound}>
+        ▶ {t.stage} {sel.stage} · {t.levels[band]} · {custoFase ? `${t.cost} 🪙${custoFase}` : `⭐ ${t.free}`}
       </Btn>
     </div>
   );
@@ -4303,7 +4577,7 @@ function Result({ t, round, player, setScreen, setSel, sel, startRound, coins })
 
         <div style={{ display: "grid", gap: 9 }}>
           {round.st > 0 && round.stage < totalDe(round.cont) && (
-            <Btn full color="#00B894" disabled={coins < ECON.roundCost}
+            <Btn full color="#00B894"
               onClick={() => { setSel(s => ({ ...s, stage: round.stage + 1 })); setScreen("stages"); }}>
               {t.nextStage} →
             </Btn>
