@@ -48,6 +48,9 @@ const T = {
     levels: { easy: "Fácil", medium: "Médio", hard: "Difícil", genius: "Gênio", mestre: "Mestre", lenda: "Lenda" },
     whoIsIt: "Quem vai usar?", roleChild: "Criança", roleParent: "Responsável",
     editProfile: "Editar ficha", editHint: "Toque no lápis para editar a ficha. O progresso não se perde.",
+    pinTitle: "Senha do responsável", pinHint: "Digite os 4 números", pinWrong: "Senha errada. Tente de novo.",
+    pinWhy: "Quatro números para as crianças não entrarem aqui. Não é senha de banco — não repita uma que você usa em outro lugar.",
+    pinSet: "Senha definida", pinNone: "Sem senha", pinRemove: "Tirar",
     keepsProgress: "Editar a ficha não apaga nada do que já foi jogado.",
     howOld: "Quantos anos?", canRead: "Já sabe ler?", readNo: "Ainda não", readYes: "Sim",
     years: "anos", family: "Meus filhos", reads: "Já lê", readsNot: "Ainda não lê",
@@ -154,6 +157,9 @@ const T = {
     levels: { easy: "Easy", medium: "Medium", hard: "Hard", genius: "Genius", mestre: "Master", lenda: "Legend" },
     whoIsIt: "Who is this for?", roleChild: "Child", roleParent: "Grown-up",
     editProfile: "Edit details", editHint: "Tap the pencil to edit the details. Progress is kept.",
+    pinTitle: "Grown-up password", pinHint: "Type the 4 digits", pinWrong: "Wrong password. Try again.",
+    pinWhy: "Four digits to keep children out of here. This is not a bank password — do not reuse one you use elsewhere.",
+    pinSet: "Password set", pinNone: "No password", pinRemove: "Remove",
     keepsProgress: "Editing the details erases nothing that was already played.",
     howOld: "How old?", canRead: "Can you read yet?", readNo: "Not yet", readYes: "Yes",
     years: "years old", family: "My children", reads: "Reads", readsNot: "Not reading yet",
@@ -236,6 +242,9 @@ const T = {
     levels: { easy: "Fácil", medium: "Medio", hard: "Difícil", genius: "Genio", mestre: "Maestro", lenda: "Leyenda" },
     whoIsIt: "¿Quién va a usar?", roleChild: "Niño", roleParent: "Adulto",
     editProfile: "Editar ficha", editHint: "Toca el lápiz para editar la ficha. El progreso no se pierde.",
+    pinTitle: "Contraseña del adulto", pinHint: "Escribe los 4 números", pinWrong: "Contraseña incorrecta. Inténtalo otra vez.",
+    pinWhy: "Cuatro números para que los niños no entren aquí. No es una contraseña de banco — no repitas una que uses en otro sitio.",
+    pinSet: "Contraseña puesta", pinNone: "Sin contraseña", pinRemove: "Quitar",
     keepsProgress: "Editar la ficha no borra nada de lo ya jugado.",
     howOld: "¿Cuántos años?", canRead: "¿Ya sabes leer?", readNo: "Todavía no", readYes: "Sí",
     years: "años", family: "Mis hijos", reads: "Ya lee", readsNot: "Todavía no lee",
@@ -332,6 +341,9 @@ const PACKS = {
     levels: { easy: "Facile", medium: "Moyen", hard: "Difficile", genius: "Génie", mestre: "Maître", lenda: "Légende" },
     whoIsIt: "Qui va jouer ?", roleChild: "Enfant", roleParent: "Adulte",
     editProfile: "Modifier la fiche", editHint: "Touche le crayon pour modifier la fiche. La progression est gardée.",
+    pinTitle: "Mot de passe de l'adulte", pinHint: "Tape les 4 chiffres", pinWrong: "Mot de passe incorrect. Réessaie.",
+    pinWhy: "Quatre chiffres pour que les enfants n'entrent pas ici. Ce n'est pas un mot de passe bancaire — n'en réutilise pas un d'ailleurs.",
+    pinSet: "Mot de passe défini", pinNone: "Sans mot de passe", pinRemove: "Retirer",
     keepsProgress: "Modifier la fiche n'efface rien de ce qui a été joué.",
     howOld: "Quel âge ?", canRead: "Tu sais déjà lire ?", readNo: "Pas encore", readYes: "Oui",
     years: "ans", family: "Mes enfants", reads: "Sait lire", readsNot: "Ne lit pas encore",
@@ -407,6 +419,9 @@ const PACKS = {
     levels: { easy: "Leicht", medium: "Mittel", hard: "Schwer", genius: "Genie", mestre: "Meister", lenda: "Legende" },
     whoIsIt: "Wer spielt hier?", roleChild: "Kind", roleParent: "Erwachsener",
     editProfile: "Angaben ändern", editHint: "Tippe auf den Stift, um die Angaben zu ändern. Der Fortschritt bleibt.",
+    pinTitle: "Passwort für Erwachsene", pinHint: "Tippe die 4 Ziffern", pinWrong: "Falsches Passwort. Versuch es nochmal.",
+    pinWhy: "Vier Ziffern, damit Kinder hier nicht hineinkommen. Kein Bankpasswort — verwende keins, das du woanders nutzt.",
+    pinSet: "Passwort gesetzt", pinNone: "Kein Passwort", pinRemove: "Entfernen",
     keepsProgress: "Die Angaben zu ändern löscht nichts vom Gespielten.",
     howOld: "Wie alt?", canRead: "Kannst du schon lesen?", readNo: "Noch nicht", readYes: "Ja",
     years: "Jahre", family: "Meine Kinder", reads: "Liest schon", readsNot: "Liest noch nicht",
@@ -482,6 +497,9 @@ const PACKS = {
     levels: { easy: "Facile", medium: "Medio", hard: "Difficile", genius: "Genio", mestre: "Maestro", lenda: "Leggenda" },
     whoIsIt: "Chi lo userà?", roleChild: "Bambino", roleParent: "Adulto",
     editProfile: "Modifica scheda", editHint: "Tocca la matita per modificare la scheda. I progressi restano.",
+    pinTitle: "Password dell'adulto", pinHint: "Digita i 4 numeri", pinWrong: "Password sbagliata. Riprova.",
+    pinWhy: "Quattro numeri perché i bambini non entrino qui. Non è una password bancaria — non riusare una che usi altrove.",
+    pinSet: "Password impostata", pinNone: "Senza password", pinRemove: "Togli",
     keepsProgress: "Modificare la scheda non cancella nulla di già giocato.",
     howOld: "Quanti anni?", canRead: "Sai già leggere?", readNo: "Non ancora", readYes: "Sì",
     years: "anni", family: "I miei figli", reads: "Sa leggere", readsNot: "Non legge ancora",
@@ -1243,7 +1261,7 @@ function AppInterno() {
      nasce aberto — ver jogosGratisPara. Perfis antigos não têm esses campos:
      tratamos como criança que já lê, que era o comportamento de antes. */
   const [player, setPlayer] = useState({
-    name: "", papel: "filho", idade: null, leitor: null,
+    name: "", papel: "filho", idade: null, leitor: null, pin: null,
     avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
   });
   const [coins, setCoins] = useState(ECON.start);
@@ -1309,6 +1327,7 @@ function AppInterno() {
       papel: perfil.papel || "filho",
       idade: perfil.idade ?? null,
       leitor: perfil.leitor ?? null,
+      pin: perfil.pin || null,
     });
     // Cada jogador tem o seu idioma: um irmão pode jogar em inglês e o outro
     // em português no mesmo aparelho.
@@ -1527,6 +1546,23 @@ function AppInterno() {
     else setScreen("home");
   }
 
+  /* Perfil com senha só é aberto, editado, zerado ou apagado depois dela.
+     Se a tranca valesse só para entrar, a criança apagaria o perfil do pai. */
+  const [pedirPin, setPedirPin] = useState(null);   // { pr, acao }
+  const [pinErrado, setPinErrado] = useState(false);
+
+  function comSenha(pr, acao) {
+    if (pr.pin) { setPinErrado(false); setPedirPin({ pr, acao }); return; }
+    acao(pr);
+  }
+
+  async function conferirPin(digitado) {
+    const { pr, acao } = pedirPin;
+    if (await resumoSenha(digitado, pr.id) !== pr.pin) { setPinErrado(true); return; }
+    setPedirPin(null); setPinErrado(false);
+    acao(pr);
+  }
+
   /* Editar um jogador que já existe.
      A ficha (nome, avatar, papel, idade, leitura) mora em "lumus:profiles";
      o progresso mora em "lumus:p:<id>", outro arquivo. Editar a ficha não
@@ -1547,7 +1583,7 @@ function AppInterno() {
     const d = blankSave();
     setActiveId(`p${Date.now()}`);
     applySave(d, {
-      name: "", papel: "filho", idade: null, leitor: null,
+      name: "", papel: "filho", idade: null, leitor: null, pin: null,
       avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
     });
     setScreen("create");
@@ -1605,9 +1641,9 @@ function AppInterno() {
       const has = ps.some(p => p.id === activeId);
       const next = has
         ? ps.map(p => p.id === activeId
-            ? { ...p, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor }
+            ? { ...p, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin }
             : p)
-        : [...ps, { id: activeId, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor }];
+        : [...ps, { id: activeId, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin }];
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
@@ -1877,6 +1913,11 @@ function AppInterno() {
           </div>
         )}
 
+        {pedirPin && (
+          <PinModal t={t} erro={pinErrado} titulo={pedirPin.pr.name || t.roleParent}
+            onOk={conferirPin} onCancelar={() => { setPedirPin(null); setPinErrado(false); }} />
+        )}
+
         {installTip && (
           <Modal onClose={dispensarInstallTip}>
             <div style={{ textAlign: "center" }}>
@@ -1898,7 +1939,7 @@ function AppInterno() {
         {!["boot", "create", "profiles"].includes(screen) && <Marca />}
 
         {screen === "create" && <Create {...{ t, lang, onLang: () => setScreen("lang"), player, setPlayer,
-          editando,
+          editando, perfilId: activeId,
           onDone: () => {
             // Perfil novo: troca a base do que nasce aberto, agora que se sabe
             // se a criança lê. Perfil que já jogou: só ACRESCENTA. Editar a
@@ -1912,7 +1953,7 @@ function AppInterno() {
             if (player.papel === "pai") { carregarFamilia(activeId); setScreen("familia"); }
             else setScreen("home");
           } }} />}
-        {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen }} />}
+        {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha }} />}
         {screen === "gallery" && <Gallery {...{ t, gallery, setScreen, gerados, gerarMais, coins,
           abrirDesenho: (art, fills) => { setPintando({ art, fills }); setScreen("color"); } }} />}
         {screen === "color" && pintando && <Coloring {...{ t, art: pintando.art, fillsIniciais: pintando.fills,
@@ -1989,10 +2030,11 @@ export default function App() {
 /* ---------- Criação do avatar ----------
    Aqui só o básico e de graça. Chapéu, óculos e estampa vêm da loja,
    para a criança ter o que conquistar com as moedas. */
-function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false }) {
+function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false, perfilId }) {
   const a = player.avatar;
   const set = (k, v) => setPlayer(p => ({ ...p, avatar: { ...p.avatar, [k]: v } }));
   const campo = (k, v) => setPlayer(p => ({ ...p, [k]: v }));
+  const [pinNovo, setPinNovo] = useState("");
   const Swatches = ({ label, items, k }) => (
     <div style={{ marginBottom: 14 }}>
       <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{label}</div>
@@ -2049,6 +2091,29 @@ function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false }
           </div>
         </div>
 
+        {player.papel === "pai" && (
+          <div style={{ marginBottom: 14 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 4 }}>🔒 {t.pinTitle}</div>
+            <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, marginBottom: 8, lineHeight: 1.5 }}>
+              {t.pinWhy}
+            </div>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <input value={pinNovo} onChange={e => setPinNovo(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                inputMode="numeric" placeholder="0000" aria-label={t.pinTitle}
+                style={{ width: 100, padding: "10px 12px", borderRadius: 14, border: "3px solid #E4E8F5",
+                  fontWeight: 900, fontSize: 20, letterSpacing: 6, textAlign: "center", outline: "none" }} />
+              <div style={{ flex: 1, color: player.pin ? "#00B894" : "#8B93AD", fontWeight: 800, fontSize: 12 }}>
+                {player.pin ? `✅ ${t.pinSet}` : t.pinNone}
+              </div>
+              {player.pin && (
+                <Btn small color="#8B93AD" onClick={() => { setPinNovo(""); setPlayer(p => ({ ...p, pin: null })); }}>
+                  {t.pinRemove}
+                </Btn>
+              )}
+            </div>
+          </div>
+        )}
+
         {player.papel !== "pai" && (
           <>
             <div style={{ marginBottom: 14 }}>
@@ -2098,7 +2163,15 @@ function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false }
         <Swatches label={t.shirt} items={SHIRTS} k="shirt" />
 
         <div style={{ color: "#6C7695", fontWeight: 700, fontSize: 12, marginBottom: 12 }}>🛍️ {t.shopHint}</div>
-        <Btn full color="#00B894" onClick={onDone} disabled={!player.name.trim()}>{t.ready} 🎉</Btn>
+        <Btn full color="#00B894" disabled={!player.name.trim()}
+          onClick={async () => {
+            if (player.papel === "pai" && pinNovo.length === 4) {
+              setPlayer(p => ({ ...p, pin: null }));            // limpa antes de gravar o novo
+              const resumo = await resumoSenha(pinNovo, perfilId);
+              setPlayer(p => ({ ...p, pin: resumo }));
+            }
+            onDone();
+          }}>{t.ready} 🎉</Btn>
       </div>
     </div>
   );
@@ -3773,7 +3846,7 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
 }
 
 /* ---------- Quem vai jogar ---------- */
-function Profiles({ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen }) {
+function Profiles({ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha }) {
   const [editing, setEditing] = useState(false);
   const [ask, setAsk] = useState(null);
   const [zerar, setZerar] = useState(null);
@@ -3793,21 +3866,23 @@ function Profiles({ t, profiles, openProfile, newProfile, editProfile, deletePro
       <div className="grid2">
         {profiles.map(pr => (
           <div key={pr.id} style={{ position: "relative" }}>
-            <button onClick={() => !editing && openProfile(pr)} className="card"
+            <button onClick={() => !editing && comSenha(pr, openProfile)} className="card"
               style={{ border: "none", width: "100%", padding: 14, display: "grid", placeItems: "center", cursor: "pointer" }}>
               <Avatar a={pr.avatar} size={84} />
               <div className="display" style={{ color: "#1B2A6B", fontSize: 17, marginTop: 6 }}>{pr.name}</div>
               {pr.papel === "pai" && (
-                <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11 }}>🧑‍🏫 {t.roleParent}</div>
+                <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11 }}>
+                  {pr.pin ? "🔒" : "🧑‍🏫"} {t.roleParent}
+                </div>
               )}
             </button>
             {editing && (
               <>
-                <button onClick={() => setAsk(pr)} className="chunky" aria-label={t.del}
+                <button onClick={() => comSenha(pr, setAsk)} className="chunky" aria-label={t.del}
                   style={{ position: "absolute", top: -6, right: -6, width: 34, height: 34, borderRadius: 17, background: "#E74C3C", fontSize: 15 }}>✕</button>
-                <button onClick={() => setZerar(pr)} className="chunky" aria-label={t.reset}
+                <button onClick={() => comSenha(pr, setZerar)} className="chunky" aria-label={t.reset}
                   style={{ position: "absolute", top: -6, left: -6, width: 34, height: 34, borderRadius: 17, background: "#F9A826", fontSize: 15 }}>↺</button>
-                <button onClick={() => editProfile(pr)} className="chunky" aria-label={t.editProfile}
+                <button onClick={() => comSenha(pr, editProfile)} className="chunky" aria-label={t.editProfile}
                   style={{ position: "absolute", bottom: -6, right: -6, width: 34, height: 34, borderRadius: 17, background: "#4C6FFF", fontSize: 14 }}>✏️</button>
               </>
             )}
@@ -3881,6 +3956,75 @@ function LangScreen({ t, lang, pickLang, setScreen, back }) {
         })}
       </div>
     </div>
+  );
+}
+
+/* ---------- Senha do responsável ----------
+   ISTO É UMA TRANCA CONTRA CRIANÇA, NÃO SEGURANÇA.
+
+   Tudo mora no aparelho, em localStorage. Quem souber abrir o navegador por
+   dentro passa por aqui em um minuto — e não há como ser diferente num app
+   sem servidor e sem conta. O que estes quatro números resolvem é o problema
+   real: a criança de 6 anos não entra na tela do pai nem apaga o perfil dele.
+
+   Guardo o resumo SHA-256 com o id do perfil como tempero, para a senha não
+   ficar legível a olho nu no armazenamento. Quatro dígitos se quebram por
+   tentativa e erro; o resumo só evita a leitura casual.
+
+   ponytail: quatro dígitos e resumo local. Se um dia isso virar conta de
+   verdade, aí sim entra senha forte e servidor. */
+async function resumoSenha(pin, id) {
+  const txt = `lumus:${id}:${pin}`;
+  try {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+  } catch {
+    // Sem WebCrypto (contexto inseguro): guarda um resumo fraco, melhor que texto puro.
+    let h = 2166136261;
+    for (const c of txt) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+    return "fraco:" + h.toString(16);
+  }
+}
+
+/* Teclado de quatro dígitos. Sem teclado do sistema: dedo de adulto com o
+   celular na mão da criança, e nada de texto para ler. */
+function PinModal({ t, titulo, onOk, onCancelar, erro }) {
+  const [pin, setPin] = useState("");
+  const digitar = d => setPin(x => (x + d).slice(0, 4));
+  return (
+    <Modal onClose={onCancelar}>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: 40 }}>🔒</div>
+        <div className="display" style={{ fontSize: 21, color: "#1B2A6B", margin: "6px 0 4px" }}>{titulo}</div>
+        <div style={{ color: erro ? "#E74C3C" : "#8B93AD", fontWeight: 800, fontSize: 12, marginBottom: 12 }}>
+          {erro ? t.pinWrong : t.pinHint}
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 14 }}>
+          {[0, 1, 2, 3].map(i => (
+            <div key={i} style={{
+              width: 34, height: 42, borderRadius: 12, display: "grid", placeItems: "center",
+              background: "#EEF1FF", color: "#1B2A6B", fontWeight: 900, fontSize: 22,
+              border: pin.length === i ? "3px solid #4C6FFF" : "3px solid #E4E8F5",
+            }}>{pin[i] ? "•" : ""}</div>
+          ))}
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 7 }}>
+          {["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "✓"].map(d => (
+            <button key={d} className="chunky"
+              disabled={d === "✓" && pin.length < 4}
+              onClick={() => d === "⌫" ? setPin(x => x.slice(0, -1)) : d === "✓" ? onOk(pin) : digitar(d)}
+              style={{
+                padding: "14px 0", fontSize: 19,
+                background: d === "✓" ? (pin.length === 4 ? "#00B894" : "#B9C0CC") : d === "⌫" ? "#8B93AD" : "#4C6FFF",
+              }}>{d}</button>
+          ))}
+        </div>
+        <button onClick={onCancelar}
+          style={{ background: "none", border: "none", color: "#8B93AD", fontWeight: 800, fontSize: 13, marginTop: 12, cursor: "pointer" }}>
+          {t.cancel}
+        </button>
+      </div>
+    </Modal>
   );
 }
 
