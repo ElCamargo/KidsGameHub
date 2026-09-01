@@ -47,6 +47,8 @@ const T = {
     unlockFor: "Abrir por",
     levels: { easy: "Fácil", medium: "Médio", hard: "Difícil", genius: "Gênio", mestre: "Mestre", lenda: "Lenda" },
     whoIsIt: "Quem vai usar?", roleChild: "Criança", roleParent: "Responsável",
+    editProfile: "Editar ficha", editHint: "Toque no lápis para editar a ficha. O progresso não se perde.",
+    keepsProgress: "Editar a ficha não apaga nada do que já foi jogado.",
     howOld: "Quantos anos?", canRead: "Já sabe ler?", readNo: "Ainda não", readYes: "Sim",
     years: "anos", family: "Meus filhos", reads: "Já lê", readsNot: "Ainda não lê",
     familyEmpty: "Ainda não há nenhuma criança neste aparelho.",
@@ -151,6 +153,8 @@ const T = {
     coins: "lumicoins", nextCoins: "Free lumicoins in", locked: "Locked", unlockFor: "Unlock for",
     levels: { easy: "Easy", medium: "Medium", hard: "Hard", genius: "Genius", mestre: "Master", lenda: "Legend" },
     whoIsIt: "Who is this for?", roleChild: "Child", roleParent: "Grown-up",
+    editProfile: "Edit details", editHint: "Tap the pencil to edit the details. Progress is kept.",
+    keepsProgress: "Editing the details erases nothing that was already played.",
     howOld: "How old?", canRead: "Can you read yet?", readNo: "Not yet", readYes: "Yes",
     years: "years old", family: "My children", reads: "Reads", readsNot: "Not reading yet",
     familyEmpty: "No child on this device yet.",
@@ -231,6 +235,8 @@ const T = {
     coins: "lumicoins", nextCoins: "Lumicoins gratis en", locked: "Bloqueado", unlockFor: "Abrir por",
     levels: { easy: "Fácil", medium: "Medio", hard: "Difícil", genius: "Genio", mestre: "Maestro", lenda: "Leyenda" },
     whoIsIt: "¿Quién va a usar?", roleChild: "Niño", roleParent: "Adulto",
+    editProfile: "Editar ficha", editHint: "Toca el lápiz para editar la ficha. El progreso no se pierde.",
+    keepsProgress: "Editar la ficha no borra nada de lo ya jugado.",
     howOld: "¿Cuántos años?", canRead: "¿Ya sabes leer?", readNo: "Todavía no", readYes: "Sí",
     years: "años", family: "Mis hijos", reads: "Ya lee", readsNot: "Todavía no lee",
     familyEmpty: "Aún no hay ningún niño en este aparato.",
@@ -325,6 +331,8 @@ const PACKS = {
     nextCoins: "Lumicoins gratuites dans", locked: "Verrouillé", unlockFor: "Ouvrir pour",
     levels: { easy: "Facile", medium: "Moyen", hard: "Difficile", genius: "Génie", mestre: "Maître", lenda: "Légende" },
     whoIsIt: "Qui va jouer ?", roleChild: "Enfant", roleParent: "Adulte",
+    editProfile: "Modifier la fiche", editHint: "Touche le crayon pour modifier la fiche. La progression est gardée.",
+    keepsProgress: "Modifier la fiche n'efface rien de ce qui a été joué.",
     howOld: "Quel âge ?", canRead: "Tu sais déjà lire ?", readNo: "Pas encore", readYes: "Oui",
     years: "ans", family: "Mes enfants", reads: "Sait lire", readsNot: "Ne lit pas encore",
     familyEmpty: "Aucun enfant sur cet appareil pour l'instant.",
@@ -398,6 +406,8 @@ const PACKS = {
     nextCoins: "Gratis-Lumicoins in", locked: "Gesperrt", unlockFor: "Öffnen für",
     levels: { easy: "Leicht", medium: "Mittel", hard: "Schwer", genius: "Genie", mestre: "Meister", lenda: "Legende" },
     whoIsIt: "Wer spielt hier?", roleChild: "Kind", roleParent: "Erwachsener",
+    editProfile: "Angaben ändern", editHint: "Tippe auf den Stift, um die Angaben zu ändern. Der Fortschritt bleibt.",
+    keepsProgress: "Die Angaben zu ändern löscht nichts vom Gespielten.",
     howOld: "Wie alt?", canRead: "Kannst du schon lesen?", readNo: "Noch nicht", readYes: "Ja",
     years: "Jahre", family: "Meine Kinder", reads: "Liest schon", readsNot: "Liest noch nicht",
     familyEmpty: "Noch kein Kind auf diesem Gerät.",
@@ -471,6 +481,8 @@ const PACKS = {
     nextCoins: "Lumicoins gratis tra", locked: "Bloccato", unlockFor: "Apri con",
     levels: { easy: "Facile", medium: "Medio", hard: "Difficile", genius: "Genio", mestre: "Maestro", lenda: "Leggenda" },
     whoIsIt: "Chi lo userà?", roleChild: "Bambino", roleParent: "Adulto",
+    editProfile: "Modifica scheda", editHint: "Tocca la matita per modificare la scheda. I progressi restano.",
+    keepsProgress: "Modificare la scheda non cancella nulla di già giocato.",
     howOld: "Quanti anni?", canRead: "Sai già leggere?", readNo: "Non ancora", readYes: "Sì",
     years: "anni", family: "I miei figli", reads: "Sa leggere", readsNot: "Non legge ancora",
     familyEmpty: "Ancora nessun bambino su questo apparecchio.",
@@ -1268,6 +1280,7 @@ function AppInterno() {
   const [jogosAbertos, setJogosAbertos] = useState(JOGOS_GRATIS);
   const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
   const [destinoIdioma, setDestinoIdioma] = useState("quiz"); // quiz ou memória
+  const [editando, setEditando] = useState(false);            // criando ou editando ficha
 
   const t = T[lang];
 
@@ -1510,11 +1523,27 @@ function AppInterno() {
     } catch { applySave(blankSave(), pr); }
     setActiveId(pr.id);
     // Responsável não joga: entra direto no acompanhamento dos filhos.
-    if (pr.papel === "pai") { carregarFamilia(); setScreen("familia"); }
+    if (pr.papel === "pai") { carregarFamilia(pr.id); setScreen("familia"); }
     else setScreen("home");
   }
 
+  /* Editar um jogador que já existe.
+     A ficha (nome, avatar, papel, idade, leitura) mora em "lumus:profiles";
+     o progresso mora em "lumus:p:<id>", outro arquivo. Editar a ficha não
+     encosta no progresso — e mesmo assim carrego o save antes de abrir a
+     tela, para que o "Pronto" grave de volta exatamente o que estava lá. */
+  async function editProfile(pr) {
+    try {
+      const r = await window.storage.get(`lumus:p:${pr.id}`);
+      applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr);
+    } catch { applySave(blankSave(), pr); }
+    setActiveId(pr.id);
+    setEditando(true);
+    setScreen("create");
+  }
+
   function newProfile() {
+    setEditando(false);
     const d = blankSave();
     setActiveId(`p${Date.now()}`);
     applySave(d, {
@@ -1528,10 +1557,10 @@ function AppInterno() {
      O responsável lê o save de cada criança do próprio aparelho. Nada sai
      daqui: é o mesmo localStorage, só que aberto por outra tela. */
   const [familia, setFamilia] = useState([]);
-  async function carregarFamilia() {
+  async function carregarFamilia(eu = activeId) {
     const filhos = [];
     for (const pr of profiles) {
-      if (pr.papel === "pai") continue;
+      if (pr.papel === "pai" || pr.id === eu) continue;
       try {
         const r = await window.storage.get(`lumus:p:${pr.id}`);
         filhos.push({ perfil: pr, save: r?.value ? JSON.parse(r.value) : null });
@@ -1869,15 +1898,21 @@ function AppInterno() {
         {!["boot", "create", "profiles"].includes(screen) && <Marca />}
 
         {screen === "create" && <Create {...{ t, lang, onLang: () => setScreen("lang"), player, setPlayer,
+          editando,
           onDone: () => {
-            // Só agora sabemos se a criança lê: refaz o conjunto que nasce
-            // aberto, preservando o que já tenha sido comprado.
+            // Perfil novo: troca a base do que nasce aberto, agora que se sabe
+            // se a criança lê. Perfil que já jogou: só ACRESCENTA. Editar a
+            // ficha de quem já está no meio do caminho não pode tirar da mão
+            // dela um jogo que ela já estava jogando.
             const gratis = jogosGratisPara(ehLeitor(player));
-            setJogosAbertos(js => [...new Set([...gratis, ...js.filter(id => !JOGOS_GRATIS.includes(id))])]);
-            if (player.papel === "pai") { carregarFamilia(); setScreen("familia"); }
+            setJogosAbertos(js => stats.rounds === 0 && !editando
+              ? [...new Set([...gratis, ...js.filter(id => !JOGOS_GRATIS.includes(id))])]
+              : [...new Set([...gratis, ...js])]);
+            setEditando(false);
+            if (player.papel === "pai") { carregarFamilia(activeId); setScreen("familia"); }
             else setScreen("home");
           } }} />}
-        {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, deleteProfile, resetProfile, setScreen }} />}
+        {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen }} />}
         {screen === "gallery" && <Gallery {...{ t, gallery, setScreen, gerados, gerarMais, coins,
           abrirDesenho: (art, fills) => { setPintando({ art, fills }); setScreen("color"); } }} />}
         {screen === "color" && pintando && <Coloring {...{ t, art: pintando.art, fillsIniciais: pintando.fills,
@@ -1954,7 +1989,7 @@ export default function App() {
 /* ---------- Criação do avatar ----------
    Aqui só o básico e de graça. Chapéu, óculos e estampa vêm da loja,
    para a criança ter o que conquistar com as moedas. */
-function Create({ t, lang, onLang, player, setPlayer, onDone }) {
+function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false }) {
   const a = player.avatar;
   const set = (k, v) => setPlayer(p => ({ ...p, avatar: { ...p.avatar, [k]: v } }));
   const campo = (k, v) => setPlayer(p => ({ ...p, [k]: v }));
@@ -1997,6 +2032,11 @@ function Create({ t, lang, onLang, player, setPlayer, onDone }) {
             se joga olhando, e não por uma tela de texto que ela não entende. */}
         <div style={{ marginBottom: 14 }}>
           <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.whoIsIt}</div>
+          {editando && (
+            <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, marginBottom: 6, lineHeight: 1.5 }}>
+              🔒 {t.keepsProgress}
+            </div>
+          )}
           <div style={{ display: "flex", gap: 8 }}>
             {[["filho", "🧒", t.roleChild], ["pai", "🧑‍🏫", t.roleParent]].map(([v, ic, rot]) => (
               <button key={v} onClick={() => campo("papel", v)} className="chunky"
@@ -3733,7 +3773,7 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
 }
 
 /* ---------- Quem vai jogar ---------- */
-function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, resetProfile, setScreen }) {
+function Profiles({ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen }) {
   const [editing, setEditing] = useState(false);
   const [ask, setAsk] = useState(null);
   const [zerar, setZerar] = useState(null);
@@ -3743,6 +3783,12 @@ function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, resetPr
         <div className="display" style={{ color: "#fff", fontSize: 40, lineHeight: 1 }}>LUMUS</div>
         <div className="display" style={{ color: "#C9D2FF", fontSize: 18, marginTop: 6 }}>{t.players}</div>
       </div>
+
+      {editing && (
+        <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 12, textAlign: "center", marginBottom: 10, lineHeight: 1.6 }}>
+          ✏️ {t.editHint}
+        </div>
+      )}
 
       <div className="grid2">
         {profiles.map(pr => (
@@ -3761,6 +3807,8 @@ function Profiles({ t, profiles, openProfile, newProfile, deleteProfile, resetPr
                   style={{ position: "absolute", top: -6, right: -6, width: 34, height: 34, borderRadius: 17, background: "#E74C3C", fontSize: 15 }}>✕</button>
                 <button onClick={() => setZerar(pr)} className="chunky" aria-label={t.reset}
                   style={{ position: "absolute", top: -6, left: -6, width: 34, height: 34, borderRadius: 17, background: "#F9A826", fontSize: 15 }}>↺</button>
+                <button onClick={() => editProfile(pr)} className="chunky" aria-label={t.editProfile}
+                  style={{ position: "absolute", bottom: -6, right: -6, width: 34, height: 34, borderRadius: 17, background: "#4C6FFF", fontSize: 14 }}>✏️</button>
               </>
             )}
           </div>
