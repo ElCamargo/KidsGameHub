@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
+/* Bancos de perguntas. Ficam fora deste arquivo porque são DADOS, não lógica:
+   um pastor pode revisar biblia-pessoas.js sem abrir o jogo, e o App.jsx não
+   dobra de tamanho a cada cem perguntas novas. */
+import { bancoBiblia } from "./data/biblia.js";
+import { CURIOSIDADES, CURIOSIDADE_NIVEL, AGUAS } from "./data/curiosidades.js";
+import { perguntasCiencia, CIENCIA_NIVEL, GRUPOS, DIETAS, CASAS, NASCE } from "./data/ciencias.js";
+
 /* ============================================================
    LUMUS — Kids Game Hub
    "Iluminar a mente"
@@ -60,6 +67,7 @@ const T = {
     again: "Jogar de novo",
     backMap: "Voltar ao mapa",
     nextStage: "Próxima fase",
+    free: "Grátis",
     buy: "Comprar",
     owned: "Você tem",
     equip: "Usar",
@@ -81,7 +89,7 @@ const T = {
     home: "Escolha um jogo",
     soon: "Em breve",
     cat: { geo: "Geografia", math: "Matemática", nature: "Natureza", art: "Arte", eng: "Idiomas", faith: "Fé e Bíblia" },
-    games: { flags: "Bandeiras do Mundo", memory: "Memória do Mundo", capitals: "Capitais", count: "Contas e Números", animals: "Memória dos Animais", animalQuiz: "Quiz dos Animais", color: "Pintar e Colorir", colors: "Cores e Formas", artMem: "Memória das Formas", words: "Palavras do Mundo", wordMem: "Memória de Palavras", bible: "Quiz da Bíblia", bibleMem: "Memória da Bíblia" },
+    games: { flags: "Bandeiras do Mundo", memory: "Memória do Mundo", capitals: "Capitais", count: "Contas e Números", animals: "Memória dos Animais", animalQuiz: "Quiz dos Animais", color: "Pintar e Colorir", colors: "Cores e Formas", artMem: "Memória das Formas", words: "Palavras do Mundo", wordMem: "Memória de Palavras", bible: "Quiz da Bíblia", bibleMem: "Memória da Bíblia", curiosidades: "Curiosidades do Mundo", sciAnimals: "Curiosidades dos Animais" },
     mascotHome: "Oi! Que tal aprender brincando?",
     profileTitle: "Meu perfil",
     statRounds: "Rodadas", statPerfect: "100%", statFlags: "Bandeiras", statDays: "Dias seguidos",
@@ -113,6 +121,8 @@ const T = {
     howSayIn: "Como se diz isso em {x}?", whichLang: "Qual idioma quer aprender?",
     langHint: "Baixe mais idiomas em 🌐 Idioma para aprender outros.",
     whichCapital: "Qual é a capital?", capBrasil: "Estados do Brasil", capEUA: "Estados dos EUA",
+    curQ: { pais: "Em que país encontramos {x}?", cidade: "Em que cidade encontramos {x}?", agua: "Em que mar ou oceano encontramos {x}?", continente: "Em que continente encontramos {x}?" },
+    sciQ: { grupo: "A que grupo pertence este animal?", dieta: "O que este animal come?", casa: "Onde este animal vive?", nasce: "Como nasce o filhote deste animal?", onde: "Em que continente este animal vive na natureza?" },
     needTen: "Vença 10 fases da região anterior", claim: "Resgatar", claimReady: "Moedas prontas!",
     claimTitle: "Suas moedas chegaram!",
     needPrev: "Abra o jogo anterior",
@@ -141,6 +151,7 @@ const T = {
     noRush: "NO RUSH", timeUp: "Time's up!", correct: "Yes!", wrong: "So close!",
     roundOver: "Round over", score: "Score", accuracy: "Correct", reward: "Reward",
     perfect: "PERFECT!", again: "Play again", backMap: "Back to map", nextStage: "Next stage",
+    free: "Free",
     buy: "Buy", owned: "You own", equip: "Wear", equipped: "Wearing", streak: "Streak",
     tutorial: "How to play",
     tut1: "The flag shows up here.",
@@ -153,7 +164,7 @@ const T = {
     mascotStage: "Let's go! You can do it!",
     home: "Pick a game", soon: "Coming soon",
     cat: { geo: "Geography", math: "Math", nature: "Nature", art: "Art", eng: "Languages", faith: "Faith and Bible" },
-    games: { flags: "Flags of the World", memory: "World Memory", capitals: "Capitals", count: "Sums and Numbers", animals: "Animal Memory", animalQuiz: "Animal Quiz", color: "Paint and Color", colors: "Colors and Shapes", artMem: "Shape Memory", words: "World Words", wordMem: "Word Memory", bible: "Bible Quiz", bibleMem: "Bible Memory" },
+    games: { flags: "Flags of the World", memory: "World Memory", capitals: "Capitals", count: "Sums and Numbers", animals: "Animal Memory", animalQuiz: "Animal Quiz", color: "Paint and Color", colors: "Colors and Shapes", artMem: "Shape Memory", words: "World Words", wordMem: "Word Memory", bible: "Bible Quiz", bibleMem: "Bible Memory", curiosidades: "World Fun Facts", sciAnimals: "Animal Science" },
     mascotHome: "Hi! Want to learn by playing?",
     profileTitle: "My profile",
     statRounds: "Rounds", statPerfect: "100%", statFlags: "Flags", statDays: "Day streak",
@@ -185,6 +196,8 @@ const T = {
     howSayIn: "How do you say this in {x}?", whichLang: "Which language do you want to learn?",
     langHint: "Download more languages under 🌐 Language to learn others.",
     whichCapital: "What is the capital?", capBrasil: "States of Brazil", capEUA: "US States",
+    curQ: { pais: "In which country do we find {x}?", cidade: "In which city do we find {x}?", agua: "In which sea or ocean do we find {x}?", continente: "On which continent do we find {x}?" },
+    sciQ: { grupo: "Which group does this animal belong to?", dieta: "What does this animal eat?", casa: "Where does this animal live?", nasce: "How is this animal's baby born?", onde: "On which continent does this animal live in the wild?" },
     needTen: "Clear 10 stages of the previous region", claim: "Claim", claimReady: "Coins ready!",
     claimTitle: "Your coins have arrived!",
     needPrev: "Unlock the previous game",
@@ -212,6 +225,7 @@ const T = {
     noRush: "SIN PRISA", timeUp: "¡Se acabó!", correct: "¡Muy bien!", wrong: "¡Casi!",
     roundOver: "Fin de la ronda", score: "Puntos", accuracy: "Aciertos", reward: "Premio",
     perfect: "¡PERFECTO!", again: "Jugar otra vez", backMap: "Volver al mapa", nextStage: "Siguiente nivel",
+    free: "Gratis",
     buy: "Comprar", owned: "Tienes", equip: "Usar", equipped: "Usando", streak: "Racha",
     tutorial: "Cómo jugar",
     tut1: "La bandera aparece arriba.",
@@ -224,7 +238,7 @@ const T = {
     mascotStage: "¡Vamos! ¡Tú puedes!",
     home: "Elige un juego", soon: "Muy pronto",
     cat: { geo: "Geografía", math: "Matemáticas", nature: "Naturaleza", art: "Arte", eng: "Idiomas", faith: "Fe y Biblia" },
-    games: { flags: "Banderas del Mundo", memory: "Memoria del Mundo", capitals: "Capitales", count: "Cuentas y Números", animals: "Memoria de Animales", animalQuiz: "Quiz de Animales", color: "Pintar y Colorear", colors: "Colores y Formas", artMem: "Memoria de Formas", words: "Palabras del Mundo", wordMem: "Memoria de Palabras", bible: "Quiz de la Biblia", bibleMem: "Memoria Bíblica" },
+    games: { flags: "Banderas del Mundo", memory: "Memoria del Mundo", capitals: "Capitales", count: "Cuentas y Números", animals: "Memoria de Animales", animalQuiz: "Quiz de Animales", color: "Pintar y Colorear", colors: "Colores y Formas", artMem: "Memoria de Formas", words: "Palabras del Mundo", wordMem: "Memoria de Palabras", bible: "Quiz de la Biblia", bibleMem: "Memoria Bíblica", curiosidades: "Curiosidades del Mundo", sciAnimals: "Ciencia de los Animales" },
     mascotHome: "¡Hola! ¿Aprendemos jugando?",
     profileTitle: "Mi perfil",
     statRounds: "Rondas", statPerfect: "100%", statFlags: "Banderas", statDays: "Días seguidos",
@@ -256,6 +270,8 @@ const T = {
     howSayIn: "¿Cómo se dice esto en {x}?", whichLang: "¿Qué idioma quieres aprender?",
     langHint: "Descarga más idiomas en 🌐 Idioma para aprender otros.",
     whichCapital: "¿Cuál es la capital?", capBrasil: "Estados de Brasil", capEUA: "Estados de EE. UU.",
+    curQ: { pais: "¿En qué país encontramos {x}?", cidade: "¿En qué ciudad encontramos {x}?", agua: "¿En qué mar u océano encontramos {x}?", continente: "¿En qué continente encontramos {x}?" },
+    sciQ: { grupo: "¿A qué grupo pertenece este animal?", dieta: "¿Qué come este animal?", casa: "¿Dónde vive este animal?", nasce: "¿Cómo nace la cría de este animal?", onde: "¿En qué continente vive este animal en la naturaleza?" },
     needTen: "Supera 10 niveles de la región anterior", claim: "Reclamar", claimReady: "¡Monedas listas!",
     claimTitle: "¡Llegaron tus monedas!",
     needPrev: "Abre el juego anterior",
@@ -295,6 +311,7 @@ const PACKS = {
     noRush: "SANS PRESSION", timeUp: "Temps écoulé !", correct: "Bravo !", wrong: "Presque !",
     roundOver: "Fin de la manche", score: "Points", accuracy: "Bonnes réponses", reward: "Récompense",
     perfect: "PARFAIT !", again: "Rejouer", backMap: "Retour à la carte", nextStage: "Niveau suivant",
+    free: "Gratuit",
     buy: "Acheter", owned: "Tu as", equip: "Porter", equipped: "Porté", streak: "Série",
     tutorial: "Comment jouer", tut1: "Le drapeau apparaît ici.", tut2: "Choisis le bon nom parmi 4.",
     tut3: "Tu as quelques secondes. Vite !", tut4: "Bloqué ? Dépense des pièces pour enlever de mauvaises réponses.",
@@ -303,7 +320,7 @@ const PACKS = {
     mascotHub: "Choisis un continent à explorer !", mascotStage: "C'est parti ! Tu peux le faire !",
     home: "Choisis un jeu", soon: "Bientôt",
     cat: { geo: "Géographie", math: "Maths", nature: "Nature", art: "Art", eng: "Langues", faith: "Foi et Bible" },
-    games: { flags: "Drapeaux du Monde", memory: "Mémoire du Monde", capitals: "Capitales", count: "Calculs et Nombres", animals: "Mémoire des Animaux", animalQuiz: "Quiz des Animaux", color: "Peindre et Colorier", colors: "Couleurs et Formes", artMem: "Mémoire des Formes", words: "Mots du Monde", wordMem: "Mémoire des Mots", bible: "Quiz de la Bible", bibleMem: "Mémoire Biblique" },
+    games: { flags: "Drapeaux du Monde", memory: "Mémoire du Monde", capitals: "Capitales", count: "Calculs et Nombres", animals: "Mémoire des Animaux", animalQuiz: "Quiz des Animaux", color: "Peindre et Colorier", colors: "Couleurs et Formes", artMem: "Mémoire des Formes", words: "Mots du Monde", wordMem: "Mémoire des Mots", bible: "Quiz de la Bible", bibleMem: "Mémoire Biblique", curiosidades: "Curiosités du Monde", sciAnimals: "Sciences des Animaux" },
     mascotHome: "Salut ! On apprend en jouant ?",
     profileTitle: "Mon profil",
     statRounds: "Manches", statPerfect: "100%", statFlags: "Drapeaux", statDays: "Jours d'affilée",
@@ -335,6 +352,8 @@ const PACKS = {
     howSayIn: "Comment dit-on ça en {x} ?", whichLang: "Quelle langue veux-tu apprendre ?",
     langHint: "Télécharge d'autres langues dans 🌐 Langue.",
     whichCapital: "Quelle est la capitale ?", capBrasil: "États du Brésil", capEUA: "États des USA",
+    curQ: { pais: "Dans quel pays trouve-t-on {x} ?", cidade: "Dans quelle ville trouve-t-on {x} ?", agua: "Dans quelle mer ou quel océan trouve-t-on {x} ?", continente: "Sur quel continent trouve-t-on {x} ?" },
+    sciQ: { grupo: "À quel groupe appartient cet animal ?", dieta: "Que mange cet animal ?", casa: "Où vit cet animal ?", nasce: "Comment naît le petit de cet animal ?", onde: "Sur quel continent cet animal vit-il à l'état sauvage ?" },
     needTen: "Termine 10 niveaux de la région précédente", claim: "Récupérer", claimReady: "Pièces prêtes !",
     claimTitle: "Tes pièces sont arrivées !",
     needPrev: "Débloque le jeu précédent",
@@ -359,6 +378,7 @@ const PACKS = {
     noRush: "OHNE ZEITDRUCK", timeUp: "Zeit ist um!", correct: "Richtig!", wrong: "Fast!",
     roundOver: "Runde vorbei", score: "Punkte", accuracy: "Richtig", reward: "Belohnung",
     perfect: "PERFEKT!", again: "Nochmal spielen", backMap: "Zurück zur Karte", nextStage: "Nächste Stufe",
+    free: "Gratis",
     buy: "Kaufen", owned: "Du hast", equip: "Tragen", equipped: "Getragen", streak: "Serie",
     tutorial: "So wird gespielt", tut1: "Die Flagge erscheint hier.", tut2: "Wähle den richtigen Namen von 4.",
     tut3: "Du hast ein paar Sekunden. Schnell!", tut4: "Keine Ahnung? Gib Münzen aus, um falsche Antworten zu entfernen.",
@@ -367,7 +387,7 @@ const PACKS = {
     mascotHub: "Wähle einen Kontinent!", mascotStage: "Los geht's! Du schaffst das!",
     home: "Wähle ein Spiel", soon: "Bald",
     cat: { geo: "Geografie", math: "Mathe", nature: "Natur", art: "Kunst", eng: "Sprachen", faith: "Glaube und Bibel" },
-    games: { flags: "Flaggen der Welt", memory: "Welt-Memory", capitals: "Hauptstädte", count: "Rechnen und Zahlen", animals: "Tier-Memory", animalQuiz: "Tier-Quiz", color: "Malen und Ausmalen", colors: "Farben und Formen", artMem: "Formen-Memory", words: "Wörter der Welt", wordMem: "Wort-Memory", bible: "Bibel-Quiz", bibleMem: "Bibel-Memory" },
+    games: { flags: "Flaggen der Welt", memory: "Welt-Memory", capitals: "Hauptstädte", count: "Rechnen und Zahlen", animals: "Tier-Memory", animalQuiz: "Tier-Quiz", color: "Malen und Ausmalen", colors: "Farben und Formen", artMem: "Formen-Memory", words: "Wörter der Welt", wordMem: "Wort-Memory", bible: "Bibel-Quiz", bibleMem: "Bibel-Memory", curiosidades: "Wissenswertes der Welt", sciAnimals: "Tierkunde" },
     mascotHome: "Hallo! Lust, spielend zu lernen?",
     profileTitle: "Mein Profil",
     statRounds: "Runden", statPerfect: "100%", statFlags: "Flaggen", statDays: "Tage in Folge",
@@ -399,6 +419,8 @@ const PACKS = {
     howSayIn: "Wie heißt das auf {x}?", whichLang: "Welche Sprache möchtest du lernen?",
     langHint: "Lade unter 🌐 Sprache weitere Sprachen herunter.",
     whichCapital: "Wie heißt die Hauptstadt?", capBrasil: "Bundesstaaten Brasiliens", capEUA: "US-Bundesstaaten",
+    curQ: { pais: "In welchem Land finden wir {x}?", cidade: "In welcher Stadt finden wir {x}?", agua: "In welchem Meer oder Ozean finden wir {x}?", continente: "Auf welchem Kontinent finden wir {x}?" },
+    sciQ: { grupo: "Zu welcher Gruppe gehört dieses Tier?", dieta: "Was frisst dieses Tier?", casa: "Wo lebt dieses Tier?", nasce: "Wie kommt das Junge dieses Tieres zur Welt?", onde: "Auf welchem Kontinent lebt dieses Tier in freier Natur?" },
     needTen: "Schaffe 10 Stufen der vorigen Region", claim: "Abholen", claimReady: "Münzen bereit!",
     claimTitle: "Deine Münzen sind da!",
     needPrev: "Vorheriges Spiel freischalten",
@@ -423,6 +445,7 @@ const PACKS = {
     noRush: "SENZA FRETTA", timeUp: "Tempo scaduto!", correct: "Bravo!", wrong: "Quasi!",
     roundOver: "Fine del turno", score: "Punti", accuracy: "Giuste", reward: "Premio",
     perfect: "PERFETTO!", again: "Gioca ancora", backMap: "Torna alla mappa", nextStage: "Livello successivo",
+    free: "Gratis",
     buy: "Compra", owned: "Hai", equip: "Indossa", equipped: "Indossato", streak: "Serie",
     tutorial: "Come si gioca", tut1: "La bandiera appare qui.", tut2: "Scegli il nome giusto tra 4.",
     tut3: "Hai pochi secondi. Veloce!", tut4: "Non lo sai? Spendi monete per togliere risposte sbagliate.",
@@ -431,7 +454,7 @@ const PACKS = {
     mascotHub: "Scegli un continente!", mascotStage: "Andiamo! Ce la puoi fare!",
     home: "Scegli un gioco", soon: "Presto",
     cat: { geo: "Geografia", math: "Matematica", nature: "Natura", art: "Arte", eng: "Lingue", faith: "Fede e Bibbia" },
-    games: { flags: "Bandiere del Mondo", memory: "Memoria del Mondo", capitals: "Capitali", count: "Calcoli e Numeri", animals: "Memoria degli Animali", animalQuiz: "Quiz degli Animali", color: "Dipingi e Colora", colors: "Colori e Forme", artMem: "Memoria delle Forme", words: "Parole del Mondo", wordMem: "Memoria delle Parole", bible: "Quiz della Bibbia", bibleMem: "Memoria Biblica" },
+    games: { flags: "Bandiere del Mondo", memory: "Memoria del Mondo", capitals: "Capitali", count: "Calcoli e Numeri", animals: "Memoria degli Animali", animalQuiz: "Quiz degli Animali", color: "Dipingi e Colora", colors: "Colori e Forme", artMem: "Memoria delle Forme", words: "Parole del Mondo", wordMem: "Memoria delle Parole", bible: "Quiz della Bibbia", bibleMem: "Memoria Biblica", curiosidades: "Curiosità del Mondo", sciAnimals: "Scienze degli Animali" },
     mascotHome: "Ciao! Impariamo giocando?",
     profileTitle: "Il mio profilo",
     statRounds: "Turni", statPerfect: "100%", statFlags: "Bandiere", statDays: "Giorni di fila",
@@ -463,6 +486,8 @@ const PACKS = {
     howSayIn: "Come si dice in {x}?", whichLang: "Quale lingua vuoi imparare?",
     langHint: "Scarica altre lingue in 🌐 Lingua.",
     whichCapital: "Qual è la capitale?", capBrasil: "Stati del Brasile", capEUA: "Stati degli USA",
+    curQ: { pais: "In quale paese troviamo {x}?", cidade: "In quale città troviamo {x}?", agua: "In quale mare o oceano troviamo {x}?", continente: "In quale continente troviamo {x}?" },
+    sciQ: { grupo: "A quale gruppo appartiene questo animale?", dieta: "Cosa mangia questo animale?", casa: "Dove vive questo animale?", nasce: "Come nasce il cucciolo di questo animale?", onde: "In quale continente vive questo animale in natura?" },
     needTen: "Supera 10 livelli della regione precedente", claim: "Riscuoti", claimReady: "Monete pronte!",
     claimTitle: "Le tue monete sono arrivate!",
     needPrev: "Sblocca il gioco precedente",
@@ -570,6 +595,7 @@ const CATALOG = [
       { id: "flags", icon: "🚩", color: "#00B894", preco: 0, ready: true },
       { id: "memory", icon: "🧠", color: "#4C6FFF", preco: 150, ready: true },
       { id: "capitals", icon: "🏛️", color: "#6A5AE0", preco: 500, ready: true },
+      { id: "curiosidades", icon: "🗺️", color: "#00C2CB", preco: 800, ready: true },
   ]},
   { id: "math", icon: "🔢", color: "#F9A826", games: [
       { id: "count", icon: "🧮", color: "#F9A826", preco: 0, ready: true },
@@ -577,6 +603,7 @@ const CATALOG = [
   { id: "nature", icon: "🦁", color: "#00C2CB", games: [
       { id: "animals", icon: "🐾", color: "#00C2CB", preco: 0, ready: true },
       { id: "animalQuiz", icon: "🦉", color: "#00B894", preco: 300, ready: true },
+      { id: "sciAnimals", icon: "🔬", color: "#6A5AE0", preco: 600, ready: true },
   ]},
   { id: "art", icon: "🎨", color: "#E84393", games: [
       { id: "color", icon: "🖍️", color: "#E84393", preco: 0, ready: true },
@@ -633,24 +660,50 @@ const ROUTE = [
   { id: "oc", cost: 800, emoji: "🚢", color: "#00C2CB" },
 ];
 
-/* Uma escada de 15 fases por continente, subindo de dificuldade:
-   fases 1-5 Fácil · 6-9 Médio · 10-12 Difícil · 13-15 Gênio */
+/* ---------- Escada de fases ----------
+   Toda trilha sobe pelas mesmas quatro faixas, na mesma proporção: um terço
+   Fácil, um quarto Médio, um quinto Difícil, o resto Gênio. O que muda de um
+   jogo para outro é só o NÚMERO de degraus: as bandeiras de um continente têm
+   banco pequeno e param em 15, a Bíblia tem milhares de perguntas e vai a 100.
+   Assim a sensação é a mesma em todo o app — muda o tamanho da escada, não o
+   jeito de subir. */
 const DIFFS = ["easy", "medium", "hard", "genius"];
-const STAGE_PLAN = [
-  ...Array(5).fill("easy"),
-  ...Array(4).fill("medium"),
-  ...Array(3).fill("hard"),
-  ...Array(3).fill("genius"),
-];
-const TOTAL_STAGES = STAGE_PLAN.length;
-const bandFor = stage => STAGE_PLAN[Math.min(stage, TOTAL_STAGES) - 1];
-// O relógio aperta a cada fase. No Gênio, saber não basta: tem que ser rápido.
-const STAGE_TIME = [
-  null, null, null, null, null,   // 1-5  Fácil: sem cronômetro
-  16, 14, 12, 10,                 // 6-9  Médio
-  9, 8, 7,                        // 10-12 Difícil
-  6, 5, 4,                        // 13-15 Gênio: reflexo puro
-];
+
+/* O relógio só entra no Médio e vai apertando dentro de cada faixa.
+   Em 15 fases isso devolve exatamente a curva antiga: 16-14-12-10 · 9-8-7 · 6-5-4. */
+const FAIXA_TEMPO = { medium: [16, 10], hard: [9, 7], genius: [6, 4] };
+
+function montarEscada(total) {
+  const nE = Math.round(total * 0.34);
+  const nM = Math.round(total * 0.26);
+  const nH = Math.round(total * 0.20);
+  const nG = total - nE - nM - nH;
+  const porFaixa = { easy: nE, medium: nM, hard: nH, genius: nG };
+  const plan = DIFFS.flatMap(d => Array(porFaixa[d]).fill(d));
+  const times = [];
+  let i = 0;
+  for (const d of DIFFS) {
+    const k = porFaixa[d];
+    for (let j = 0; j < k; j++, i++) {
+      if (d === "easy") { times.push(null); continue; }
+      const [ini, fim] = FAIXA_TEMPO[d];
+      times.push(k > 1 ? Math.round(ini - (ini - fim) * (j / (k - 1))) : ini);
+    }
+  }
+  return { total, plan, times };
+}
+
+const ESCADA_PADRAO = montarEscada(15);
+/* Só as trilhas de banco grande esticam. O resto herda os 15 degraus. */
+const ESCADAS = {
+  curiosidades: montarEscada(30),
+  ciencias: montarEscada(25),
+  bible: montarEscada(100),
+};
+const escadaDe = cont => ESCADAS[cont] || ESCADA_PADRAO;
+const totalDe = cont => escadaDe(cont).total;
+const bandFor = (cont, stage) => escadaDe(cont).plan[Math.min(stage, totalDe(cont)) - 1];
+const tempoDe = (cont, stage) => escadaDe(cont).times[Math.min(stage, totalDe(cont)) - 1];
 const BAND_COLOR = { easy: "#00B894", medium: "#4C6FFF", hard: "#F9A826", genius: "#E84393" };
 
 /* ---------- Economia ---------- */
@@ -680,6 +733,9 @@ const RARITY = {
 };
 
 const SHOP_ITEMS = [
+  // ---- de graça: ninguém precisa juntar moeda para se parecer consigo ----
+  { id: "h_bob", type: "hairStyle", val: "bob", price: 0, r: "comum" },
+  { id: "h_wavy", type: "hairStyle", val: "wavy", price: 0, r: "comum" },
   // ---- comuns (30–90) ----
   { id: "h_buzz", type: "hairStyle", val: "buzz", price: 30, r: "comum" },
   { id: "c_red", type: "cap", val: "cap|#E74C3C", price: 40, r: "comum" },
@@ -689,7 +745,6 @@ const SHOP_ITEMS = [
   { id: "g_round", type: "glasses", val: "round", price: 80, r: "comum" },
   { id: "p_stripe", type: "shirtPattern", val: "stripe", price: 90, r: "comum" },
   // ---- raros (250–700) ----
-  { id: "h_long", type: "hairStyle", val: "long", price: 250, r: "raro" },
   { id: "h_pony", type: "hairStyle", val: "ponytail", price: 250, r: "raro" },
   { id: "c_green", type: "cap", val: "cap|#00B894", price: 300, r: "raro" },
   { id: "s_navy", type: "shirt", val: "#2C3E50", price: 350, r: "raro" },
@@ -713,54 +768,115 @@ const SHOP_ITEMS = [
 
 
 
-/* ---------- Conquistas ---------- */
-const ACHIEVEMENTS = [
-  { id: "first", icon: "🎬", pt: "Primeira rodada", en: "First round", es: "Primera ronda", test: s => s.rounds >= 1 },
-  { id: "perfect1", icon: "💯", pt: "Um 100%", en: "One perfect round", es: "Una ronda perfecta", test: s => s.perfect >= 1 },
-  { id: "perfect5", icon: "🏆", pt: "Cinco 100%", en: "Five perfect rounds", es: "Cinco rondas perfectas", test: s => s.perfect >= 5 },
-  { id: "perfect20", icon: "👑", pt: "Vinte 100%", en: "Twenty perfect rounds", es: "Veinte perfectas", test: s => s.perfect >= 20 },
-  { id: "streak5", icon: "🔥", pt: "5 acertos seguidos", en: "5 in a row", es: "5 seguidas", test: s => s.bestStreak >= 5 },
-  { id: "streak20", icon: "⚡", pt: "20 acertos seguidos", en: "20 in a row", es: "20 seguidas", test: s => s.bestStreak >= 20 },
-  { id: "coins500", icon: "🪙", pt: "500 moedas ganhas", en: "500 coins earned", es: "500 monedas", test: s => s.earned >= 500 },
-  { id: "trav2", icon: "🗺️", pt: "2 continentes", en: "2 continents", es: "2 continentes", test: s => s.continents >= 2 },
-  { id: "trav6", icon: "🌍", pt: "Mapa-múndi completo", en: "Whole world map", es: "Mapamundi completo", test: s => s.continents >= 6 },
-  { id: "flags100", icon: "🎯", pt: "100 bandeiras certas", en: "100 flags right", es: "100 banderas", test: s => s.correct >= 100 },
-  { id: "flags500", icon: "🎖️", pt: "500 bandeiras certas", en: "500 flags right", es: "500 banderas", test: s => s.correct >= 500 },
-  { id: "nohint", icon: "🧠", pt: "10 rodadas sem dica", en: "10 rounds, no hints", es: "10 rondas sin pistas", test: s => s.noHintRounds >= 10 },
-  { id: "genius", icon: "🎓", pt: "Fase Gênio vencida", en: "Genius stage cleared", es: "Nivel Genio superado", test: s => s.geniusCleared >= 1 },
-  /* --- novas --- */
-  { id: "flash20", icon: "💨", pt: "20 respostas relâmpago", en: "20 lightning answers", es: "20 respuestas relámpago", test: s => s.flash >= 20 },
-  { id: "flash100", icon: "🚀", pt: "100 respostas relâmpago", en: "100 lightning answers", es: "100 respuestas relámpago", test: s => s.flash >= 100 },
-  { id: "cleanperfect", icon: "✨", pt: "100% sem usar dica", en: "Perfect with no hints", es: "Perfecta sin pistas", test: s => s.perfectNoHint >= 1 },
-  { id: "speedking", icon: "⏱️", pt: "100% na fase 15", en: "Perfect on stage 15", es: "Perfecta en el nivel 15", test: s => s.lastStagePerfect >= 1 },
-  { id: "islands", icon: "🏝️", pt: "25 bandeiras de ilhas", en: "25 island flags", es: "25 banderas de islas", test: s => s.islandRight >= 25 },
-  { id: "regions", icon: "🏴", pt: "20 estados e regiões", en: "20 states and regions", es: "20 estados y regiones", test: s => s.subRight >= 20 },
-  { id: "cont1done", icon: "🥇", pt: "Um continente inteiro", en: "A whole continent", es: "Un continente entero", test: s => s.contDone >= 1 },
-  { id: "cont3done", icon: "🌟", pt: "Três continentes inteiros", en: "Three whole continents", es: "Tres continentes enteros", test: s => s.contDone >= 3 },
-  { id: "day3", icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
-  { id: "day7", icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
-  { id: "rich", icon: "💰", pt: "2000 moedas no cofre", en: "2000 coins saved", es: "2000 monedas ahorradas", test: s => s.maxCoins >= 2000 },
-  { id: "cap1", icon: "🏛️", pt: "Primeira capital certa", en: "First capital right", es: "Primera capital correcta", test: s => (s.capRight || 0) >= 1 },
-  { id: "capBR", icon: "🇧🇷", pt: "Brasil: 10 fases de capitais", en: "Brazil: 10 capital stages", es: "Brasil: 10 niveles", test: s => (s.capBrDone || 0) >= 10 },
-  { id: "cap200", icon: "🗼", pt: "200 capitais certas", en: "200 capitals right", es: "200 capitales correctas", test: s => (s.capRight || 0) >= 200 },
-  { id: "eng1", icon: "🔤", pt: "Primeira palavra em inglês", en: "First English word", es: "Primera palabra en inglés", test: s => (s.engRight || 0) >= 1 },
-  { id: "eng100", icon: "📘", pt: "100 palavras em inglês", en: "100 English words", es: "100 palabras en inglés", test: s => (s.engRight || 0) >= 100 },
-  { id: "bib1", icon: "✝️", pt: "Primeira resposta da Bíblia", en: "First Bible answer", es: "Primera respuesta bíblica", test: s => (s.bibRight || 0) >= 1 },
-  { id: "bib100", icon: "📖", pt: "100 respostas da Bíblia", en: "100 Bible answers", es: "100 respuestas bíblicas", test: s => (s.bibRight || 0) >= 100 },
-  { id: "bicho1", icon: "🦉", pt: "Primeiro acerto nos animais", en: "First animal right", es: "Primer animal correcto", test: s => (s.bichoRight || 0) >= 1 },
-  { id: "bicho100", icon: "🦜", pt: "100 animais certos", en: "100 animals right", es: "100 animales correctos", test: s => (s.bichoRight || 0) >= 100 },
-  { id: "math1", icon: "🧮", pt: "Primeira conta certa", en: "First sum right", es: "Primera cuenta correcta", test: s => (s.mathRight || 0) >= 1 },
-  { id: "math100", icon: "➕", pt: "100 contas certas", en: "100 sums right", es: "100 cuentas correctas", test: s => (s.mathRight || 0) >= 100 },
-  { id: "mathGenius", icon: "🎓", pt: "Fase 15 de matemática", en: "Math stage 15", es: "Nivel 15 de matemáticas", test: s => (s.mathStage || 0) >= 15 },
-  { id: "art1", icon: "🖍️", pt: "Primeiro desenho pintado", en: "First drawing painted", es: "Primer dibujo pintado", test: s => (s.colorDone || 0) >= 1 },
-  { id: "art10", icon: "🎨", pt: "10 desenhos pintados", en: "10 drawings painted", es: "10 dibujos pintados", test: s => (s.colorDone || 0) >= 10 },
-  { id: "art50", icon: "🖼️", pt: "50 desenhos pintados", en: "50 drawings painted", es: "50 dibujos pintados", test: s => (s.colorDone || 0) >= 50 },
-  { id: "mem1", icon: "🃏", pt: "Primeira memória", en: "First memory game", es: "Primera memoria", test: s => s.memRounds >= 1 },
-  { id: "mem3s", icon: "🧩", pt: "3 estrelas na memória", en: "3 stars in memory", es: "3 estrellas en memoria", test: s => s.mem3 >= 1 },
-  { id: "memPerf", icon: "🎴", pt: "Memória sem errar par", en: "Memory with no wasted move", es: "Memoria sin fallar", test: s => s.memPerfect >= 1 },
-  { id: "stars45", icon: "✨", pt: "45 estrelas", en: "45 stars", es: "45 estrellas", test: s => s.stars >= 45 },
-  { id: "marathon", icon: "🏃", pt: "50 rodadas jogadas", en: "50 rounds played", es: "50 rondas jugadas", test: s => s.rounds >= 50 },
+/* ---------- Conquistas ----------
+   Cada conquista tem categoria e nível. A categoria organiza a tela — são
+   mais de 50 e sem agrupamento viram uma lista que ninguém lê. O nível vale
+   moedas: quanto mais longe a criança precisa ir, maior o prêmio quando
+   acende. As moedas entram uma única vez, na primeira vez. */
+const PREMIO_CONQUISTA = { 1: 30, 2: 60, 3: 120, 4: 250 };
+
+const CONQ_CATS = [
+  { id: "geral",  icon: "🎯", pt: "Geral",      en: "General",    es: "General" },
+  { id: "geo",    icon: "🌍", pt: "Geografia",  en: "Geography",  es: "Geografía" },
+  { id: "cap",    icon: "🏛️", pt: "Capitais",   en: "Capitals",   es: "Capitales" },
+  { id: "nature", icon: "🦁", pt: "Natureza",   en: "Nature",     es: "Naturaleza" },
+  { id: "math",   icon: "🔢", pt: "Matemática", en: "Math",       es: "Matemáticas" },
+  { id: "art",    icon: "🎨", pt: "Arte",       en: "Art",        es: "Arte" },
+  { id: "lang",   icon: "🔤", pt: "Idiomas",    en: "Languages",  es: "Idiomas" },
+  { id: "bible",  icon: "✝️", pt: "Bíblia",     en: "Bible",      es: "Biblia" },
+  { id: "mem",    icon: "🧠", pt: "Memória",    en: "Memory",     es: "Memoria" },
+  { id: "habit",  icon: "📅", pt: "Dedicação",  en: "Dedication", es: "Constancia" },
 ];
+
+const ACHIEVEMENTS = [
+  /* --- geral --- */
+  { id: "first", cat: "geral", n: 1, icon: "🎬", pt: "Primeira rodada", en: "First round", es: "Primera ronda", test: s => s.rounds >= 1 },
+  { id: "perfect1", cat: "geral", n: 1, icon: "💯", pt: "Um 100%", en: "One perfect round", es: "Una ronda perfecta", test: s => s.perfect >= 1 },
+  { id: "perfect5", cat: "geral", n: 2, icon: "🏆", pt: "Cinco 100%", en: "Five perfect rounds", es: "Cinco rondas perfectas", test: s => s.perfect >= 5 },
+  { id: "perfect20", cat: "geral", n: 3, icon: "👑", pt: "Vinte 100%", en: "Twenty perfect rounds", es: "Veinte perfectas", test: s => s.perfect >= 20 },
+  { id: "streak5", cat: "geral", n: 1, icon: "🔥", pt: "5 acertos seguidos", en: "5 in a row", es: "5 seguidas", test: s => s.bestStreak >= 5 },
+  { id: "streak20", cat: "geral", n: 3, icon: "⚡", pt: "20 acertos seguidos", en: "20 in a row", es: "20 seguidas", test: s => s.bestStreak >= 20 },
+  { id: "coins500", cat: "geral", n: 2, icon: "🪙", pt: "500 moedas ganhas", en: "500 coins earned", es: "500 monedas", test: s => s.earned >= 500 },
+  { id: "rich", cat: "geral", n: 3, icon: "💰", pt: "2000 moedas no cofre", en: "2000 coins saved", es: "2000 monedas ahorradas", test: s => s.maxCoins >= 2000 },
+  { id: "nohint", cat: "geral", n: 2, icon: "🧠", pt: "10 rodadas sem dica", en: "10 rounds, no hints", es: "10 rondas sin pistas", test: s => s.noHintRounds >= 10 },
+  { id: "genius", cat: "geral", n: 2, icon: "🎓", pt: "Fase Gênio vencida", en: "Genius stage cleared", es: "Nivel Genio superado", test: s => s.geniusCleared >= 1 },
+  { id: "flash20", cat: "geral", n: 1, icon: "💨", pt: "20 respostas relâmpago", en: "20 lightning answers", es: "20 respuestas relámpago", test: s => s.flash >= 20 },
+  { id: "flash100", cat: "geral", n: 3, icon: "🚀", pt: "100 respostas relâmpago", en: "100 lightning answers", es: "100 respuestas relámpago", test: s => s.flash >= 100 },
+  { id: "cleanperfect", cat: "geral", n: 2, icon: "✨", pt: "100% sem usar dica", en: "Perfect with no hints", es: "Perfecta sin pistas", test: s => s.perfectNoHint >= 1 },
+  { id: "speedking", cat: "geral", n: 3, icon: "⏱️", pt: "100% na última fase", en: "Perfect on the last stage", es: "Perfecta en el último nivel", test: s => s.lastStagePerfect >= 1 },
+  { id: "stars45", cat: "geral", n: 3, icon: "🌠", pt: "45 estrelas", en: "45 stars", es: "45 estrellas", test: s => s.stars >= 45 },
+  { id: "stars200", cat: "geral", n: 4, icon: "💫", pt: "200 estrelas", en: "200 stars", es: "200 estrellas", test: s => s.stars >= 200 },
+  { id: "marathon", cat: "geral", n: 3, icon: "🏃", pt: "50 rodadas jogadas", en: "50 rounds played", es: "50 rondas jugadas", test: s => s.rounds >= 50 },
+  { id: "marathon300", cat: "geral", n: 4, icon: "🏅", pt: "300 rodadas jogadas", en: "300 rounds played", es: "300 rondas jugadas", test: s => s.rounds >= 300 },
+
+  /* --- geografia --- */
+  { id: "trav2", cat: "geo", n: 1, icon: "🗺️", pt: "2 continentes", en: "2 continents", es: "2 continentes", test: s => s.continents >= 2 },
+  { id: "trav6", cat: "geo", n: 3, icon: "🌍", pt: "Mapa-múndi completo", en: "Whole world map", es: "Mapamundi completo", test: s => s.continents >= 6 },
+  { id: "flags100", cat: "geo", n: 1, icon: "🎯", pt: "100 bandeiras certas", en: "100 flags right", es: "100 banderas", test: s => s.correct >= 100 },
+  { id: "flags500", cat: "geo", n: 3, icon: "🎖️", pt: "500 bandeiras certas", en: "500 flags right", es: "500 banderas", test: s => s.correct >= 500 },
+  { id: "islands", cat: "geo", n: 2, icon: "🏝️", pt: "25 bandeiras de ilhas", en: "25 island flags", es: "25 banderas de islas", test: s => s.islandRight >= 25 },
+  { id: "regions", cat: "geo", n: 2, icon: "🏴", pt: "20 estados e regiões", en: "20 states and regions", es: "20 estados y regiones", test: s => s.subRight >= 20 },
+  { id: "cont1done", cat: "geo", n: 2, icon: "🥇", pt: "Um continente inteiro", en: "A whole continent", es: "Un continente entero", test: s => s.contDone >= 1 },
+  { id: "cont3done", cat: "geo", n: 4, icon: "🌟", pt: "Três continentes inteiros", en: "Three whole continents", es: "Tres continentes enteros", test: s => s.contDone >= 3 },
+  { id: "cur1", cat: "geo", n: 1, icon: "🧭", pt: "Primeira curiosidade", en: "First fun fact", es: "Primera curiosidad", test: s => (s.curRight || 0) >= 1 },
+  { id: "cur100", cat: "geo", n: 2, icon: "🗽", pt: "100 curiosidades certas", en: "100 fun facts right", es: "100 curiosidades correctas", test: s => (s.curRight || 0) >= 100 },
+  { id: "cur500", cat: "geo", n: 3, icon: "🗿", pt: "500 curiosidades certas", en: "500 fun facts right", es: "500 curiosidades correctas", test: s => (s.curRight || 0) >= 500 },
+  { id: "curEnd", cat: "geo", n: 4, icon: "🌐", pt: "Curiosidades até o fim", en: "Fun facts to the end", es: "Curiosidades hasta el final", test: s => (s.curStage || 0) >= 30 },
+
+  /* --- capitais --- */
+  { id: "cap1", cat: "cap", n: 1, icon: "🏛️", pt: "Primeira capital certa", en: "First capital right", es: "Primera capital correcta", test: s => (s.capRight || 0) >= 1 },
+  { id: "capBR", cat: "cap", n: 2, icon: "🇧🇷", pt: "Brasil: 10 fases de capitais", en: "Brazil: 10 capital stages", es: "Brasil: 10 niveles", test: s => (s.capBrDone || 0) >= 10 },
+  { id: "cap200", cat: "cap", n: 3, icon: "🗼", pt: "200 capitais certas", en: "200 capitals right", es: "200 capitales correctas", test: s => (s.capRight || 0) >= 200 },
+  { id: "cap800", cat: "cap", n: 4, icon: "🌆", pt: "800 capitais certas", en: "800 capitals right", es: "800 capitales correctas", test: s => (s.capRight || 0) >= 800 },
+
+  /* --- natureza --- */
+  { id: "bicho1", cat: "nature", n: 1, icon: "🦉", pt: "Primeiro acerto nos animais", en: "First animal right", es: "Primer animal correcto", test: s => (s.bichoRight || 0) >= 1 },
+  { id: "bicho100", cat: "nature", n: 2, icon: "🦜", pt: "100 animais certos", en: "100 animals right", es: "100 animales correctos", test: s => (s.bichoRight || 0) >= 100 },
+  { id: "sci1", cat: "nature", n: 1, icon: "🔬", pt: "Primeira ciência certa", en: "First science answer", es: "Primera respuesta de ciencias", test: s => (s.sciRight || 0) >= 1 },
+  { id: "sci100", cat: "nature", n: 2, icon: "🐘", pt: "100 respostas de ciências", en: "100 science answers", es: "100 respuestas de ciencias", test: s => (s.sciRight || 0) >= 100 },
+  { id: "sci500", cat: "nature", n: 3, icon: "🐋", pt: "500 respostas de ciências", en: "500 science answers", es: "500 respuestas de ciencias", test: s => (s.sciRight || 0) >= 500 },
+  { id: "sciEnd", cat: "nature", n: 4, icon: "🧬", pt: "Ciências até o fim", en: "Science to the end", es: "Ciencias hasta el final", test: s => (s.sciStage || 0) >= 25 },
+
+  /* --- matemática --- */
+  { id: "math1", cat: "math", n: 1, icon: "🧮", pt: "Primeira conta certa", en: "First sum right", es: "Primera cuenta correcta", test: s => (s.mathRight || 0) >= 1 },
+  { id: "math100", cat: "math", n: 2, icon: "➕", pt: "100 contas certas", en: "100 sums right", es: "100 cuentas correctas", test: s => (s.mathRight || 0) >= 100 },
+  { id: "math500", cat: "math", n: 3, icon: "✖️", pt: "500 contas certas", en: "500 sums right", es: "500 cuentas correctas", test: s => (s.mathRight || 0) >= 500 },
+  { id: "mathGenius", cat: "math", n: 3, icon: "🎓", pt: "Fase 15 de matemática", en: "Math stage 15", es: "Nivel 15 de matemáticas", test: s => (s.mathStage || 0) >= 15 },
+
+  /* --- arte --- */
+  { id: "art1", cat: "art", n: 1, icon: "🖍️", pt: "Primeiro desenho pintado", en: "First drawing painted", es: "Primer dibujo pintado", test: s => (s.colorDone || 0) >= 1 },
+  { id: "art10", cat: "art", n: 2, icon: "🎨", pt: "10 desenhos pintados", en: "10 drawings painted", es: "10 dibujos pintados", test: s => (s.colorDone || 0) >= 10 },
+  { id: "art50", cat: "art", n: 3, icon: "🖼️", pt: "50 desenhos pintados", en: "50 drawings painted", es: "50 dibujos pintados", test: s => (s.colorDone || 0) >= 50 },
+
+  /* --- idiomas --- */
+  { id: "eng1", cat: "lang", n: 1, icon: "🔤", pt: "Primeira palavra nova", en: "First new word", es: "Primera palabra nueva", test: s => (s.engRight || 0) >= 1 },
+  { id: "eng100", cat: "lang", n: 2, icon: "📘", pt: "100 palavras novas", en: "100 new words", es: "100 palabras nuevas", test: s => (s.engRight || 0) >= 100 },
+  { id: "eng500", cat: "lang", n: 3, icon: "📗", pt: "500 palavras novas", en: "500 new words", es: "500 palabras nuevas", test: s => (s.engRight || 0) >= 500 },
+
+  /* --- bíblia --- */
+  { id: "bib1", cat: "bible", n: 1, icon: "✝️", pt: "Primeira resposta da Bíblia", en: "First Bible answer", es: "Primera respuesta bíblica", test: s => (s.bibRight || 0) >= 1 },
+  { id: "bib100", cat: "bible", n: 2, icon: "📖", pt: "100 respostas da Bíblia", en: "100 Bible answers", es: "100 respuestas bíblicas", test: s => (s.bibRight || 0) >= 100 },
+  { id: "bib500", cat: "bible", n: 3, icon: "📜", pt: "500 respostas da Bíblia", en: "500 Bible answers", es: "500 respuestas bíblicas", test: s => (s.bibRight || 0) >= 500 },
+  { id: "bib2000", cat: "bible", n: 4, icon: "🕊️", pt: "2000 respostas da Bíblia", en: "2000 Bible answers", es: "2000 respuestas bíblicas", test: s => (s.bibRight || 0) >= 2000 },
+  { id: "bibStage25", cat: "bible", n: 2, icon: "🌿", pt: "Bíblia: fase 25", en: "Bible: stage 25", es: "Biblia: nivel 25", test: s => (s.bibStage || 0) >= 25 },
+  { id: "bibStage60", cat: "bible", n: 3, icon: "🔥", pt: "Bíblia: fase 60", en: "Bible: stage 60", es: "Biblia: nivel 60", test: s => (s.bibStage || 0) >= 60 },
+  { id: "bibStage100", cat: "bible", n: 4, icon: "👑", pt: "Bíblia: as 100 fases", en: "Bible: all 100 stages", es: "Biblia: los 100 niveles", test: s => (s.bibStage || 0) >= 100 },
+
+  /* --- memória --- */
+  { id: "mem1", cat: "mem", n: 1, icon: "🃏", pt: "Primeira memória", en: "First memory game", es: "Primera memoria", test: s => s.memRounds >= 1 },
+  { id: "mem3s", cat: "mem", n: 2, icon: "🧩", pt: "3 estrelas na memória", en: "3 stars in memory", es: "3 estrellas en memoria", test: s => s.mem3 >= 1 },
+  { id: "memPerf", cat: "mem", n: 3, icon: "🎴", pt: "Memória sem errar par", en: "Memory with no wasted move", es: "Memoria sin fallar", test: s => s.memPerfect >= 1 },
+
+  /* --- dedicação --- */
+  { id: "day3", cat: "habit", n: 1, icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
+  { id: "day7", cat: "habit", n: 2, icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
+  { id: "day30", cat: "habit", n: 4, icon: "🏵️", pt: "30 dias seguidos jogando", en: "30 days in a row", es: "30 días seguidos", test: s => s.dayStreak >= 30 },
+];
+
+const premioDe = a => PREMIO_CONQUISTA[a.n] || 0;
+/* Bolinhas em vez de palavras: funciona em qualquer idioma e a criança
+   entende a escada só de olhar. */
+const NIVEL_LABEL = { 1: "●", 2: "●●", 3: "●●●", 4: "●●●●" };
 
 
 /* Insígnias: raras de propósito. São o que distingue quem jogou muito. */
@@ -810,17 +926,29 @@ const fmt = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); const h = Math.
 const SKINS = ["#FFDBAC", "#F1C27D", "#E0AC69", "#C68642", "#8D5524", "#5C3317"];
 const HAIRS = ["#2C1B10", "#6B3E26", "#C68642", "#E8B923", "#D64545", "#7B4EBE", "#2E86DE"];
 const SHIRTS = ["#4C6FFF", "#00B894", "#FF7043", "#E84393", "#F9A826", "#00C2CB"];
-const HAIR_STYLES = ["short", "buzz", "curly", "long", "ponytail", "afro", null];
+const HAIR_STYLES = ["short", "buzz", "curly", "long", "bob", "wavy", "ponytail", "afro", null];
 
+/* O cabelo é desenhado em duas camadas: HairBack fica ATRÁS do rosto (é a
+   silhueta) e HairFront por cima (é a franja). Como o rosto é desenhado no
+   meio das duas, basta a silhueta cobrir tudo — o que sobra por trás da
+   cabeça é justamente o que a criança vê. */
 function HairBack({ style, color }) {
   if (style === "afro") return <circle cx="50" cy="36" r="31" fill={color} />;
   if (style === "long") return <path d="M20 40 Q20 14 50 14 Q80 14 80 40 L80 76 Q71 70 71 52 L29 52 Q29 70 20 76 Z" fill={color} />;
+  // Chanel: passa das orelhas e para na altura do queixo.
+  if (style === "bob") return <path d="M17 46 Q17 10 50 10 Q83 10 83 46 L83 66 Q83 72 77 72 Q71 72 71 65 L71 44 L29 44 L29 65 Q29 72 23 72 Q17 72 17 66 Z" fill={color} />;
+  // Comprido ondulado: duas mechas caem sobre os ombros, com a ponta em onda.
+  if (style === "wavy") return <path d="M16 46 Q16 8 50 8 Q84 8 84 46 L84 80 Q84 87 79 85 Q74 90 71 84 L71 44 L29 44 L29 84 Q26 90 21 85 Q16 87 16 80 Z" fill={color} />;
   if (style === "ponytail") return <ellipse cx="80" cy="48" rx="9" ry="15" fill={color} />;
   return null;
 }
 function HairFront({ style, color }) {
   if (!style) return null;
   if (style === "buzz") return <path d="M25 40 Q28 22 50 22 Q72 22 75 40 Q62 32 50 32 Q38 32 25 40 Z" fill={color} />;
+  // Franja reta, cortada na altura das sobrancelhas.
+  if (style === "bob") return <path d="M23 40 Q24 12 50 12 Q76 12 77 40 Q77 31 50 29 Q23 31 23 40 Z" fill={color} />;
+  // Franja repartida de lado.
+  if (style === "wavy") return <path d="M22 41 Q23 11 50 11 Q78 11 79 41 Q73 24 54 28 Q36 32 22 41 Z" fill={color} />;
   if (style === "curly") return (
     <g fill={color}>
       <circle cx="30" cy="31" r="11" /><circle cx="44" cy="23" r="12" />
@@ -1357,14 +1485,19 @@ function AppInterno() {
 
   useEffect(() => { if (toast) { const x = setTimeout(() => setToast(null), 2200); return () => clearTimeout(x); } }, [toast]);
 
-  /* ----- conquistas ----- */
+  /* ----- conquistas -----
+     Acendeu, paga. O prêmio vem do nível da conquista e entra uma vez só —
+     seenAch é a garantia de que ninguém recebe duas vezes pela mesma. */
   useEffect(() => {
-    const got = ACHIEVEMENTS.filter(a => a.test(stats)).map(a => a.id);
-    const nw = got.filter(id => !seenAch.includes(id));
-    if (nw.length) {
-      const a = ACHIEVEMENTS.find(x => x.id === nw[0]);
-      setToast(`${a.icon} ${a[lang]}`);
-      setSeenAch(s => [...s, ...nw]);
+    const novas = ACHIEVEMENTS.filter(a => a.test(stats) && !seenAch.includes(a.id));
+    if (!novas.length) return;
+    const premio = novas.reduce((soma, a) => soma + premioDe(a), 0);
+    const a = novas[0];
+    setToast(`${a.icon} ${a[lang] || a.en}${premio ? ` · +${premio} 🪙` : ""}`);
+    setSeenAch(s => [...s, ...novas.map(x => x.id)]);
+    if (premio) {
+      setCoins(c => Math.min(ECON.cap, c + premio));
+      setStats(s2 => ({ ...s2, earned: s2.earned + premio }));
     }
   }, [stats]);
 
@@ -1388,7 +1521,7 @@ function AppInterno() {
   }
 
   function buildRound(cont, stage) {
-    const diff = bandFor(stage);
+    const diff = bandFor(cont, stage);
     const pool = poolFor(cont, diff);
     const wide = Object.keys(DATA[cont]); // distratores também só do continente
     const subs = (SUBFLAGS[cont] || []);
@@ -1425,7 +1558,7 @@ function AppInterno() {
       }
     }
     // Modo Fácil: sem cronômetro. Depois o tempo cai a cada fase.
-    const time = STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1];
+    const time = tempoDe(cont, stage);
     return { cont, diff, stage, qs, time, t0: Date.now(), i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
   }
 
@@ -1449,7 +1582,7 @@ function AppInterno() {
     setCoins(c => Math.min(ECON.cap, c + reward));
     const today = new Date().toISOString().slice(0, 10);
     const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
-    const clearedAll = st > 0 && r.stage === TOTAL_STAGES;
+    const clearedAll = st > 0 && r.stage === totalDe(r.cont);
     setStats(s => ({
       ...s,
       rounds: s.rounds + 1,
@@ -1462,6 +1595,11 @@ function AppInterno() {
       engRight: (s.engRight || 0) + (alvoDe(r.cont) ? r.right : 0),
       bibRight: (s.bibRight || 0) + (r.cont === "bible" ? r.right : 0),
       capRight: (s.capRight || 0) + (r.cont.startsWith("cap_") ? r.right : 0),
+      curRight: (s.curRight || 0) + (r.cont === "curiosidades" ? r.right : 0),
+      curStage: r.cont === "curiosidades" && st > 0 ? Math.max(s.curStage || 0, r.stage) : (s.curStage || 0),
+      sciRight: (s.sciRight || 0) + (r.cont === "ciencias" ? r.right : 0),
+      sciStage: r.cont === "ciencias" && st > 0 ? Math.max(s.sciStage || 0, r.stage) : (s.sciStage || 0),
+      bibStage: r.cont === "bible" && st > 0 ? Math.max(s.bibStage || 0, r.stage) : (s.bibStage || 0),
       capBrDone: r.cont === "cap_br" && st > 0 ? Math.max(s.capBrDone || 0, r.stage) : (s.capBrDone || 0),
       mathRight: (s.mathRight || 0) + (r.cont === "math" ? r.right : 0),
       mathStage: r.cont === "math" && st > 0 ? Math.max(s.mathStage || 0, r.stage) : (s.mathStage || 0),
@@ -1471,7 +1609,7 @@ function AppInterno() {
       islandRight: s.islandRight + r.islandRight,
       subRight: s.subRight + r.subRight,
       perfectNoHint: s.perfectNoHint + (pct === 100 && r.hintsUsed === 0 ? 1 : 0),
-      lastStagePerfect: s.lastStagePerfect + (pct === 100 && r.stage === TOTAL_STAGES ? 1 : 0),
+      lastStagePerfect: s.lastStagePerfect + (pct === 100 && r.stage === totalDe(r.cont) ? 1 : 0),
       contDone: s.contDone + (clearedAll ? 1 : 0),
       maxCoins: Math.max(s.maxCoins, Math.min(ECON.cap, coins + reward)),
       dayStreak: s.lastDay === today ? s.dayStreak : s.lastDay === yest ? s.dayStreak + 1 : 1,
@@ -1591,7 +1729,7 @@ function AppInterno() {
           escolher: alvo => {
             if (destinoIdioma === "mem") { setMemTema(`idiomas_${alvo}`); setScreen("memLevels"); return; }
             const k = `idiomas_${alvo}`;
-            setSel({ cont: k, stage: Math.min(TOTAL_STAGES, (progress[k] || 0) + 1) });
+            setSel({ cont: k, stage: Math.min(totalDe(k), (progress[k] || 0) + 1) });
             setScreen("stages");
           } }} />}
         {screen === "memLevels" && <MemLevels {...{ t, coins, memBest, setScreen, comecar: comecarMemoria, tema: memTema, temSecao, comprarSecao,
@@ -1624,14 +1762,15 @@ function AppInterno() {
         {screen === "home" && <Home {...{ t, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
-            const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible" };
+            const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
+              curiosidades: "curiosidades", sciAnimals: "ciencias" };
             if (g === "capitals") { setScreen("capMap"); return; }
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
             if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
             if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
             if (quizzes[g]) {
               const k = quizzes[g];
-              setSel({ cont: k, stage: Math.min(TOTAL_STAGES, (progress[k] || 0) + 1) });
+              setSel({ cont: k, stage: Math.min(totalDe(k), (progress[k] || 0) + 1) });
               setScreen("stages"); return;
             }
             setScreen("map"); if (!stats.rounds) setTutorial(true);
@@ -1698,7 +1837,7 @@ function Create({ t, lang, onLang, player, setPlayer, onDone }) {
         <div style={{ marginBottom: 14 }}>
           <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.slots.hairStyle}</div>
           <div style={{ display: "flex", gap: 8 }}>
-            {["short", "buzz", null].map((v, i) => (
+            {["short", "buzz", "long", null].map((v, i) => (
               <button key={i} onClick={() => set("hairStyle", v)} style={{
                 width: 56, height: 56, borderRadius: 16, padding: 0, overflow: "hidden",
                 border: a.hairStyle === v ? "4px solid #1B2A6B" : "3px solid #E4E8F5",
@@ -1910,7 +2049,7 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
 const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
 
 function fazerConta(stage) {
-  const band = bandFor(stage);
+  const band = bandFor("math", stage);
   const n = stage;
   if (band === "easy") {
     const teto = 5 + n * 3;                       // 8 → 20
@@ -1963,7 +2102,7 @@ function opcoesConta(certa) {
 }
 
 function montarRodadaMath(stage) {
-  const band = bandFor(stage);
+  const band = bandFor("math", stage);
   const qCount = (band === "easy" || band === "medium") ? 5 : 10;
   const qs = [];
   const vistas = new Set();
@@ -1975,7 +2114,7 @@ function montarRodadaMath(stage) {
     const { answer, options } = opcoesConta(c.answer);
     qs.push({ kind: "math", prompt: c.prompt, answer, options });
   }
-  const time = STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1];
+  const time = tempoDe("math", stage);
   return { cont: "math", diff: band, stage, qs, time, t0: Date.now(),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
@@ -2039,7 +2178,7 @@ const PERGUNTAS_BICHO = {
 };
 
 function montarRodadaBichos(stage, t) {
-  const band = bandFor(stage);
+  const band = bandFor("bichos", stage);
   const qCount = (band === "easy" || band === "medium") ? 5 : 10;
   const qs = [];
   const usadas = new Set();
@@ -2063,7 +2202,7 @@ function montarRodadaBichos(stage, t) {
       options: shuffle([certo.e, ...distr.map(d => d.e)]),
     });
   }
-  const time = STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1];
+  const time = tempoDe("bichos", stage);
   return { cont: "bichos", diff: band, stage, qs, time, t0: Date.now(),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
@@ -2122,7 +2261,7 @@ const VOCAB = [
 const VOCAB_NIVEL = { easy: [1], medium: [1, 2], hard: [2, 3], genius: [3] };
 
 function montarRodadaIdioma(stage, t, alvo) {
-  const band = bandFor(stage);
+  const band = bandFor(`idiomas_${alvo}`, stage);
   const qCount = (band === "easy" || band === "medium") ? 5 : 10;
   const pool = VOCAB.filter(v => VOCAB_NIVEL[band].includes(v.n));
   const escolhidos = shuffle(pool).slice(0, qCount);
@@ -2136,7 +2275,7 @@ function montarRodadaIdioma(stage, t, alvo) {
       answer: certa, options: shuffle([certa, ...distr.map(d => d.w[alvo])]),
     };
   });
-  return { cont: `idiomas_${alvo}`, diff: band, stage, qs, time: STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1], t0: Date.now(),
+  return { cont: `idiomas_${alvo}`, diff: band, stage, qs, time: tempoDe(`idiomas_${alvo}`, stage), t0: Date.now(),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
@@ -2153,7 +2292,7 @@ const FORMAS_LISTA = ["circulo", "quadrado", "coracao"];
 const todosEmojis = () => FORMAS_LISTA.flatMap(f => CORES_LISTA.map(c => ({ f, c, e: FORMAS[f][c] })));
 
 function montarRodadaArte(stage, t) {
-  const band = bandFor(stage);
+  const band = bandFor("arts", stage);
   const qCount = (band === "easy" || band === "medium") ? 5 : 10;
   const todos = todosEmojis();
   const qs = [];
@@ -2181,7 +2320,81 @@ function montarRodadaArte(stage, t) {
     }
     qs.push({ kind: "emojiPick", prompt, answer: alvo.e, options: shuffle([alvo.e, ...shuffle(errados).slice(0, 3).map(o => o.e)]) });
   }
-  return { cont: "arts", diff: band, stage, qs, time: STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1], t0: Date.now(),
+  return { cont: "arts", diff: band, stage, qs, time: tempoDe("arts", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
+/* ---------- Curiosidades do Mundo ----------
+   O emoji faz as vezes de foto e a pergunta vem do tipo da curiosidade.
+   Nada de imagem de terceiro: a "foto" é um glifo que o próprio sistema
+   desenha, então continua funcionando em modo avião e sem baixar nada.
+
+   As alternativas erradas saem do MESMO universo da certa — outros países
+   citados no banco, outros mares, outros continentes. Sem isso a resposta se
+   entrega: bastaria escolher a única opção que é um país. */
+const CONTINENTES_IDS = ["sa", "na", "eu", "af", "as", "oc"];
+
+function rotuloCuriosidade(tipo, valor, t, lang) {
+  if (tipo === "pais") return countryName(valor, lang);
+  if (tipo === "agua") return AGUAS[valor][lang] || AGUAS[valor].en;
+  if (tipo === "continente") return t.continents[valor];
+  return valor;                                   // cidade: nome próprio
+}
+
+function universoCuriosidade(tipo) {
+  if (tipo === "agua") return Object.keys(AGUAS);
+  if (tipo === "continente") return CONTINENTES_IDS;
+  return [...new Set(CURIOSIDADES.filter(o => o.t === tipo).map(o => o.r))];
+}
+
+function montarRodadaCuriosidades(stage, t, lang) {
+  const band = bandFor("curiosidades", stage);
+  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const pool = CURIOSIDADES.filter(c => CURIOSIDADE_NIVEL[band].includes(c.n));
+  const escolhidas = shuffle(pool).slice(0, qCount);
+  const qs = [];
+  for (const c of escolhidas) {
+    const certa = rotuloCuriosidade(c.t, c.r, t, lang);
+    const outros = universoCuriosidade(c.t)
+      .map(x => rotuloCuriosidade(c.t, x, t, lang))
+      .filter(x => x && x !== certa);
+    const distr = shuffle([...new Set(outros)]).slice(0, 3);
+    if (distr.length < 3) continue;
+    qs.push({
+      kind: "emojiAsk", prompt: c.e,
+      ask: t.curQ[c.t].replace("{x}", c.nome[lang] || c.nome.en),
+      answer: certa, options: shuffle([certa, ...distr]),
+    });
+  }
+  return { cont: "curiosidades", diff: band, stage, qs, time: tempoDe("curiosidades", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
+/* ---------- Ciências dos Animais ----------
+   Mesma ideia, mas as perguntas são geradas: 94 animais × 5 moldes. Ver
+   src/data/ciencias.js — lá estão os fatos, aqui só a montagem da rodada. */
+const PERGUNTAS_CIENCIA = perguntasCiencia();
+const DICS_CIENCIA = { grupo: GRUPOS, dieta: DIETAS, casa: CASAS, nasce: NASCE };
+
+function montarRodadaCiencias(stage, t, lang) {
+  const band = bandFor("ciencias", stage);
+  const qCount = (band === "easy" || band === "medium") ? 5 : 10;
+  const pool = PERGUNTAS_CIENCIA.filter(x => CIENCIA_NIVEL[band].includes(x.n));
+  const escolhidas = shuffle(pool).slice(0, qCount);
+  const qs = [];
+  for (const x of escolhidas) {
+    const dic = DICS_CIENCIA[x.campo];
+    const rotulo = v => dic ? (dic[v][lang] || dic[v].en) : t.continents[v];
+    const universo = dic ? Object.keys(dic) : CONTINENTES_IDS;
+    const certa = rotulo(x.r);
+    const distr = shuffle(universo.map(rotulo).filter(o => o && o !== certa)).slice(0, 3);
+    if (distr.length < 3) continue;
+    qs.push({
+      kind: "emojiAsk", prompt: x.e, ask: t.sciQ[x.molde],
+      answer: certa, options: shuffle([certa, ...distr]),
+    });
+  }
+  return { cont: "ciencias", diff: band, stage, qs, time: tempoDe("ciencias", stage), t0: Date.now(),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
@@ -2349,14 +2562,14 @@ const BIBLIA = {
 };
 
 function montarRodadaBiblia(stage, lang) {
-  const band = bandFor(stage);
-  const banco = (BIBLIA[lang] || BIBLIA.en)[band];
+  const band = bandFor("bible", stage);
+  const banco = bancoBiblia(lang, band);
   const qCount = (band === "easy" || band === "medium") ? 5 : 10;
   const escolhidas = shuffle(banco).slice(0, Math.min(qCount, banco.length));
   const qs = escolhidas.map(([pergunta, certa, erradas]) => ({
     kind: "texto", prompt: pergunta, answer: certa, options: shuffle([certa, ...erradas]),
   }));
-  return { cont: "bible", diff: band, stage, qs, time: STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1], t0: Date.now(),
+  return { cont: "bible", diff: band, stage, qs, time: tempoDe("bible", stage), t0: Date.now(),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
@@ -2456,7 +2669,7 @@ function paresCapitais(regiao, lang) {
 }
 
 function montarRodadaCapitais(stage, t, lang, cont) {
-  const band = bandFor(stage);
+  const band = bandFor(cont, stage);
   const qCount = (band === "easy" || band === "medium") ? 5 : 10;
   const pares = paresCapitais(cont, lang).filter(([n, c]) => n && c);
   // As fases fáceis usam os primeiros da lista; as difíceis, o conjunto todo
@@ -2471,7 +2684,7 @@ function montarRodadaCapitais(stage, t, lang, cont) {
       answer: capital, options: shuffle([capital, ...distr.map(d => d[1])]),
     };
   });
-  return { cont, diff: band, stage, qs, time: STAGE_TIME[Math.min(stage, TOTAL_STAGES) - 1], t0: Date.now(),
+  return { cont, diff: band, stage, qs, time: tempoDe(cont, stage), t0: Date.now(),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
@@ -2486,6 +2699,8 @@ const QUIZZES = {
   arts:    { icone: "🌈", cor: "#E84393", nome: t => t.games.colors,     montar: (st, t) => montarRodadaArte(st, t) },
   bible:   { icone: "✝️", cor: "#8D6E3A", nome: t => t.games.bible,      montar: (st, t, lang) => montarRodadaBiblia(st, lang) },
   capitais:{ icone: "🏛️", cor: "#6A5AE0", nome: t => t.games.capitals,   montar: (st, t, lang, cont) => montarRodadaCapitais(st, t, lang, cont) },
+  curiosidades: { icone: "🗺️", cor: "#00C2CB", nome: t => t.games.curiosidades, montar: (st, t, lang) => montarRodadaCuriosidades(st, t, lang) },
+  ciencias:     { icone: "🔬", cor: "#6A5AE0", nome: t => t.games.sciAnimals,   montar: (st, t, lang) => montarRodadaCiencias(st, t, lang) },
 };
 
 /* ---------- Colorir ----------
@@ -3459,10 +3674,10 @@ function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch
             <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, opacity: aberto ? 1 : .4 }}>
               <div style={{ width: 96, fontSize: 11, fontWeight: 800, color: "#3B4468" }}>{t.continents[r.id]}</div>
               <div style={{ flex: 1, height: 12, borderRadius: 6, background: "#E9ECF7", overflow: "hidden" }}>
-                <div style={{ width: `${(feitas / TOTAL_STAGES) * 100}%`, height: "100%", background: r.color, borderRadius: 6 }} />
+                <div style={{ width: `${(feitas / totalDe(r.id)) * 100}%`, height: "100%", background: r.color, borderRadius: 6 }} />
               </div>
               <div style={{ width: 34, textAlign: "right", fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
-                {aberto ? `${feitas}/${TOTAL_STAGES}` : "🔒"}
+                {aberto ? `${feitas}/${totalDe(r.id)}` : "🔒"}
               </div>
             </div>
           );
@@ -3511,12 +3726,12 @@ function CapMap({ t, lang, progress, coins, setSel, setScreen, temSecao, comprar
               <div style={{ flex: 1 }}>
                 <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{nomeRegiao(r)}</div>
                 <div style={{ fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
-                  {aberto ? `⭐ ${feitas}/${TOTAL_STAGES}` : anteriorOk ? `${t.unlockFor} 🪙${preco}` : t.needPrev}
+                  {aberto ? `⭐ ${feitas}/${totalDe(r.id)}` : anteriorOk ? `${t.unlockFor} 🪙${preco}` : t.needPrev}
                 </div>
               </div>
               {aberto ? (
                 <Btn small color={r.cor}
-                  onClick={() => { setSel({ cont: r.id, stage: Math.min(TOTAL_STAGES, feitas + 1) }); setScreen("stages"); }}>
+                  onClick={() => { setSel({ cont: r.id, stage: Math.min(totalDe(r.id), feitas + 1) }); setScreen("stages"); }}>
                   {t.play}
                 </Btn>
               ) : anteriorOk ? (
@@ -3670,11 +3885,11 @@ function MapScreen({ t, lang, player, coins, nextRefill, unlocked, progress, unl
               <div style={{ flex: 1 }}>
                 <div className="display" style={{ color: "#1B2A6B", fontSize: 19 }}>{t.continents[r.id]}</div>
                 <div style={{ fontSize: 12, fontWeight: 800, color: "#6C7695" }}>
-                  {open ? `⭐ ${stars}/${TOTAL_STAGES}` : `${t.unlockFor} 🪙${r.cost}`}
+                  {open ? `⭐ ${stars}/${totalDe(r.id)}` : `${t.unlockFor} 🪙${r.cost}`}
                 </div>
               </div>
               {open
-                ? <Btn small color={r.color} onClick={() => { setSel({ cont: r.id, stage: Math.min(TOTAL_STAGES, (progress[r.id] || 0) + 1) }); setScreen("stages"); }}>{t.play}</Btn>
+                ? <Btn small color={r.color} onClick={() => { setSel({ cont: r.id, stage: Math.min(totalDe(r.id), (progress[r.id] || 0) + 1) }); setScreen("stages"); }}>{t.play}</Btn>
                 : <Btn small color="#8B93AD" disabled={!prev || coins < r.cost} onClick={() => unlockContinent(r.id, r.cost)}>{r.emoji}</Btn>}
             </div>
           );
@@ -3714,7 +3929,9 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
   const quiz = quizDe(sel.cont);             // jogos fora do mapa-múndi
   const cont = quiz ? { color: quiz.cor } : ROUTE.find(r => r.id === sel.cont);
   const done = progress[sel.cont] || 0;
-  const band = bandFor(sel.stage);
+  const band = bandFor(sel.cont, sel.stage);
+  const totalFases = totalDe(sel.cont);
+  const colunasFases = totalFases <= 20 ? 5 : totalFases <= 40 ? 6 : 8;
   const chaveBanda = b => `b:${sel.cont}:${b}`;
   const bandaAberta = b => !BAND_PRECO[b] || temSecao(chaveBanda(b));
   const bandaAnterior = b => DIFFS[DIFFS.indexOf(b) - 1];
@@ -3750,12 +3967,12 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
       </div>
 
       <div className="card" style={{ padding: 14 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8 }}>
-          {Array.from({ length: TOTAL_STAGES }, (_, i) => i + 1).map(n => {
-            const b0 = bandFor(n);
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${colunasFases},1fr)`, gap: colunasFases > 6 ? 5 : 8 }}>
+          {Array.from({ length: totalFases }, (_, i) => i + 1).map(n => {
+            const b0 = bandFor(sel.cont, n);
             const open = n <= done + 1 && bandaAberta(b0);
             const cleared = n <= done;
-            const b = bandFor(n);
+            const b = b0;
             const st = stars?.[sel.cont]?.[n] || 0;
             return (
               <button key={n} disabled={!open} onClick={() => setSel(s => ({ ...s, stage: n }))}
@@ -4017,7 +4234,7 @@ function Result({ t, round, player, setScreen, setSel, sel, startRound, coins })
         </div>
 
         <div style={{ display: "grid", gap: 9 }}>
-          {round.st > 0 && round.stage < TOTAL_STAGES && (
+          {round.st > 0 && round.stage < totalDe(round.cont) && (
             <Btn full color="#00B894" disabled={coins < ECON.roundCost}
               onClick={() => { setSel(s => ({ ...s, stage: round.stage + 1 })); setScreen("stages"); }}>
               {t.nextStage} →
@@ -4092,7 +4309,7 @@ function Shop({ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, se
               </div>
               <Btn small full color={on ? "#00B894" : has ? "#4C6FFF" : coins >= it.price ? "#E84393" : "#8B93AD"}
                 disabled={!has && coins < it.price} onClick={() => act(it)}>
-                {on ? t.equipped : has ? t.equip : `🪙${it.price}`}
+                {on ? t.equipped : has ? t.equip : it.price ? `🪙${it.price}` : t.free}
               </Btn>
             </div>
           );
@@ -4112,22 +4329,43 @@ function Awards({ t, lang, stats, seenAch, setScreen, player, voltaPara = "home"
         <div className="display" style={{ color: "#fff", fontSize: 24 }}>🏅 {t.awards}</div>
       </div>
       <div className="card" style={{ padding: 14, marginBottom: 12, maxWidth: 520, marginLeft: "auto", marginRight: "auto", display: "flex", justifyContent: "space-around", textAlign: "center" }}>
-        {[["💯", stats.perfect], ["🔥", stats.bestStreak], ["🎯", stats.correct], ["🪙", stats.earned]].map(([i, v]) => (
+        {[["🏅", `${ACHIEVEMENTS.filter(a => a.test(stats)).length}/${ACHIEVEMENTS.length}`],
+          ["🔥", stats.bestStreak], ["💯", stats.perfect],
+          ["🪙", ACHIEVEMENTS.filter(a => a.test(stats)).reduce((x, a) => x + premioDe(a), 0)]].map(([i, v]) => (
           <div key={i}><div style={{ fontSize: 22 }}>{i}</div><div className="display" style={{ fontSize: 19, color: "#1B2A6B" }}>{v}</div></div>
         ))}
       </div>
-      <div className="lista">
-        {ACHIEVEMENTS.map(a => {
-          const got = a.test(stats);
-          return (
-            <div key={a.id} className="card" style={{ padding: 12, display: "flex", alignItems: "center", gap: 12, opacity: got ? 1 : .5 }}>
-              <div style={{ fontSize: 28, filter: got ? "none" : "grayscale(1)" }}>{a.icon}</div>
-              <div style={{ flex: 1, fontWeight: 800, color: "#1B2A6B", fontSize: 14 }}>{a[lang]}</div>
-              <div style={{ fontSize: 20 }}>{got ? "✅" : "🔒"}</div>
+      {CONQ_CATS.map(c => {
+        const doGrupo = ACHIEVEMENTS.filter(a => a.cat === c.id);
+        if (!doGrupo.length) return null;
+        const abertas = doGrupo.filter(a => a.test(stats)).length;
+        return (
+          <div key={c.id} style={{ marginBottom: 14 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <span style={{ fontSize: 18 }}>{c.icon}</span>
+              <span className="display" style={{ color: "#C9D2FF", fontSize: 16, flex: 1 }}>{c[lang] || c.en}</span>
+              <span style={{ color: "#A7B3EA", fontSize: 12, fontWeight: 800 }}>{abertas}/{doGrupo.length}</span>
             </div>
-          );
-        })}
-      </div>
+            <div className="lista">
+              {doGrupo.map(a => {
+                const got = a.test(stats);
+                return (
+                  <div key={a.id} className="card" style={{ padding: 12, display: "flex", alignItems: "center", gap: 10, opacity: got ? 1 : .5 }}>
+                    <div style={{ fontSize: 26, filter: got ? "none" : "grayscale(1)" }}>{a.icon}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 800, color: "#1B2A6B", fontSize: 14 }}>{a[lang] || a.en}</div>
+                      <div style={{ fontWeight: 900, fontSize: 11, color: got ? "#00B894" : "#8B93AD" }}>
+                        {NIVEL_LABEL[a.n]} · 🪙 {premioDe(a)}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 19 }}>{got ? "✅" : "🔒"}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
