@@ -103,10 +103,24 @@ quem já estava jogando.
 
 ### O responsável
 
-Um perfil marcado como responsável abre a tela **Meus filhos**: cada criança do
-aparelho com idade, se lê, rodadas, estrelas, conquistas, dias seguidos,
-lumicoins e o progresso por trilha. Nada sai do aparelho — é o mesmo
-armazenamento, aberto por outra porta.
+Um perfil marcado como responsável abre a tela **Meus filhos**. Cada criança do
+aparelho aparece num cartão com idade, se já lê, e o que ela andou fazendo:
+
+| No cartão | O que mostra |
+|---|---|
+| Os números | rodadas, estrelas, conquistas, dias seguidos e lumicoins |
+| 🎨 Pintar e Colorir | os **últimos cinco desenhos**, desenhados ali — não um número dizendo quantos |
+| 🧠 Memória | o maior tabuleiro vencido em cada tema, com estrelas e melhor tempo |
+| Por jogo | quantas fases de cada trilha, com barra de progresso |
+
+Os desenhos estão ali por um motivo. A tela só mostrava progresso de quiz, e
+**criança que ainda não lê joga memória e pintura** — era justamente ela que
+aparecia com o cartão zerado, logo ela, que é quem mais precisa do adulto por
+perto. O pai ver o peixe que a filha pintou vale mais que ler "8 desenhos".
+
+Quando a criança ainda não começou, o cartão diz isso, em vez de ficar mudo.
+
+Nada sai do aparelho — é o mesmo armazenamento, aberto por outra porta.
 
 **Ele também joga.** É um perfil como os outros, com progresso próprio; a tela
 de acompanhamento tem um botão *Jogar*, e o hub tem o caminho de volta.
@@ -194,7 +208,9 @@ src/
     biblia-fatos.js      versículos, falas, números e fatos avulsos
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
-  check-bancos.mjs   confere os bancos antes de todo build
+  check-bancos.mjs   confere os bancos de perguntas e as faixas
+  check-faixas.mjs   garante que toda faixa existe em todo mapa que depende dela
+  check-rodadas.mjs  monta uma rodada de cada trilha e faixa e confere se é jogável
 public/            ícones do app
 vite.config.js     build e configuração do PWA
 ```
@@ -241,6 +257,25 @@ calado para as crianças.
 
 Os versículos vêm de traduções em domínio público (Almeida, KJV,
 Reina-Valera 1909) e são sempre curtos.
+
+### Sobre as rodadas
+
+Banco cheio não garante rodada boa. `scripts/check-rodadas.mjs` monta uma
+rodada **de verdade** de cada trilha em cada faixa — a primeira, a do meio e a
+última de cada uma — e confere que ela é jogável: enunciado, quatro
+alternativas distintas, a resposta certa entre elas e, nas bandeiras, uma
+bandeira em cada pergunta. São 6 continentes, 8 regiões de capitais, 6 quizzes
+e 3 idiomas, antes de todo build.
+
+Ele existe por um motivo concreto: as fases Lenda das bandeiras quebravam o
+app na 13ª pergunta, porque a rodada pedia 15 bandeiras e o continente tinha
+12. O erro só aparecia jogando até o fim, no celular. Agora aparece no build,
+em dois segundos — e na primeira execução ele já achou outro: o Quiz dos
+Animais montava a rodada inteira sem enunciado nas duas faixas do topo.
+
+Por isso `poolFor` e `buildRound` ficam fora do componente, com o idioma como
+parâmetro. Não é arrumação: a função que ninguém conseguia testar foi
+justamente a que quebrou.
 
 ### Offline
 
