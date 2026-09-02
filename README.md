@@ -228,6 +228,50 @@ presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
 
+### Raciocinar — o porquê de quem errou
+
+O **2º R** da Abordagem Educacional por Princípios. Quando a criança erra, a
+rodada **para** e mostra a frase verdadeira que faltava:
+
+> 💡 **A RESPOSTA CERTA ERA**
+> **Paraguai**
+> Paraguai fica na América do Sul, e a capital é Assunção.
+
+**Acertar não interrompe.** Quem já sabe não precisa de aula, e o ritmo é
+metade da graça do jogo. O cronômetro **para** enquanto a criança lê, e a
+pergunta seguinte começa com o tempo cheio — ler o porquê não pode custar a
+fase.
+
+De onde vem a frase, por trilha:
+
+| Trilha | O que a explicação acrescenta |
+|---|---|
+| Bandeiras | o continente **e** a capital do país — dois fatos que a pergunta não tinha |
+| Bandeiras (regiões) | de que país aquela região faz parte |
+| Capitais | a frase inteira: *"São Luís é a capital do Maranhão."* |
+| Matemática | a conta resolvida: `833 + 203 = 1036` |
+| Bíblia (pessoas) | o que a pessoa fez **e em que livro está a história** |
+| Bichos, Cores, Idiomas, Curiosidades, Ciências | a própria pergunta com a resposta ao lado — *"🐰 O que este animal come? Só plantas"* |
+
+A última linha é deliberada, não preguiça. Numa pergunta de fato, a frase
+completa e verdadeira **é** a explicação: a criança viu a pergunta e escolheu
+errado; o que faltava era ver as duas coisas juntas. Onde havia fato a
+acrescentar, ele foi acrescentado; onde não havia, não inventamos um.
+
+Nas perguntas bíblicas de personagem — cerca de **um terço do banco** — a
+explicação vem escrita na própria tabela de fatos
+([`biblia-pessoas.js`](src/data/biblia-pessoas.js)), então revisá-la é revisar
+a tabela. As outras usam a pergunta com a resposta.
+
+**A guarda cuida disso.** O `check-rodadas` monta uma rodada de cada trilha em
+cada faixa e falha o build se **uma única pergunta** ficar sem explicação — ou
+se a frase montada não disser a resposta certa. Não dá para acrescentar um
+quiz novo e esquecer do porquê.
+
+Com isto o ciclo fecha: **Pesquisar** (a rodada) → **Raciocinar** (esta tela)
+→ **Relacionar** e **Registrar** ([Meu Caderno](#meu-caderno), no fim da
+rodada).
+
 ### Dois jogadores no mesmo aparelho
 
 Um celular, duas crianças — ou uma criança e o pai. Sem segundo aparelho, sem
@@ -640,14 +684,13 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 
 - [ ] Bandeiras dos 27 estados brasileiros (destrava Capitais e o nível Gênio da América do Sul)
 - [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
+- [ ] Explicação curada também nas perguntas bíblicas de livro, milagre e parábola
 - [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
 - [ ] Capitais com grafia própria em francês, alemão e italiano (hoje usa a forma canônica)
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
 - [ ] Voz do Lumus lendo as perguntas, só com as vozes do próprio aparelho
 - [ ] Código de transferência, para levar o progresso a outro aparelho sem conta
-- [ ] Conta de responsável opcional, para sincronizar entre aparelhos
 - [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
-- [ ] Raciocinar: ao errar, o app explicar o porquê da resposta certa
 
 ## Privacidade
 

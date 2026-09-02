@@ -1933,7 +1933,7 @@ function poolFor(cont, diff, minimo = 10) {
   return ranked.slice(inicio, fim);
 }
 
-function buildRound(cont, stage, lang) {
+function buildRound(cont, stage, lang, t = T[lang] || T.pt) {
   const diff = bandFor(cont, stage);
   const pool = poolFor(cont, diff, qtdPerguntas(diff));
   const wide = Object.keys(DATA[cont]); // distratores também só do continente
@@ -1959,6 +1959,7 @@ function buildRound(cont, stage, lang) {
       const others = shuffle(subs.filter(x => x.code !== s.code)).slice(0, 3);
       qs.push({
         flag: s.code, answer: s[lang], sub: true,
+        porque: t.porq.regiao.replace("{reg}", s[lang]).replace("{pais}", countryName(s.code.slice(0, 2).toUpperCase(), lang)),
         options: shuffle([s[lang], ...others.map(o => o[lang])]).slice(0, 4),
       });
     } else {
@@ -1973,6 +1974,8 @@ function buildRound(cont, stage, lang) {
       const distr = shuffle(wide).filter(c => c !== code && countryName(c, lang) !== ans).slice(0, 3);
       qs.push({
         flag: code, answer: ans,
+        porque: t.porq.bandeira.replace("{pais}", ans)
+          .replace("{cont}", t.continents[cont]).replace("{cap}", capNome(code, lang) || "—"),
         options: shuffle([ans, ...distr.map(c => countryName(c, lang))]),
       });
     }
@@ -1980,6 +1983,21 @@ function buildRound(cont, stage, lang) {
   // Modo Fácil: sem cronômetro. Depois o tempo cai a cada fase.
   const time = tempoDe(cont, stage);
   return { cont, diff, stage, qs, time, t0: Date.now(), i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
+/* O 2º R da Abordagem Educacional por Princípios: Raciocinar.
+   Quando a criança erra, ela precisa saber POR QUE a outra estava certa —
+   senão a rodada ensina só que ela errou.
+
+   Onde há fato a acrescentar (o continente e a capital do país, o livro em
+   que a história está), a rodada já traz esse fato pronto em "porque". Onde
+   não há, a própria pergunta com a resposta ao lado já é a frase verdadeira
+   que faltava: "Qual destes voa? 🦅". */
+function explicacaoDe(q) {
+  if (!q) return "";
+  if (q.porque) return q.porque;
+  const enunciado = [q.prompt, q.ask].filter(Boolean).join(" ");
+  return enunciado ? `${enunciado} ${q.answer}` : String(q.answer ?? "");
 }
 
 /* ---------- Jogo da memória ----------
@@ -2355,7 +2373,7 @@ function montarRodadaMath(stage) {
     if (vistas.has(c.prompt)) continue;
     vistas.add(c.prompt);
     const { answer, options } = opcoesConta(c.answer);
-    qs.push({ kind: "math", prompt: c.prompt, answer, options });
+    qs.push({ kind: "math", prompt: c.prompt, answer, options, porque: `${c.prompt} = ${answer}` });
   }
   const time = tempoDe("math", stage);
   return { cont: "math", diff: band, stage, qs, time, t0: Date.now(),
@@ -2813,8 +2831,8 @@ function montarRodadaBiblia(stage, lang) {
   const banco = bancoBiblia(lang, band);
   const qCount = qtdPerguntas(band);
   const escolhidas = shuffle(banco).slice(0, Math.min(qCount, banco.length));
-  const qs = escolhidas.map(([pergunta, certa, erradas]) => ({
-    kind: "texto", prompt: pergunta, answer: certa, options: shuffle([certa, ...erradas]),
+  const qs = escolhidas.map(([pergunta, certa, erradas, porque]) => ({
+    kind: "texto", prompt: pergunta, answer: certa, options: shuffle([certa, ...erradas]), porque,
   }));
   return { cont: "bible", diff: band, stage, qs, time: tempoDe("bible", stage), t0: Date.now(),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
@@ -2857,6 +2875,7 @@ function montarRodadaCapitais(stage, t, lang, cont) {
     return {
       kind: "texto", prompt: lugar, ask: t.whichCapital,
       answer: capital, options: shuffle([capital, ...distr.map(d => d[1])]),
+      porque: t.porq.capital.replace("{cap}", capital).replace("{lugar}", lugar),
     };
   });
   return { cont, diff: band, stage, qs, time: tempoDe(cont, stage), t0: Date.now(),
@@ -4496,10 +4515,13 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
   const [hintLevel, setHintLevel] = useState(0);
   const [imgOk, setImgOk] = useState(true);
   const [sair, setSair] = useState(false);
+  /* Guarda a rodada seguinte enquanto a criança lê o porquê do erro. */
+  const [explicando, setExplicando] = useState(null);
   const lockRef = useRef(false);
 
   useEffect(() => {
     setLeft(tempoDaPergunta(round, round.qs[round.i])); setRemoved([]); setPicked(null); setHintLevel(0); setImgOk(true);
+    setExplicando(null);
     lockRef.current = false;
   }, [round.i]);
 
@@ -4531,6 +4553,9 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
         streak,
         bestStreak: Math.max(round.bestStreak || 0, streak),
       };
+      // Errou: a rodada para e explica. Acertar não interrompe — quem já
+      // sabe não precisa de aula, e o ritmo é metade da graça do jogo.
+      if (!ok) { setExplicando({ next, certa: q.answer, porque: explicacaoDe(q) }); return; }
       if (next.i >= round.qs.length) finishRound(next);
       else { setRound(next); if (duo) setPassando(true); }
     }, 900);
@@ -4548,6 +4573,13 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
 
   const pct = tempoQ == null ? 100 : (left / tempoQ) * 100;
   const barColor = pct > 55 ? "#00B894" : pct > 25 ? "#F9A826" : "#E74C3C";
+
+  function seguir() {
+    const { next } = explicando;
+    setExplicando(null);
+    if (next.i >= round.qs.length) finishRound(next);
+    else { setRound(next); if (duo) setPassando(true); }
+  }
 
   if (passando) return (
     <div className="narrow" style={{ paddingTop: 40 }}>
@@ -4688,6 +4720,26 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
           ))}
         </div>
       </div>
+
+      {/* Raciocinar: a frase verdadeira que a criança não sabia, com a
+          resposta certa do lado. Sem "você errou" — o erro ela já viu. */}
+      {explicando && (
+        <Modal onClose={seguir}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 40 }}>💡</div>
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, letterSpacing: 1, marginTop: 6 }}>
+              {t.whyTitle}
+            </div>
+            <div className="display" style={{ color: "#00B894", fontSize: 26, lineHeight: 1.15, margin: "2px 0 10px" }}>
+              {explicando.certa}
+            </div>
+            <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 15, lineHeight: 1.6, marginBottom: 16 }}>
+              {explicando.porque}
+            </div>
+            <Btn full color="#00B894" onClick={seguir}>{t.gotIt}</Btn>
+          </div>
+        </Modal>
+      )}
 
       {sair && (
         <Modal onClose={() => setSair(false)}>
