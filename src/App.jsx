@@ -59,6 +59,9 @@ const T = {
     giftWeek: "Presente da semana", giveGift: "Presentear",
     painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
     thisWeek: "Esta semana ·", week: "Semana de", allTime: "No total",
+    bonusTitle: "Bônus de mérito!", bonusOk: "Oba!",
+    bonusFrom: "{quem} viu o seu esforço e te deu um presente:",
+    bonusCheers: "Parabéns! Continue assim.",
     weekNothing: "Nada nesta semana ainda.",
     giftHint: "100 lumicoins por semana para dar a quem você quiser. O que sobra não acumula.",
     needsReading: "Abre quando souber ler — ou com lumicoins",
@@ -179,6 +182,9 @@ const T = {
     giftWeek: "This week's gift", giveGift: "Give a gift",
     painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
     thisWeek: "This week ·", week: "Week of", allTime: "All time",
+    bonusTitle: "Merit bonus!", bonusOk: "Yay!",
+    bonusFrom: "{quem} saw how hard you worked and gave you a gift:",
+    bonusCheers: "Well done! Keep it up.",
     weekNothing: "Nothing this week yet.",
     giftHint: "100 lumicoins a week to give to whoever you like. What is left does not carry over.",
     needsReading: "Opens when you can read — or with lumicoins",
@@ -275,6 +281,9 @@ const T = {
     giftWeek: "Regalo de la semana", giveGift: "Regalar",
     painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
     thisWeek: "Esta semana ·", week: "Semana del", allTime: "En total",
+    bonusTitle: "¡Bono de mérito!", bonusOk: "¡Bien!",
+    bonusFrom: "{quem} vio tu esfuerzo y te dio un regalo:",
+    bonusCheers: "¡Felicidades! Sigue así.",
     weekNothing: "Nada esta semana todavía.",
     giftHint: "100 lumicoins por semana para dar a quien quieras. Lo que sobra no se acumula.",
     needsReading: "Se abre cuando sepas leer — o con lumicoins",
@@ -385,6 +394,9 @@ const PACKS = {
     giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
     painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
     thisWeek: "Cette semaine ·", week: "Semaine du", allTime: "Au total",
+    bonusTitle: "Bonus de mérite !", bonusOk: "Super !",
+    bonusFrom: "{quem} a vu tes efforts et t'a fait un cadeau :",
+    bonusCheers: "Bravo ! Continue comme ça.",
     weekNothing: "Rien cette semaine pour l'instant.",
     giftHint: "100 lumicoins par semaine à offrir à qui tu veux. Le reste ne se cumule pas.",
     needsReading: "S'ouvre quand tu sauras lire — ou avec des lumicoins",
@@ -474,6 +486,9 @@ const PACKS = {
     giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
     painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
     thisWeek: "Diese Woche ·", week: "Woche vom", allTime: "Insgesamt",
+    bonusTitle: "Bonus für deinen Einsatz!", bonusOk: "Juhu!",
+    bonusFrom: "{quem} hat deinen Einsatz gesehen und dir etwas geschenkt:",
+    bonusCheers: "Gut gemacht! Weiter so.",
     weekNothing: "Diese Woche noch nichts.",
     giftHint: "100 Lumicoins pro Woche zum Verschenken. Was übrig bleibt, verfällt.",
     needsReading: "Öffnet sich, wenn du lesen kannst — oder mit Lumicoins",
@@ -563,6 +578,9 @@ const PACKS = {
     giftWeek: "Regalo della settimana", giveGift: "Regalare",
     painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
     thisWeek: "Questa settimana ·", week: "Settimana del", allTime: "In totale",
+    bonusTitle: "Bonus di merito!", bonusOk: "Evviva!",
+    bonusFrom: "{quem} ha visto il tuo impegno e ti ha fatto un regalo:",
+    bonusCheers: "Bravo! Continua così.",
     weekNothing: "Ancora niente questa settimana.",
     giftHint: "100 lumicoins a settimana da regalare a chi vuoi. Quel che avanza non si accumula.",
     needsReading: "Si apre quando saprai leggere — o con lumicoins",
@@ -1374,6 +1392,8 @@ function AppInterno() {
   const [presente, setPresente] = useState({ semana: semanaAtual(), restante: ECON.presenteSemanal });
   /* { "2026-08-30": {rodadas, certas, estrelas, desenhos, memorias, lumicoins} } */
   const [semanas, setSemanas] = useState({});
+  /* Bônus dado pelo responsável e ainda não mostrado: {valor, de}. */
+  const [presenteRecebido, setPresenteRecebido] = useState(null);
 
   /* Soma no balde da semana corrente. Os totais de sempre continuam em stats;
      isto aqui é só o "o que aconteceu desde domingo", que é o que o adulto
@@ -1403,7 +1423,7 @@ function AppInterno() {
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
     stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
-    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {},
+    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null,
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
@@ -1439,6 +1459,7 @@ function AppInterno() {
     const sem = semanaAtual();
     setPresente(d.presente?.semana === sem ? d.presente : { semana: sem, restante: ECON.presenteSemanal });
     setSemanas(d.semanas || {});
+    setPresenteRecebido(d.presenteRecebido || null);
   }
 
   useEffect(() => {
@@ -1661,6 +1682,12 @@ function AppInterno() {
       // O presente entra no cofre, mas não conta como ganho no jogo: quem
       // ganhou lumicoins jogando é outra história, e as conquistas sabem.
       d.stats = { ...d.stats, maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
+      // Um recado esperando a criança abrir o perfil dela. Se o responsável
+      // der duas vezes antes disso, soma: ela vê um bônus só, com o total.
+      d.presenteRecebido = {
+        valor: (d.presenteRecebido?.valor || 0) + valor,
+        de: player.name || t.roleParent,
+      };
       window.storage.set(`lumus:p:${pr.id}`, JSON.stringify(d));
     } catch { return; }
     setPresente({ semana: sem, restante: cofre.restante - valor });
@@ -1757,7 +1784,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1769,7 +1796,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido]);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -1976,6 +2003,30 @@ function AppInterno() {
           <div style={{ position: "fixed", inset: 0, zIndex: 55, pointerEvents: "none", overflow: "hidden" }}>
             <div className="crossing">{travelFx}</div>
           </div>
+        )}
+
+        {/* O bônus de mérito. Aparece assim que a criança entra no perfil,
+            antes de qualquer outra coisa, e some depois de lida. */}
+        {presenteRecebido && !["create", "boot", "profiles"].includes(screen) && (
+          <Modal onClose={() => setPresenteRecebido(null)}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 56 }}>🎁</div>
+              <div className="display" style={{ fontSize: 24, color: "#1B2A6B", marginTop: 4 }}>{t.bonusTitle}</div>
+              <div style={{ color: "#3B4468", fontWeight: 800, fontSize: 15, lineHeight: 1.7, margin: "10px 0" }}>
+                {t.bonusFrom.replace("{quem}", presenteRecebido.de)}
+              </div>
+              <div className="display" style={{
+                display: "inline-block", background: "#F9A826", color: "#5A3B00",
+                borderRadius: 999, padding: "8px 22px", fontSize: 26, margin: "2px 0 10px",
+              }}>
+                🪙 +{presenteRecebido.valor}
+              </div>
+              <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, lineHeight: 1.6, marginBottom: 14 }}>
+                {t.bonusCheers}
+              </div>
+              <Btn full color="#00B894" onClick={() => setPresenteRecebido(null)}>🎉 {t.bonusOk}</Btn>
+            </div>
+          </Modal>
         )}
 
         {pedirPin && (
