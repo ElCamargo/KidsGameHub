@@ -74,7 +74,7 @@ não numa apresentação:
 | JavaScript comprimido | **193 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 24 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 30 testes |
 | Licença | MIT |
 
 ---
@@ -227,6 +227,35 @@ E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
 presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
+### A voz do Lumus
+
+Ler a pergunta em voz alta. É o pedaço do app que mais muda **quem consegue
+jogar**: uma criança de quatro anos não lê *"Qual destes voa?"*, mas escuta.
+
+Ela lê o enunciado **e as alternativas** — sem as alternativas, quem não lê
+ouve a pergunta e continua sem saber em que tocar. Emoji não é falado: o
+sintetizador leria *"rosto de coelho"* no meio da frase.
+
+**Dois tons, de propósito:**
+
+| Tom | Onde | Como soa |
+|---|---|---|
+| **Lumus** | as perguntas e o porquê do erro | agudo e animado, um pouco devagar — criança pequena precisa de tempo entre as palavras |
+| **Palavra** | o versículo do Momento em Família | grave, pausado e firme: uma voz de pai lendo para a família, não de locutor |
+
+**Só voz do próprio aparelho.** O navegador também oferece vozes que falam
+pela internet — melhores, e proibidas aqui. O filtro é `localService`. Num
+aparelho sem voz instalada, **nada aparece**: nem o botão, nem o interruptor.
+Prometer voz e ficar mudo é pior que não ter, porque a criança que mais
+precisa dela é justamente a que joga em modo avião.
+
+Nada é gravado, enviado ou medido — é síntese local, e só.
+
+**Quem ainda não lê nasce com a voz ligada**, porque para essa criança a voz
+*é* a pergunta. Quem já lê liga quando quiser, na ficha do jogador. Durante
+uma partida há o 🔊 para ouvir de novo. Em duelo a voz cala: o outro jogador
+ouviria a pergunta antes da vez dele.
 
 ### Raciocinar — o porquê de quem errou
 
@@ -432,7 +461,7 @@ funções e mais nada.
 |---|---|---|
 | `src/App.jsx` | 4.882 linhas | a interface inteira: ~40 componentes, e nenhuma linha de conteúdo |
 | `src/data/*.js` | 4.269 linhas | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 24 testes | conteúdo, idiomas, geografia, desenhos |
+| `tests/*.test.mjs` | 30 testes | conteúdo, idiomas, geografia, desenhos, voz |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -452,7 +481,7 @@ máquina de qualquer pessoa, não só na nuvem:
 | `check-bancos` | pergunta ambígua, alternativa repetida, resposta certa aparecendo entre as erradas, banco que encolheu por acidente |
 | `check-faixas` | uma faixa de dificuldade existir num mapa e faltar em outro |
 | `check-rodadas` | **monta uma rodada de verdade** de cada trilha em cada faixa e confere se ela é jogável |
-| `npm test` | 24 testes: paridade das 280 chaves nos 6 idiomas, marcadores `{n}` preservados na tradução, todo país com capital, todo desenho com área pintável |
+| `npm test` | 30 testes: paridade das chaves nos 6 idiomas, marcadores `{n}` preservados na tradução, todo país com capital, todo desenho com área pintável, nenhum emoji indo para a fala |
 
 Eles não são teatro. O `check-rodadas` nasceu de um bug real — as fases Lenda
 quebravam o app na 13ª pergunta, porque a rodada pedia 15 bandeiras e o
@@ -513,6 +542,11 @@ fingir que está resolvido.
   de tela é feita à mão, no navegador, a 375 px.
 - Sem presença em loja: hoje a distribuição depende de indicação. O caminho e o
   porquê estão em [ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md).
+- A voz depende do que o aparelho tem instalado. Um Android de entrada sem voz
+  local não fala — e é justamente ele o alvo do projeto. Voz gravada por nós
+  resolveria, e pesaria megabytes por idioma; a conta ainda não fecha.
+- No iPhone, a fala automática só começa depois do primeiro toque da criança
+  na tela — é regra do Safari, não escolha nossa. O botão 🔊 funciona sempre.
 
 ### Registros de decisão
 
@@ -544,7 +578,7 @@ npm ci && npm run build
 
 O `build` é o portão inteiro: prepara as bandeiras, confere os três bancos de
 perguntas, confere as faixas de dificuldade, **monta uma rodada de cada trilha
-em cada faixa** e roda os 24 testes — antes de gerar um único arquivo. Se
+em cada faixa** e roda os 30 testes — antes de gerar um único arquivo. Se
 qualquer um falhar, não sai build. Leva menos de 5 segundos.
 
 Só os testes:
@@ -585,6 +619,7 @@ src/
   App.jsx          a interface inteira: ~40 componentes, nenhum dado (4.882 linhas)
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
+  lib/voz.js       a voz do Lumus: só vozes locais, dois tons
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -600,7 +635,7 @@ src/
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
-tests/             24 testes em node --test, sem framework nenhum
+tests/             30 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -688,9 +723,9 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
 - [ ] Capitais com grafia própria em francês, alemão e italiano (hoje usa a forma canônica)
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
-- [ ] Voz do Lumus lendo as perguntas, só com as vozes do próprio aparelho
 - [ ] Código de transferência, para levar o progresso a outro aparelho sem conta
 - [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
+- [ ] Rever o que nasce aberto para quem não lê, agora que a voz existe
 
 ## Privacidade
 
@@ -719,7 +754,7 @@ sign-up and which is entirely absent for those who decline.
 
 Every change passes a build gate that checks the question banks for ambiguity,
 **builds a real round of every track at every difficulty** to prove it is
-playable, and runs 24 tests — among them one that guarantees all six languages
+playable, and runs 30 tests — among them one that guarantees all six languages
 carry exactly the same 280 interface strings.
 
 The code is MIT-licensed. The reasoning behind the main technical choices is

@@ -12,6 +12,7 @@ import { CARIMBOS, carimboPorId, perguntaDoRegistro, semente as sementeDoTexto }
 import { T, LANG_CATALOG, PACKS } from "./data/textos.js";
 import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES } from "./data/geografia.js";
 import { PALETA, DESENHOS } from "./data/desenhos.js";
+import { iniciarVozes, temVoz, falar, parar as pararVoz, textoDaPergunta, juntar } from "./lib/voz.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -764,6 +765,15 @@ function AppInterno() {
      alguém que não tem perfil no aparelho e por isso não recebe lumicoins. */
   const [dupla, setDupla] = useState(null);
   const [escolhendoDupla, setEscolhendoDupla] = useState(false);
+
+  /* ----- a voz do Lumus -----
+     Quem ainda não lê nasce com ela ligada: é o que faz a pergunta existir
+     para essa criança. Quem já lê pode ligar quando quiser.
+
+     vozOk é se o APARELHO tem voz local instalada. Não tendo, nada aparece —
+     nem o botão, nem o interruptor: prometer voz e não falar é pior. */
+  const [voz, setVoz] = useState(false);
+  const [vozOk, setVozOk] = useState(false);
   /* A pergunta que está sendo respondida agora, e para onde voltar depois. */
   const [rascunho, setRascunho] = useState(null);
 
@@ -817,7 +827,7 @@ function AppInterno() {
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
     stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
-    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "",
+    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "", voz: null,
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
@@ -856,6 +866,8 @@ function AppInterno() {
     setPresenteRecebido(d.presenteRecebido || null);
     setCaderno(d.caderno || []);
     setDuplaDia(d.duplaDia || "");
+    // null = ninguém decidiu ainda; aí quem não lê ganha a voz de presente.
+    setVoz(d.voz == null ? !ehLeitor(perfil) : !!d.voz);
   }
 
   useEffect(() => {
@@ -1264,7 +1276,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1276,7 +1288,21 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
+
+  /* A lista de vozes chega vazia na primeira pergunta em quase todo
+     navegador, e só depois o aparelho avisa que carregou. */
+  useEffect(() => {
+    const conferir = () => setVozOk(temVoz(lang));
+    const parar = iniciarVozes(conferir);
+    conferir();
+    return parar;
+  }, [lang]);
+
+  /* Trocou de tela, a voz cala. Sem isto o versículo continua sendo lido
+     enquanto a criança já está no meio de uma partida. */
+  useEffect(() => { pararVoz(); }, [screen]);
+  useEffect(() => pararVoz, []);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -1645,8 +1671,10 @@ function AppInterno() {
         {screen === "escrever" && rascunho && <EscreverScreen {...{ t, lang, rascunho,
           salvar: salvarRegistro, cancelar: () => { setRascunho(null); setScreen(rascunho.volta || "caderno"); } }} />}
         {screen === "devocional" && <DevocionalScreen {...{ t, lang, momento, marcarMomento, feitoHoje: momentoFeitoHoje, setScreen,
+          voz: voz && vozOk,
           voltar: player.papel === "pai" ? "familia" : "home" }} />}
-        {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar }} />}
+        {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar,
+          voz, setVoz, vozOk }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, lang, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
           momento, setMomento, momentoFeitoHoje,
@@ -1669,6 +1697,7 @@ function AppInterno() {
         {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao,
           dupla, pedirDupla: () => setEscolhendoDupla(true), sairDaDupla: () => setDupla(null) }} />}
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen,
+          voz: voz && vozOk,
           onQuit: () => { setRound(null); setScreen("stages"); } }} />}
         {screen === "result" && round?.duo && (
           <PlacarDupla {...{ t, eu: { name: player.name, avatar: player.avatar }, outro: round.duo,
@@ -3584,7 +3613,7 @@ function CadernoScreen({ t, lang, caderno, setScreen, novo, voltar }) {
 
    Não existe resposta certa aqui, e é de propósito. O resto do app mede
    acerto; este pedaço mede presença. */
-function DevocionalScreen({ t, lang, momento, marcarMomento, feitoHoje, setScreen, voltar }) {
+function DevocionalScreen({ t, lang, momento, marcarMomento, feitoHoje, setScreen, voltar, voz }) {
   const { principio, dia } = devocionalDoDia();
   const txt = o => o[lang] || o.en;
   return (
@@ -3610,7 +3639,15 @@ function DevocionalScreen({ t, lang, momento, marcarMomento, feitoHoje, setScree
           </div>
         </div>
         <div className="display" style={{ color: "#1B2A6B", fontSize: 19, lineHeight: 1.45 }}>“{txt(dia.v)}”</div>
-        <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 12, marginTop: 6 }}>{txt(dia.ref)}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+          <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 12, flex: 1 }}>{txt(dia.ref)}</div>
+          {/* Outro tom: grave e pausado. Aqui não é o mascote falando. */}
+          {voz && (
+            <button onClick={() => falar(juntar([txt(dia.v), txt(dia.ref)]), { lang, tom: "palavra" })}
+              aria-label={t.voiceRead} className="chunky"
+              style={{ background: "#EEF1FF", color: "#1B2A6B", padding: "6px 12px", fontSize: 15 }}>🔊</button>
+          )}
+        </div>
       </div>
 
       <div className="card" style={{ padding: 16, marginBottom: 12 }}>
@@ -3968,7 +4005,7 @@ function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momen
 }
 
 /* ---------- Perfil do jogador ---------- */
-function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar }) {
+function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar, voz, setVoz, vozOk }) {
   const verso = versoDoDia(lang);
   const Num = ({ icon, n, label }) => (
     <div style={{ textAlign: "center", flex: 1 }}>
@@ -4064,6 +4101,21 @@ function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch
           );
         })}
       </div>
+
+      {/* Só aparece se o aparelho tiver voz instalada que funcione offline.
+          Sem isso o interruptor prometeria algo que não acontece. */}
+      {vozOk && (
+        <div className="card" style={{ padding: 12, marginBottom: 10, display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ fontSize: 26 }}>{voz ? "🔊" : "🔇"}</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.voice}</div>
+            <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, lineHeight: 1.4 }}>{t.voiceHint}</div>
+          </div>
+          <Btn small color={voz ? "#00B894" : "#8B93AD"} onClick={() => setVoz(v => !v)}>
+            {voz ? t.voiceOn : t.voiceOff}
+          </Btn>
+        </div>
+      )}
 
       <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
         <Btn full color="#E84393" onClick={() => abrir("shop", "player")}>🛍️ {t.shop}</Btn>
@@ -4499,7 +4551,7 @@ function folgaLeitura(q) {
 }
 const tempoDaPergunta = (round, q) => round.time == null ? null : round.time + folgaLeitura(q);
 
-function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen, onQuit }) {
+function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen, onQuit, voz }) {
   const q = round.qs[round.i];
   /* Em duelo as perguntas se alternam: a de índice par é de quem convidou.
      Entre uma e outra entra a tela de passar o celular — sem ela o segundo
@@ -4524,6 +4576,21 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
     setExplicando(null);
     lockRef.current = false;
   }, [round.i]);
+
+  /* Lê a pergunta em voz alta. Quem não lê depende disto para jogar; por isso
+     é automático, e não um botão que a criança de quatro anos teria que
+     descobrir sozinha. Em duelo fica quieto: o outro jogador ouviria. */
+  const lerPergunta = () => falar(textoDaPergunta(round.qs[round.i], t), { lang });
+  useEffect(() => {
+    if (!voz || duo || passando) return;
+    const x = setTimeout(lerPergunta, 260);   // deixa a tela desenhar primeiro
+    return () => { clearTimeout(x); pararVoz(); };
+  }, [voz, duo, passando, round.i]);
+
+  /* O porquê do erro também é lido: é a parte que mais vale ouvir. */
+  useEffect(() => {
+    if (voz && explicando) falar(juntar([explicando.certa, explicando.porque]), { lang });
+  }, [voz, explicando, lang]);
 
   useEffect(() => {
     if (passando) return;                              // relógio parado na troca de mãos
@@ -4615,6 +4682,10 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
             <div key={i} style={{ flex: 1, height: 7, borderRadius: 4, background: i < round.i ? "#00E5A0" : "rgba(255,255,255,.25)" }} />
           ))}
         </div>
+        {voz && !duo && (
+          <button onClick={lerPergunta} aria-label={t.voiceRepeat} className="chunky"
+            style={{ background: "rgba(255,255,255,.18)", padding: "6px 10px", fontSize: 15 }}>🔊</button>
+        )}
         {duo ? (
           <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
             {round.pontos.map((v, i) => (
