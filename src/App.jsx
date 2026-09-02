@@ -1762,26 +1762,33 @@ function AppInterno() {
   // REGRA DE OURO: nunca sai do continente escolhido.
   // A dificuldade vem de QUAIS bandeiras daquele continente entram no sorteio:
   // as mais conhecidas primeiro, as raras nas fases finais.
-  function poolFor(cont, diff) {
+  const FAIXA_POOL = {
+    easy:   [0,   .55],
+    medium: [0,   .8],
+    hard:   [.25, 1],
+    genius: [.45, 1],
+    mestre: [.6,  1],
+    lenda:  [.7,  1],   // só as mais raras do continente
+  };
+
+  function poolFor(cont, diff, minimo = 10) {
     const ranked = Object.entries(DATA[cont])
       .sort((a, b) => (a[1] - b[1]) || (Math.random() - .5))
       .map(([c]) => c);
     const n = ranked.length;
-    const cut = (from, to) => ranked.slice(Math.floor(n * from), Math.ceil(n * to));
-    let pool;
-    if (diff === "easy") pool = cut(0, .55);
-    else if (diff === "medium") pool = cut(0, .8);
-    else if (diff === "hard") pool = cut(.25, 1);
-    else if (diff === "genius") pool = cut(.45, 1);
-    else if (diff === "mestre") pool = cut(.6, 1);
-    else pool = cut(.7, 1);          // Lenda: só as mais raras do continente
-    // continentes pequenos: usa o continente inteiro em vez de sair dele
-    return pool.length >= 10 ? pool : ranked;
+    const [de, ate] = FAIXA_POOL[diff] || FAIXA_POOL.genius;
+    let inicio = Math.floor(n * de);
+    const fim = Math.ceil(n * ate);
+    // A faixa pode não juntar bandeiras suficientes para a rodada — a Oceania
+    // tem 14 países no total. Nesse caso desce para as vizinhas mais fáceis,
+    // uma a uma, até caber. Nunca sai do continente: essa é a regra de ouro.
+    while (fim - inicio < minimo && inicio > 0) inicio--;
+    return ranked.slice(inicio, fim);
   }
 
   function buildRound(cont, stage) {
     const diff = bandFor(cont, stage);
-    const pool = poolFor(cont, diff);
+    const pool = poolFor(cont, diff, qtdPerguntas(diff));
     const wide = Object.keys(DATA[cont]); // distratores também só do continente
     const subs = (SUBFLAGS[cont] || []);
     const subDeck = shuffle(subs);
@@ -1797,6 +1804,7 @@ function AppInterno() {
     const qCount = qtdPerguntas(diff);
     const deck = shuffle(pool).slice(0, qCount); // bandeiras SEMPRE diferentes
     const qs = [];
+    let deckAt = 0;
     for (let i = 0; i < qCount; i++) {
       const useSub = subSlots.has(i) && subAt < subDeck.length;
       if (useSub) {
@@ -1807,7 +1815,13 @@ function AppInterno() {
           options: shuffle([s[lang], ...others.map(o => o[lang])]).slice(0, 4),
         });
       } else {
-        const code = deck[i];
+        // Um índice próprio para o baralho: com as fases de estado ocupando
+        // posições, usar o mesmo i desperdiçava bandeiras boas.
+        const code = deck[deckAt++];
+        // Acabaram as bandeiras diferentes do continente: a rodada termina
+        // aqui. Melhor uma rodada mais curta do que repetir bandeira — ou,
+        // como acontecia, montar pergunta sem bandeira nenhuma.
+        if (!code) break;
         const ans = countryName(code, lang);
         const distr = shuffle(wide).filter(c => c !== code && countryName(c, lang) !== ans).slice(0, 3);
         qs.push({
