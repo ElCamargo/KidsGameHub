@@ -61,6 +61,10 @@ const T = {
     giftWeek: "Presente da semana", giveGift: "Presentear",
     painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
     thisWeek: "Esta semana ·", week: "Semana de", allTime: "No total",
+    duoPlay: "Jogar em dupla", duoWho: "Quem vai jogar com você?", duoWith: "Em dupla com",
+    duoFree: "Em dupla é de graça", duoBoth: "para os dois!", duoPaidToday: "Hoje o prêmio da dupla já saiu.",
+    duoTie: "Empate!", duoWon: "{quem} venceu!", yourTurn: "SUA VEZ", guest: "Convidado",
+    duoHint: "Um aparelho, dois jogadores. Quem acerta o par joga de novo.",
     notebook: "Meu Caderno", newNote: "Escrever agora", saveNote: "Guardar no caderno",
     writeIt: "Escrever no meu caderno", howWasIt: "COMO FOI?", writeHere: "O QUE VOCÊ QUER GUARDAR",
     writePlaceholder: "Escreva do seu jeito. Ninguém corrige aqui.", notesTotal: "páginas",
@@ -193,6 +197,10 @@ const T = {
     giftWeek: "This week's gift", giveGift: "Give a gift",
     painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
     thisWeek: "This week ·", week: "Week of", allTime: "All time",
+    duoPlay: "Play in pairs", duoWho: "Who is playing with you?", duoWith: "Playing with",
+    duoFree: "Free when you play in pairs", duoBoth: "for both of you!", duoPaidToday: "Today's pair prize is already taken.",
+    duoTie: "It's a tie!", duoWon: "{quem} wins!", yourTurn: "YOUR TURN", guest: "Guest",
+    duoHint: "One device, two players. Match a pair and you go again.",
     notebook: "My Notebook", newNote: "Write now", saveNote: "Save in my notebook",
     writeIt: "Write in my notebook", howWasIt: "HOW WAS IT?", writeHere: "WHAT YOU WANT TO KEEP",
     writePlaceholder: "Write it your way. Nobody corrects it here.", notesTotal: "pages",
@@ -301,6 +309,10 @@ const T = {
     giftWeek: "Regalo de la semana", giveGift: "Regalar",
     painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
     thisWeek: "Esta semana ·", week: "Semana del", allTime: "En total",
+    duoPlay: "Jugar en pareja", duoWho: "¿Quién juega contigo?", duoWith: "En pareja con",
+    duoFree: "En pareja es gratis", duoBoth: "¡para los dos!", duoPaidToday: "El premio de pareja de hoy ya salió.",
+    duoTie: "¡Empate!", duoWon: "¡{quem} ganó!", yourTurn: "TU TURNO", guest: "Invitado",
+    duoHint: "Un aparato, dos jugadores. Quien acierta el par juega otra vez.",
     notebook: "Mi Cuaderno", newNote: "Escribir ahora", saveNote: "Guardar en el cuaderno",
     writeIt: "Escribir en mi cuaderno", howWasIt: "¿CÓMO TE FUE?", writeHere: "LO QUE QUIERES GUARDAR",
     writePlaceholder: "Escribe a tu manera. Aquí nadie corrige.", notesTotal: "páginas",
@@ -423,6 +435,10 @@ const PACKS = {
     giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
     painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
     thisWeek: "Cette semaine ·", week: "Semaine du", allTime: "Au total",
+    duoPlay: "Jouer à deux", duoWho: "Qui joue avec toi ?", duoWith: "À deux avec",
+    duoFree: "À deux, c'est gratuit", duoBoth: "pour vous deux !", duoPaidToday: "Le prix du duo est déjà pris aujourd'hui.",
+    duoTie: "Égalité !", duoWon: "{quem} a gagné !", yourTurn: "À TOI", guest: "Invité",
+    duoHint: "Un appareil, deux joueurs. Qui trouve une paire rejoue.",
     notebook: "Mon Cahier", newNote: "Écrire maintenant", saveNote: "Garder dans le cahier",
     writeIt: "Écrire dans mon cahier", howWasIt: "C'ÉTAIT COMMENT ?", writeHere: "CE QUE TU VEUX GARDER",
     writePlaceholder: "Écris à ta façon. Ici, personne ne corrige.", notesTotal: "pages",
@@ -524,6 +540,10 @@ const PACKS = {
     giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
     painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
     thisWeek: "Diese Woche ·", week: "Woche vom", allTime: "Insgesamt",
+    duoPlay: "Zu zweit spielen", duoWho: "Wer spielt mit dir?", duoWith: "Zu zweit mit",
+    duoFree: "Zu zweit ist es gratis", duoBoth: "für euch beide!", duoPaidToday: "Der Preis für heute ist schon vergeben.",
+    duoTie: "Unentschieden!", duoWon: "{quem} hat gewonnen!", yourTurn: "DU BIST DRAN", guest: "Gast",
+    duoHint: "Ein Gerät, zwei Spieler. Wer ein Paar findet, ist noch mal dran.",
     notebook: "Mein Heft", newNote: "Jetzt schreiben", saveNote: "Ins Heft schreiben",
     writeIt: "In mein Heft schreiben", howWasIt: "WIE WAR ES?", writeHere: "WAS DU BEHALTEN WILLST",
     writePlaceholder: "Schreib es so, wie du willst. Hier korrigiert niemand.", notesTotal: "Seiten",
@@ -625,6 +645,10 @@ const PACKS = {
     giftWeek: "Regalo della settimana", giveGift: "Regalare",
     painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
     thisWeek: "Questa settimana ·", week: "Settimana del", allTime: "In totale",
+    duoPlay: "Giocare in due", duoWho: "Chi gioca con te?", duoWith: "In due con",
+    duoFree: "In due è gratis", duoBoth: "per tutti e due!", duoPaidToday: "Il premio in coppia di oggi è già stato dato.",
+    duoTie: "Pareggio!", duoWon: "Ha vinto {quem}!", yourTurn: "TOCCA A TE", guest: "Ospite",
+    duoHint: "Un dispositivo, due giocatori. Chi trova una coppia gioca ancora.",
     notebook: "Il Mio Quaderno", newNote: "Scrivi ora", saveNote: "Salva nel quaderno",
     writeIt: "Scrivi nel mio quaderno", howWasIt: "COM'È ANDATA?", writeHere: "COSA VUOI TENERE",
     writePlaceholder: "Scrivi a modo tuo. Qui nessuno corregge.", notesTotal: "pagine",
@@ -967,6 +991,10 @@ const ECON = {
      pena, mas não pode virar uma torneira de moedas — senão a criança escreve
      dez linhas vazias e o caderno morre no mesmo dia em que nasceu. */
   cadernoReward: 15,
+  /* Jogar em dupla é de graça, e paga os dois — ganhando ou perdendo. O que
+     queremos que aconteça de novo amanhã é o irmão chamar o irmão, não um
+     vencer o outro. Uma vez por dia, senão vira fábrica de lumicoins. */
+  duplaReward: 20,
   colorReward: 10,                 // por desenho terminado
   colorDailyCap: 200,              // 20 desenhos premiados por dia (20 × 10)
 };
@@ -1121,6 +1149,9 @@ const ACHIEVEMENTS = [
   /* --- dedicação --- */
   { id: "day3", cat: "habit", n: 1, icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
   { id: "day7", cat: "habit", n: 2, icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
+  { id: "duo1", cat: "habit", n: 1, icon: "👥", pt: "Primeira partida em dupla", en: "First game in pairs", es: "Primera partida en pareja", test: s => s.duplas >= 1 },
+  { id: "duo10", cat: "habit", n: 2, icon: "🤜", pt: "10 partidas em dupla", en: "10 games in pairs", es: "10 partidas en pareja", test: s => s.duplas >= 10 },
+  { id: "duo50", cat: "habit", n: 3, icon: "🎏", pt: "50 partidas em dupla", en: "50 games in pairs", es: "50 partidas en pareja", test: s => s.duplas >= 50 },
   { id: "note1", cat: "habit", n: 1, icon: "📔", pt: "Primeira página do caderno", en: "First notebook page", es: "Primera página del cuaderno", test: s => s.registros >= 1 },
   { id: "note10", cat: "habit", n: 2, icon: "✏️", pt: "10 registros no caderno", en: "10 notebook entries", es: "10 registros en el cuaderno", test: s => s.registros >= 10 },
   { id: "note30", cat: "habit", n: 3, icon: "📚", pt: "30 registros no caderno", en: "30 notebook entries", es: "30 registros en el cuaderno", test: s => s.registros >= 30 },
@@ -1435,7 +1466,7 @@ function AppInterno() {
     noHintRounds: 0, geniusCleared: 0, continents: 1,
     flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
     contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, registros: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
   });
   const [seenAch, setSeenAch] = useState([]);
   const [toast, setToast] = useState(null);
@@ -1473,6 +1504,12 @@ function AppInterno() {
      Chaves curtas de propósito — isto cresce e mora no localStorage.
      { d: dia, t: texto, c: [carimbos], p: princípio, s: sobre o quê } */
   const [caderno, setCaderno] = useState([]);
+  /* O dia em que a dupla já foi premiada, para não pagar duas vezes. */
+  const [duplaDia, setDuplaDia] = useState("");
+  /* Com quem se está jogando agora: {id, name, avatar}. id nulo = convidado,
+     alguém que não tem perfil no aparelho e por isso não recebe lumicoins. */
+  const [dupla, setDupla] = useState(null);
+  const [escolhendoDupla, setEscolhendoDupla] = useState(false);
   /* A pergunta que está sendo respondida agora, e para onde voltar depois. */
   const [rascunho, setRascunho] = useState(null);
 
@@ -1522,13 +1559,13 @@ function AppInterno() {
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
     stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
-    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [],
+    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "",
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
       flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
       contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, registros: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
     },
   });
 
@@ -1560,6 +1597,7 @@ function AppInterno() {
     setSemanas(d.semanas || {});
     setPresenteRecebido(d.presenteRecebido || null);
     setCaderno(d.caderno || []);
+    setDuplaDia(d.duplaDia || "");
   }
 
   useEffect(() => {
@@ -1618,8 +1656,9 @@ function AppInterno() {
   }, [loaded, momento]);
 
   /* ----- memória ----- */
-  function comecarMemoria(nivel, tema = memTema) {
-    const custo = custoDaMemoria(memBest, tema, nivel);
+  function comecarMemoria(nivel, tema = memTema, comDupla = null) {
+    // Em dupla não se cobra: o que queremos é que eles joguem juntos.
+    const custo = comDupla ? 0 : custoDaMemoria(memBest, tema, nivel);
     if (coins < custo) { setToast(t.notEnough); return; }
     if (custo) setCoins(c => c - custo);
     const cfg = MEM_LEVELS[nivel];
@@ -1642,11 +1681,46 @@ function AppInterno() {
       const escolhidas = shuffle([...new Set(fonte)]).slice(0, cfg.pares);
       cartas = shuffle(escolhidas.flatMap(k => [{ key: k, face: k, tipo }, { key: k, face: k, tipo }]));
     }
-    setMem({ nivel, cartas, tema });
+    setMem({ nivel, cartas, tema, duo: comDupla || null });
     setScreen("mem");
   }
 
-  function fimMemoria({ seg, jogadas }) {
+  /* Fim de uma partida em dupla. Não mexe em estrelas nem em recordes: é outro
+     jogo, com outra graça, e o recorde de um não pode ser feito a quatro mãos. */
+  async function fimDupla({ seg, jogadas, pontos }) {
+    const hoje = diaISO();
+    const premio = duplaDia === hoje ? 0 : ECON.duplaReward;
+    const outro = mem.duo;
+    if (premio) {
+      setCoins(c => Math.min(ECON.cap, c + premio));
+      setDuplaDia(hoje);
+      registrarSemana({ lumicoins: premio });
+    }
+    setStats(x => ({ ...x, earned: x.earned + premio, duplas: (x.duplas || 0) + 1 }));
+    registrarSemana({ duplas: 1 });
+
+    // O outro jogador recebe no save dele, direto — ele não está com o app
+    // aberto para receber de outro jeito. Convidado não tem save, e tudo bem.
+    if (outro?.id) {
+      try {
+        const d = await lerSave(outro.id);
+        if (premio) {
+          d.coins = Math.min(ECON.cap, (d.coins || 0) + premio);
+          d.stats = { ...d.stats, earned: (d.stats?.earned || 0) + premio,
+            maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
+        }
+        d.stats = { ...d.stats, duplas: (d.stats?.duplas || 0) + 1 };
+        window.storage.set(`lumus:p:${outro.id}`, JSON.stringify(d));
+      } catch { }
+    }
+
+    const vencedor = pontos[0] === pontos[1] ? null : pontos[0] > pontos[1] ? 0 : 1;
+    setMem(m => ({ ...m, done: true, seg, jogadas, pontos, vencedor, reward: premio }));
+    setScreen("memResult");
+  }
+
+  function fimMemoria({ seg, jogadas, pontos }) {
+    if (mem?.duo) { fimDupla({ seg, jogadas, pontos }); return; }
     const nivel = mem.nivel;
     const st = memEstrelas(nivel, seg);
     const reward = st ? ECON.memReward[st] : 0;
@@ -1808,14 +1882,24 @@ function AppInterno() {
      Escrevo direto no save da criança porque ela não está logada — é o mesmo
      aparelho e o mesmo armazenamento, só que outro arquivo. Recarrego a lista
      depois para o número na tela ser o que está gravado, não um palpite. */
+  /* Lê o save de outro perfil. window.storage.get lança quando a chave não
+     existe, e um perfil recém-criado ainda não tem save nenhum — sem isto,
+     escrever no save do irmão falha calado justamente na primeira vez. */
+  async function lerSave(id) {
+    try {
+      const r = await window.storage.get(`lumus:p:${id}`);
+      if (r?.value) return JSON.parse(r.value);
+    } catch { }
+    return blankSave();
+  }
+
   async function presentear(pr, quanto) {
     const sem = semanaAtual();
     const cofre = presente.semana === sem ? presente : { semana: sem, restante: ECON.presenteSemanal };
     const valor = Math.min(quanto, cofre.restante);
     if (valor <= 0) return;
     try {
-      const r = await window.storage.get(`lumus:p:${pr.id}`);
-      const d = r?.value ? JSON.parse(r.value) : blankSave();
+      const d = await lerSave(pr.id);
       d.coins = Math.min(ECON.cap, (d.coins || 0) + valor);
       // O presente entra no cofre, mas não conta como ganho no jogo: quem
       // ganhou lumicoins jogando é outra história, e as conquistas sabem.
@@ -1922,7 +2006,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1934,7 +2018,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia]);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -2224,10 +2308,55 @@ function AppInterno() {
         {screen === "memLevels" && <MemLevels {...{ t, coins, memBest, setScreen, comecar: comecarMemoria, tema: memTema, temSecao, comprarSecao,
           titulo: alvoDe(memTema) ? `${t.games.wordMem} · ${LANG_CATALOG[alvoDe(memTema)]}`
             : { flags: t.games.memory, animals: t.games.animals, arts: t.games.artMem, bible: t.games.bibleMem }[memTema],
-          icone: alvoDe(memTema) ? "🃏" : { flags: "🧠", animals: "🐾", arts: "🧩", bible: "🕊️" }[memTema] }} />}
+          icone: alvoDe(memTema) ? "🃏" : { flags: "🧠", animals: "🐾", arts: "🧩", bible: "🕊️" }[memTema],
+          dupla, pedirDupla: () => setEscolhendoDupla(true), sairDaDupla: () => setDupla(null) }} />}
+        {escolhendoDupla && (
+          <EscolherDupla {...{ t, perfis: profiles.filter(pr => pr.id !== activeId),
+            escolher: pr => { setDupla({ id: pr.id, name: pr.name, avatar: pr.avatar }); setEscolhendoDupla(false); },
+            fechar: () => setEscolhendoDupla(false) }} />
+        )}
         {screen === "mem" && mem && <MemoryGame {...{ t, lang, nivel: mem.nivel, cartas: mem.cartas,
+          duo: mem.duo, eu: { name: player.name, avatar: player.avatar },
           onFinish: fimMemoria, onQuit: () => setScreen("memLevels") }} />}
-        {screen === "memResult" && mem && (
+        {screen === "memResult" && mem?.duo && (
+          <div style={{ paddingTop: 20 }} className="narrow">
+            <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
+              <div style={{ fontSize: 54 }}>{mem.vencedor == null ? "🤝" : "🏆"}</div>
+              <div className="display" style={{ fontSize: 24, color: "#1B2A6B" }}>
+                {mem.vencedor == null ? t.duoTie
+                  : t.duoWon.replace("{quem}", mem.vencedor === 0 ? player.name : mem.duo.name)}
+              </div>
+
+              <div style={{ display: "flex", gap: 10, margin: "16px 0" }}>
+                {[{ name: player.name, avatar: player.avatar }, mem.duo].map((j, i) => (
+                  <div key={i} style={{ flex: 1, background: "#EEF1FF", borderRadius: 16, padding: 12 }}>
+                    <div style={{ display: "grid", placeItems: "center" }}><Rosto p={j} size={44} /></div>
+                    <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 12, marginTop: 5,
+                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{j?.name || "—"}</div>
+                    <div className="display" style={{ fontSize: 26, color: mem.vencedor === i ? "#00B894" : "#1B2A6B" }}>
+                      {mem.pontos?.[i] ?? 0}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 12 }}>
+                ⏱️ {tempoFmt(mem.seg)} · {t.moves}: {mem.jogadas}
+              </div>
+
+              {/* Os dois levam o mesmo, tenham ganhado ou perdido. */}
+              <div className="display" style={{ fontSize: 18, color: mem.reward ? "#F9A826" : "#8B93AD", marginBottom: 16 }}>
+                {mem.reward ? `🪙 ${mem.reward} ${t.duoBoth}` : t.duoPaidToday}
+              </div>
+
+              <div style={{ display: "grid", gap: 9 }}>
+                <Btn full color="#4C6FFF" onClick={() => comecarMemoria(mem.nivel, mem.tema, mem.duo)}>{t.again}</Btn>
+                <Btn full color="#8B93AD" onClick={() => setScreen("memLevels")}>←</Btn>
+              </div>
+            </div>
+          </div>
+        )}
+        {screen === "memResult" && mem && !mem.duo && (
           <div style={{ paddingTop: 20 }}>
             <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
               <div style={{ fontSize: 54 }}>{mem.st === 3 ? "🏆" : mem.st ? "🎉" : "💪"}</div>
@@ -2646,7 +2775,7 @@ function diaCurto(iso, lang) {
   catch { return iso; }
 }
 
-const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, momentos: 0, registros: 0, lumicoins: 0 };
+const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0 };
 
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
@@ -2665,13 +2794,19 @@ const memEstrelas = (nivel, seg) => {
   return seg <= tres ? 3 : seg <= dois ? 2 : seg <= um ? 1 : 0;
 };
 
-function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
+function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
   const [viradas, setViradas] = useState([]);   // índices virados agora
   const [achadas, setAchadas] = useState([]);   // índices já casados
   const [jogadas, setJogadas] = useState(0);
   const [seg, setSeg] = useState(0);
+  /* Em dupla: de quem é a vez (0 ou 1) e quantos pares cada um levou.
+     Quem acerta continua — é a regra do jogo de mesa, e é ela que faz a
+     criança querer prestar atenção na jogada do outro. */
+  const [vez, setVez] = useState(0);
+  const [pontos, setPontos] = useState([0, 0]);
   const travado = useRef(false);
   const cfg = MEM_LEVELS[nivel];
+  const jogadores = duo ? [eu, duo] : null;
 
   useEffect(() => {
     const i = setInterval(() => setSeg(x => x + 1), 1000);
@@ -2680,7 +2815,7 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
 
   useEffect(() => {
     if (achadas.length && achadas.length === cartas.length) {
-      const id = setTimeout(() => onFinish({ seg, jogadas }), 600);
+      const id = setTimeout(() => onFinish({ seg, jogadas, pontos }), 600);
       return () => clearTimeout(id);
     }
   }, [achadas]);
@@ -2695,7 +2830,10 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
       const [a, b] = novas;
       const igual = cartas[a].key === cartas[b].key && a !== b;
       setTimeout(() => {
-        if (igual) setAchadas(x => [...x, a, b]);
+        if (igual) {
+          setAchadas(x => [...x, a, b]);
+          if (duo) setPontos(p => { const q = [...p]; q[vez]++; return q; });
+        } else if (duo) setVez(v => 1 - v);
         setViradas([]);
         travado.current = false;
       }, igual ? 420 : 850);
@@ -2711,6 +2849,29 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
           ⏱️ {tempoFmt(seg)}
         </div>
       </div>
+
+      {/* De quem é a vez, do tamanho que uma criança de cinco anos enxerga do
+          outro lado da mesa. Sem isto o jogo em dupla vira discussão. */}
+      {duo && (
+        <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+          {jogadores.map((j, i) => (
+            <div key={i} className="card" style={{
+              flex: 1, padding: "5px 8px", display: "flex", alignItems: "center", gap: 7,
+              opacity: vez === i ? 1 : .5,
+              outline: vez === i ? "3px solid #F9A826" : "none",
+            }}>
+              <Rosto p={j} size={26} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {j?.name || "—"}
+                </div>
+                {vez === i && <div style={{ color: "#F9A826", fontWeight: 900, fontSize: 9 }}>{t.yourTurn}</div>}
+              </div>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 18 }}>{pontos[i]}</div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div style={{ display: "grid", gridTemplateColumns: `repeat(${cfg.cols},1fr)`, gap: 8 }}>
         {cartas.map((c, i) => {
@@ -2736,14 +2897,54 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit }) {
       </div>
 
       <div style={{ textAlign: "center", color: "#C9D2FF", fontWeight: 800, fontSize: 12, marginTop: 12 }}>
-        {t.pairs}: {achadas.length / 2}/{cartas.length / 2} · {t.moves}: {jogadas}
+        {t.pairs}: {achadas.length / 2}/{cartas.length / 2}{duo ? "" : ` · ${t.moves}: ${jogadas}`}
       </div>
     </div>
   );
 }
 
+/* Convidado não tem perfil no aparelho, então não tem avatar. Um rosto neutro
+   resolve, e ninguém precisa se cadastrar só para jogar uma partida. */
+function Rosto({ p, size = 40 }) {
+  if (p?.avatar) return <Avatar a={p.avatar} size={size} />;
+  return (
+    <div style={{ width: size, height: size, borderRadius: "50%", background: "#E9ECF7",
+      display: "grid", placeItems: "center", fontSize: size * 0.55 }}>🙂</div>
+  );
+}
+
+/* Com quem vou jogar: os outros perfis do aparelho, mais um convidado. */
+function EscolherDupla({ t, perfis, escolher, fechar }) {
+  return (
+    <Modal onClose={fechar}>
+      <div className="display" style={{ fontSize: 21, color: "#1B2A6B", textAlign: "center" }}>👥 {t.duoWho}</div>
+      <div style={{ color: "#6C7695", fontWeight: 700, fontSize: 12, textAlign: "center", lineHeight: 1.6, margin: "6px 0 14px" }}>
+        {t.duoHint}
+      </div>
+      <div style={{ display: "grid", gap: 8, maxHeight: 300, overflowY: "auto" }}>
+        {perfis.map(pr => (
+          <button key={pr.id} onClick={() => escolher(pr)} className="card"
+            style={{ border: "none", padding: 10, cursor: "pointer", display: "flex",
+              alignItems: "center", gap: 10, textAlign: "left" }}>
+            <Rosto p={pr} size={40} />
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 16, flex: 1 }}>{pr.name}</div>
+          </button>
+        ))}
+        <button onClick={() => escolher({ id: null, name: t.guest, avatar: null })} className="card"
+          style={{ border: "none", padding: 10, cursor: "pointer", display: "flex",
+            alignItems: "center", gap: 10, textAlign: "left" }}>
+          <Rosto p={null} size={40} />
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 16, flex: 1 }}>{t.guest}</div>
+        </button>
+      </div>
+      <div style={{ height: 10 }} />
+      <Btn full color="#8B93AD" onClick={fechar}>✕</Btn>
+    </Modal>
+  );
+}
+
 /* ---------- Escolha de nível da memória ---------- */
-function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titulo, icone, temSecao, comprarSecao }) {
+function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titulo, icone, temSecao, comprarSecao, dupla, pedirDupla, sairDaDupla }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
@@ -2751,6 +2952,22 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{icone} {titulo}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
+      {/* Jogar em dupla é do tamanho de um botão porque é para ser achado.
+          Era o pedido mais simples da casa e o mais difícil de descobrir. */}
+      {dupla ? (
+        <div className="card" style={{ padding: 12, marginBottom: 12, display: "flex", alignItems: "center", gap: 10 }}>
+          <Rosto p={dupla} size={36} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.duoWith} {dupla.name}</div>
+            <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>⭐ {t.duoFree}</div>
+          </div>
+          <Btn small color="#8B93AD" onClick={sairDaDupla}>✕</Btn>
+        </div>
+      ) : (
+        <Btn full color="#00C2CB" onClick={pedirDupla}>👥 {t.duoPlay}</Btn>
+      )}
+      <div style={{ height: 12 }} />
+
       <div className="lista">
         {DIFFS.map((d, di) => {
           const cfg = MEM_LEVELS[d];
@@ -2776,8 +2993,10 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
                 </div>
               </div>
               {aberto ? (
-                <Btn small color={BAND_COLOR[d]} disabled={coins < custoDaMemoria(memBest, tema, d)} onClick={() => comecar(d)}>
-                  {custoDaMemoria(memBest, tema, d) ? `🪙${custoDaMemoria(memBest, tema, d)}` : `⭐ ${t.free}`}
+                <Btn small color={BAND_COLOR[d]}
+                  disabled={!dupla && coins < custoDaMemoria(memBest, tema, d)}
+                  onClick={() => comecar(d, tema, dupla)}>
+                  {dupla ? "👥" : custoDaMemoria(memBest, tema, d) ? `🪙${custoDaMemoria(memBest, tema, d)}` : `⭐ ${t.free}`}
                 </Btn>
               ) : anteriorOk ? (
                 <Btn small color={coins >= preco ? "#E84393" : "#8B93AD"} disabled={coins < preco}
@@ -4806,7 +5025,7 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
           <div style={{ display: "flex" }}>
             {[["🎮", semana.rodadas], ["🎯", semana.certas], ["⭐", semana.estrelas],
               ["🎨", semana.desenhos], ["🧠", semana.memorias], ["📔", semana.registros],
-              ["🕊️", semana.momentos], ["🪙", semana.lumicoins]].map(([ic, v]) => (
+              ["👥", semana.duplas], ["🕊️", semana.momentos], ["🪙", semana.lumicoins]].map(([ic, v]) => (
               <div key={ic} style={{ flex: 1, textAlign: "center" }}>
                 <div style={{ fontSize: 14 }}>{ic}</div>
                 <div className="display" style={{ fontSize: String(v).length > 3 ? 13 : 15, color: "#1B2A6B" }}>{v}</div>
