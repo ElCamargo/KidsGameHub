@@ -483,7 +483,7 @@ estavam na mesa e o que abrimos mão em cada uma:
 
 ## Rodando na sua máquina
 
-Requer Node.js 20 ou superior.
+Requer Node.js 20 ou superior (a CI roda em 22).
 
 ```bash
 npm install
