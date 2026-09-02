@@ -10,7 +10,7 @@ import { versoDoDia } from "./data/versos.js";
 import { devocionalDoDia } from "./data/devocional.js";
 import { CARIMBOS, carimboPorId, perguntaDoRegistro, semente as sementeDoTexto } from "./data/caderno.js";
 import { T, LANG_CATALOG, PACKS } from "./data/textos.js";
-import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES } from "./data/geografia.js";
+import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES, CAP_FR, CAP_DE, CAP_IT } from "./data/geografia.js";
 import { PALETA, DESENHOS } from "./data/desenhos.js";
 import { iniciarVozes, temVoz, falar, parar as pararVoz, textoDaPergunta, juntar } from "./lib/voz.js";
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
@@ -2921,8 +2921,10 @@ function montarRodadaBiblia(stage, lang) {
 }
 
 
-const capNome = (code, lang) =>
-  (lang === "pt" && CAP_PT[code]) || (lang === "es" && CAP_ES[code]) || CAPITAIS[code];
+/* A grafia própria de cada idioma, quando existe. Cada dicionário traz só
+   as capitais que MUDAM: "Paris" é Paris em toda parte, "Peking" não. */
+const CAP_IDIOMA = { pt: CAP_PT, es: CAP_ES, fr: CAP_FR, de: CAP_DE, it: CAP_IT };
+const capNome = (code, lang) => CAP_IDIOMA[lang]?.[code] || CAPITAIS[code];
 
 /* A ordem em que o mundo se abre. Cada região exige 10 fases da anterior. */
 const CAP_REGIOES = [

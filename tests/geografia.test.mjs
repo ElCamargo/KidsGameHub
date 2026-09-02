@@ -7,7 +7,7 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { DATA, SUBFLAGS, CAPITAIS, CAP_PT, CAP_ES, BR_ESTADOS, US_ESTADOS } from "../src/data/geografia.js";
+import { DATA, SUBFLAGS, CAPITAIS, CAP_PT, CAP_ES, CAP_FR, CAP_DE, CAP_IT, BR_ESTADOS, US_ESTADOS } from "../src/data/geografia.js";
 
 const paises = Object.values(DATA).flatMap(c => Object.keys(c));
 
@@ -30,9 +30,19 @@ test("todo país tem uma capital", () => {
 });
 
 test("as capitais traduzidas são de países que existem", () => {
-  for (const dic of [CAP_PT, CAP_ES])
-    for (const c of Object.keys(dic))
-      assert.ok(paises.includes(c), `${c} tem capital traduzida mas não está em DATA`);
+  for (const [idioma, dic] of Object.entries({ pt: CAP_PT, es: CAP_ES, fr: CAP_FR, de: CAP_DE, it: CAP_IT }))
+    for (const [c, capital] of Object.entries(dic)) {
+      assert.ok(paises.includes(c), `${idioma}: ${c} tem capital traduzida mas não está em DATA`);
+      assert.ok(capital?.trim(), `${idioma}: ${c} com capital vazia`);
+    }
+});
+
+test("dicionário de grafia só guarda o que realmente muda", () => {
+  // Repetir a forma canônica é peso morto e esconde o que foi traduzido.
+  for (const [idioma, dic] of Object.entries({ pt: CAP_PT, es: CAP_ES, fr: CAP_FR, de: CAP_DE, it: CAP_IT })) {
+    const iguais = Object.entries(dic).filter(([c, v]) => v === CAPITAIS[c]).map(([c]) => c);
+    assert.deepEqual(iguais, [], `${idioma}: entradas idênticas à forma canônica`);
+  }
 });
 
 test("todo tier de dificuldade vai de 1 a 4", () => {

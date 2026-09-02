@@ -12,7 +12,11 @@ import { PRINCIPIOS, DEVOCIONAIS, devocionalDoDia } from "../src/data/devocional
 import { PERGUNTAS, CARIMBOS, perguntaDoRegistro, semente } from "../src/data/caderno.js";
 import { versoDoDia } from "../src/data/versos.js";
 
+/* O devocional é o único conteúdo em três idiomas: o versículo depende de uma
+   edição em domínio público, e conferir isso é trabalho de gente. O caderno é
+   texto nosso, e fala os seis. */
 const IDIOMAS = ["pt", "en", "es"];
+const TODOS = ["pt", "en", "es", "fr", "de", "it"];
 
 test("são 7 princípios, e cada um tem 7 devocionais", () => {
   assert.equal(PRINCIPIOS.length, 7);
@@ -53,7 +57,7 @@ test("as 28 perguntas do caderno são alcançáveis e estáveis", () => {
   for (let i = 0; i < 500; i++) {
     const r = perguntaDoRegistro(i);
     assert.equal(perguntaDoRegistro(i).pergunta, r.pergunta, "sorteio instável");
-    for (const l of IDIOMAS) assert.ok(r.pergunta[l]?.trim(), `pergunta ${i} sem ${l}`);
+    for (const l of TODOS) assert.ok(r.pergunta[l]?.trim(), `pergunta ${i} sem ${l}`);
     vistas.add(r.pergunta.pt);
   }
   assert.equal(vistas.size, 28, "nem toda pergunta é sorteável");
@@ -72,7 +76,7 @@ test("os carimbos servem a quem ainda não escreve", () => {
   assert.equal(new Set(ids).size, ids.length, "carimbo com id repetido");
   for (const c of CARIMBOS) {
     assert.ok(c.e?.trim(), `${c.id} sem emoji — é o que a criança que não lê enxerga`);
-    for (const l of IDIOMAS) assert.ok(c[l]?.trim(), `${c.id} sem texto em ${l}`);
+    for (const l of TODOS) assert.ok(c[l]?.trim(), `${c.id} sem texto em ${l}`);
   }
 });
 

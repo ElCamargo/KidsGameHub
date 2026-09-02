@@ -74,7 +74,7 @@ não numa apresentação:
 | JavaScript comprimido | **193 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 37 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 38 testes |
 | Licença | MIT |
 
 ---
@@ -408,7 +408,9 @@ semana** direto no cartão da criança, com as palavras dela — é a parte do
 cartão que ele lê inteira; o resto ele confere. Nada sai do aparelho.
 
 As 28 perguntas — quatro por princípio — estão em
-[`src/data/caderno.js`](src/data/caderno.js). O sorteio é estável: a mesma
+[`src/data/caderno.js`](src/data/caderno.js), **nos seis idiomas**: ao
+contrário dos versículos, este texto é nosso, e traduzir não depende de
+conferir edição nenhuma. O sorteio é estável: a mesma
 rodada devolve sempre a mesma pergunta, senão ela trocaria a cada tecla
 digitada.
 
@@ -453,7 +455,10 @@ Três regras amarram o conteúdo, e estão escritas em
 
 Os versículos são curtos e de traduções em domínio público (Almeida, KJV,
 Reina-Valera 1909). São 49 devocionais, 7 por princípio, em português, inglês e
-espanhol; francês, alemão e italiano recaem no inglês por enquanto.
+espanhol. Francês, alemão e italiano ainda recaem no inglês: o versículo
+precisa vir de uma edição em domínio público daquele idioma — Louis Segond,
+Luther, Diodati — e conferir isso é trabalho de gente, não de tradução
+automática nossa.
 
 O porquê de tudo isto está em
 [`docs/decisoes/0002-aep-no-lumus.md`](docs/decisoes/0002-aep-no-lumus.md).
@@ -499,7 +504,7 @@ funções e mais nada.
 |---|---|---|
 | `src/App.jsx` | 4.882 linhas | a interface inteira: ~40 componentes, e nenhuma linha de conteúdo |
 | `src/data/*.js` | 4.269 linhas | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 37 testes | conteúdo, idiomas, geografia, desenhos, voz, transferência |
+| `tests/*.test.mjs` | 38 testes | conteúdo, idiomas, geografia, desenhos, voz, transferência |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -616,7 +621,7 @@ npm ci && npm run build
 
 O `build` é o portão inteiro: prepara as bandeiras, confere os três bancos de
 perguntas, confere as faixas de dificuldade, **monta uma rodada de cada trilha
-em cada faixa** e roda os 37 testes — antes de gerar um único arquivo. Se
+em cada faixa** e roda os 38 testes — antes de gerar um único arquivo. Se
 qualquer um falhar, não sai build. Leva menos de 5 segundos.
 
 Só os testes:
@@ -662,7 +667,7 @@ src/
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
-    geografia.js         154 países com tier, capitais, estados do BR e dos EUA
+    geografia.js         154 países com tier, capitais em 6 grafias, estados do BR e dos EUA
     desenhos.js          os 58 desenhos de colorir, área por área
     curiosidades.js      235 lugares do mundo
     ciencias.js          94 animais e os moldes de pergunta
@@ -674,7 +679,7 @@ src/
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
-tests/             37 testes em node --test, sem framework nenhum
+tests/             38 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -759,9 +764,8 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Bandeiras dos 27 estados brasileiros (destrava Capitais e o nível Gênio da América do Sul)
 - [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
 - [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
-- [ ] Capitais com grafia própria em francês, alemão e italiano (hoje usa a forma canônica)
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
-- [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
+- [ ] Devocionais em francês, alemão e italiano (o versículo pede edição em domínio público conferida)
 
 ## Privacidade
 
@@ -790,7 +794,7 @@ sign-up and which is entirely absent for those who decline.
 
 Every change passes a build gate that checks the question banks for ambiguity,
 **builds a real round of every track at every difficulty** to prove it is
-playable, and runs 37 tests — among them one that guarantees all six languages
+playable, and runs 38 tests — among them one that guarantees all six languages
 carry exactly the same 280 interface strings.
 
 The code is MIT-licensed. The reasoning behind the main technical choices is
