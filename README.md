@@ -148,6 +148,12 @@ O ponto não é o dinheiro: é dar ao adulto um motivo concreto para abrir o app
 olhar como cada filho está indo e escolher quem premiar. Acompanhar vira um
 gesto, não um relatório.
 
+E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
+**bônus de mérito** aparece na tela: *"Papai viu o seu esforço e te deu um
+presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
+número que mudava sozinho no canto da tela, e ninguém saberia que veio de
+alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
 ### Senha do responsável
 
 O perfil do responsável aceita quatro números. Com eles, **as quatro ações do
