@@ -58,6 +58,8 @@ const T = {
     familyHint: "Você acompanha, eles jogam.", byGame: "Por jogo",
     giftWeek: "Presente da semana", giveGift: "Presentear",
     painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
+    thisWeek: "Esta semana ·", week: "Semana de", allTime: "No total",
+    weekNothing: "Nada nesta semana ainda.",
     giftHint: "100 lumicoins por semana para dar a quem você quiser. O que sobra não acumula.",
     needsReading: "Abre quando souber ler — ou com lumicoins",
     stage: "Fase",
@@ -176,6 +178,8 @@ const T = {
     familyHint: "You follow along, they play.", byGame: "By game",
     giftWeek: "This week's gift", giveGift: "Give a gift",
     painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
+    thisWeek: "This week ·", week: "Week of", allTime: "All time",
+    weekNothing: "Nothing this week yet.",
     giftHint: "100 lumicoins a week to give to whoever you like. What is left does not carry over.",
     needsReading: "Opens when you can read — or with lumicoins",
     stage: "Stage", cost: "Costs",
@@ -270,6 +274,8 @@ const T = {
     familyHint: "Tú acompañas, ellos juegan.", byGame: "Por juego",
     giftWeek: "Regalo de la semana", giveGift: "Regalar",
     painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
+    thisWeek: "Esta semana ·", week: "Semana del", allTime: "En total",
+    weekNothing: "Nada esta semana todavía.",
     giftHint: "100 lumicoins por semana para dar a quien quieras. Lo que sobra no se acumula.",
     needsReading: "Se abre cuando sepas leer — o con lumicoins",
     stage: "Nivel", cost: "Cuesta",
@@ -378,6 +384,8 @@ const PACKS = {
     familyHint: "Tu suis, ils jouent.", byGame: "Par jeu",
     giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
     painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
+    thisWeek: "Cette semaine ·", week: "Semaine du", allTime: "Au total",
+    weekNothing: "Rien cette semaine pour l'instant.",
     giftHint: "100 lumicoins par semaine à offrir à qui tu veux. Le reste ne se cumule pas.",
     needsReading: "S'ouvre quand tu sauras lire — ou avec des lumicoins",
     stage: "Niveau", cost: "Coûte", notEnough: "Pas assez de lumicoins. Attends les lumicoins gratuites !",
@@ -465,6 +473,8 @@ const PACKS = {
     familyHint: "Du begleitest, sie spielen.", byGame: "Nach Spiel",
     giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
     painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
+    thisWeek: "Diese Woche ·", week: "Woche vom", allTime: "Insgesamt",
+    weekNothing: "Diese Woche noch nichts.",
     giftHint: "100 Lumicoins pro Woche zum Verschenken. Was übrig bleibt, verfällt.",
     needsReading: "Öffnet sich, wenn du lesen kannst — oder mit Lumicoins",
     stage: "Stufe", cost: "Kostet", notEnough: "Nicht genug Lumicoins. Warte auf die Gratis-Lumicoins!",
@@ -552,6 +562,8 @@ const PACKS = {
     familyHint: "Tu segui, loro giocano.", byGame: "Per gioco",
     giftWeek: "Regalo della settimana", giveGift: "Regalare",
     painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
+    thisWeek: "Questa settimana ·", week: "Settimana del", allTime: "In totale",
+    weekNothing: "Ancora niente questa settimana.",
     giftHint: "100 lumicoins a settimana da regalare a chi vuoi. Quel che avanza non si accumula.",
     needsReading: "Si apre quando saprai leggere — o con lumicoins",
     stage: "Livello", cost: "Costa", notEnough: "Lumicoins insufficienti. Aspetta quelle gratis!",
@@ -1360,6 +1372,24 @@ function AppInterno() {
   const [editando, setEditando] = useState(false);            // criando ou editando ficha
   /* {semana, restante} — quanto ainda há para presentear nesta semana. */
   const [presente, setPresente] = useState({ semana: semanaAtual(), restante: ECON.presenteSemanal });
+  /* { "2026-08-30": {rodadas, certas, estrelas, desenhos, memorias, lumicoins} } */
+  const [semanas, setSemanas] = useState({});
+
+  /* Soma no balde da semana corrente. Os totais de sempre continuam em stats;
+     isto aqui é só o "o que aconteceu desde domingo", que é o que o adulto
+     pergunta quando pega o celular. */
+  function registrarSemana(campos) {
+    const chave = semanaAtual();
+    setSemanas(atual => {
+      const balde = { ...SEMANA_VAZIA, ...(atual[chave] || {}) };
+      for (const [k, v] of Object.entries(campos)) balde[k] = (balde[k] || 0) + v;
+      const proximo = { ...atual, [chave]: balde };
+      // guarda só as últimas semanas: histórico longo não cabe e ninguém lê
+      const chaves = Object.keys(proximo).sort();
+      for (const velha of chaves.slice(0, Math.max(0, chaves.length - SEMANAS_GUARDADAS))) delete proximo[velha];
+      return proximo;
+    });
+  }
 
   const t = T[lang];
 
@@ -1373,7 +1403,7 @@ function AppInterno() {
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
     stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
-    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal },
+    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {},
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
@@ -1408,6 +1438,7 @@ function AppInterno() {
     // é uma mesada para usar, não um saldo para juntar.
     const sem = semanaAtual();
     setPresente(d.presente?.semana === sem ? d.presente : { semana: sem, restante: ECON.presenteSemanal });
+    setSemanas(d.semanas || {});
   }
 
   useEffect(() => {
@@ -1508,6 +1539,7 @@ function AppInterno() {
       dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
       lastDay: today,
     }));
+    registrarSemana({ memorias: 1, estrelas: st, lumicoins: reward });
     setMem(m => ({ ...m, done: true, seg, jogadas, st, reward, recorde }));
     setScreen("memResult");
   }
@@ -1559,6 +1591,7 @@ function AppInterno() {
       setColorDay({ dia: hoje, moedas: dia.moedas + premio });
       setStats(x => ({ ...x, earned: x.earned + premio }));
     } else setColorDay(dia);
+    if (completo) registrarSemana({ desenhos: 1, lumicoins: premio });
     setGallery(g => [...g, { id: pintando.art.id, fills, data: hoje }].slice(-81));  // 9 páginas de 9
     if (completo) setStats(x => ({ ...x, colorDone: (x.colorDone || 0) + 1 }));
     setToast(premio ? `🎨 +${premio} 🪙` : "🎨 💾");
@@ -1724,7 +1757,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1736,7 +1769,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas]);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -1862,6 +1895,7 @@ function AppInterno() {
       dayStreak: s.lastDay === today ? s.dayStreak : s.lastDay === yest ? s.dayStreak + 1 : 1,
       lastDay: today,
     }));
+    registrarSemana({ rodadas: 1, certas: r.right, estrelas: st, lumicoins: reward });
     const seg = Math.round((Date.now() - (r.t0 || Date.now())) / 1000);
     if (st > 0) {
       setProgress(p => ({ ...p, [r.cont]: Math.max(p[r.cont] || 0, r.stage) }));
@@ -2368,7 +2402,32 @@ const MEM_LEVELS = {
    Não uso semana de calendário de propósito: fuso e virada de domingo dão
    um monte de canto estranho, e aqui basta "a cada sete dias entram mais
    cem". */
-const semanaAtual = (agora = Date.now()) => Math.floor(agora / (7 * 864e5));
+/* A semana do app começa no DOMINGO, no fuso do aparelho, e a chave é a data
+   desse domingo ("2026-08-30"). É a semana que a família reconhece — a mesma
+   do calendário da geladeira — e não uma janela corrida de sete dias contada
+   de um instante qualquer.
+
+   Serve para as duas coisas que reiniciam junto: o presente do responsável e
+   o resumo do que cada criança fez na semana. */
+function semanaAtual(quando = new Date()) {
+  const d = new Date(quando);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - d.getDay());          // volta para o domingo
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/* Domingo e sábado daquela semana, para escrever "31/08 a 06/09". */
+function intervaloDaSemana(chave, lang) {
+  const [a, m, d] = chave.split("-").map(Number);
+  const ini = new Date(a, m - 1, d), fim = new Date(a, m - 1, d + 6);
+  const fmt = x => x.toLocaleDateString(lang, { day: "2-digit", month: "2-digit" });
+  return `${fmt(ini)} – ${fmt(fim)}`;
+}
+
+/* Quantas semanas de histórico ficam guardadas por criança. Três meses é o
+   que um adulto olha para trás; mais que isso é entulho no aparelho. */
+const SEMANAS_GUARDADAS = 12;
+const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, lumicoins: 0 };
 
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
@@ -4198,6 +4257,177 @@ function nomeDoTemaMemoria(tema, t) {
   return { flags: t.games.memory, animals: t.games.animals, arts: t.games.artMem, bible: t.games.bibleMem }[tema] || tema;
 }
 
+/* Um cartão de criança: os números da semana escolhida, os desenhos daquela
+   semana, os recordes de memória e o progresso por trilha. */
+function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
+  const st = save?.stats || {};
+  const semanas = save?.semanas || {};
+  const chaves = Object.keys(semanas).sort();
+  const atual = semanaAtual();
+  if (!chaves.includes(atual)) chaves.push(atual);      // a semana corrente sempre aparece
+  const [qual, setQual] = useState(chaves.length - 1);
+  const chave = chaves[Math.min(qual, chaves.length - 1)];
+  const semana = { ...SEMANA_VAZIA, ...(semanas[chave] || {}) };
+  const vazia = !Object.values(semana).some(v => v > 0);
+
+  const conquistas = ACHIEVEMENTS.filter(a => a.test(st)).length;
+  const trilhas = Object.entries(save?.progress || {}).filter(([, v]) => v > 0);
+  // A galeria guarda a data de cada desenho: dá para mostrar os da semana.
+  const [ini] = [chave];
+  const fimSemana = (() => { const [a, m, d] = chave.split("-").map(Number); const x = new Date(a, m - 1, d + 6);
+    return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-${String(x.getDate()).padStart(2, "0")}`; })();
+  const desenhosDaSemana = (save?.gallery || []).filter(g => g.data >= ini && g.data <= fimSemana);
+
+  return (
+    <div className="card" style={{ padding: 14 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+        <Avatar a={perfil.avatar} size={64} />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 19 }}>{perfil.name || "—"}</div>
+          <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 12 }}>
+            {perfil.idade ? `${perfil.idade} ${t.years} · ` : ""}
+            {ehLeitor(perfil) ? t.reads : t.readsNot}
+          </div>
+        </div>
+      </div>
+
+      {/* A semana, que recomeça todo domingo. É a primeira coisa do cartão
+          porque é a pergunta que o adulto faz: o que ele fez esta semana? */}
+      <div style={{ background: "#EEF1FF", borderRadius: 16, padding: 10, marginBottom: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+          <Btn small color={qual === 0 ? "#C7CEE0" : "#4C6FFF"} disabled={qual === 0}
+            onClick={() => setQual(q => q - 1)}>◀</Btn>
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 14 }}>
+              {chave === atual ? t.thisWeek : t.week} {intervaloDaSemana(chave, lang)}
+            </div>
+          </div>
+          <Btn small color={qual >= chaves.length - 1 ? "#C7CEE0" : "#4C6FFF"} disabled={qual >= chaves.length - 1}
+            onClick={() => setQual(q => q + 1)}>▶</Btn>
+        </div>
+
+        {vazia ? (
+          <div style={{ textAlign: "center", color: "#8B93AD", fontWeight: 700, fontSize: 11, padding: "2px 0 4px" }}>
+            {t.weekNothing}
+          </div>
+        ) : (
+          <div style={{ display: "flex" }}>
+            {[["🎮", semana.rodadas], ["🎯", semana.certas], ["⭐", semana.estrelas],
+              ["🎨", semana.desenhos], ["🧠", semana.memorias], ["🪙", semana.lumicoins]].map(([ic, v]) => (
+              <div key={ic} style={{ flex: 1, textAlign: "center" }}>
+                <div style={{ fontSize: 14 }}>{ic}</div>
+                <div className="display" style={{ fontSize: 15, color: "#1B2A6B" }}>{v}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {desenhosDaSemana.length > 0 && (
+          <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 8 }}>
+            {desenhosDaSemana.slice(-5).reverse().map((g, i) => {
+              const art = acharArte(g.id);
+              return art ? (
+                <div key={i} style={{ border: "2px solid #fff", borderRadius: 12, padding: 2, background: "#fff", lineHeight: 0 }}>
+                  <Mini art={art} fills={g.fills} size={40} />
+                </div>
+              ) : null;
+            })}
+          </div>
+        )}
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+        <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎁 {t.giveGift}</div>
+        {[10, 25, 50].map(v => (
+          <Btn key={v} small color={presente.restante >= v ? "#E84393" : "#C7CEE0"}
+            disabled={presente.restante < v} onClick={() => presentear(perfil, v)}>+{v}</Btn>
+        ))}
+      </div>
+
+      <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>∑ {t.allTime}</div>
+      <div style={{ display: "flex", marginBottom: 10 }}>
+        {[["🎮", st.rounds || 0], ["⭐", st.stars || 0], ["🏅", `${conquistas}/${ACHIEVEMENTS.length}`],
+          ["📅", st.dayStreak || 0], ["🪙", st.earned || 0]].map(([ic, v]) => (
+          <div key={ic} style={{ flex: 1, textAlign: "center" }}>
+            <div style={{ fontSize: 16 }}>{ic}</div>
+            <div className="display" style={{ fontSize: 16, color: "#1B2A6B" }}>{v}</div>
+          </div>
+        ))}
+      </div>
+
+      {!!(save?.gallery?.length) && (
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎨 {t.games.color}</div>
+            <div style={{ color: "#6C7695", fontWeight: 900, fontSize: 11 }}>{st.colorDone || 0} {t.painted}</div>
+          </div>
+          <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+            {save.gallery.slice(-5).reverse().map((g, i) => {
+              const art = acharArte(g.id);
+              return art ? (
+                <div key={i} style={{ border: "2px solid #E4E8F5", borderRadius: 12, padding: 2, background: "#fff", lineHeight: 0 }}>
+                  <Mini art={art} fills={g.fills} size={44} />
+                </div>
+              ) : null;
+            })}
+          </div>
+        </div>
+      )}
+
+      {memoriaResumo(save).length > 0 && (
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>🧠 {t.memories}</div>
+          <div style={{ display: "grid", gap: 4 }}>
+            {memoriaResumo(save).map(m => (
+              <div key={m.tema} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ background: BAND_COLOR[m.nivel], color: "#fff", borderRadius: 8,
+                  padding: "2px 6px", fontWeight: 900, fontSize: 10, whiteSpace: "nowrap" }}>
+                  {MEM_LEVELS[m.nivel].cols}×{MEM_LEVELS[m.nivel].rows}
+                </div>
+                <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {nomeDoTemaMemoria(m.tema, t)}
+                </div>
+                <div style={{ fontSize: 10, letterSpacing: -1 }}>
+                  {[1, 2, 3].map(i => <span key={i} style={{ opacity: (m.stars || 0) >= i ? 1 : .25 }}>★</span>)}
+                </div>
+                {m.time != null && (
+                  <div style={{ fontSize: 10, fontWeight: 900, color: "#8B93AD", width: 40, textAlign: "right" }}>
+                    ⏱️ {tempoFmt(m.time)}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {trilhas.length > 0 && (
+        <>
+          <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>{t.byGame}</div>
+          <div style={{ display: "grid", gap: 5 }}>
+            {trilhas.map(([cont, feitas]) => {
+              const total = totalDe(cont);
+              return (
+                <div key={cont} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {nomeDaTrilha(cont, t)}
+                  </div>
+                  <div style={{ width: 70, height: 8, borderRadius: 5, background: "#E9ECF7", overflow: "hidden" }}>
+                    <div style={{ width: `${Math.min(100, (feitas / total) * 100)}%`, height: "100%", background: "#00B894" }} />
+                  </div>
+                  <div style={{ width: 46, textAlign: "right", fontSize: 11, fontWeight: 900, color: "#6C7695" }}>
+                    {feitas}/{total}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function FamilyScreen({ t, lang, familia, setScreen, presente, presentear }) {
   return (
     <div>
@@ -4226,131 +4456,9 @@ function FamilyScreen({ t, lang, familia, setScreen, presente, presentear }) {
       )}
 
       <div className="lista">
-        {familia.map(({ perfil, save }) => {
-          const st = save?.stats || {};
-          const conquistas = ACHIEVEMENTS.filter(a => a.test(st)).length;
-          const trilhas = Object.entries(save?.progress || {}).filter(([, v]) => v > 0);
-          return (
-            <div key={perfil.id} className="card" style={{ padding: 14 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
-                <Avatar a={perfil.avatar} size={64} />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div className="display" style={{ color: "#1B2A6B", fontSize: 19 }}>{perfil.name || "—"}</div>
-                  <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 12 }}>
-                    {perfil.idade ? `${perfil.idade} ${t.years} · ` : ""}
-                    {ehLeitor(perfil) ? t.reads : t.readsNot}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", marginBottom: 10 }}>
-                {[["🎮", st.rounds || 0], ["⭐", st.stars || 0], ["🏅", `${conquistas}/${ACHIEVEMENTS.length}`],
-                  ["📅", st.dayStreak || 0], ["🪙", st.earned || 0]].map(([ic, v]) => (
-                  <div key={ic} style={{ flex: 1, textAlign: "center" }}>
-                    <div style={{ fontSize: 16 }}>{ic}</div>
-                    <div className="display" style={{ fontSize: 16, color: "#1B2A6B" }}>{v}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Presentear é o gesto: escolher quem, e quanto. */}
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-                <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎁 {t.giveGift}</div>
-                {[10, 25, 50].map(v => (
-                  <Btn key={v} small color={presente.restante >= v ? "#E84393" : "#C7CEE0"}
-                    disabled={presente.restante < v} onClick={() => presentear(perfil, v)}>
-                    +{v}
-                  </Btn>
-                ))}
-              </div>
-
-              {/* Criança que ainda não lê só joga memória e pintura: sem isto
-                  o cartão dela vem vazio, e é justamente a que mais precisa do
-                  adulto por perto. Aqui o pai vê o que ela pintou, não um
-                  número dizendo quantos. */}
-              {!!(save?.gallery?.length) && (
-                <div style={{ marginBottom: 10 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
-                    <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎨 {t.games.color}</div>
-                    <div style={{ color: "#6C7695", fontWeight: 900, fontSize: 11 }}>
-                      {st.colorDone || 0} {t.painted}
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-                    {save.gallery.slice(-5).reverse().map((g, i) => {
-                      const art = acharArte(g.id);
-                      if (!art) return null;
-                      return (
-                        <div key={i} style={{ border: "2px solid #E4E8F5", borderRadius: 12, padding: 2, background: "#fff", lineHeight: 0 }}>
-                          <Mini art={art} fills={g.fills} size={44} />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {memoriaResumo(save).length > 0 && (
-                <div style={{ marginBottom: 10 }}>
-                  <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>🧠 {t.memories}</div>
-                  <div style={{ display: "grid", gap: 4 }}>
-                    {memoriaResumo(save).map(m => (
-                      <div key={m.tema} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <div style={{
-                          background: BAND_COLOR[m.nivel], color: "#fff", borderRadius: 8,
-                          padding: "2px 6px", fontWeight: 900, fontSize: 10, whiteSpace: "nowrap",
-                        }}>
-                          {MEM_LEVELS[m.nivel].cols}×{MEM_LEVELS[m.nivel].rows}
-                        </div>
-                        <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                          {nomeDoTemaMemoria(m.tema, t)}
-                        </div>
-                        <div style={{ fontSize: 10, letterSpacing: -1 }}>
-                          {[1, 2, 3].map(i => <span key={i} style={{ opacity: (m.stars || 0) >= i ? 1 : .25 }}>★</span>)}
-                        </div>
-                        {m.time != null && (
-                          <div style={{ fontSize: 10, fontWeight: 900, color: "#8B93AD", width: 40, textAlign: "right" }}>
-                            ⏱️ {tempoFmt(m.time)}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {!trilhas.length && !save?.gallery?.length && !memoriaResumo(save).length && (
-                <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, textAlign: "center", padding: "4px 0 8px" }}>
-                  {t.nothingYet}
-                </div>
-              )}
-
-              {trilhas.length > 0 && (
-                <>
-                  <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>{t.byGame}</div>
-                  <div style={{ display: "grid", gap: 5 }}>
-                    {trilhas.map(([cont, feitas]) => {
-                      const total = totalDe(cont);
-                      return (
-                        <div key={cont} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                            {nomeDaTrilha(cont, t)}
-                          </div>
-                          <div style={{ width: 70, height: 8, borderRadius: 5, background: "#E9ECF7", overflow: "hidden" }}>
-                            <div style={{ width: `${Math.min(100, (feitas / total) * 100)}%`, height: "100%", background: "#00B894" }} />
-                          </div>
-                          <div style={{ width: 46, textAlign: "right", fontSize: 11, fontWeight: 900, color: "#6C7695" }}>
-                            {feitas}/{total}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-            </div>
-          );
-        })}
+        {familia.map(({ perfil, save }) => (
+          <CartaoFilho key={perfil.id} {...{ t, lang, perfil, save, presente, presentear }} />
+        ))}
       </div>
 
       <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
