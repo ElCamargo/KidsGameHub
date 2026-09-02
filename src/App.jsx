@@ -9,6 +9,9 @@ import { perguntasCiencia, CIENCIA_NIVEL, GRUPOS, DIETAS, CASAS, NASCE } from ".
 import { versoDoDia } from "./data/versos.js";
 import { devocionalDoDia } from "./data/devocional.js";
 import { CARIMBOS, carimboPorId, perguntaDoRegistro, semente as sementeDoTexto } from "./data/caderno.js";
+import { T, LANG_CATALOG, PACKS } from "./data/textos.js";
+import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES } from "./data/geografia.js";
+import { PALETA, DESENHOS } from "./data/desenhos.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -26,381 +29,6 @@ const MADE_BY = "ElCamargo Soluções em TI LTDA";
 
 /* Idiomas embutidos no app; os demais vêm por download (ver LANG_CATALOG). */
 
-const T = {
-  pt: {
-    tagline: "Viaje pelo mundo brincando",
-    play: "Jogar",
-    start: "Começar",
-    hi: "Oi",
-    createAvatar: "Crie seu personagem",
-    name: "Seu nome",
-    skin: "Pele", hair: "Cabelo", cap: "Boné", glasses: "Óculos", shirt: "Camisa",
-    none: "Nenhum",
-    remove: "Tirar",
-    shopHint: "Chapéus, óculos e estampas você ganha na loja jogando!",
-    slots: { hairStyle: "Cabelo", cap: "Chapéu", glasses: "Óculos", shirt: "Camisa", shirtPattern: "Estampa" },
-    ready: "Pronto!",
-    map: "Mapa",
-    shop: "Loja",
-    awards: "Conquistas",
-    coins: "lumicoins",
-    nextCoins: "Próximas lumicoins em",
-    locked: "Bloqueado",
-    unlockFor: "Abrir por",
-    levels: { easy: "Fácil", medium: "Médio", hard: "Difícil", genius: "Gênio", mestre: "Mestre", lenda: "Lenda" },
-    whoIsIt: "Quem vai usar?", roleChild: "Criança", roleParent: "Responsável",
-    editProfile: "Editar ficha", editHint: "Toque no lápis para editar a ficha. O progresso não se perde.",
-    pinTitle: "Senha do responsável", pinHint: "Digite os 4 números", pinWrong: "Senha errada. Tente de novo.",
-    pinWhy: "Quatro números para as crianças não entrarem aqui. Não é senha de banco — não repita uma que você usa em outro lugar.",
-    pinSet: "Senha definida", pinNone: "Sem senha", pinRemove: "Tirar",
-    keepsProgress: "Editar a ficha não apaga nada do que já foi jogado.",
-    howOld: "Quantos anos?", canRead: "Já sabe ler?", readNo: "Ainda não", readYes: "Sim",
-    ageMore: "10+", ageAny: "Ou escreva a idade — o jogo serve para qualquer uma.",    years: "anos", family: "Meus filhos", reads: "Já lê", readsNot: "Ainda não lê",
-    familyEmpty: "Ainda não há nenhuma criança neste aparelho.",
-    familyHint: "Você acompanha, eles jogam.", byGame: "Por jogo",
-    giftWeek: "Presente da semana", giveGift: "Presentear",
-    painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
-    thisWeek: "Esta semana ·", week: "Semana de", allTime: "No total",
-    duoPass: "Passe o celular para {quem}", duoReady: "Estou pronto!", duoTakeTurns: "Uma pergunta de cada vez, revezando",
-    duoPlay: "Jogar em dupla", duoWho: "Quem vai jogar com você?", duoWith: "Em dupla com",
-    duoFree: "Em dupla é de graça", duoBoth: "para os dois!", duoPaidToday: "Hoje o prêmio da dupla já saiu.",
-    duoTie: "Empate!", duoWon: "{quem} venceu!", yourTurn: "SUA VEZ", guest: "Convidado",
-    duoHint: "Um aparelho, dois jogadores. Quem acerta o par joga de novo.",
-    notebook: "Meu Caderno", newNote: "Escrever agora", saveNote: "Guardar no caderno",
-    writeIt: "Escrever no meu caderno", howWasIt: "COMO FOI?", writeHere: "O QUE VOCÊ QUER GUARDAR",
-    writePlaceholder: "Escreva do seu jeito. Ninguém corrige aqui.", notesTotal: "páginas",
-    notebookEmpty: "Seu caderno está esperando a primeira página. Depois de uma rodada, ou agora mesmo: o que você aprendeu hoje?",
-    momentTitle: "Momento em Família", principle: "PRINCÍPIO DA SEMANA",
-    talkAbout: "PARA CONVERSAR", todayDo: "HOJE, VAMOS", momentMark: "Fizemos juntos",
-    momentDone: "Feito hoje, juntos", momentCount: "Momentos em família: {n}",
-    momentInvite: "Um versículo curto por dia, uma pergunta para conversar e uma pequena atitude — para fazer junto com as crianças, em poucos minutos. Sua família quer isso no Lumus?",
-    momentYes: "Queremos", momentNo: "Agora não", momentTurnOn: "Ativar",
-    bonusTitle: "Bônus de mérito!", bonusOk: "Oba!",
-    bonusFrom: "{quem} viu o seu esforço e te deu um presente:",
-    bonusCheers: "Parabéns! Continue assim.",
-    weekNothing: "Nada nesta semana ainda.",
-    giftHint: "100 lumicoins por semana para dar a quem você quiser. O que sobra não acumula.",
-    needsReading: "Abre quando souber ler — ou com lumicoins",
-    stage: "Fase",
-    cost: "Custa",
-    notEnough: "Lumicoins insuficientes. Espere as lumicoins grátis!",
-    question: "Pergunta",
-    whichCountry: "Que país é essa bandeira?",
-    whichRegion: "Que estado ou região é essa bandeira?",
-    hints: "Dicas",
-    remove1: "Tirar 1 errada",
-    remove2: "Tirar 2 erradas",
-    remove3: "Tirar 3 erradas",
-    noRush: "SEM PRESSA",
-    timeUp: "Acabou o tempo!",
-    correct: "Isso aí!",
-    wrong: "Quase!",
-    roundOver: "Fim da rodada",
-    score: "Pontos",
-    accuracy: "Acertos",
-    reward: "Prêmio",
-    perfect: "PERFEITO!",
-    again: "Jogar de novo",
-    backMap: "Voltar ao mapa",
-    nextStage: "Próxima fase",
-    free: "Grátis",
-    buy: "Comprar",
-    owned: "Você tem",
-    equip: "Usar",
-    equipped: "Usando",
-    streak: "Sequência",
-    tutorial: "Como jogar",
-    tut1: "A bandeira aparece aqui em cima.",
-    tut2: "Escolha o nome certo entre as 4 opções.",
-    tut3: "Você tem 15 segundos. Rápido!",
-    tut4: "Sem saber? Use lumicoins para tirar respostas erradas.",
-    gotIt: "Entendi!",
-    travel: "Boa viagem!",
-    continents: {
-      sa: "América do Sul", na: "América do Norte", eu: "Europa",
-      af: "África", as: "Ásia", oc: "Oceania",
-    },
-    mascotHub: "Escolha um continente para explorar!",
-    mascotStage: "Vamos lá! Você consegue!",
-    home: "Escolha um jogo",
-    soon: "Em breve",
-    cat: { geo: "Geografia", math: "Matemática", nature: "Natureza", art: "Arte", eng: "Idiomas", faith: "Fé e Bíblia" },
-    games: { flags: "Bandeiras do Mundo", memory: "Memória do Mundo", capitals: "Capitais", count: "Contas e Números", animals: "Memória dos Animais", animalQuiz: "Quiz dos Animais", color: "Pintar e Colorir", colors: "Cores e Formas", artMem: "Memória das Formas", words: "Palavras do Mundo", wordMem: "Memória de Palavras", bible: "Quiz da Bíblia", bibleMem: "Memória da Bíblia", curiosidades: "Curiosidades do Mundo", sciAnimals: "Curiosidades dos Animais" },
-    mascotHome: "Oi! Que tal aprender brincando?",
-    profileTitle: "Meu perfil",
-    statRounds: "Rodadas", statPerfect: "100%", statFlags: "Bandeiras", statDays: "Dias seguidos",
-    worldProgress: "Meu mundo", achievementsGot: "Conquistas",
-    installTitle: "Deixe o Lumus na tela inicial",
-    installIOS: "No Safari, toque em Compartilhar e depois em \"Adicionar à Tela de Início\".",
-    installAndroid: "No menu do Chrome (⋮), toque em \"Instalar aplicativo\".",
-    installWhy: "Assim ele abre em tela cheia, como qualquer outro app.",
-    installLater: "Agora não",
-    record: "Recorde", newRecord: "Novo recorde!", pairs: "Pares", moves: "Jogadas",
-    memStarsHint: "As estrelas vêm do tempo: quanto mais rápido, mais estrelas.",
-    badges: "Insígnias",
-    gallery: "Minha galeria", newDrawing: "Escolha um desenho", finish: "Terminei!",
-    paintAll: "Pinte tudo para terminar", dailyCap: "Lumicoins de hoje já ganhas — mas pode pintar à vontade!",
-    quit: "Sair", quitAsk: "Sair da rodada? As lumicoins gastas não voltam.", howMuch: "Quanto é?",
-    reset: "Reiniciar", resetAsk: "Zerar o progresso deste jogador? O nome e o avatar continuam.",
-    saveAnyway: "Salvar assim", emptyGallery: "Nada aqui ainda. Escolha um desenho e pinte!",
-    bicho: { voa: "Qual destes voa?", agua: "Qual destes vive na água?", fazenda: "Qual destes vive na fazenda?",
-      ave: "Qual destes é uma ave?", mamifero: "Qual destes é um mamífero?", inseto: "Qual destes é um inseto?",
-      selva: "Qual destes vive na selva?", reptil: "Qual destes é um réptil?", ovos: "Qual destes põe ovos?",
-      peixe: "Qual destes é um peixe?", patas4: "Qual destes tem quatro patas?", gelo: "Qual destes vive no gelo?",
-      anfibio: "Qual destes é um anfíbio?", nao_mamifero: "Qual destes NÃO é um mamífero?",
-      nao_reptil: "Qual destes NÃO é um réptil?", nao_inseto: "Qual destes NÃO é um inseto?",
-      nao_ave: "Qual destes NÃO é uma ave?",
-      domestico: "Qual destes vive com gente?", nao_domestico: "Qual destes NÃO vive com gente?",
-      nao_voa: "Qual destes NÃO voa?", nao_agua: "Qual destes NÃO vive na água?",
-      nao_fazenda: "Qual destes NÃO vive na fazenda?", nao_selva: "Qual destes NÃO vive na selva?",
-      nao_peixe: "Qual destes NÃO é um peixe?", nao_patas4: "Qual destes NÃO tem quatro patas?",
-      nao_ovos: "Qual destes NÃO põe ovos?", nao_gelo: "Qual destes NÃO vive no gelo?",
-      nao_anfibio: "Qual destes NÃO é um anfíbio?" },
-    generateMore: "Gerar mais 9",
-    cores: { vermelho: "vermelho", laranja: "laranja", amarelo: "amarelo", verde: "verde", azul: "azul", roxo: "roxo", marrom: "marrom", preto: "preto", branco: "branco" },
-    formas: { circulo: "círculo", quadrado: "quadrado", coracao: "coração" },
-    artQ: { cor: "Qual é {x}?", forma: "Qual é o {x}?", ambos: "Qual é o {f} {c}?", nao: "Qual NÃO é {x}?" },
-    howSayIn: "Como se diz isso em {x}?", whichLang: "Qual idioma quer aprender?",
-    langHint: "Baixe mais idiomas em 🌐 Idioma para aprender outros.",
-    whichCapital: "Qual é a capital?", capBrasil: "Estados do Brasil", capEUA: "Estados dos EUA",
-    curQ: { pais: "Em que país encontramos {x}?", cidade: "Em que cidade encontramos {x}?", agua: "Em que mar ou oceano encontramos {x}?", continente: "Em que continente encontramos {x}?" },
-    sciQ: { grupo: "A que grupo pertence este animal?", dieta: "O que este animal come?", casa: "Onde este animal vive?", nasce: "Como nasce o filhote deste animal?", onde: "Em que continente este animal vive na natureza?" },
-    needTen: "Vença 10 fases da região anterior", claim: "Resgatar", claimReady: "Lumicoins prontas!",
-    claimTitle: "Suas lumicoins chegaram!",
-    needPrev: "Abra o jogo anterior",
-    players: "Quem vai jogar?", newPlayer: "Novo jogador", switchPlayer: "Trocar jogador",
-    language: "Idioma", use: "Usar",
-    deleteAsk: "Apagar este jogador e todo o progresso dele?", cancel: "Cancelar", del: "Apagar",
-    parents: "Área dos pais",
-    parentsInfo: "Sem anúncios. Sem links externos. Sem coleta de dados. Funciona offline.",
-  },
-  en: {
-    tagline: "Travel the world by playing",
-    play: "Play", start: "Start", hi: "Hi",
-    createAvatar: "Create your character", name: "Your name",
-    skin: "Skin", hair: "Hair", cap: "Cap", glasses: "Glasses", shirt: "Shirt",
-    none: "None", remove: "Take off",
-    shopHint: "Earn hats, glasses and prints in the shop by playing!",
-    slots: { hairStyle: "Hair", cap: "Hat", glasses: "Glasses", shirt: "Shirt", shirtPattern: "Print" },
-    ready: "Ready!", map: "Map", shop: "Shop", awards: "Awards",
-    coins: "lumicoins", nextCoins: "Free lumicoins in", locked: "Locked", unlockFor: "Unlock for",
-    levels: { easy: "Easy", medium: "Medium", hard: "Hard", genius: "Genius", mestre: "Master", lenda: "Legend" },
-    whoIsIt: "Who is this for?", roleChild: "Child", roleParent: "Grown-up",
-    editProfile: "Edit details", editHint: "Tap the pencil to edit the details. Progress is kept.",
-    pinTitle: "Grown-up password", pinHint: "Type the 4 digits", pinWrong: "Wrong password. Try again.",
-    pinWhy: "Four digits to keep children out of here. This is not a bank password — do not reuse one you use elsewhere.",
-    pinSet: "Password set", pinNone: "No password", pinRemove: "Remove",
-    keepsProgress: "Editing the details erases nothing that was already played.",
-    howOld: "How old?", canRead: "Can you read yet?", readNo: "Not yet", readYes: "Yes",
-    ageMore: "10+", ageAny: "Or type the age — the game works at any age.",    years: "years old", family: "My children", reads: "Reads", readsNot: "Not reading yet",
-    familyEmpty: "No child on this device yet.",
-    familyHint: "You follow along, they play.", byGame: "By game",
-    giftWeek: "This week's gift", giveGift: "Give a gift",
-    painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
-    thisWeek: "This week ·", week: "Week of", allTime: "All time",
-    duoPass: "Pass the phone to {quem}", duoReady: "I'm ready!", duoTakeTurns: "One question each, taking turns",
-    duoPlay: "Play in pairs", duoWho: "Who is playing with you?", duoWith: "Playing with",
-    duoFree: "Free when you play in pairs", duoBoth: "for both of you!", duoPaidToday: "Today's pair prize is already taken.",
-    duoTie: "It's a tie!", duoWon: "{quem} wins!", yourTurn: "YOUR TURN", guest: "Guest",
-    duoHint: "One device, two players. Match a pair and you go again.",
-    notebook: "My Notebook", newNote: "Write now", saveNote: "Save in my notebook",
-    writeIt: "Write in my notebook", howWasIt: "HOW WAS IT?", writeHere: "WHAT YOU WANT TO KEEP",
-    writePlaceholder: "Write it your way. Nobody corrects it here.", notesTotal: "pages",
-    notebookEmpty: "Your notebook is waiting for its first page. After a round, or right now: what did you learn today?",
-    momentTitle: "Family Moment", principle: "PRINCIPLE OF THE WEEK",
-    talkAbout: "TO TALK ABOUT", todayDo: "TODAY, LET'S", momentMark: "We did it together",
-    momentDone: "Done today, together", momentCount: "Family moments: {n}",
-    momentInvite: "A short verse each day, a question to talk about and one small action — to do together with the children, in a few minutes. Would your family like this in Lumus?",
-    momentYes: "Yes, we would", momentNo: "Not now", momentTurnOn: "Turn on",
-    bonusTitle: "Merit bonus!", bonusOk: "Yay!",
-    bonusFrom: "{quem} saw how hard you worked and gave you a gift:",
-    bonusCheers: "Well done! Keep it up.",
-    weekNothing: "Nothing this week yet.",
-    giftHint: "100 lumicoins a week to give to whoever you like. What is left does not carry over.",
-    needsReading: "Opens when you can read — or with lumicoins",
-    stage: "Stage", cost: "Costs",
-    notEnough: "Not enough lumicoins. Wait for your free lumicoins!",
-    question: "Question", whichCountry: "Which country is this flag?",
-    whichRegion: "Which state or region is this flag?",
-    hints: "Hints", remove1: "Remove 1 wrong", remove2: "Remove 2 wrong", remove3: "Remove 3 wrong",
-    noRush: "NO RUSH", timeUp: "Time's up!", correct: "Yes!", wrong: "So close!",
-    roundOver: "Round over", score: "Score", accuracy: "Correct", reward: "Reward",
-    perfect: "PERFECT!", again: "Play again", backMap: "Back to map", nextStage: "Next stage",
-    free: "Free",
-    buy: "Buy", owned: "You own", equip: "Wear", equipped: "Wearing", streak: "Streak",
-    tutorial: "How to play",
-    tut1: "The flag shows up here.",
-    tut2: "Pick the right name out of 4.",
-    tut3: "You get 15 seconds. Be quick!",
-    tut4: "Stuck? Spend lumicoins to remove wrong answers.",
-    gotIt: "Got it!", travel: "Have a good trip!",
-    continents: { sa: "South America", na: "North America", eu: "Europe", af: "Africa", as: "Asia", oc: "Oceania" },
-    mascotHub: "Pick a continent to explore!",
-    mascotStage: "Let's go! You can do it!",
-    home: "Pick a game", soon: "Coming soon",
-    cat: { geo: "Geography", math: "Math", nature: "Nature", art: "Art", eng: "Languages", faith: "Faith and Bible" },
-    games: { flags: "Flags of the World", memory: "World Memory", capitals: "Capitals", count: "Sums and Numbers", animals: "Animal Memory", animalQuiz: "Animal Quiz", color: "Paint and Color", colors: "Colors and Shapes", artMem: "Shape Memory", words: "World Words", wordMem: "Word Memory", bible: "Bible Quiz", bibleMem: "Bible Memory", curiosidades: "World Fun Facts", sciAnimals: "Animal Science" },
-    mascotHome: "Hi! Want to learn by playing?",
-    profileTitle: "My profile",
-    statRounds: "Rounds", statPerfect: "100%", statFlags: "Flags", statDays: "Day streak",
-    worldProgress: "My world", achievementsGot: "Awards",
-    installTitle: "Keep Lumus on your home screen",
-    installIOS: "In Safari, tap Share and then \"Add to Home Screen\".",
-    installAndroid: "In the Chrome menu (⋮), tap \"Install app\".",
-    installWhy: "It then opens full screen, like any other app.",
-    installLater: "Not now",
-    record: "Record", newRecord: "New record!", pairs: "Pairs", moves: "Moves",
-    memStarsHint: "Stars come from the clock: the faster you are, the more you get.",
-    badges: "Badges",
-    gallery: "My gallery", newDrawing: "Pick a drawing", finish: "Done!",
-    paintAll: "Paint everything to finish", dailyCap: "Today's lumicoins are done — keep painting anyway!",
-    quit: "Quit", quitAsk: "Leave this round? Spent lumicoins are not refunded.", howMuch: "How much is it?",
-    reset: "Reset", resetAsk: "Reset this player's progress? Name and avatar stay.",
-    saveAnyway: "Save it like this", emptyGallery: "Nothing here yet. Pick a drawing and paint!",
-    bicho: { voa: "Which one flies?", agua: "Which one lives in water?", fazenda: "Which one lives on a farm?",
-      ave: "Which one is a bird?", mamifero: "Which one is a mammal?", inseto: "Which one is an insect?",
-      selva: "Which one lives in the jungle?", reptil: "Which one is a reptile?", ovos: "Which one lays eggs?",
-      peixe: "Which one is a fish?", patas4: "Which one has four legs?", gelo: "Which one lives on the ice?",
-      anfibio: "Which one is an amphibian?", nao_mamifero: "Which one is NOT a mammal?",
-      nao_reptil: "Which one is NOT a reptile?", nao_inseto: "Which one is NOT an insect?",
-      nao_ave: "Which one is NOT a bird?",
-      domestico: "Which one lives with people?", nao_domestico: "Which one does NOT live with people?",
-      nao_voa: "Which one does NOT fly?", nao_agua: "Which one does NOT live in water?",
-      nao_fazenda: "Which one does NOT live on a farm?", nao_selva: "Which one does NOT live in the jungle?",
-      nao_peixe: "Which one is NOT a fish?", nao_patas4: "Which one does NOT have four legs?",
-      nao_ovos: "Which one does NOT lay eggs?", nao_gelo: "Which one does NOT live on the ice?",
-      nao_anfibio: "Which one is NOT an amphibian?" },
-    generateMore: "Generate 9 more",
-    cores: { vermelho: "red", laranja: "orange", amarelo: "yellow", verde: "green", azul: "blue", roxo: "purple", marrom: "brown", preto: "black", branco: "white" },
-    formas: { circulo: "circle", quadrado: "square", coracao: "heart" },
-    artQ: { cor: "Which one is {x}?", forma: "Which one is the {x}?", ambos: "Which is the {c} {f}?", nao: "Which one is NOT {x}?" },
-    howSayIn: "How do you say this in {x}?", whichLang: "Which language do you want to learn?",
-    langHint: "Download more languages under 🌐 Language to learn others.",
-    whichCapital: "What is the capital?", capBrasil: "States of Brazil", capEUA: "US States",
-    curQ: { pais: "In which country do we find {x}?", cidade: "In which city do we find {x}?", agua: "In which sea or ocean do we find {x}?", continente: "On which continent do we find {x}?" },
-    sciQ: { grupo: "Which group does this animal belong to?", dieta: "What does this animal eat?", casa: "Where does this animal live?", nasce: "How is this animal's baby born?", onde: "On which continent does this animal live in the wild?" },
-    needTen: "Clear 10 stages of the previous region", claim: "Claim", claimReady: "Lumicoins ready!",
-    claimTitle: "Your lumicoins have arrived!",
-    needPrev: "Unlock the previous game",
-    players: "Who's playing?", newPlayer: "New player", switchPlayer: "Switch player",
-    language: "Language", use: "Use",
-    deleteAsk: "Delete this player and all their progress?", cancel: "Cancel", del: "Delete",
-    parents: "Parents", parentsInfo: "No ads. No external links. No data collection. Works offline.",
-  },
-  es: {
-    tagline: "Viaja por el mundo jugando",
-    play: "Jugar", start: "Empezar", hi: "Hola",
-    createAvatar: "Crea tu personaje", name: "Tu nombre",
-    skin: "Piel", hair: "Pelo", cap: "Gorra", glasses: "Gafas", shirt: "Camisa",
-    none: "Ninguno", remove: "Quitar",
-    shopHint: "¡Gorros, gafas y estampados se ganan jugando!",
-    slots: { hairStyle: "Pelo", cap: "Gorro", glasses: "Gafas", shirt: "Camisa", shirtPattern: "Estampado" },
-    ready: "¡Listo!", map: "Mapa", shop: "Tienda", awards: "Logros",
-    coins: "lumicoins", nextCoins: "Lumicoins gratis en", locked: "Bloqueado", unlockFor: "Abrir por",
-    levels: { easy: "Fácil", medium: "Medio", hard: "Difícil", genius: "Genio", mestre: "Maestro", lenda: "Leyenda" },
-    whoIsIt: "¿Quién va a usar?", roleChild: "Niño", roleParent: "Adulto",
-    editProfile: "Editar ficha", editHint: "Toca el lápiz para editar la ficha. El progreso no se pierde.",
-    pinTitle: "Contraseña del adulto", pinHint: "Escribe los 4 números", pinWrong: "Contraseña incorrecta. Inténtalo otra vez.",
-    pinWhy: "Cuatro números para que los niños no entren aquí. No es una contraseña de banco — no repitas una que uses en otro sitio.",
-    pinSet: "Contraseña puesta", pinNone: "Sin contraseña", pinRemove: "Quitar",
-    keepsProgress: "Editar la ficha no borra nada de lo ya jugado.",
-    howOld: "¿Cuántos años?", canRead: "¿Ya sabes leer?", readNo: "Todavía no", readYes: "Sí",
-    ageMore: "10+", ageAny: "O escribe la edad — el juego sirve para cualquiera.",    years: "años", family: "Mis hijos", reads: "Ya lee", readsNot: "Todavía no lee",
-    familyEmpty: "Aún no hay ningún niño en este aparato.",
-    familyHint: "Tú acompañas, ellos juegan.", byGame: "Por juego",
-    giftWeek: "Regalo de la semana", giveGift: "Regalar",
-    painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
-    thisWeek: "Esta semana ·", week: "Semana del", allTime: "En total",
-    duoPass: "Pasa el celular a {quem}", duoReady: "¡Estoy listo!", duoTakeTurns: "Una pregunta cada uno, por turnos",
-    duoPlay: "Jugar en pareja", duoWho: "¿Quién juega contigo?", duoWith: "En pareja con",
-    duoFree: "En pareja es gratis", duoBoth: "¡para los dos!", duoPaidToday: "El premio de pareja de hoy ya salió.",
-    duoTie: "¡Empate!", duoWon: "¡{quem} ganó!", yourTurn: "TU TURNO", guest: "Invitado",
-    duoHint: "Un aparato, dos jugadores. Quien acierta el par juega otra vez.",
-    notebook: "Mi Cuaderno", newNote: "Escribir ahora", saveNote: "Guardar en el cuaderno",
-    writeIt: "Escribir en mi cuaderno", howWasIt: "¿CÓMO TE FUE?", writeHere: "LO QUE QUIERES GUARDAR",
-    writePlaceholder: "Escribe a tu manera. Aquí nadie corrige.", notesTotal: "páginas",
-    notebookEmpty: "Tu cuaderno espera su primera página. Después de una ronda, o ahora mismo: ¿qué aprendiste hoy?",
-    momentTitle: "Momento en Familia", principle: "PRINCIPIO DE LA SEMANA",
-    talkAbout: "PARA CONVERSAR", todayDo: "HOY, VAMOS A", momentMark: "Lo hicimos juntos",
-    momentDone: "Hecho hoy, juntos", momentCount: "Momentos en familia: {n}",
-    momentInvite: "Un versículo corto cada día, una pregunta para conversar y una pequeña acción — para hacer junto con los niños, en pocos minutos. ¿Su familia quiere esto en Lumus?",
-    momentYes: "Sí, queremos", momentNo: "Ahora no", momentTurnOn: "Activar",
-    bonusTitle: "¡Bono de mérito!", bonusOk: "¡Bien!",
-    bonusFrom: "{quem} vio tu esfuerzo y te dio un regalo:",
-    bonusCheers: "¡Felicidades! Sigue así.",
-    weekNothing: "Nada esta semana todavía.",
-    giftHint: "100 lumicoins por semana para dar a quien quieras. Lo que sobra no se acumula.",
-    needsReading: "Se abre cuando sepas leer — o con lumicoins",
-    stage: "Nivel", cost: "Cuesta",
-    notEnough: "No hay lumicoins. ¡Espera las gratis!",
-    question: "Pregunta", whichCountry: "¿De qué país es esta bandera?",
-    whichRegion: "¿De qué estado o región es esta bandera?",
-    hints: "Pistas", remove1: "Quitar 1 mala", remove2: "Quitar 2 malas", remove3: "Quitar 3 malas",
-    noRush: "SIN PRISA", timeUp: "¡Se acabó!", correct: "¡Muy bien!", wrong: "¡Casi!",
-    roundOver: "Fin de la ronda", score: "Puntos", accuracy: "Aciertos", reward: "Premio",
-    perfect: "¡PERFECTO!", again: "Jugar otra vez", backMap: "Volver al mapa", nextStage: "Siguiente nivel",
-    free: "Gratis",
-    buy: "Comprar", owned: "Tienes", equip: "Usar", equipped: "Usando", streak: "Racha",
-    tutorial: "Cómo jugar",
-    tut1: "La bandera aparece arriba.",
-    tut2: "Elige el nombre correcto entre 4.",
-    tut3: "Tienes 15 segundos. ¡Rápido!",
-    tut4: "¿No sabes? Gasta lumicoins para quitar respuestas malas.",
-    gotIt: "¡Entendido!", travel: "¡Buen viaje!",
-    continents: { sa: "América del Sur", na: "América del Norte", eu: "Europa", af: "África", as: "Asia", oc: "Oceanía" },
-    mascotHub: "¡Elige un continente!",
-    mascotStage: "¡Vamos! ¡Tú puedes!",
-    home: "Elige un juego", soon: "Muy pronto",
-    cat: { geo: "Geografía", math: "Matemáticas", nature: "Naturaleza", art: "Arte", eng: "Idiomas", faith: "Fe y Biblia" },
-    games: { flags: "Banderas del Mundo", memory: "Memoria del Mundo", capitals: "Capitales", count: "Cuentas y Números", animals: "Memoria de Animales", animalQuiz: "Quiz de Animales", color: "Pintar y Colorear", colors: "Colores y Formas", artMem: "Memoria de Formas", words: "Palabras del Mundo", wordMem: "Memoria de Palabras", bible: "Quiz de la Biblia", bibleMem: "Memoria Bíblica", curiosidades: "Curiosidades del Mundo", sciAnimals: "Ciencia de los Animales" },
-    mascotHome: "¡Hola! ¿Aprendemos jugando?",
-    profileTitle: "Mi perfil",
-    statRounds: "Rondas", statPerfect: "100%", statFlags: "Banderas", statDays: "Días seguidos",
-    worldProgress: "Mi mundo", achievementsGot: "Logros",
-    installTitle: "Deja Lumus en tu pantalla de inicio",
-    installIOS: "En Safari, toca Compartir y luego \"Añadir a pantalla de inicio\".",
-    installAndroid: "En el menú de Chrome (⋮), toca \"Instalar aplicación\".",
-    installWhy: "Así se abre a pantalla completa, como cualquier otra app.",
-    installLater: "Ahora no",
-    record: "Récord", newRecord: "¡Nuevo récord!", pairs: "Parejas", moves: "Jugadas",
-    memStarsHint: "Las estrellas vienen del tiempo: cuanto más rápido, más estrellas.",
-    badges: "Insignias",
-    gallery: "Mi galería", newDrawing: "Elige un dibujo", finish: "¡Terminé!",
-    paintAll: "Pinta todo para terminar", dailyCap: "Ya ganaste las lumicoins de hoy, ¡pero sigue pintando!",
-    quit: "Salir", quitAsk: "¿Salir de la ronda? Las lumicoins gastadas no vuelven.", howMuch: "¿Cuánto es?",
-    reset: "Reiniciar", resetAsk: "¿Borrar el progreso de este jugador? El nombre y el avatar quedan.",
-    saveAnyway: "Guardar así", emptyGallery: "Nada aquí todavía. ¡Elige un dibujo y pinta!",
-    bicho: { voa: "¿Cuál de estos vuela?", agua: "¿Cuál vive en el agua?", fazenda: "¿Cuál vive en la granja?",
-      ave: "¿Cuál es un ave?", mamifero: "¿Cuál es un mamífero?", inseto: "¿Cuál es un insecto?",
-      selva: "¿Cuál vive en la selva?", reptil: "¿Cuál es un reptil?", ovos: "¿Cuál pone huevos?",
-      peixe: "¿Cuál es un pez?", patas4: "¿Cuál tiene cuatro patas?", gelo: "¿Cuál vive en el hielo?",
-      anfibio: "¿Cuál es un anfibio?", nao_mamifero: "¿Cuál NO es un mamífero?",
-      nao_reptil: "¿Cuál NO es un reptil?", nao_inseto: "¿Cuál NO es un insecto?",
-      nao_ave: "¿Cuál NO es un ave?",
-      domestico: "¿Cuál vive con la gente?", nao_domestico: "¿Cuál NO vive con la gente?",
-      nao_voa: "¿Cuál NO vuela?", nao_agua: "¿Cuál NO vive en el agua?",
-      nao_fazenda: "¿Cuál NO vive en la granja?", nao_selva: "¿Cuál NO vive en la selva?",
-      nao_peixe: "¿Cuál NO es un pez?", nao_patas4: "¿Cuál NO tiene cuatro patas?",
-      nao_ovos: "¿Cuál NO pone huevos?", nao_gelo: "¿Cuál NO vive en el hielo?",
-      nao_anfibio: "¿Cuál NO es un anfibio?" },
-    generateMore: "Generar 9 más",
-    cores: { vermelho: "rojo", laranja: "naranja", amarelo: "amarillo", verde: "verde", azul: "azul", roxo: "morado", marrom: "marrón", preto: "negro", branco: "blanco" },
-    formas: { circulo: "círculo", quadrado: "cuadrado", coracao: "corazón" },
-    artQ: { cor: "¿Cuál es {x}?", forma: "¿Cuál es el {x}?", ambos: "¿Cuál es el {f} {c}?", nao: "¿Cuál NO es {x}?" },
-    howSayIn: "¿Cómo se dice esto en {x}?", whichLang: "¿Qué idioma quieres aprender?",
-    langHint: "Descarga más idiomas en 🌐 Idioma para aprender otros.",
-    whichCapital: "¿Cuál es la capital?", capBrasil: "Estados de Brasil", capEUA: "Estados de EE. UU.",
-    curQ: { pais: "¿En qué país encontramos {x}?", cidade: "¿En qué ciudad encontramos {x}?", agua: "¿En qué mar u océano encontramos {x}?", continente: "¿En qué continente encontramos {x}?" },
-    sciQ: { grupo: "¿A qué grupo pertenece este animal?", dieta: "¿Qué come este animal?", casa: "¿Dónde vive este animal?", nasce: "¿Cómo nace la cría de este animal?", onde: "¿En qué continente vive este animal en la naturaleza?" },
-    needTen: "Supera 10 niveles de la región anterior", claim: "Reclamar", claimReady: "¡Lumicoins listas!",
-    claimTitle: "¡Llegaron tus lumicoins!",
-    needPrev: "Abre el juego anterior",
-    players: "¿Quién juega?", newPlayer: "Nuevo jugador", switchPlayer: "Cambiar jugador",
-    language: "Idioma", use: "Usar",
-    deleteAsk: "¿Borrar este jugador y todo su progreso?", cancel: "Cancelar", del: "Borrar",
-    parents: "Padres", parentsInfo: "Sin anuncios. Sin enlaces externos. Sin datos. Funciona sin internet.",
-  },
-};
 
 /* ---------- Pacotes de idioma baixáveis ----------
    Só a INTERFACE precisa de tradução (~70 frases). Os nomes dos países
@@ -409,331 +37,6 @@ const T = {
    nenhum, nem de CDN próprio — a promessa de zero requisição a terceiros
    vale também para o texto. */
 
-const LANG_CATALOG = {
-  pt: "Português", en: "English", es: "Español",
-  fr: "Français", de: "Deutsch", it: "Italiano",
-};
-
-const PACKS = {
-  fr: {
-    tagline: "Voyage autour du monde en jouant", play: "Jouer", start: "Commencer", hi: "Salut",
-    createAvatar: "Crée ton personnage", name: "Ton prénom",
-    skin: "Peau", hair: "Cheveux", cap: "Chapeau", glasses: "Lunettes", shirt: "T-shirt",
-    none: "Aucun", remove: "Enlever",
-    slots: { hairStyle: "Cheveux", cap: "Chapeau", glasses: "Lunettes", shirt: "T-shirt", shirtPattern: "Motif" },
-    shopHint: "Gagne chapeaux, lunettes et motifs en jouant !", ready: "Prêt !",
-    map: "Carte", shop: "Boutique", awards: "Trophées", coins: "lumicoins",
-    nextCoins: "Lumicoins gratuites dans", locked: "Verrouillé", unlockFor: "Ouvrir pour",
-    levels: { easy: "Facile", medium: "Moyen", hard: "Difficile", genius: "Génie", mestre: "Maître", lenda: "Légende" },
-    whoIsIt: "Qui va jouer ?", roleChild: "Enfant", roleParent: "Adulte",
-    editProfile: "Modifier la fiche", editHint: "Touche le crayon pour modifier la fiche. La progression est gardée.",
-    pinTitle: "Mot de passe de l'adulte", pinHint: "Tape les 4 chiffres", pinWrong: "Mot de passe incorrect. Réessaie.",
-    pinWhy: "Quatre chiffres pour que les enfants n'entrent pas ici. Ce n'est pas un mot de passe bancaire — n'en réutilise pas un d'ailleurs.",
-    pinSet: "Mot de passe défini", pinNone: "Sans mot de passe", pinRemove: "Retirer",
-    keepsProgress: "Modifier la fiche n'efface rien de ce qui a été joué.",
-    howOld: "Quel âge ?", canRead: "Tu sais déjà lire ?", readNo: "Pas encore", readYes: "Oui",
-    ageMore: "10+", ageAny: "Ou écris l'âge — le jeu marche à tout âge.",    years: "ans", family: "Mes enfants", reads: "Sait lire", readsNot: "Ne lit pas encore",
-    familyEmpty: "Aucun enfant sur cet appareil pour l'instant.",
-    familyHint: "Tu suis, ils jouent.", byGame: "Par jeu",
-    giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
-    painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
-    thisWeek: "Cette semaine ·", week: "Semaine du", allTime: "Au total",
-    duoPass: "Passe le téléphone à {quem}", duoReady: "Je suis prêt !", duoTakeTurns: "Une question chacun, à tour de rôle",
-    duoPlay: "Jouer à deux", duoWho: "Qui joue avec toi ?", duoWith: "À deux avec",
-    duoFree: "À deux, c'est gratuit", duoBoth: "pour vous deux !", duoPaidToday: "Le prix du duo est déjà pris aujourd'hui.",
-    duoTie: "Égalité !", duoWon: "{quem} a gagné !", yourTurn: "À TOI", guest: "Invité",
-    duoHint: "Un appareil, deux joueurs. Qui trouve une paire rejoue.",
-    notebook: "Mon Cahier", newNote: "Écrire maintenant", saveNote: "Garder dans le cahier",
-    writeIt: "Écrire dans mon cahier", howWasIt: "C'ÉTAIT COMMENT ?", writeHere: "CE QUE TU VEUX GARDER",
-    writePlaceholder: "Écris à ta façon. Ici, personne ne corrige.", notesTotal: "pages",
-    notebookEmpty: "Ton cahier attend sa première page. Après une manche, ou tout de suite : qu'as-tu appris aujourd'hui ?",
-    momentTitle: "Moment en Famille", principle: "PRINCIPE DE LA SEMAINE",
-    talkAbout: "POUR EN PARLER", todayDo: "AUJOURD'HUI, FAISONS", momentMark: "Nous l'avons fait ensemble",
-    momentDone: "Fait aujourd'hui, ensemble", momentCount: "Moments en famille : {n}",
-    momentInvite: "Un verset court chaque jour, une question pour discuter et un petit geste — à faire avec les enfants, en quelques minutes. Votre famille souhaite-t-elle cela dans Lumus ?",
-    momentYes: "Oui, nous voulons", momentNo: "Pas maintenant", momentTurnOn: "Activer",
-    bonusTitle: "Bonus de mérite !", bonusOk: "Super !",
-    bonusFrom: "{quem} a vu tes efforts et t'a fait un cadeau :",
-    bonusCheers: "Bravo ! Continue comme ça.",
-    weekNothing: "Rien cette semaine pour l'instant.",
-    giftHint: "100 lumicoins par semaine à offrir à qui tu veux. Le reste ne se cumule pas.",
-    needsReading: "S'ouvre quand tu sauras lire — ou avec des lumicoins",
-    stage: "Niveau", cost: "Coûte", notEnough: "Pas assez de lumicoins. Attends les lumicoins gratuites !",
-    question: "Question", whichCountry: "Quel pays est ce drapeau ?", whichRegion: "Quelle région est ce drapeau ?",
-    hints: "Indices", remove1: "Enlever 1 fausse", remove2: "Enlever 2 fausses", remove3: "Enlever 3 fausses",
-    noRush: "SANS PRESSION", timeUp: "Temps écoulé !", correct: "Bravo !", wrong: "Presque !",
-    roundOver: "Fin de la manche", score: "Points", accuracy: "Bonnes réponses", reward: "Récompense",
-    perfect: "PARFAIT !", again: "Rejouer", backMap: "Retour à la carte", nextStage: "Niveau suivant",
-    free: "Gratuit",
-    buy: "Acheter", owned: "Tu as", equip: "Porter", equipped: "Porté", streak: "Série",
-    tutorial: "Comment jouer", tut1: "Le drapeau apparaît ici.", tut2: "Choisis le bon nom parmi 4.",
-    tut3: "Tu as quelques secondes. Vite !", tut4: "Bloqué ? Dépense des lumicoins pour enlever de mauvaises réponses.",
-    gotIt: "Compris !", travel: "Bon voyage !",
-    continents: { sa: "Amérique du Sud", na: "Amérique du Nord", eu: "Europe", af: "Afrique", as: "Asie", oc: "Océanie" },
-    mascotHub: "Choisis un continent à explorer !", mascotStage: "C'est parti ! Tu peux le faire !",
-    home: "Choisis un jeu", soon: "Bientôt",
-    cat: { geo: "Géographie", math: "Maths", nature: "Nature", art: "Art", eng: "Langues", faith: "Foi et Bible" },
-    games: { flags: "Drapeaux du Monde", memory: "Mémoire du Monde", capitals: "Capitales", count: "Calculs et Nombres", animals: "Mémoire des Animaux", animalQuiz: "Quiz des Animaux", color: "Peindre et Colorier", colors: "Couleurs et Formes", artMem: "Mémoire des Formes", words: "Mots du Monde", wordMem: "Mémoire des Mots", bible: "Quiz de la Bible", bibleMem: "Mémoire Biblique", curiosidades: "Curiosités du Monde", sciAnimals: "Sciences des Animaux" },
-    mascotHome: "Salut ! On apprend en jouant ?",
-    profileTitle: "Mon profil",
-    statRounds: "Manches", statPerfect: "100%", statFlags: "Drapeaux", statDays: "Jours d'affilée",
-    worldProgress: "Mon monde", achievementsGot: "Trophées",
-    installTitle: "Garde Lumus sur ton écran d'accueil",
-    installIOS: "Dans Safari, touche Partager puis \"Sur l'écran d'accueil\".",
-    installAndroid: "Dans le menu de Chrome (⋮), touche \"Installer l'application\".",
-    installWhy: "Il s'ouvre alors en plein écran, comme toute autre application.",
-    installLater: "Plus tard",
-    record: "Record", newRecord: "Nouveau record !", pairs: "Paires", moves: "Coups",
-    memStarsHint: "Les étoiles viennent du chrono : plus tu es rapide, plus tu en gagnes.",
-    badges: "Badges",
-    gallery: "Ma galerie", newDrawing: "Choisis un dessin", finish: "Fini !",
-    paintAll: "Colorie tout pour finir", dailyCap: "Les lumicoins du jour sont gagnées — continue à colorier !",
-    quit: "Quitter", quitAsk: "Quitter la manche ? Les lumicoins dépensées ne reviennent pas.", howMuch: "Combien ça fait ?",
-    reset: "Réinitialiser", resetAsk: "Remettre à zéro la progression ? Le nom et l'avatar restent.",
-    saveAnyway: "Garder comme ça", emptyGallery: "Rien ici pour l'instant. Choisis un dessin !",
-    bicho: { voa: "Lequel vole ?", agua: "Lequel vit dans l'eau ?", fazenda: "Lequel vit à la ferme ?",
-      ave: "Lequel est un oiseau ?", mamifero: "Lequel est un mammifère ?", inseto: "Lequel est un insecte ?",
-      selva: "Lequel vit dans la jungle ?", reptil: "Lequel est un reptile ?", ovos: "Lequel pond des œufs ?",
-      peixe: "Lequel est un poisson ?", patas4: "Lequel a quatre pattes ?", gelo: "Lequel vit sur la glace ?",
-      anfibio: "Lequel est un amphibien ?", nao_mamifero: "Lequel n'est PAS un mammifère ?",
-      nao_reptil: "Lequel n'est PAS un reptile ?", nao_inseto: "Lequel n'est PAS un insecte ?",
-      nao_ave: "Lequel n'est PAS un oiseau ?",
-      domestico: "Lequel vit avec les gens ?", nao_domestico: "Lequel ne vit PAS avec les gens ?",
-      nao_voa: "Lequel ne vole PAS ?", nao_agua: "Lequel ne vit PAS dans l'eau ?",
-      nao_fazenda: "Lequel ne vit PAS à la ferme ?", nao_selva: "Lequel ne vit PAS dans la jungle ?",
-      nao_peixe: "Lequel n'est PAS un poisson ?", nao_patas4: "Lequel n'a PAS quatre pattes ?",
-      nao_ovos: "Lequel ne pond PAS d'œufs ?", nao_gelo: "Lequel ne vit PAS sur la glace ?",
-      nao_anfibio: "Lequel n'est PAS un amphibien ?" },
-    generateMore: "Générer 9 de plus",
-    cores: { vermelho: "rouge", laranja: "orange", amarelo: "jaune", verde: "vert", azul: "bleu", roxo: "violet", marrom: "marron", preto: "noir", branco: "blanc" },
-    formas: { circulo: "cercle", quadrado: "carré", coracao: "cœur" },
-    artQ: { cor: "Lequel est {x} ?", forma: "Lequel est le {x} ?", ambos: "Lequel est le {f} {c} ?", nao: "Lequel n'est PAS {x} ?" },
-    howSayIn: "Comment dit-on ça en {x} ?", whichLang: "Quelle langue veux-tu apprendre ?",
-    langHint: "Télécharge d'autres langues dans 🌐 Langue.",
-    whichCapital: "Quelle est la capitale ?", capBrasil: "États du Brésil", capEUA: "États des USA",
-    curQ: { pais: "Dans quel pays trouve-t-on {x} ?", cidade: "Dans quelle ville trouve-t-on {x} ?", agua: "Dans quelle mer ou quel océan trouve-t-on {x} ?", continente: "Sur quel continent trouve-t-on {x} ?" },
-    sciQ: { grupo: "À quel groupe appartient cet animal ?", dieta: "Que mange cet animal ?", casa: "Où vit cet animal ?", nasce: "Comment naît le petit de cet animal ?", onde: "Sur quel continent cet animal vit-il à l'état sauvage ?" },
-    needTen: "Termine 10 niveaux de la région précédente", claim: "Récupérer", claimReady: "Lumicoins prêtes !",
-    claimTitle: "Tes lumicoins sont arrivées !",
-    needPrev: "Débloque le jeu précédent",
-    players: "Qui joue ?", newPlayer: "Nouveau joueur", switchPlayer: "Changer de joueur",
-    language: "Langue", use: "Utiliser",
-    deleteAsk: "Supprimer ce joueur et toute sa progression ?", cancel: "Annuler", del: "Supprimer",
-    parents: "Espace parents", parentsInfo: "Sans pub. Sans liens externes. Sans collecte de données. Fonctionne hors ligne.",
-  },
-  de: {
-    tagline: "Spielend um die Welt reisen", play: "Spielen", start: "Los", hi: "Hallo",
-    createAvatar: "Erstelle deine Figur", name: "Dein Name",
-    skin: "Haut", hair: "Haare", cap: "Hut", glasses: "Brille", shirt: "Shirt",
-    none: "Keins", remove: "Abnehmen",
-    slots: { hairStyle: "Haare", cap: "Hut", glasses: "Brille", shirt: "Shirt", shirtPattern: "Muster" },
-    shopHint: "Hüte, Brillen und Muster verdienst du beim Spielen!", ready: "Fertig!",
-    map: "Karte", shop: "Shop", awards: "Trophäen", coins: "Lumicoins",
-    nextCoins: "Gratis-Lumicoins in", locked: "Gesperrt", unlockFor: "Öffnen für",
-    levels: { easy: "Leicht", medium: "Mittel", hard: "Schwer", genius: "Genie", mestre: "Meister", lenda: "Legende" },
-    whoIsIt: "Wer spielt hier?", roleChild: "Kind", roleParent: "Erwachsener",
-    editProfile: "Angaben ändern", editHint: "Tippe auf den Stift, um die Angaben zu ändern. Der Fortschritt bleibt.",
-    pinTitle: "Passwort für Erwachsene", pinHint: "Tippe die 4 Ziffern", pinWrong: "Falsches Passwort. Versuch es nochmal.",
-    pinWhy: "Vier Ziffern, damit Kinder hier nicht hineinkommen. Kein Bankpasswort — verwende keins, das du woanders nutzt.",
-    pinSet: "Passwort gesetzt", pinNone: "Kein Passwort", pinRemove: "Entfernen",
-    keepsProgress: "Die Angaben zu ändern löscht nichts vom Gespielten.",
-    howOld: "Wie alt?", canRead: "Kannst du schon lesen?", readNo: "Noch nicht", readYes: "Ja",
-    ageMore: "10+", ageAny: "Oder das Alter eintippen — das Spiel passt zu jedem Alter.",    years: "Jahre", family: "Meine Kinder", reads: "Liest schon", readsNot: "Liest noch nicht",
-    familyEmpty: "Noch kein Kind auf diesem Gerät.",
-    familyHint: "Du begleitest, sie spielen.", byGame: "Nach Spiel",
-    giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
-    painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
-    thisWeek: "Diese Woche ·", week: "Woche vom", allTime: "Insgesamt",
-    duoPass: "Gib das Handy an {quem}", duoReady: "Ich bin bereit!", duoTakeTurns: "Eine Frage pro Person, abwechselnd",
-    duoPlay: "Zu zweit spielen", duoWho: "Wer spielt mit dir?", duoWith: "Zu zweit mit",
-    duoFree: "Zu zweit ist es gratis", duoBoth: "für euch beide!", duoPaidToday: "Der Preis für heute ist schon vergeben.",
-    duoTie: "Unentschieden!", duoWon: "{quem} hat gewonnen!", yourTurn: "DU BIST DRAN", guest: "Gast",
-    duoHint: "Ein Gerät, zwei Spieler. Wer ein Paar findet, ist noch mal dran.",
-    notebook: "Mein Heft", newNote: "Jetzt schreiben", saveNote: "Ins Heft schreiben",
-    writeIt: "In mein Heft schreiben", howWasIt: "WIE WAR ES?", writeHere: "WAS DU BEHALTEN WILLST",
-    writePlaceholder: "Schreib es so, wie du willst. Hier korrigiert niemand.", notesTotal: "Seiten",
-    notebookEmpty: "Dein Heft wartet auf die erste Seite. Nach einer Runde oder gleich jetzt: Was hast du heute gelernt?",
-    momentTitle: "Familienmoment", principle: "PRINZIP DER WOCHE",
-    talkAbout: "ZUM REDEN", todayDo: "HEUTE WOLLEN WIR", momentMark: "Wir haben es zusammen gemacht",
-    momentDone: "Heute gemeinsam gemacht", momentCount: "Familienmomente: {n}",
-    momentInvite: "Jeden Tag ein kurzer Vers, eine Frage zum Reden und eine kleine Tat — zusammen mit den Kindern, in wenigen Minuten. Möchte eure Familie das in Lumus?",
-    momentYes: "Ja, gerne", momentNo: "Jetzt nicht", momentTurnOn: "Einschalten",
-    bonusTitle: "Bonus für deinen Einsatz!", bonusOk: "Juhu!",
-    bonusFrom: "{quem} hat deinen Einsatz gesehen und dir etwas geschenkt:",
-    bonusCheers: "Gut gemacht! Weiter so.",
-    weekNothing: "Diese Woche noch nichts.",
-    giftHint: "100 Lumicoins pro Woche zum Verschenken. Was übrig bleibt, verfällt.",
-    needsReading: "Öffnet sich, wenn du lesen kannst — oder mit Lumicoins",
-    stage: "Stufe", cost: "Kostet", notEnough: "Nicht genug Lumicoins. Warte auf die Gratis-Lumicoins!",
-    question: "Frage", whichCountry: "Welches Land ist diese Flagge?", whichRegion: "Welche Region ist diese Flagge?",
-    hints: "Tipps", remove1: "1 falsche entfernen", remove2: "2 falsche entfernen", remove3: "3 falsche entfernen",
-    noRush: "OHNE ZEITDRUCK", timeUp: "Zeit ist um!", correct: "Richtig!", wrong: "Fast!",
-    roundOver: "Runde vorbei", score: "Punkte", accuracy: "Richtig", reward: "Belohnung",
-    perfect: "PERFEKT!", again: "Nochmal spielen", backMap: "Zurück zur Karte", nextStage: "Nächste Stufe",
-    free: "Gratis",
-    buy: "Kaufen", owned: "Du hast", equip: "Tragen", equipped: "Getragen", streak: "Serie",
-    tutorial: "So wird gespielt", tut1: "Die Flagge erscheint hier.", tut2: "Wähle den richtigen Namen von 4.",
-    tut3: "Du hast ein paar Sekunden. Schnell!", tut4: "Keine Ahnung? Gib Lumicoins aus, um falsche Antworten zu entfernen.",
-    gotIt: "Verstanden!", travel: "Gute Reise!",
-    continents: { sa: "Südamerika", na: "Nordamerika", eu: "Europa", af: "Afrika", as: "Asien", oc: "Ozeanien" },
-    mascotHub: "Wähle einen Kontinent!", mascotStage: "Los geht's! Du schaffst das!",
-    home: "Wähle ein Spiel", soon: "Bald",
-    cat: { geo: "Geografie", math: "Mathe", nature: "Natur", art: "Kunst", eng: "Sprachen", faith: "Glaube und Bibel" },
-    games: { flags: "Flaggen der Welt", memory: "Welt-Memory", capitals: "Hauptstädte", count: "Rechnen und Zahlen", animals: "Tier-Memory", animalQuiz: "Tier-Quiz", color: "Malen und Ausmalen", colors: "Farben und Formen", artMem: "Formen-Memory", words: "Wörter der Welt", wordMem: "Wort-Memory", bible: "Bibel-Quiz", bibleMem: "Bibel-Memory", curiosidades: "Wissenswertes der Welt", sciAnimals: "Tierkunde" },
-    mascotHome: "Hallo! Lust, spielend zu lernen?",
-    profileTitle: "Mein Profil",
-    statRounds: "Runden", statPerfect: "100%", statFlags: "Flaggen", statDays: "Tage in Folge",
-    worldProgress: "Meine Welt", achievementsGot: "Trophäen",
-    installTitle: "Lumus auf den Startbildschirm legen",
-    installIOS: "In Safari auf Teilen tippen und dann \"Zum Home-Bildschirm\".",
-    installAndroid: "Im Chrome-Menü (⋮) auf \"App installieren\" tippen.",
-    installWhy: "Dann öffnet sie im Vollbild, wie jede andere App.",
-    installLater: "Später",
-    record: "Rekord", newRecord: "Neuer Rekord!", pairs: "Paare", moves: "Züge",
-    memStarsHint: "Sterne kommen von der Uhr: je schneller, desto mehr.",
-    badges: "Abzeichen",
-    gallery: "Meine Galerie", newDrawing: "Wähle ein Bild", finish: "Fertig!",
-    paintAll: "Male alles aus, um fertig zu werden", dailyCap: "Die Lumicoins von heute sind vergeben — mal ruhig weiter!",
-    quit: "Beenden", quitAsk: "Runde verlassen? Ausgegebene Lumicoins gibt es nicht zurück.", howMuch: "Wie viel ist das?",
-    reset: "Zurücksetzen", resetAsk: "Fortschritt zurücksetzen? Name und Avatar bleiben.",
-    saveAnyway: "So speichern", emptyGallery: "Noch nichts hier. Wähle ein Bild und male!",
-    bicho: { voa: "Welches fliegt?", agua: "Welches lebt im Wasser?", fazenda: "Welches lebt auf dem Bauernhof?",
-      ave: "Welches ist ein Vogel?", mamifero: "Welches ist ein Säugetier?", inseto: "Welches ist ein Insekt?",
-      selva: "Welches lebt im Dschungel?", reptil: "Welches ist ein Reptil?", ovos: "Welches legt Eier?",
-      peixe: "Welches ist ein Fisch?", patas4: "Welches hat vier Beine?", gelo: "Welches lebt auf dem Eis?",
-      anfibio: "Welches ist eine Amphibie?", nao_mamifero: "Welches ist KEIN Säugetier?",
-      nao_reptil: "Welches ist KEIN Reptil?", nao_inseto: "Welches ist KEIN Insekt?",
-      nao_ave: "Welches ist KEIN Vogel?",
-      domestico: "Welches lebt bei den Menschen?", nao_domestico: "Welches lebt NICHT bei den Menschen?",
-      nao_voa: "Welches fliegt NICHT?", nao_agua: "Welches lebt NICHT im Wasser?",
-      nao_fazenda: "Welches lebt NICHT auf dem Bauernhof?", nao_selva: "Welches lebt NICHT im Dschungel?",
-      nao_peixe: "Welches ist KEIN Fisch?", nao_patas4: "Welches hat KEINE vier Beine?",
-      nao_ovos: "Welches legt KEINE Eier?", nao_gelo: "Welches lebt NICHT auf dem Eis?",
-      nao_anfibio: "Welches ist KEINE Amphibie?" },
-    generateMore: "9 weitere erzeugen",
-    cores: { vermelho: "rot", laranja: "orange", amarelo: "gelb", verde: "grün", azul: "blau", roxo: "lila", marrom: "braun", preto: "schwarz", branco: "weiß" },
-    formas: { circulo: "Kreis", quadrado: "Quadrat", coracao: "Herz" },
-    artQ: { cor: "Welches ist {x}?", forma: "Welches ist das {x}?", ambos: "Welches ist das {c} {f}?", nao: "Welches ist NICHT {x}?" },
-    howSayIn: "Wie heißt das auf {x}?", whichLang: "Welche Sprache möchtest du lernen?",
-    langHint: "Lade unter 🌐 Sprache weitere Sprachen herunter.",
-    whichCapital: "Wie heißt die Hauptstadt?", capBrasil: "Bundesstaaten Brasiliens", capEUA: "US-Bundesstaaten",
-    curQ: { pais: "In welchem Land finden wir {x}?", cidade: "In welcher Stadt finden wir {x}?", agua: "In welchem Meer oder Ozean finden wir {x}?", continente: "Auf welchem Kontinent finden wir {x}?" },
-    sciQ: { grupo: "Zu welcher Gruppe gehört dieses Tier?", dieta: "Was frisst dieses Tier?", casa: "Wo lebt dieses Tier?", nasce: "Wie kommt das Junge dieses Tieres zur Welt?", onde: "Auf welchem Kontinent lebt dieses Tier in freier Natur?" },
-    needTen: "Schaffe 10 Stufen der vorigen Region", claim: "Abholen", claimReady: "Lumicoins bereit!",
-    claimTitle: "Deine Lumicoins sind da!",
-    needPrev: "Vorheriges Spiel freischalten",
-    players: "Wer spielt?", newPlayer: "Neuer Spieler", switchPlayer: "Spieler wechseln",
-    language: "Sprache", use: "Verwenden",
-    deleteAsk: "Diesen Spieler und den ganzen Fortschritt löschen?", cancel: "Abbrechen", del: "Löschen",
-    parents: "Elternbereich", parentsInfo: "Keine Werbung. Keine externen Links. Keine Datensammlung. Offline nutzbar.",
-  },
-  it: {
-    tagline: "Viaggia per il mondo giocando", play: "Gioca", start: "Inizia", hi: "Ciao",
-    createAvatar: "Crea il tuo personaggio", name: "Il tuo nome",
-    skin: "Pelle", hair: "Capelli", cap: "Cappello", glasses: "Occhiali", shirt: "Maglietta",
-    none: "Nessuno", remove: "Togli",
-    slots: { hairStyle: "Capelli", cap: "Cappello", glasses: "Occhiali", shirt: "Maglietta", shirtPattern: "Fantasia" },
-    shopHint: "Cappelli, occhiali e fantasie si guadagnano giocando!", ready: "Pronto!",
-    map: "Mappa", shop: "Negozio", awards: "Premi", coins: "lumicoins",
-    nextCoins: "Lumicoins gratis tra", locked: "Bloccato", unlockFor: "Apri con",
-    levels: { easy: "Facile", medium: "Medio", hard: "Difficile", genius: "Genio", mestre: "Maestro", lenda: "Leggenda" },
-    whoIsIt: "Chi lo userà?", roleChild: "Bambino", roleParent: "Adulto",
-    editProfile: "Modifica scheda", editHint: "Tocca la matita per modificare la scheda. I progressi restano.",
-    pinTitle: "Password dell'adulto", pinHint: "Digita i 4 numeri", pinWrong: "Password sbagliata. Riprova.",
-    pinWhy: "Quattro numeri perché i bambini non entrino qui. Non è una password bancaria — non riusare una che usi altrove.",
-    pinSet: "Password impostata", pinNone: "Senza password", pinRemove: "Togli",
-    keepsProgress: "Modificare la scheda non cancella nulla di già giocato.",
-    howOld: "Quanti anni?", canRead: "Sai già leggere?", readNo: "Non ancora", readYes: "Sì",
-    ageMore: "10+", ageAny: "Oppure scrivi l'età — il gioco va bene a ogni età.",    years: "anni", family: "I miei figli", reads: "Sa leggere", readsNot: "Non legge ancora",
-    familyEmpty: "Ancora nessun bambino su questo apparecchio.",
-    familyHint: "Tu segui, loro giocano.", byGame: "Per gioco",
-    giftWeek: "Regalo della settimana", giveGift: "Regalare",
-    painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
-    thisWeek: "Questa settimana ·", week: "Settimana del", allTime: "In totale",
-    duoPass: "Passa il telefono a {quem}", duoReady: "Sono pronto!", duoTakeTurns: "Una domanda a testa, a turno",
-    duoPlay: "Giocare in due", duoWho: "Chi gioca con te?", duoWith: "In due con",
-    duoFree: "In due è gratis", duoBoth: "per tutti e due!", duoPaidToday: "Il premio in coppia di oggi è già stato dato.",
-    duoTie: "Pareggio!", duoWon: "Ha vinto {quem}!", yourTurn: "TOCCA A TE", guest: "Ospite",
-    duoHint: "Un dispositivo, due giocatori. Chi trova una coppia gioca ancora.",
-    notebook: "Il Mio Quaderno", newNote: "Scrivi ora", saveNote: "Salva nel quaderno",
-    writeIt: "Scrivi nel mio quaderno", howWasIt: "COM'È ANDATA?", writeHere: "COSA VUOI TENERE",
-    writePlaceholder: "Scrivi a modo tuo. Qui nessuno corregge.", notesTotal: "pagine",
-    notebookEmpty: "Il tuo quaderno aspetta la prima pagina. Dopo una partita, o proprio adesso: cosa hai imparato oggi?",
-    momentTitle: "Momento in Famiglia", principle: "PRINCIPIO DELLA SETTIMANA",
-    talkAbout: "DI CUI PARLARE", todayDo: "OGGI, FACCIAMO", momentMark: "L'abbiamo fatto insieme",
-    momentDone: "Fatto oggi, insieme", momentCount: "Momenti in famiglia: {n}",
-    momentInvite: "Un versetto breve ogni giorno, una domanda di cui parlare e un piccolo gesto — da fare insieme ai bambini, in pochi minuti. La vostra famiglia lo vuole in Lumus?",
-    momentYes: "Sì, lo vogliamo", momentNo: "Non ora", momentTurnOn: "Attiva",
-    bonusTitle: "Bonus di merito!", bonusOk: "Evviva!",
-    bonusFrom: "{quem} ha visto il tuo impegno e ti ha fatto un regalo:",
-    bonusCheers: "Bravo! Continua così.",
-    weekNothing: "Ancora niente questa settimana.",
-    giftHint: "100 lumicoins a settimana da regalare a chi vuoi. Quel che avanza non si accumula.",
-    needsReading: "Si apre quando saprai leggere — o con lumicoins",
-    stage: "Livello", cost: "Costa", notEnough: "Lumicoins insufficienti. Aspetta quelle gratis!",
-    question: "Domanda", whichCountry: "Di che paese è questa bandiera?", whichRegion: "Di che regione è questa bandiera?",
-    hints: "Aiuti", remove1: "Togli 1 sbagliata", remove2: "Togli 2 sbagliate", remove3: "Togli 3 sbagliate",
-    noRush: "SENZA FRETTA", timeUp: "Tempo scaduto!", correct: "Bravo!", wrong: "Quasi!",
-    roundOver: "Fine del turno", score: "Punti", accuracy: "Giuste", reward: "Premio",
-    perfect: "PERFETTO!", again: "Gioca ancora", backMap: "Torna alla mappa", nextStage: "Livello successivo",
-    free: "Gratis",
-    buy: "Compra", owned: "Hai", equip: "Indossa", equipped: "Indossato", streak: "Serie",
-    tutorial: "Come si gioca", tut1: "La bandiera appare qui.", tut2: "Scegli il nome giusto tra 4.",
-    tut3: "Hai pochi secondi. Veloce!", tut4: "Non lo sai? Spendi lumicoins per togliere risposte sbagliate.",
-    gotIt: "Ho capito!", travel: "Buon viaggio!",
-    continents: { sa: "Sud America", na: "Nord America", eu: "Europa", af: "Africa", as: "Asia", oc: "Oceania" },
-    mascotHub: "Scegli un continente!", mascotStage: "Andiamo! Ce la puoi fare!",
-    home: "Scegli un gioco", soon: "Presto",
-    cat: { geo: "Geografia", math: "Matematica", nature: "Natura", art: "Arte", eng: "Lingue", faith: "Fede e Bibbia" },
-    games: { flags: "Bandiere del Mondo", memory: "Memoria del Mondo", capitals: "Capitali", count: "Calcoli e Numeri", animals: "Memoria degli Animali", animalQuiz: "Quiz degli Animali", color: "Dipingi e Colora", colors: "Colori e Forme", artMem: "Memoria delle Forme", words: "Parole del Mondo", wordMem: "Memoria delle Parole", bible: "Quiz della Bibbia", bibleMem: "Memoria Biblica", curiosidades: "Curiosità del Mondo", sciAnimals: "Scienze degli Animali" },
-    mascotHome: "Ciao! Impariamo giocando?",
-    profileTitle: "Il mio profilo",
-    statRounds: "Turni", statPerfect: "100%", statFlags: "Bandiere", statDays: "Giorni di fila",
-    worldProgress: "Il mio mondo", achievementsGot: "Premi",
-    installTitle: "Tieni Lumus nella schermata Home",
-    installIOS: "In Safari tocca Condividi e poi \"Aggiungi a Home\".",
-    installAndroid: "Nel menu di Chrome (⋮) tocca \"Installa app\".",
-    installWhy: "Così si apre a schermo intero, come ogni altra app.",
-    installLater: "Non ora",
-    record: "Record", newRecord: "Nuovo record!", pairs: "Coppie", moves: "Mosse",
-    memStarsHint: "Le stelle vengono dal tempo: più sei veloce, più ne prendi.",
-    badges: "Distintivi",
-    gallery: "La mia galleria", newDrawing: "Scegli un disegno", finish: "Finito!",
-    paintAll: "Colora tutto per finire", dailyCap: "Le lumicoins di oggi sono finite — ma continua a colorare!",
-    quit: "Esci", quitAsk: "Uscire dal turno? Le lumicoins spese non tornano.", howMuch: "Quanto fa?",
-    reset: "Azzera", resetAsk: "Azzerare i progressi di questo giocatore? Nome e avatar restano.",
-    saveAnyway: "Salva così", emptyGallery: "Ancora niente qui. Scegli un disegno e colora!",
-    bicho: { voa: "Quale vola?", agua: "Quale vive nell'acqua?", fazenda: "Quale vive nella fattoria?",
-      ave: "Quale è un uccello?", mamifero: "Quale è un mammifero?", inseto: "Quale è un insetto?",
-      selva: "Quale vive nella giungla?", reptil: "Quale è un rettile?", ovos: "Quale depone le uova?",
-      peixe: "Quale è un pesce?", patas4: "Quale ha quattro zampe?", gelo: "Quale vive sul ghiaccio?",
-      anfibio: "Quale è un anfibio?", nao_mamifero: "Quale NON è un mammifero?",
-      nao_reptil: "Quale NON è un rettile?", nao_inseto: "Quale NON è un insetto?",
-      nao_ave: "Quale NON è un uccello?",
-      domestico: "Quale vive con le persone?", nao_domestico: "Quale NON vive con le persone?",
-      nao_voa: "Quale NON vola?", nao_agua: "Quale NON vive nell'acqua?",
-      nao_fazenda: "Quale NON vive nella fattoria?", nao_selva: "Quale NON vive nella giungla?",
-      nao_peixe: "Quale NON è un pesce?", nao_patas4: "Quale NON ha quattro zampe?",
-      nao_ovos: "Quale NON fa le uova?", nao_gelo: "Quale NON vive sul ghiaccio?",
-      nao_anfibio: "Quale NON è un anfibio?" },
-    generateMore: "Genera altri 9",
-    cores: { vermelho: "rosso", laranja: "arancione", amarelo: "giallo", verde: "verde", azul: "blu", roxo: "viola", marrom: "marrone", preto: "nero", branco: "bianco" },
-    formas: { circulo: "cerchio", quadrado: "quadrato", coracao: "cuore" },
-    artQ: { cor: "Quale è {x}?", forma: "Quale è il {x}?", ambos: "Quale è il {f} {c}?", nao: "Quale NON è {x}?" },
-    howSayIn: "Come si dice in {x}?", whichLang: "Quale lingua vuoi imparare?",
-    langHint: "Scarica altre lingue in 🌐 Lingua.",
-    whichCapital: "Qual è la capitale?", capBrasil: "Stati del Brasile", capEUA: "Stati degli USA",
-    curQ: { pais: "In quale paese troviamo {x}?", cidade: "In quale città troviamo {x}?", agua: "In quale mare o oceano troviamo {x}?", continente: "In quale continente troviamo {x}?" },
-    sciQ: { grupo: "A quale gruppo appartiene questo animale?", dieta: "Cosa mangia questo animale?", casa: "Dove vive questo animale?", nasce: "Come nasce il cucciolo di questo animale?", onde: "In quale continente vive questo animale in natura?" },
-    needTen: "Supera 10 livelli della regione precedente", claim: "Riscuoti", claimReady: "Lumicoins pronte!",
-    claimTitle: "Le tue lumicoins sono arrivate!",
-    needPrev: "Sblocca il gioco precedente",
-    players: "Chi gioca?", newPlayer: "Nuovo giocatore", switchPlayer: "Cambia giocatore",
-    language: "Lingua", use: "Usa",
-    deleteAsk: "Eliminare questo giocatore e tutti i suoi progressi?", cancel: "Annulla", del: "Elimina",
-    parents: "Area genitori", parentsInfo: "Niente pubblicità. Niente link esterni. Nessun dato raccolto. Funziona offline.",
-  },
-};
 
 /* Carrega um idioma. Ordem: já carregado → cache do aparelho → pacote
    embutido. Nunca deixa o app sem texto e nunca sai para a rede. */
@@ -770,61 +73,6 @@ function deviceLang() {
   } catch { return "en"; }
 }
 
-/* ---------- Dados: países por continente + tier de dificuldade ----------
-   tier 1 = muito conhecido ... 4 = raro.
-   Nomes vêm de Intl.DisplayNames → i18n automático em ~100 idiomas.        */
-const DATA = {
-  sa: { AR:1, BR:1, CL:1, UY:2, PY:2, BO:2, PE:2, EC:2, CO:1, VE:2, GY:4, SR:4 },
-  na: { US:1, CA:1, MX:1, CU:2, JM:2, HT:3, DO:3, GT:3, CR:2, PA:3, HN:3, NI:3, SV:3, BZ:4, BS:4, TT:4,
-        // ilhas do Caribe
-        AG:4, BB:4, DM:4, GD:4, KN:4, LC:4, VC:4, PR:3 },
-  eu: { PT:1, ES:1, FR:1, IT:1, DE:1, GB:1, IE:2, NL:2, BE:2, CH:2, AT:2, GR:2, SE:2, NO:2, FI:2, DK:2, PL:3, RU:1, UA:2, HU:3, CZ:3, RO:3, HR:3, IS:3, RS:4, BG:4, SK:4, SI:4, LT:4, LV:4, EE:4, AL:4, MT:4, LU:4,
-        CY:4, ME:4, MC:4, AD:4, SM:4 },
-  af: { ZA:1, EG:1, NG:2, KE:2, MA:2, AO:2, MZ:2, GH:2, ET:3, SN:3, CM:3, TZ:3, DZ:3, TN:3, CD:3, CI:3, ZW:4, NA:4, UG:4, ZM:4, ML:4, MG:3, BW:4, RW:4,
-        // ilhas africanas
-        CV:4, MU:4, SC:4, KM:4, ST:4 },
-  as: { CN:1, JP:1, IN:1, KR:1, TH:2, VN:2, ID:2, PH:2, MY:2, SG:2, SA:2, AE:2, IL:2, TR:2, PK:3, BD:3, NP:3, LK:3, IR:3, IQ:3, MN:4, KZ:4, UZ:4, KH:4, LA:4, MM:4, QA:4, JO:4, LB:4, SY:4, AF:4, BT:4,
-        // ilhas asiáticas
-        MV:4, BN:4, TL:4, BH:4 },
-  oc: { AU:1, NZ:1, FJ:3, PG:4, WS:4, TO:4, VU:4, SB:4,
-        KI:4, TV:4, NR:4, MH:4, FM:4, PW:4 },
-};
-
-/* Nível Gênio: bandeiras subnacionais (estados / regiões).
-   ATENÇÃO: o pacote flag-icons, de onde scripts/prepare-flags.mjs copia os SVGs,
-   só traz 7 subnacionais: gb-eng, gb-sct, gb-wls, gb-nir, es-ct, es-pv e es-ga.
-   Todos os us-* daqui, mais es-an, es-cn e es-ib, ficam sem arquivo e caem no
-   desenho de reserva do jogo. Para acender qualquer uma delas — inclusive
-   estados do Brasil, províncias do Canadá ou bandeiras de cidade — basta salvar
-   o SVG em public/flags/ com o mesmo código; nada é buscado na internet. */
-const SUBFLAGS = {
-  eu: [
-    { code: "gb-eng", pt: "Inglaterra", en: "England", es: "Inglaterra" },
-    { code: "gb-sct", pt: "Escócia", en: "Scotland", es: "Escocia" },
-    { code: "gb-wls", pt: "País de Gales", en: "Wales", es: "Gales" },
-    { code: "gb-nir", pt: "Irlanda do Norte", en: "Northern Ireland", es: "Irlanda del Norte" },
-    { code: "es-ct", pt: "Catalunha", en: "Catalonia", es: "Cataluña" },
-    { code: "es-pv", pt: "País Basco", en: "Basque Country", es: "País Vasco" },
-    { code: "es-ga", pt: "Galícia", en: "Galicia", es: "Galicia" },
-    { code: "es-an", pt: "Andaluzia", en: "Andalusia", es: "Andalucía" },
-    { code: "es-cn", pt: "Ilhas Canárias", en: "Canary Islands", es: "Islas Canarias" },
-    { code: "es-ib", pt: "Ilhas Baleares", en: "Balearic Islands", es: "Islas Baleares" },
-  ],
-  na: [
-    { code: "us-ca", pt: "Califórnia", en: "California", es: "California" },
-    { code: "us-tx", pt: "Texas", en: "Texas", es: "Texas" },
-    { code: "us-ny", pt: "Nova York", en: "New York", es: "Nueva York" },
-    { code: "us-fl", pt: "Flórida", en: "Florida", es: "Florida" },
-    { code: "us-ak", pt: "Alasca", en: "Alaska", es: "Alaska" },
-    { code: "us-hi", pt: "Havaí", en: "Hawaii", es: "Hawái" },
-    { code: "us-az", pt: "Arizona", en: "Arizona", es: "Arizona" },
-    { code: "us-nm", pt: "Novo México", en: "New Mexico", es: "Nuevo México" },
-    { code: "us-co", pt: "Colorado", en: "Colorado", es: "Colorado" },
-    { code: "us-md", pt: "Maryland", en: "Maryland", es: "Maryland" },
-    { code: "us-oh", pt: "Ohio", en: "Ohio", es: "Ohio" },
-    { code: "us-la", pt: "Luisiana", en: "Louisiana", es: "Luisiana" },
-  ],
-};
 
 /* Catálogo do hub: categorias e seus jogos.
    O campo leitura marca o jogo que só faz sentido para quem já lê — a
@@ -880,7 +128,6 @@ const jogosGratisPara = leitor =>
 const ehLeitor = perfil =>
   perfil?.leitor != null ? perfil.leitor : (perfil?.idade ?? 6) >= 5;
 const JOGOS_GRATIS = jogosGratisPara(true);
-
 
 
 /* Dentro de cada área os jogos abrem em ordem: o primeiro é livre e cada
@@ -1050,7 +297,6 @@ const SHOP_ITEMS = [
   { id: "p_rainbow", type: "shirtPattern", val: "rainbow", price: 7000, r: "lendario" },
   { id: "c_crown", type: "cap", val: "crown", price: 9000, r: "lendario" },
 ];
-
 
 
 /* ---------- Conquistas ----------
@@ -1392,8 +638,10 @@ function Mundi({ size = 72, bounce = true }) {
 }
 
 /* ---------- UI base ---------- */
-const Btn = ({ children, onClick, color = "#4C6FFF", disabled, full, small }) => (
-  <button onClick={onClick} disabled={disabled}
+/* rotulo vira aria-label: um botão cujo conteúdo é só "←" não tem nome nenhum
+   para um leitor de tela, e o adulto que usa VoiceOver ouve apenas "botão". */
+const Btn = ({ children, onClick, color = "#4C6FFF", disabled, full, small, rotulo }) => (
+  <button aria-label={rotulo} onClick={onClick} disabled={disabled}
     className={`chunky ${full ? "w-full" : ""}`}
     style={{
       background: disabled ? "#B9C0CC" : color,
@@ -1554,6 +802,10 @@ function AppInterno() {
   }
 
   const t = T[lang];
+
+  /* O <html lang> mandava sempre "pt-BR". Leitor de tela lê inglês com sotaque
+     português quando isso está errado, e o navegador oferece traduzir por cima. */
+  useEffect(() => { try { document.documentElement.lang = lang; } catch { } }, [lang]);
 
   /* ----- perfis: vários jogadores no mesmo aparelho -----
      Índice leve em "lumus:profiles" (id, nome, avatar) para desenhar a
@@ -2229,6 +1481,11 @@ function AppInterno() {
     .crossing{position:absolute;top:38%;font-size:56px;animation:cross 2.6s ease-in-out forwards}
     @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
     .shake{animation:shake .32s}
+    /* Quem navega por teclado precisa ver onde está. :focus-visible não
+       aparece para quem usa o dedo, então não atrapalha a criança. */
+    :focus-visible{outline:3px solid #F9A826;outline-offset:3px;border-radius:6px}
+    /* Sem isto, dois toques rápidos numa carta dão zoom em vez de virar. */
+    button,.chunky{touch-action:manipulation}
     @media (prefers-reduced-motion: reduce){.mundi-bob,.pop,.crossing,.shake{animation:none!important}}
 
     /* No celular tudo é uma coluna de 460 — é o formato certo para o polegar.
@@ -2377,7 +1634,7 @@ function AppInterno() {
               <div className="display" style={{ fontSize: 22, color: "#F9A826", marginBottom: 16 }}>🪙 {mem.reward}</div>
               <div style={{ display: "grid", gap: 9 }}>
                 <Btn full color="#4C6FFF" onClick={() => comecarMemoria(mem.nivel, mem.tema)} disabled={coins < custoDaMemoria(memBest, mem.tema, mem.nivel)}>{t.again}</Btn>
-                <Btn full color="#8B93AD" onClick={() => setScreen("memLevels")}>←</Btn>
+                <Btn full color="#8B93AD" onClick={() => setScreen("memLevels")} rotulo={t.a11yBack}>←</Btn>
               </div>
             </div>
           </div>
@@ -2858,7 +2115,7 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={onQuit}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={onQuit} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{t.levels[nivel]}</div>
         <div style={{ background: "rgba(255,255,255,.18)", color: "#fff", borderRadius: 999, padding: "6px 14px", fontWeight: 900 }}>
           ⏱️ {tempoFmt(seg)}
@@ -2894,6 +2151,7 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
           const casada = achadas.includes(i);
           return (
             <button key={i} onClick={() => tocar(i)} className="chunky"
+              aria-label={aberta ? undefined : t.a11yCard}
               style={{
                 aspectRatio: "1", borderRadius: 16, padding: 4, overflow: "hidden",
                 background: casada ? "#00B894" : aberta ? "#fff" : "#6A5AE0",
@@ -2953,7 +2211,7 @@ function EscolherDupla({ t, perfis, escolher, fechar }) {
         </button>
       </div>
       <div style={{ height: 10 }} />
-      <Btn full color="#8B93AD" onClick={fechar}>✕</Btn>
+      <Btn full color="#8B93AD" onClick={fechar} rotulo={t.a11yClose}>✕</Btn>
     </Modal>
   );
 }
@@ -2963,7 +2221,7 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{icone} {titulo}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
@@ -2976,7 +2234,7 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
             <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.duoWith} {dupla.name}</div>
             <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>⭐ {t.duoFree}</div>
           </div>
-          <Btn small color="#8B93AD" onClick={sairDaDupla}>✕</Btn>
+          <Btn small color="#8B93AD" onClick={sairDaDupla} rotulo={t.a11yClose}>✕</Btn>
         </div>
       ) : (
         <Btn full color="#00C2CB" onClick={pedirDupla}>👥 {t.duoPlay}</Btn>
@@ -3562,78 +2820,6 @@ function montarRodadaBiblia(stage, lang) {
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
-/* ---------- Capitais ----------
-   Começa pelos estados do Brasil, passa pelas capitais dos países continente
-   a continente, e termina nos estados dos Estados Unidos. Os nomes dos países
-   vêm do sistema; só as capitais precisam de grafia própria por idioma. */
-const BR_ESTADOS = [
-  ["Acre", "Rio Branco"],
-  ["Alagoas", "Maceió"],
-  ["Amapá", "Macapá"],
-  ["Amazonas", "Manaus"],
-  ["Bahia", "Salvador"],
-  ["Ceará", "Fortaleza"],
-  ["Distrito Federal", "Brasília"],
-  ["Espírito Santo", "Vitória"],
-  ["Goiás", "Goiânia"],
-  ["Maranhão", "São Luís"],
-  ["Mato Grosso", "Cuiabá"],
-  ["Mato Grosso do Sul", "Campo Grande"],
-  ["Minas Gerais", "Belo Horizonte"],
-  ["Pará", "Belém"],
-  ["Paraíba", "João Pessoa"],
-  ["Paraná", "Curitiba"],
-  ["Pernambuco", "Recife"],
-  ["Piauí", "Teresina"],
-  ["Rio de Janeiro", "Rio de Janeiro"],
-  ["Rio Grande do Norte", "Natal"],
-  ["Rio Grande do Sul", "Porto Alegre"],
-  ["Rondônia", "Porto Velho"],
-  ["Roraima", "Boa Vista"],
-  ["Santa Catarina", "Florianópolis"],
-  ["São Paulo", "São Paulo"],
-  ["Sergipe", "Aracaju"],
-  ["Tocantins", "Palmas"],
-];
-
-const US_ESTADOS = [
-  ["California", "Sacramento"],
-  ["Texas", "Austin"],
-  ["New York", "Albany"],
-  ["Florida", "Tallahassee"],
-  ["Illinois", "Springfield"],
-  ["Ohio", "Columbus"],
-  ["Georgia", "Atlanta"],
-  ["Michigan", "Lansing"],
-  ["Washington", "Olympia"],
-  ["Arizona", "Phoenix"],
-  ["Colorado", "Denver"],
-  ["Oregon", "Salem"],
-  ["Nevada", "Carson City"],
-  ["Utah", "Salt Lake City"],
-  ["Alaska", "Juneau"],
-  ["Hawaii", "Honolulu"],
-  ["Louisiana", "Baton Rouge"],
-  ["Tennessee", "Nashville"],
-  ["Kentucky", "Frankfort"],
-  ["Missouri", "Jefferson City"],
-  ["Kansas", "Topeka"],
-  ["Nebraska", "Lincoln"],
-  ["Minnesota", "Saint Paul"],
-  ["Wisconsin", "Madison"],
-  ["Indiana", "Indianapolis"],
-  ["Virginia", "Richmond"],
-  ["Maryland", "Annapolis"],
-  ["Massachusetts", "Boston"],
-  ["Pennsylvania", "Harrisburg"],
-  ["New Jersey", "Trenton"],
-];
-
-const CAPITAIS = { AR: "Buenos Aires", BR: "Brasília", CL: "Santiago", UY: "Montevideo", PY: "Asunción", BO: "Sucre", PE: "Lima", EC: "Quito", CO: "Bogotá", VE: "Caracas", GY: "Georgetown", SR: "Paramaribo", US: "Washington, D.C.", CA: "Ottawa", MX: "Mexico City", CU: "Havana", JM: "Kingston", HT: "Port-au-Prince", DO: "Santo Domingo", GT: "Guatemala City", CR: "San José", PA: "Panama City", HN: "Tegucigalpa", NI: "Managua", SV: "San Salvador", BZ: "Belmopan", BS: "Nassau", TT: "Port of Spain", AG: "Saint John's", BB: "Bridgetown", DM: "Roseau", GD: "Saint George's", KN: "Basseterre", LC: "Castries", VC: "Kingstown", PR: "San Juan", PT: "Lisbon", ES: "Madrid", FR: "Paris", IT: "Rome", DE: "Berlin", GB: "London", IE: "Dublin", NL: "Amsterdam", BE: "Brussels", CH: "Bern", AT: "Vienna", GR: "Athens", SE: "Stockholm", NO: "Oslo", FI: "Helsinki", DK: "Copenhagen", PL: "Warsaw", RU: "Moscow", UA: "Kyiv", HU: "Budapest", CZ: "Prague", RO: "Bucharest", HR: "Zagreb", IS: "Reykjavík", RS: "Belgrade", BG: "Sofia", SK: "Bratislava", SI: "Ljubljana", LT: "Vilnius", LV: "Riga", EE: "Tallinn", AL: "Tirana", MT: "Valletta", LU: "Luxembourg", CY: "Nicosia", ME: "Podgorica", MC: "Monaco", AD: "Andorra la Vella", SM: "San Marino", ZA: "Pretoria", EG: "Cairo", NG: "Abuja", KE: "Nairobi", MA: "Rabat", AO: "Luanda", MZ: "Maputo", GH: "Accra", ET: "Addis Ababa", SN: "Dakar", CM: "Yaoundé", TZ: "Dodoma", DZ: "Algiers", TN: "Tunis", CD: "Kinshasa", CI: "Yamoussoukro", ZW: "Harare", NA: "Windhoek", UG: "Kampala", ZM: "Lusaka", ML: "Bamako", MG: "Antananarivo", BW: "Gaborone", RW: "Kigali", CV: "Praia", MU: "Port Louis", SC: "Victoria", KM: "Moroni", ST: "São Tomé", CN: "Beijing", JP: "Tokyo", IN: "New Delhi", KR: "Seoul", TH: "Bangkok", VN: "Hanoi", ID: "Jakarta", PH: "Manila", MY: "Kuala Lumpur", SG: "Singapore", SA: "Riyadh", AE: "Abu Dhabi", IL: "Jerusalem", TR: "Ankara", PK: "Islamabad", BD: "Dhaka", NP: "Kathmandu", LK: "Sri Jayawardenepura Kotte", IR: "Tehran", IQ: "Baghdad", MN: "Ulaanbaatar", KZ: "Astana", UZ: "Tashkent", KH: "Phnom Penh", LA: "Vientiane", MM: "Naypyidaw", QA: "Doha", JO: "Amman", LB: "Beirut", SY: "Damascus", AF: "Kabul", BT: "Thimphu", MV: "Malé", BN: "Bandar Seri Begawan", TL: "Dili", BH: "Manama", AU: "Canberra", NZ: "Wellington", FJ: "Suva", PG: "Port Moresby", WS: "Apia", TO: "Nuku'alofa", VU: "Port Vila", SB: "Honiara", KI: "Tarawa", TV: "Funafuti", NR: "Yaren", MH: "Majuro", FM: "Palikir", PW: "Ngerulmud" };
-
-/* Só as capitais que mudam de grafia. O resto usa a forma canônica. */
-const CAP_PT = { MX: "Cidade do México", US: "Washington", HT: "Porto Príncipe", TT: "Porto de Espanha", PT: "Lisboa", IT: "Roma", GB: "Londres", BE: "Bruxelas", CH: "Berna", AT: "Viena", GR: "Atenas", SE: "Estocolmo", DK: "Copenhague", PL: "Varsóvia", RU: "Moscou", UA: "Kiev", CZ: "Praga", RO: "Bucareste", HR: "Zagreb", RS: "Belgrado", LU: "Luxemburgo", CY: "Nicósia", AD: "Andorra-a-Velha", MC: "Mônaco", EG: "Cairo", ET: "Adis Abeba", DZ: "Argel", CI: "Yamoussoukro", MU: "Port Louis", CN: "Pequim", JP: "Tóquio", IN: "Nova Délhi", KR: "Seul", VN: "Hanói", ID: "Jacarta", SA: "Riade", IL: "Jerusalém", NP: "Catmandu", IR: "Teerã", IQ: "Bagdá", MN: "Ulan Bator", KH: "Pnom Pene", LB: "Beirute", SY: "Damasco", MV: "Malé", SG: "Singapura", IS: "Reiquiavique", BO: "Sucre", UY: "Montevidéu", PY: "Assunção", CR: "San José", PA: "Cidade do Panamá", GT: "Cidade da Guatemala" };
-const CAP_ES = { US: "Washington", MX: "Ciudad de México", HT: "Puerto Príncipe", TT: "Puerto España", PT: "Lisboa", IT: "Roma", GB: "Londres", BE: "Bruselas", CH: "Berna", AT: "Viena", GR: "Atenas", SE: "Estocolmo", DK: "Copenhague", PL: "Varsovia", RU: "Moscú", UA: "Kiev", CZ: "Praga", RO: "Bucarest", RS: "Belgrado", LU: "Luxemburgo", CY: "Nicosia", AD: "Andorra la Vieja", MC: "Mónaco", EG: "El Cairo", ET: "Adís Abeba", DZ: "Argel", CN: "Pekín", JP: "Tokio", IN: "Nueva Delhi", KR: "Seúl", VN: "Hanói", ID: "Yakarta", SA: "Riad", IL: "Jerusalén", NP: "Katmandú", IR: "Teherán", IQ: "Bagdad", MN: "Ulán Bator", KH: "Nom Pen", LB: "Beirut", SY: "Damasco", SG: "Singapur", IS: "Reikiavik", PY: "Asunción", PA: "Ciudad de Panamá", GT: "Ciudad de Guatemala" };
 
 const capNome = (code, lang) =>
   (lang === "pt" && CAP_PT[code]) || (lang === "es" && CAP_ES[code]) || CAPITAIS[code];
@@ -3691,500 +2877,6 @@ const QUIZZES = {
   curiosidades: { icone: "🗺️", cor: "#00C2CB", nome: t => t.games.curiosidades, montar: (st, t, lang) => montarRodadaCuriosidades(st, t, lang) },
   ciencias:     { icone: "🔬", cor: "#6A5AE0", nome: t => t.games.sciAnimals,   montar: (st, t, lang) => montarRodadaCiencias(st, t, lang) },
 };
-
-/* ---------- Colorir ----------
-   Desenhos só de contorno: toca numa cor, toca numa área, pinta.
-   Nada de texto, nada de leitura — feito para quem ainda não lê. */
-const PALETA = [
-  "#E74C3C", "#FF7043", "#F9A826", "#FFE066", "#7BC950", "#00B894",
-  "#00C2CB", "#4C6FFF", "#6A5AE0", "#9B59B6", "#E84393", "#FF8FA3",
-  "#8D5524", "#C68642", "#2C3E50", "#95A5A6", "#FFFFFF", "#2b2b2b",
-];
-
-/* Cada área é uma peça pintável. t: c=círculo, e=elipse, r=retângulo, p=polígono, d=path */
-const DESENHOS = [
-  { id: "bd_tri_h", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 45 },
-      { t: "r", x: 0, y: 45, w: 200, h: 44 },
-      { t: "r", x: 0, y: 89, w: 200, h: 45 },
-    ] },
-  { id: "bd_tri_v", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 67, h: 134 },
-      { t: "r", x: 67, y: 0, w: 66, h: 134 },
-      { t: "r", x: 133, y: 0, w: 67, h: 134 },
-    ] },
-  { id: "bd_circ", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 134 },
-      { t: "c", cx: 100, cy: 67, r: 38 },
-    ] },
-  { id: "bd_cruz", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 134 },
-      { t: "r", x: 58, y: 0, w: 30, h: 134 },
-      { t: "r", x: 0, y: 52, w: 200, h: 30 },
-    ] },
-  { id: "bd_tringulo", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 67 },
-      { t: "r", x: 0, y: 67, w: 200, h: 67 },
-      { t: "p", pts: "0,0 78,67 0,134" },
-    ] },
-  { id: "bd_5faixas", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 27 },
-      { t: "r", x: 0, y: 27, w: 200, h: 27 },
-      { t: "r", x: 0, y: 54, w: 200, h: 26 },
-      { t: "r", x: 0, y: 80, w: 200, h: 27 },
-      { t: "r", x: 0, y: 107, w: 200, h: 27 },
-    ] },
-  { id: "bd_cantao", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 134 },
-      { t: "r", x: 0, y: 0, w: 86, h: 60 },
-      { t: "p", pts: "43.0,10.0 47.9,23.2 62.0,23.8 51.0,32.6 54.8,46.2 43.0,38.4 31.2,46.2 35.0,32.6 24.0,23.8 38.1,23.2" },
-    ] },
-  { id: "bd_lua", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 134 },
-      { t: "c", cx: 92, cy: 67, r: 34 },
-      { t: "c", cx: 106, cy: 60, r: 28 },
-      { t: "p", pts: "140.0,38.0 143.5,47.2 153.3,47.7 145.6,53.8 148.2,63.3 140.0,57.9 131.8,63.3 134.4,53.8 126.7,47.7 136.5,47.2" },
-    ] },
-  { id: "bd_losango", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 134 },
-      { t: "p", pts: "100,14 186,67 100,120 14,67" },
-      { t: "c", cx: 100, cy: 67, r: 26 },
-    ] },
-  { id: "bd_diagonal", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "p", pts: "0,0 200,0 0,134" },
-      { t: "p", pts: "200,0 200,134 0,134" },
-      { t: "c", cx: 100, cy: 67, r: 22 },
-    ] },
-  { id: "bd_sol", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 200, h: 134 },
-      { t: "c", cx: 100, cy: 67, r: 30 },
-      { t: "p", pts: "134.0,67.0 151.4,58.9 151.4,75.1" },
-      { t: "p", pts: "124.0,91.0 142.1,97.6 130.6,109.1" },
-      { t: "p", pts: "100.0,101.0 108.1,118.4 91.9,118.4" },
-      { t: "p", pts: "76.0,91.0 69.4,109.1 57.9,97.6" },
-      { t: "p", pts: "66.0,67.0 48.6,75.1 48.6,58.9" },
-      { t: "p", pts: "76.0,43.0 57.9,36.4 69.4,24.9" },
-      { t: "p", pts: "100.0,33.0 91.9,15.6 108.1,15.6" },
-      { t: "p", pts: "124.0,43.0 130.6,24.9 142.1,36.4" },
-    ] },
-  { id: "bd_quadro", emoji: "🏳️", cat: "flag", vb: "0 0 200 134", areas: [
-      { t: "r", x: 0, y: 0, w: 66, h: 134 },
-      { t: "r", x: 66, y: 0, w: 68, h: 134 },
-      { t: "r", x: 134, y: 0, w: 66, h: 134 },
-      { t: "r", x: 78, y: 45, w: 44, h: 44 },
-    ] },
-  { id: "gato", emoji: "🐱", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "p", pts: "58,58 66,20 92,44" },
-      { t: "p", pts: "142,58 134,20 108,44" },
-      { t: "e", cx: 100, cy: 78, rx: 46, ry: 40 },
-      { t: "e", cx: 100, cy: 148, rx: 40, ry: 38 },
-      { t: "d", d: "M138 160 q40 6 34 -34 q-2 -14 -14 -12 q-10 2 -6 14 q4 14 -14 20 z" },
-      { t: "c", cx: 84, cy: 74, r: 8 },
-      { t: "c", cx: 116, cy: 74, r: 8 },
-      { t: "e", cx: 100, cy: 92, rx: 7, ry: 5 },
-    ] },
-  { id: "peixe", emoji: "🐟", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 96, cy: 100, rx: 58, ry: 40 },
-      { t: "p", pts: "154,100 194,68 194,132" },
-      { t: "p", pts: "88,62 116,40 120,66" },
-      { t: "p", pts: "88,138 116,160 120,134" },
-      { t: "c", cx: 62, cy: 88, r: 9 },
-      { t: "c", cx: 30, cy: 50, r: 10 },
-      { t: "c", cx: 48, cy: 28, r: 7 },
-    ] },
-  { id: "borboleta", emoji: "🦋", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 60, cy: 70, rx: 38, ry: 32 },
-      { t: "e", cx: 140, cy: 70, rx: 38, ry: 32 },
-      { t: "e", cx: 66, cy: 130, rx: 32, ry: 28 },
-      { t: "e", cx: 134, cy: 130, rx: 32, ry: 28 },
-      { t: "e", cx: 100, cy: 100, rx: 11, ry: 52 },
-      { t: "c", cx: 100, cy: 44, r: 12 },
-    ] },
-  { id: "cachorro", emoji: "🐶", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 46, cy: 86, rx: 20, ry: 34 },
-      { t: "e", cx: 154, cy: 86, rx: 20, ry: 34 },
-      { t: "e", cx: 100, cy: 150, rx: 44, ry: 38 },
-      { t: "c", cx: 100, cy: 80, r: 40 },
-      { t: "e", cx: 100, cy: 104, rx: 24, ry: 18 },
-      { t: "c", cx: 100, cy: 96, r: 8 },
-      { t: "c", cx: 86, cy: 72, r: 7 },
-      { t: "c", cx: 114, cy: 72, r: 7 },
-    ] },
-  { id: "coelho", emoji: "🐰", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 78, cy: 44, rx: 13, ry: 36 },
-      { t: "e", cx: 122, cy: 44, rx: 13, ry: 36 },
-      { t: "e", cx: 100, cy: 150, rx: 42, ry: 40 },
-      { t: "c", cx: 100, cy: 98, r: 34 },
-      { t: "c", cx: 88, cy: 92, r: 7 },
-      { t: "c", cx: 112, cy: 92, r: 7 },
-      { t: "e", cx: 100, cy: 110, rx: 8, ry: 6 },
-      { t: "c", cx: 146, cy: 168, r: 14 },
-    ] },
-  { id: "tartaruga", emoji: "🐢", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 46, cy: 132, rx: 18, ry: 12 },
-      { t: "e", cx: 154, cy: 132, rx: 18, ry: 12 },
-      { t: "e", cx: 64, cy: 152, rx: 16, ry: 11 },
-      { t: "e", cx: 136, cy: 152, rx: 16, ry: 11 },
-      { t: "c", cx: 166, cy: 100, r: 18 },
-      { t: "e", cx: 100, cy: 110, rx: 58, ry: 44 },
-      { t: "c", cx: 100, cy: 100, r: 18 },
-      { t: "c", cx: 72, cy: 116, r: 13 },
-      { t: "c", cx: 128, cy: 116, r: 13 },
-      { t: "c", cx: 100, cy: 138, r: 13 },
-    ] },
-  { id: "caracol", emoji: "🐌", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "d", d: "M18 160 q10 -22 40 -22 h70 q10 0 10 10 q0 12 -12 12 h-108 z" },
-      { t: "c", cx: 120, cy: 110, r: 44 },
-      { t: "c", cx: 120, cy: 110, r: 28 },
-      { t: "c", cx: 120, cy: 110, r: 13 },
-      { t: "e", cx: 30, cy: 132, rx: 12, ry: 9 },
-      { t: "r", x: 24, y: 112, w: 5, h: 20 },
-      { t: "r", x: 40, y: 112, w: 5, h: 20 },
-      { t: "c", cx: 26, cy: 108, r: 6 },
-      { t: "c", cx: 42, cy: 108, r: 6 },
-    ] },
-  { id: "coruja", emoji: "🦉", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 48, cy: 110, rx: 22, ry: 32 },
-      { t: "e", cx: 152, cy: 110, rx: 22, ry: 32 },
-      { t: "e", cx: 100, cy: 110, rx: 50, ry: 58 },
-      { t: "c", cx: 78, cy: 92, r: 20 },
-      { t: "c", cx: 122, cy: 92, r: 20 },
-      { t: "c", cx: 78, cy: 92, r: 9 },
-      { t: "c", cx: 122, cy: 92, r: 9 },
-      { t: "p", pts: "100,104 90,120 110,120" },
-      { t: "p", pts: "74,168 62,186 88,182" },
-      { t: "p", pts: "126,168 138,186 112,182" },
-    ] },
-  { id: "elefante", emoji: "🐘", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 56, cy: 92, r: 30 },
-      { t: "e", cx: 112, cy: 110, rx: 52, ry: 46 },
-      { t: "d", d: "M62 118 q-10 40 8 56 q10 8 16 -4 q4 -10 -6 -14 q-8 -4 -4 -20 z" },
-      { t: "r", x: 84, y: 148, w: 16, h: 34 },
-      { t: "r", x: 124, y: 148, w: 16, h: 34 },
-      { t: "c", cx: 64, cy: 84, r: 7 },
-    ] },
-  { id: "abelha", emoji: "🐝", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 70, cy: 58, rx: 26, ry: 18 },
-      { t: "e", cx: 130, cy: 58, rx: 26, ry: 18 },
-      { t: "e", cx: 100, cy: 110, rx: 40, ry: 48 },
-      { t: "e", cx: 100, cy: 90, rx: 40, ry: 14 },
-      { t: "e", cx: 100, cy: 120, rx: 38, ry: 14 },
-      { t: "c", cx: 100, cy: 54, r: 20 },
-      { t: "r", x: 94, y: 20, w: 4, h: 18 },
-      { t: "r", x: 104, y: 20, w: 4, h: 18 },
-      { t: "c", cx: 94, cy: 18, r: 6 },
-      { t: "c", cx: 108, cy: 18, r: 6 },
-    ] },
-  { id: "joaninha", emoji: "🐞", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 100, cy: 62, r: 26 },
-      { t: "e", cx: 100, cy: 116, rx: 46, ry: 42 },
-      { t: "r", x: 97, y: 74, w: 6, h: 84 },
-      { t: "c", cx: 80, cy: 104, r: 9 },
-      { t: "c", cx: 122, cy: 104, r: 9 },
-      { t: "c", cx: 88, cy: 132, r: 8 },
-      { t: "c", cx: 116, cy: 132, r: 8 },
-      { t: "c", cx: 90, cy: 84, r: 5 },
-      { t: "c", cx: 88, cy: 54, r: 6 },
-      { t: "c", cx: 112, cy: 54, r: 6 },
-    ] },
-  { id: "sapo", emoji: "🐸", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 70, cy: 66, r: 20 },
-      { t: "c", cx: 130, cy: 66, r: 20 },
-      { t: "c", cx: 70, cy: 66, r: 8 },
-      { t: "c", cx: 130, cy: 66, r: 8 },
-      { t: "e", cx: 100, cy: 120, rx: 50, ry: 42 },
-      { t: "e", cx: 46, cy: 148, rx: 18, ry: 13 },
-      { t: "e", cx: 154, cy: 148, rx: 18, ry: 13 },
-      { t: "d", d: "M72 126 q28 22 56 0" },
-    ] },
-  { id: "pinguim", emoji: "🐧", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 52, cy: 116, rx: 16, ry: 28 },
-      { t: "e", cx: 148, cy: 116, rx: 16, ry: 28 },
-      { t: "e", cx: 100, cy: 116, rx: 44, ry: 52 },
-      { t: "e", cx: 100, cy: 124, rx: 28, ry: 38 },
-      { t: "c", cx: 100, cy: 62, r: 30 },
-      { t: "p", pts: "100,66 122,76 100,86" },
-      { t: "c", cx: 90, cy: 56, r: 6 },
-      { t: "c", cx: 110, cy: 56, r: 6 },
-      { t: "p", pts: "74,166 62,180 90,178" },
-      { t: "p", pts: "126,166 138,180 110,178" },
-    ] },
-  { id: "caranguejo", emoji: "🦀", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 44, cy: 96, r: 20 },
-      { t: "c", cx: 156, cy: 96, r: 20 },
-      { t: "e", cx: 100, cy: 120, rx: 52, ry: 34 },
-      { t: "c", cx: 78, cy: 106, r: 8 },
-      { t: "c", cx: 122, cy: 106, r: 8 },
-      { t: "r", x: 64, y: 140, w: 7, h: 26 },
-      { t: "r", x: 90, y: 146, w: 7, h: 26 },
-      { t: "r", x: 110, y: 146, w: 7, h: 26 },
-      { t: "r", x: 136, y: 140, w: 7, h: 26 },
-    ] },
-  { id: "ovelha", emoji: "🐑", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 72, cy: 108, r: 26 },
-      { t: "c", cx: 104, cy: 98, r: 28 },
-      { t: "c", cx: 136, cy: 110, r: 26 },
-      { t: "c", cx: 104, cy: 132, r: 26 },
-      { t: "e", cx: 150, cy: 88, rx: 22, ry: 20 },
-      { t: "e", cx: 128, cy: 80, rx: 12, ry: 9 },
-      { t: "c", cx: 146, cy: 84, r: 6 },
-      { t: "c", cx: 158, cy: 84, r: 6 },
-      { t: "r", x: 80, y: 150, w: 10, h: 26 },
-      { t: "r", x: 122, y: 150, w: 10, h: 26 },
-    ] },
-  { id: "pato", emoji: "🦆", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 96, cy: 126, rx: 48, ry: 34 },
-      { t: "c", cx: 126, cy: 80, r: 26 },
-      { t: "p", pts: "144,74 180,84 144,94" },
-      { t: "e", cx: 88, cy: 124, rx: 26, ry: 18 },
-      { t: "c", cx: 132, cy: 74, r: 6 },
-    ] },
-  { id: "cobra", emoji: "🐍", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 100, cy: 120, r: 52 },
-      { t: "c", cx: 100, cy: 120, r: 32 },
-      { t: "c", cx: 100, cy: 120, r: 14 },
-      { t: "e", cx: 150, cy: 60, rx: 26, ry: 20 },
-      { t: "c", cx: 142, cy: 54, r: 6 },
-      { t: "c", cx: 158, cy: 54, r: 6 },
-      { t: "p", pts: "164,66 186,72 164,78" },
-    ] },
-  { id: "leao", emoji: "🦁", cat: "animal", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 100, cy: 100, r: 54 },
-      { t: "c", cx: 100, cy: 100, r: 36 },
-      { t: "c", cx: 66, cy: 60, r: 15 },
-      { t: "c", cx: 134, cy: 60, r: 15 },
-      { t: "c", cx: 86, cy: 94, r: 7 },
-      { t: "c", cx: 114, cy: 94, r: 7 },
-      { t: "p", pts: "100,106 90,118 110,118" },
-      { t: "e", cx: 86, cy: 124, rx: 14, ry: 10 },
-      { t: "e", cx: 114, cy: 124, rx: 14, ry: 10 },
-    ] },
-  { id: "casa", emoji: "🏠", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 0, y: 150, w: 200, h: 50 },
-      { t: "p", pts: "100,30 180,90 20,90" },
-      { t: "r", x: 40, y: 90, w: 120, h: 60 },
-      { t: "r", x: 88, y: 110, w: 26, h: 40 },
-      { t: "r", x: 52, y: 102, w: 26, h: 24 },
-      { t: "r", x: 124, y: 102, w: 26, h: 24 },
-      { t: "c", cx: 168, cy: 32, r: 18 },
-    ] },
-  { id: "carro", emoji: "🚗", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 0, y: 154, w: 200, h: 46 },
-      { t: "d", d: "M20 130 q0 -30 26 -30 l10 -26 q4 -10 16 -10 h58 q12 0 16 10 l10 26 q26 0 26 30 v14 h-162 z" },
-      { t: "p", pts: "70,100 130,100 122,74 78,74" },
-      { t: "c", cx: 58, cy: 148, r: 20 },
-      { t: "c", cx: 142, cy: 148, r: 20 },
-    ] },
-  { id: "foguete", emoji: "🚀", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "d", d: "M100 16 q34 34 34 88 v34 h-68 v-34 q0 -54 34 -88 z" },
-      { t: "p", pts: "66,110 34,150 66,142" },
-      { t: "p", pts: "134,110 166,150 134,142" },
-      { t: "c", cx: 100, cy: 76, r: 18 },
-      { t: "d", d: "M80 138 h40 q-6 40 -20 52 q-14 -12 -20 -52 z" },
-    ] },
-  { id: "balao", emoji: "🎈", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 100, cy: 80, rx: 52, ry: 60 },
-      { t: "r", x: 78, y: 146, w: 44, h: 30 },
-      { t: "r", x: 80, y: 140, w: 6, h: 10 },
-      { t: "r", x: 114, y: 140, w: 6, h: 10 },
-      { t: "e", cx: 100, cy: 140, rx: 26, ry: 8 },
-    ] },
-  { id: "bola", emoji: "⚽", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 100, cy: 100, r: 56 },
-      { t: "p", pts: "100.0,78.0 106.5,91.1 120.9,93.2 110.5,103.4 112.9,117.8 100.0,111.0 87.1,117.8 89.5,103.4 79.1,93.2 93.5,91.1" },
-      { t: "c", cx: 64, cy: 72, r: 12 },
-      { t: "c", cx: 136, cy: 72, r: 12 },
-      { t: "c", cx: 64, cy: 132, r: 12 },
-      { t: "c", cx: 136, cy: 132, r: 12 },
-    ] },
-  { id: "sorvete", emoji: "🍦", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "p", pts: "100,190 68,110 132,110" },
-      { t: "c", cx: 78, cy: 96, r: 24 },
-      { t: "c", cx: 122, cy: 96, r: 24 },
-      { t: "c", cx: 100, cy: 72, r: 26 },
-      { t: "c", cx: 100, cy: 44, r: 10 },
-    ] },
-  { id: "bolo", emoji: "🎂", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 40, y: 140, w: 120, h: 44 },
-      { t: "r", x: 52, y: 110, w: 96, h: 30 },
-      { t: "r", x: 66, y: 84, w: 68, h: 26 },
-      { t: "r", x: 96, y: 52, w: 8, h: 32 },
-      { t: "e", cx: 100, cy: 46, rx: 8, ry: 11 },
-    ] },
-  { id: "presente", emoji: "🎁", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 38, y: 86, w: 124, h: 96 },
-      { t: "r", x: 30, y: 60, w: 140, h: 30 },
-      { t: "r", x: 90, y: 60, w: 20, h: 122 },
-      { t: "c", cx: 84, cy: 48, r: 16 },
-      { t: "c", cx: 116, cy: 48, r: 16 },
-    ] },
-  { id: "xicara", emoji: "☕", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "d", d: "M52 78 h96 l-12 76 q-2 14 -16 14 h-40 q-14 0 -16 -14 z" },
-      { t: "c", cx: 158, cy: 104, r: 20 },
-      { t: "e", cx: 100, cy: 178, rx: 58, ry: 12 },
-      { t: "d", d: "M84 34 q10 12 0 24" },
-      { t: "d", d: "M116 34 q10 12 0 24" },
-    ] },
-  { id: "guardachuva", emoji: "☂️", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "d", d: "M22 106 q0 -74 78 -74 q78 0 78 74 z" },
-      { t: "d", d: "M22 106 q16 -16 30 0 q14 -16 26 0 q12 -16 26 0 q14 -16 26 0 q14 -16 28 0 z" },
-      { t: "r", x: 96, y: 106, w: 8, h: 58 },
-      { t: "d", d: "M104 164 q0 22 -20 22 q-14 0 -14 -12" },
-    ] },
-  { id: "barco", emoji: "⛵", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 0, y: 158, w: 200, h: 42 },
-      { t: "d", d: "M28 130 h144 l-22 30 h-100 z" },
-      { t: "r", x: 96, y: 40, w: 8, h: 90 },
-      { t: "p", pts: "92,50 92,124 30,124" },
-      { t: "p", pts: "112,56 112,124 168,124" },
-    ] },
-  { id: "trem", emoji: "🚂", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 0, y: 160, w: 200, h: 40 },
-      { t: "r", x: 26, y: 96, w: 110, h: 64 },
-      { t: "r", x: 136, y: 60, w: 46, h: 100 },
-      { t: "r", x: 146, y: 26, w: 26, h: 34 },
-      { t: "c", cx: 56, cy: 166, r: 18 },
-      { t: "c", cx: 110, cy: 166, r: 18 },
-      { t: "c", cx: 158, cy: 166, r: 18 },
-      { t: "c", cx: 150, cy: 14, r: 14 },
-      { t: "c", cx: 176, cy: 10, r: 10 },
-    ] },
-  { id: "aviao", emoji: "✈️", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 100, cy: 100, rx: 26, ry: 74 },
-      { t: "p", pts: "100,90 190,124 100,124" },
-      { t: "p", pts: "100,90 10,124 100,124" },
-      { t: "p", pts: "100,160 140,182 100,182" },
-      { t: "p", pts: "100,160 60,182 100,182" },
-      { t: "c", cx: 100, cy: 50, r: 10 },
-    ] },
-  { id: "relogio", emoji: "⏰", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 100, cy: 106, r: 62 },
-      { t: "c", cx: 100, cy: 106, r: 50 },
-      { t: "r", x: 96, y: 66, w: 8, h: 44 },
-      { t: "r", x: 100, y: 102, w: 44, h: 8 },
-      { t: "c", cx: 100, cy: 106, r: 8 },
-      { t: "p", pts: "48,44 32,20 56,26" },
-      { t: "p", pts: "152,44 168,20 144,26" },
-    ] },
-  { id: "lapis", emoji: "✏️", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 76, y: 52, w: 48, h: 110 },
-      { t: "p", pts: "100,190 76,162 124,162" },
-      { t: "r", x: 76, y: 34, w: 48, h: 18 },
-      { t: "r", x: 76, y: 20, w: 48, h: 14 },
-      { t: "r", x: 76, y: 150, w: 48, h: 12 },
-    ] },
-  { id: "robo", emoji: "🤖", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 56, y: 56, w: 88, h: 66 },
-      { t: "c", cx: 84, cy: 84, r: 12 },
-      { t: "c", cx: 116, cy: 84, r: 12 },
-      { t: "r", x: 80, y: 104, w: 40, h: 8 },
-      { t: "r", x: 46, y: 130, w: 108, h: 52 },
-      { t: "r", x: 16, y: 138, w: 30, h: 14 },
-      { t: "r", x: 154, y: 138, w: 30, h: 14 },
-      { t: "r", x: 64, y: 182, w: 24, h: 18 },
-      { t: "r", x: 112, y: 182, w: 24, h: 18 },
-      { t: "r", x: 96, y: 26, w: 8, h: 30 },
-      { t: "c", cx: 100, cy: 20, r: 10 },
-    ] },
-  { id: "pipa", emoji: "🪁", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "p", pts: "100,14 158,84 100,84" },
-      { t: "p", pts: "100,14 42,84 100,84" },
-      { t: "p", pts: "42,84 100,84 100,154" },
-      { t: "p", pts: "158,84 100,84 100,154" },
-      { t: "c", cx: 100, cy: 170, r: 9 },
-      { t: "c", cx: 112, cy: 186, r: 8 },
-    ] },
-  { id: "arvore", emoji: "🌳", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 88, y: 132, w: 24, h: 60 },
-      { t: "c", cx: 100, cy: 80, r: 44 },
-      { t: "c", cx: 62, cy: 104, r: 30 },
-      { t: "c", cx: 138, cy: 104, r: 30 },
-      { t: "r", x: 0, y: 186, w: 200, h: 14 },
-    ] },
-  { id: "castelo", emoji: "🏰", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 30, y: 96, w: 140, h: 90 },
-      { t: "r", x: 14, y: 64, w: 40, h: 122 },
-      { t: "r", x: 146, y: 64, w: 40, h: 122 },
-      { t: "p", pts: "34,64 14,26 54,26" },
-      { t: "p", pts: "166,64 146,26 186,26" },
-      { t: "p", pts: "100,96 70,54 130,54" },
-      { t: "r", x: 84, y: 136, w: 32, h: 50 },
-      { t: "c", cx: 100, cy: 84, r: 10 },
-    ] },
-  { id: "flor", emoji: "🌸", cat: "obj", vb: "0 0 200 200", areas: [
-      { t: "r", x: 94, y: 100, w: 12, h: 84 },
-      { t: "c", cx: 100, cy: 44, r: 26 },
-      { t: "c", cx: 56, cy: 76, r: 26 },
-      { t: "c", cx: 144, cy: 76, r: 26 },
-      { t: "c", cx: 73, cy: 126, r: 26 },
-      { t: "c", cx: 127, cy: 126, r: 26 },
-      { t: "c", cx: 100, cy: 88, r: 24 },
-      { t: "e", cx: 72, cy: 146, rx: 24, ry: 12 },
-      { t: "e", cx: 128, cy: 162, rx: 24, ry: 12 },
-    ] },
-  { id: "solnuvem", emoji: "⛅", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 74, cy: 62, r: 34 },
-      { t: "c", cx: 96, cy: 130, r: 30 },
-      { t: "c", cx: 134, cy: 128, r: 24 },
-      { t: "c", cx: 62, cy: 138, r: 22 },
-      { t: "r", x: 56, y: 138, w: 96, h: 26 },
-    ] },
-  { id: "saturno", emoji: "🪐", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "e", cx: 100, cy: 104, rx: 74, ry: 20 },
-      { t: "c", cx: 100, cy: 100, r: 44 },
-      { t: "c", cx: 100, cy: 100, r: 26 },
-      { t: "p", pts: "30.0,24.0 33.0,31.9 41.4,32.3 34.8,37.6 37.1,45.7 30.0,41.0 22.9,45.7 25.2,37.6 18.6,32.3 27.0,31.9" },
-      { t: "p", pts: "172.0,34.0 174.5,40.6 181.5,40.9 176.0,45.3 177.9,52.1 172.0,48.2 166.1,52.1 168.0,45.3 162.5,40.9 169.5,40.6" },
-      { t: "p", pts: "160.0,159.0 162.2,164.9 168.6,165.2 163.6,169.2 165.3,175.3 160.0,171.8 154.7,175.3 156.4,169.2 151.4,165.2 157.8,164.9" },
-    ] },
-  { id: "lua", emoji: "🌙", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 88, cy: 96, r: 52 },
-      { t: "c", cx: 114, cy: 84, r: 44 },
-      { t: "p", pts: "160.0,134.0 163.5,143.2 173.3,143.7 165.6,149.8 168.2,159.3 160.0,153.9 151.8,159.3 154.4,149.8 146.7,143.7 156.5,143.2" },
-      { t: "p", pts: "40.0,153.0 42.7,160.3 50.5,160.6 44.4,165.4 46.5,172.9 40.0,168.6 33.5,172.9 35.6,165.4 29.5,160.6 37.3,160.3" },
-      { t: "p", pts: "170.0,34.0 172.5,40.6 179.5,40.9 174.0,45.3 175.9,52.1 170.0,48.2 164.1,52.1 166.0,45.3 160.5,40.9 167.5,40.6" },
-      { t: "p", pts: "36.0,33.0 38.2,38.9 44.6,39.2 39.6,43.2 41.3,49.3 36.0,45.8 30.7,49.3 32.4,43.2 27.4,39.2 33.8,38.9" },
-    ] },
-  { id: "terra", emoji: "🌍", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 100, cy: 100, r: 60 },
-      { t: "d", d: "M48 78 q28 -14 46 4 q14 16 -2 30 q-24 10 -40 -6 z" },
-      { t: "d", d: "M118 64 q30 6 34 30 q-14 16 -32 8 q-12 -18 -2 -38 z" },
-      { t: "d", d: "M112 126 q34 -6 44 10 q-16 22 -38 16 q-14 -12 -6 -26 z" },
-    ] },
-  { id: "astronauta", emoji: "👨‍🚀", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 100, cy: 68, r: 42 },
-      { t: "e", cx: 100, cy: 70, rx: 30, ry: 24 },
-      { t: "r", x: 64, y: 110, w: 72, h: 56 },
-      { t: "e", cx: 38, cy: 124, rx: 16, ry: 26 },
-      { t: "e", cx: 162, cy: 124, rx: 16, ry: 26 },
-      { t: "r", x: 72, y: 166, w: 24, h: 30 },
-      { t: "r", x: 104, y: 166, w: 24, h: 30 },
-      { t: "c", cx: 100, cy: 132, r: 10 },
-    ] },
-  { id: "estrela", emoji: "⭐", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "p", pts: "100.0,32.0 115.8,74.3 160.9,76.2 125.6,104.3 137.6,147.8 100.0,122.9 62.4,147.8 74.4,104.3 39.1,76.2 84.2,74.3" },
-      { t: "p", pts: "100.0,66.0 107.4,85.8 128.5,86.7 112.0,99.9 117.6,120.3 100.0,108.6 82.4,120.3 88.0,99.9 71.5,86.7 92.6,85.8" },
-      { t: "p", pts: "34.0,152.0 37.9,162.6 49.2,163.1 40.4,170.1 43.4,180.9 34.0,174.7 24.6,180.9 27.6,170.1 18.8,163.1 30.1,162.6" },
-      { t: "p", pts: "168.0,152.0 171.5,161.2 181.3,161.7 173.6,167.8 176.2,177.3 168.0,171.9 159.8,177.3 162.4,167.8 154.7,161.7 164.5,161.2" },
-    ] },
-  { id: "sistema", emoji: "🌌", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 20, cy: 100, r: 40 },
-      { t: "c", cx: 80, cy: 100, r: 14 },
-      { t: "c", cx: 116, cy: 100, r: 20 },
-      { t: "c", cx: 160, cy: 100, r: 16 },
-      { t: "c", cx: 186, cy: 64, r: 9 },
-      { t: "p", pts: "150.0,18.0 153.0,25.9 161.4,26.3 154.8,31.6 157.1,39.7 150.0,35.0 142.9,39.7 145.2,31.6 138.6,26.3 147.0,25.9" },
-      { t: "p", pts: "40.0,22.0 42.5,28.6 49.5,28.9 44.0,33.3 45.9,40.1 40.0,36.2 34.1,40.1 36.0,33.3 30.5,28.9 37.5,28.6" },
-    ] },
-  { id: "cometa", emoji: "☄️", cat: "space", vb: "0 0 200 200", areas: [
-      { t: "c", cx: 148, cy: 64, r: 28 },
-      { t: "p", pts: "120,64 30,146 40,90" },
-      { t: "p", pts: "128,84 46,166 96,150" },
-      { t: "p", pts: "46.0,21.0 49.2,29.6 58.4,30.0 51.2,35.7 53.6,44.5 46.0,39.5 38.4,44.5 40.8,35.7 33.6,30.0 42.8,29.6" },
-      { t: "p", pts: "176.0,139.0 178.7,146.3 186.5,146.6 180.4,151.4 182.5,158.9 176.0,154.6 169.5,158.9 171.6,151.4 165.5,146.6 173.3,146.3" },
-    ] },
-];
-
 
 
 /* ---------- Desenhos gerados ----------
@@ -4350,7 +3042,7 @@ function Coloring({ t, art, fillsIniciais, onSalvar, onSair, ganhouHoje }) {
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={onSair}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={onSair} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{art.emoji} {pintadas}/{total}</div>
         <Btn small color="#8B93AD" onClick={() => setFills({})}>🧽</Btn>
       </div>
@@ -4414,7 +3106,7 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🎨 {t.games.color}</div>
       </div>
 
@@ -4469,7 +3161,7 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
 
       {paginas > 1 && (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 12 }}>
-          <Btn small color={p === 0 ? "#8B93AD" : "#4C6FFF"} disabled={p === 0} onClick={() => setPag(p - 1)}>◀</Btn>
+          <Btn small color={p === 0 ? "#8B93AD" : "#4C6FFF"} disabled={p === 0} onClick={() => setPag(p - 1)} rotulo={t.a11yPrev}>◀</Btn>
           <div style={{ display: "flex", gap: 5 }}>
             {Array.from({ length: paginas }).map((_, k) => (
               <button key={k} onClick={() => setPag(k)} aria-label={`${k + 1}`}
@@ -4479,7 +3171,7 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
                 }} />
             ))}
           </div>
-          <Btn small color={p >= paginas - 1 ? "#8B93AD" : "#4C6FFF"} disabled={p >= paginas - 1} onClick={() => setPag(p + 1)}>▶</Btn>
+          <Btn small color={p >= paginas - 1 ? "#8B93AD" : "#4C6FFF"} disabled={p >= paginas - 1} onClick={() => setPag(p + 1)} rotulo={t.a11yNext}>▶</Btn>
         </div>
       )}
       <div style={{ textAlign: "center", color: "#A7B3EA", fontSize: 11, fontWeight: 800, marginTop: 8 }}>
@@ -4584,7 +3276,7 @@ function LangScreen({ t, lang, pickLang, setScreen, back }) {
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(back)}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(back)} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 24 }}>🌐 {t.language}</div>
       </div>
       <div style={{ display: "grid", gap: 8 }}>
@@ -4706,7 +3398,7 @@ function PlacarDupla({ t, eu, outro, pontos, vencedor, reward, rodape, aoRepetir
 
         <div style={{ display: "grid", gap: 9 }}>
           <Btn full color="#4C6FFF" onClick={aoRepetir}>{t.again}</Btn>
-          <Btn full color="#8B93AD" onClick={aoSair}>←</Btn>
+          <Btn full color="#8B93AD" onClick={aoSair} rotulo={t.a11yBack}>←</Btn>
         </div>
       </div>
     </div>
@@ -4729,7 +3421,7 @@ function EscreverScreen({ t, lang, rascunho, salvar, cancelar }) {
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={cancelar}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={cancelar} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 20, flex: 1 }}>📔 {t.notebook}</div>
       </div>
 
@@ -4829,7 +3521,7 @@ function CadernoScreen({ t, lang, caderno, setScreen, novo, voltar }) {
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltar)}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltar)} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 20, flex: 1 }}>📔 {t.notebook}</div>
         {caderno.length > 0 && (
           <div style={{ background: "rgba(255,255,255,.2)", color: "#fff", borderRadius: 999,
@@ -4857,9 +3549,9 @@ function CadernoScreen({ t, lang, caderno, setScreen, novo, voltar }) {
 
       {paginas > 1 && (
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12 }}>
-          <Btn small color={p === 0 ? "rgba(255,255,255,.12)" : "#4C6FFF"} disabled={p === 0} onClick={() => setPag(p - 1)}>◀</Btn>
+          <Btn small color={p === 0 ? "rgba(255,255,255,.12)" : "#4C6FFF"} disabled={p === 0} onClick={() => setPag(p - 1)} rotulo={t.a11yPrev}>◀</Btn>
           <div style={{ flex: 1, textAlign: "center", color: "#C9D2FF", fontWeight: 900, fontSize: 12 }}>{p + 1} / {paginas}</div>
-          <Btn small color={p >= paginas - 1 ? "rgba(255,255,255,.12)" : "#4C6FFF"} disabled={p >= paginas - 1} onClick={() => setPag(p + 1)}>▶</Btn>
+          <Btn small color={p >= paginas - 1 ? "rgba(255,255,255,.12)" : "#4C6FFF"} disabled={p >= paginas - 1} onClick={() => setPag(p + 1)} rotulo={t.a11yNext}>▶</Btn>
         </div>
       )}
       <div style={{ height: 20 }} />
@@ -4879,7 +3571,7 @@ function DevocionalScreen({ t, lang, momento, marcarMomento, feitoHoje, setScree
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltar)}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltar)} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 20, flex: 1 }}>🕊️ {t.momentTitle}</div>
         {momento.sequencia > 0 && (
           <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900, fontSize: 13 }}>
@@ -5062,14 +3754,14 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
       <div style={{ background: "#EEF1FF", borderRadius: 16, padding: 10, marginBottom: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
           <Btn small color={qual === 0 ? "#C7CEE0" : "#4C6FFF"} disabled={qual === 0}
-            onClick={() => setQual(q => q - 1)}>◀</Btn>
+            onClick={() => setQual(q => q - 1)} rotulo={t.a11yPrev}>◀</Btn>
           <div style={{ flex: 1, textAlign: "center" }}>
             <div className="display" style={{ color: "#1B2A6B", fontSize: 14 }}>
               {chave === atual ? t.thisWeek : t.week} {intervaloDaSemana(chave, lang)}
             </div>
           </div>
           <Btn small color={qual >= chaves.length - 1 ? "#C7CEE0" : "#4C6FFF"} disabled={qual >= chaves.length - 1}
-            onClick={() => setQual(q => q + 1)}>▶</Btn>
+            onClick={() => setQual(q => q + 1)} rotulo={t.a11yNext}>▶</Btn>
         </div>
 
         {vazia ? (
@@ -5215,7 +3907,7 @@ function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momen
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("profiles")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("profiles")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 22, flex: 1 }}>👨‍👩‍👧 {t.family}</div>
       </div>
       <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 12, marginBottom: 12 }}>{t.familyHint}</div>
@@ -5269,7 +3961,7 @@ function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 22, flex: 1 }}>{t.profileTitle}</div>
       </div>
 
@@ -5376,7 +4068,7 @@ function CapMap({ t, lang, progress, coins, setSel, setScreen, temSecao, comprar
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🏛️ {t.games.capitals}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
@@ -5423,7 +4115,7 @@ function LangGame({ t, lang, escolher, setScreen }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🔤 {t.whichLang}</div>
       </div>
       <div className="lista">
@@ -5549,7 +4241,7 @@ function MapScreen({ t, lang, player, coins, nextRefill, unlocked, progress, unl
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🚩 {t.games.flags}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
@@ -5641,7 +4333,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(sel.cont.startsWith("cap_") ? "capMap" : quiz ? "home" : "map")}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(sel.cont.startsWith("cap_") ? "capMap" : quiz ? "home" : "map")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{quiz
             ? `${quiz.icone} ${quiz.nome(t)}${alvoDe(sel.cont) ? ` · ${LANG_CATALOG[alvoDe(sel.cont)]}` : ""}${
                 sel.cont.startsWith("cap_")
@@ -5698,7 +4390,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
         {paginas > 1 && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12 }}>
             <Btn small color={pag === 0 ? "#C7CEE0" : "#4C6FFF"} disabled={pag === 0}
-              onClick={() => setPag(pag - 1)}>◀</Btn>
+              onClick={() => setPag(pag - 1)} rotulo={t.a11yPrev}>◀</Btn>
             <div style={{ flex: 1, textAlign: "center" }}>
               <div className="display" style={{ color: "#1B2A6B", fontSize: 15 }}>
                 {t.stage} {p0 + 1}–{p0 + fasesDaPagina.length}
@@ -5749,7 +4441,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
               <div className="display" style={{ color: "#1B2A6B", fontSize: 15 }}>{t.duoWith} {dupla.name}</div>
               <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>{t.duoTakeTurns}</div>
             </div>
-            <Btn small color="#8B93AD" onClick={sairDaDupla}>✕</Btn>
+            <Btn small color="#8B93AD" onClick={sairDaDupla} rotulo={t.a11yClose}>✕</Btn>
           </div>
           <Btn full color="#00C2CB" disabled={!bandaAberta(band)} onClick={() => startRound(dupla)}>
             👥 {t.stage} {sel.stage} · {t.levels[band]}
@@ -6089,7 +4781,7 @@ function Shop({ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, se
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltaPara)}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltaPara)} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 24, flex: 1 }}>🛍️ {t.shop}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
@@ -6144,7 +4836,7 @@ function Awards({ t, lang, stats, seenAch, setScreen, player, voltaPara = "home"
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltaPara)}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltaPara)} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 24 }}>🏅 {t.awards}</div>
       </div>
       <div className="card" style={{ padding: 14, marginBottom: 12, maxWidth: 520, marginLeft: "auto", marginRight: "auto", display: "flex", justifyContent: "space-around", textAlign: "center" }}>

@@ -23,9 +23,9 @@ if (!existsSync(origem)) {
   process.exit(1);
 }
 
-/* Os códigos vivem em src/App.jsx: DATA (países) e SUBFLAGS (estados e regiões).
+/* Os códigos vivem em src/data/geografia.js: DATA (países) e SUBFLAGS (estados e regiões).
    Lemos de lá para não manter duas listas que podem divergir. */
-const fonte = readFileSync(join(raiz, "src", "App.jsx"), "utf8");
+const fonte = readFileSync(join(raiz, "src", "data", "geografia.js"), "utf8");
 
 const bloco = (nome) => {
   const i = fonte.indexOf(`const ${nome} = {`);
@@ -43,7 +43,7 @@ const regioes = [...bloco("SUBFLAGS").matchAll(/code:\s*"([a-z]{2}-[a-z]{2,3})"/
 const codigos = [...new Set([...paises, ...regioes])].sort();
 
 if (!codigos.length) {
-  console.error("\n✗ Nenhum código encontrado em src/App.jsx. O formato de DATA mudou?\n");
+  console.error("\n✗ Nenhum código encontrado em src/data/geografia.js. O formato de DATA mudou?\n");
   process.exit(1);
 }
 
