@@ -7,6 +7,7 @@ import { bancoBiblia } from "./data/biblia.js";
 import { CURIOSIDADES, CURIOSIDADE_NIVEL, AGUAS } from "./data/curiosidades.js";
 import { perguntasCiencia, CIENCIA_NIVEL, GRUPOS, DIETAS, CASAS, NASCE } from "./data/ciencias.js";
 import { versoDoDia } from "./data/versos.js";
+import { devocionalDoDia } from "./data/devocional.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -59,6 +60,11 @@ const T = {
     giftWeek: "Presente da semana", giveGift: "Presentear",
     painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
     thisWeek: "Esta semana ·", week: "Semana de", allTime: "No total",
+    momentTitle: "Momento em Família", principle: "PRINCÍPIO DA SEMANA",
+    talkAbout: "PARA CONVERSAR", todayDo: "HOJE, VAMOS", momentMark: "Fizemos juntos",
+    momentDone: "Feito hoje, juntos", momentCount: "Momentos em família: {n}",
+    momentInvite: "Um versículo curto por dia, uma pergunta para conversar e uma pequena atitude — para fazer junto com as crianças, em poucos minutos. Sua família quer isso no Lumus?",
+    momentYes: "Queremos", momentNo: "Agora não", momentTurnOn: "Ativar",
     bonusTitle: "Bônus de mérito!", bonusOk: "Oba!",
     bonusFrom: "{quem} viu o seu esforço e te deu um presente:",
     bonusCheers: "Parabéns! Continue assim.",
@@ -182,6 +188,11 @@ const T = {
     giftWeek: "This week's gift", giveGift: "Give a gift",
     painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
     thisWeek: "This week ·", week: "Week of", allTime: "All time",
+    momentTitle: "Family Moment", principle: "PRINCIPLE OF THE WEEK",
+    talkAbout: "TO TALK ABOUT", todayDo: "TODAY, LET'S", momentMark: "We did it together",
+    momentDone: "Done today, together", momentCount: "Family moments: {n}",
+    momentInvite: "A short verse each day, a question to talk about and one small action — to do together with the children, in a few minutes. Would your family like this in Lumus?",
+    momentYes: "Yes, we would", momentNo: "Not now", momentTurnOn: "Turn on",
     bonusTitle: "Merit bonus!", bonusOk: "Yay!",
     bonusFrom: "{quem} saw how hard you worked and gave you a gift:",
     bonusCheers: "Well done! Keep it up.",
@@ -281,6 +292,11 @@ const T = {
     giftWeek: "Regalo de la semana", giveGift: "Regalar",
     painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
     thisWeek: "Esta semana ·", week: "Semana del", allTime: "En total",
+    momentTitle: "Momento en Familia", principle: "PRINCIPIO DE LA SEMANA",
+    talkAbout: "PARA CONVERSAR", todayDo: "HOY, VAMOS A", momentMark: "Lo hicimos juntos",
+    momentDone: "Hecho hoy, juntos", momentCount: "Momentos en familia: {n}",
+    momentInvite: "Un versículo corto cada día, una pregunta para conversar y una pequeña acción — para hacer junto con los niños, en pocos minutos. ¿Su familia quiere esto en Lumus?",
+    momentYes: "Sí, queremos", momentNo: "Ahora no", momentTurnOn: "Activar",
     bonusTitle: "¡Bono de mérito!", bonusOk: "¡Bien!",
     bonusFrom: "{quem} vio tu esfuerzo y te dio un regalo:",
     bonusCheers: "¡Felicidades! Sigue así.",
@@ -394,6 +410,11 @@ const PACKS = {
     giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
     painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
     thisWeek: "Cette semaine ·", week: "Semaine du", allTime: "Au total",
+    momentTitle: "Moment en Famille", principle: "PRINCIPE DE LA SEMAINE",
+    talkAbout: "POUR EN PARLER", todayDo: "AUJOURD'HUI, FAISONS", momentMark: "Nous l'avons fait ensemble",
+    momentDone: "Fait aujourd'hui, ensemble", momentCount: "Moments en famille : {n}",
+    momentInvite: "Un verset court chaque jour, une question pour discuter et un petit geste — à faire avec les enfants, en quelques minutes. Votre famille souhaite-t-elle cela dans Lumus ?",
+    momentYes: "Oui, nous voulons", momentNo: "Pas maintenant", momentTurnOn: "Activer",
     bonusTitle: "Bonus de mérite !", bonusOk: "Super !",
     bonusFrom: "{quem} a vu tes efforts et t'a fait un cadeau :",
     bonusCheers: "Bravo ! Continue comme ça.",
@@ -486,6 +507,11 @@ const PACKS = {
     giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
     painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
     thisWeek: "Diese Woche ·", week: "Woche vom", allTime: "Insgesamt",
+    momentTitle: "Familienmoment", principle: "PRINZIP DER WOCHE",
+    talkAbout: "ZUM REDEN", todayDo: "HEUTE WOLLEN WIR", momentMark: "Wir haben es zusammen gemacht",
+    momentDone: "Heute gemeinsam gemacht", momentCount: "Familienmomente: {n}",
+    momentInvite: "Jeden Tag ein kurzer Vers, eine Frage zum Reden und eine kleine Tat — zusammen mit den Kindern, in wenigen Minuten. Möchte eure Familie das in Lumus?",
+    momentYes: "Ja, gerne", momentNo: "Jetzt nicht", momentTurnOn: "Einschalten",
     bonusTitle: "Bonus für deinen Einsatz!", bonusOk: "Juhu!",
     bonusFrom: "{quem} hat deinen Einsatz gesehen und dir etwas geschenkt:",
     bonusCheers: "Gut gemacht! Weiter so.",
@@ -578,6 +604,11 @@ const PACKS = {
     giftWeek: "Regalo della settimana", giveGift: "Regalare",
     painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
     thisWeek: "Questa settimana ·", week: "Settimana del", allTime: "In totale",
+    momentTitle: "Momento in Famiglia", principle: "PRINCIPIO DELLA SETTIMANA",
+    talkAbout: "DI CUI PARLARE", todayDo: "OGGI, FACCIAMO", momentMark: "L'abbiamo fatto insieme",
+    momentDone: "Fatto oggi, insieme", momentCount: "Momenti in famiglia: {n}",
+    momentInvite: "Un versetto breve ogni giorno, una domanda di cui parlare e un piccolo gesto — da fare insieme ai bambini, in pochi minuti. La vostra famiglia lo vuole in Lumus?",
+    momentYes: "Sì, lo vogliamo", momentNo: "Non ora", momentTurnOn: "Attiva",
     bonusTitle: "Bonus di merito!", bonusOk: "Evviva!",
     bonusFrom: "{quem} ha visto il tuo impegno e ti ha fatto un regalo:",
     bonusCheers: "Bravo! Continua così.",
@@ -1061,6 +1092,10 @@ const ACHIEVEMENTS = [
   /* --- dedicação --- */
   { id: "day3", cat: "habit", n: 1, icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
   { id: "day7", cat: "habit", n: 2, icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
+  { id: "moment1", cat: "habit", n: 1, icon: "🕊️", pt: "Primeiro Momento em Família", en: "First Family Moment", es: "Primer Momento en Familia", test: s => s.momentos >= 1 },
+  { id: "moment7", cat: "habit", n: 2, icon: "📖", pt: "7 Momentos em Família", en: "7 Family Moments", es: "7 Momentos en Familia", test: s => s.momentos >= 7 },
+  { id: "moment30", cat: "habit", n: 3, icon: "💚", pt: "30 Momentos em Família", en: "30 Family Moments", es: "30 Momentos en Familia", test: s => s.momentos >= 30 },
+  { id: "moment100", cat: "habit", n: 4, icon: "🏛️", pt: "100 Momentos em Família", en: "100 Family Moments", es: "100 Momentos en Familia", test: s => s.momentos >= 100 },
   { id: "day30", cat: "habit", n: 4, icon: "🏵️", pt: "30 dias seguidos jogando", en: "30 days in a row", es: "30 días seguidos", test: s => s.dayStreak >= 30 },
 ];
 
@@ -1367,7 +1402,7 @@ function AppInterno() {
     noHintRounds: 0, geniusCleared: 0, continents: 1,
     flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
     contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
   });
   const [seenAch, setSeenAch] = useState([]);
   const [toast, setToast] = useState(null);
@@ -1388,6 +1423,15 @@ function AppInterno() {
   const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
   const [destinoIdioma, setDestinoIdioma] = useState("quiz"); // quiz ou memória
   const [editando, setEditando] = useState(false);            // criando ou editando ficha
+
+  /* ----- Momento em Família -----
+     Isto não é do jogador, é do lar: o devocional é feito junto, uma vez por
+     dia, por quem estiver ali. Por isso mora em "lumus:familia", fora dos
+     saves de cada perfil, e a sequência é da família inteira.
+
+     fe: null = ninguém escolheu ainda · true = a família quer · false = não. */
+  const [momento, setMomento] = useState({ fe: null, ultimoDia: "", sequencia: 0, feitos: 0 });
+  const momentoFeitoHoje = momento.ultimoDia === diaISO();
   /* {semana, restante} — quanto ainda há para presentear nesta semana. */
   const [presente, setPresente] = useState({ semana: semanaAtual(), restante: ECON.presenteSemanal });
   /* { "2026-08-30": {rodadas, certas, estrelas, desenhos, memorias, lumicoins} } */
@@ -1411,6 +1455,21 @@ function AppInterno() {
     });
   }
 
+  /* Feito hoje. A sequência quebra se pular um dia — não é castigo, é o que
+     faz existir o "não vamos perder hoje", que é o ponto do hábito. */
+  function marcarMomento() {
+    if (momentoFeitoHoje) return;
+    const hoje = diaISO(), ontem = diaISO(new Date(Date.now() - 864e5));
+    setMomento(m => ({
+      ...m, fe: true, ultimoDia: hoje, feitos: (m.feitos || 0) + 1,
+      sequencia: m.ultimoDia === ontem ? (m.sequencia || 0) + 1 : 1,
+    }));
+    // Quem estava ali leva o crédito no próprio perfil. De propósito não há
+    // lumicoin nenhuma aqui: fé neste app não se troca por moeda.
+    if (activeId) setStats(x => ({ ...x, momentos: (x.momentos || 0) + 1 }));
+    registrarSemana({ momentos: 1 });
+  }
+
   const t = T[lang];
 
   /* ----- perfis: vários jogadores no mesmo aparelho -----
@@ -1429,7 +1488,7 @@ function AppInterno() {
       noHintRounds: 0, geniusCleared: 0, continents: 1,
       flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
       contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
     },
   });
 
@@ -1503,9 +1562,19 @@ function AppInterno() {
         try { const v = await window.storage.get("lumus:installTip"); visto = !!v?.value; } catch { }
         if (!visto) setInstallTip(true);
       }
+      try {
+        const f = await window.storage.get("lumus:familia");
+        if (f?.value) setMomento(m => ({ ...m, ...JSON.parse(f.value) }));
+      } catch { }
       setLoaded(true);
     })();
   }, []);
+
+  /* O lar tem um arquivo só, fora dos perfis: irmão não reinicia a sequência. */
+  useEffect(() => {
+    if (!loaded) return;
+    try { window.storage.set("lumus:familia", JSON.stringify(momento)); } catch { }
+  }, [loaded, momento]);
 
   /* ----- memória ----- */
   function comecarMemoria(nivel, tema = memTema) {
@@ -2108,10 +2177,13 @@ function AppInterno() {
             </div>
           </div>
         )}
-        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear }} />}
+        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje }} />}
+        {screen === "devocional" && <DevocionalScreen {...{ t, lang, momento, marcarMomento, feitoHoje: momentoFeitoHoje, setScreen,
+          voltar: player.papel === "pai" ? "familia" : "home" }} />}
         {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
-        {screen === "home" && <Home {...{ t, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
+        {screen === "home" && <Home {...{ t, lang, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
+          momento, setMomento, momentoFeitoHoje,
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
             const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
@@ -2478,7 +2550,12 @@ function intervaloDaSemana(chave, lang) {
 /* Quantas semanas de histórico ficam guardadas por criança. Três meses é o
    que um adulto olha para trás; mais que isso é entulho no aparelho. */
 const SEMANAS_GUARDADAS = 12;
-const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, lumicoins: 0 };
+/* Dia local em "AAAA-MM-DD". toISOString não serve: em UTC-3 ele já vira o dia
+   seguinte às 21h, e o devocional feito à noite contaria como o de amanhã. */
+const diaISO = (d = new Date()) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, momentos: 0, lumicoins: 0 };
 
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
@@ -4271,6 +4348,124 @@ function PinModal({ t, titulo, onOk, onCancelar, erro }) {
   );
 }
 
+/* ---------- Momento em Família ----------
+   O devocional do dia, para ser lido junto: um versículo, uma pergunta para
+   conversar e uma pequena atitude para hoje.
+
+   Não existe resposta certa aqui, e é de propósito. O resto do app mede
+   acerto; este pedaço mede presença. */
+function DevocionalScreen({ t, lang, momento, marcarMomento, feitoHoje, setScreen, voltar }) {
+  const { principio, dia } = devocionalDoDia();
+  const txt = o => o[lang] || o.en;
+  return (
+    <div className="narrow">
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltar)}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 20, flex: 1 }}>🕊️ {t.momentTitle}</div>
+        {momento.sequencia > 0 && (
+          <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900, fontSize: 13 }}>
+            🔥 {momento.sequencia}
+          </div>
+        )}
+      </div>
+
+      <div className="card" style={{ padding: 18, marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <div style={{ width: 46, height: 46, borderRadius: 16, background: principio.cor, display: "grid", placeItems: "center", fontSize: 24 }}>
+            {principio.icone}
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, letterSpacing: 1 }}>{t.principle}</div>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 20, lineHeight: 1.1 }}>{txt(principio)}</div>
+          </div>
+        </div>
+        <div className="display" style={{ color: "#1B2A6B", fontSize: 19, lineHeight: 1.45 }}>“{txt(dia.v)}”</div>
+        <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 12, marginTop: 6 }}>{txt(dia.ref)}</div>
+      </div>
+
+      <div className="card" style={{ padding: 16, marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+          <Mundi size={44} bounce={false} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, letterSpacing: 1, marginBottom: 3 }}>{t.talkAbout}</div>
+            <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 15, lineHeight: 1.5 }}>{txt(dia.q)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="card" style={{ padding: 16, marginBottom: 12, borderLeft: `8px solid ${principio.cor}` }}>
+        <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, letterSpacing: 1, marginBottom: 3 }}>{t.todayDo}</div>
+        <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 15, lineHeight: 1.5 }}>{txt(dia.a)}</div>
+      </div>
+
+      {feitoHoje ? (
+        <div className="card" style={{ padding: 16, textAlign: "center" }}>
+          <div style={{ fontSize: 32 }}>💚</div>
+          <div className="display" style={{ color: "#00B894", fontSize: 18, marginTop: 4 }}>{t.momentDone}</div>
+          <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 12, marginTop: 4 }}>
+            {t.momentCount.replace("{n}", momento.feitos || 0)}
+          </div>
+        </div>
+      ) : (
+        <Btn full color="#00B894" onClick={marcarMomento}>✓ {t.momentMark}</Btn>
+      )}
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+
+/* O atalho quando a família já disse que quer, e o convite quando ninguém
+   escolheu ainda. Um dos dois, nunca os dois. */
+function CartaoMomento({ t, lang, momento, feitoHoje, setMomento, abrir, responsavel }) {
+  const { principio } = devocionalDoDia();
+
+  if (momento.fe == null) return (
+    <div className="card" style={{ padding: 16, marginBottom: 14 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+        <div style={{ fontSize: 26 }}>🕊️</div>
+        <div className="display" style={{ color: "#1B2A6B", fontSize: 17, flex: 1 }}>{t.momentTitle}</div>
+      </div>
+      <div style={{ color: "#3B4468", fontWeight: 700, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}>{t.momentInvite}</div>
+      <div style={{ display: "flex", gap: 8 }}>
+        <Btn full small color="#00B894" onClick={() => { setMomento(m => ({ ...m, fe: true })); abrir(); }}>{t.momentYes}</Btn>
+        <Btn full small color="#8B93AD" onClick={() => setMomento(m => ({ ...m, fe: false }))}>{t.momentNo}</Btn>
+      </div>
+    </div>
+  );
+
+  /* Disse "agora não". Some do hub, mas o responsável precisa de um caminho
+     de volta — senão a escolha de um dia vira definitiva. */
+  if (!momento.fe) return responsavel ? (
+    <button onClick={() => { setMomento(m => ({ ...m, fe: true })); abrir(); }} className="card"
+      style={{ border: "none", width: "100%", padding: 12, marginBottom: 14, cursor: "pointer",
+        display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
+      <div style={{ fontSize: 20 }}>🕊️</div>
+      <div style={{ flex: 1, color: "#6C7695", fontWeight: 800, fontSize: 13 }}>{t.momentTitle}</div>
+      <div style={{ color: "#00B894", fontWeight: 900, fontSize: 13 }}>{t.momentTurnOn}</div>
+    </button>
+  ) : null;
+
+  return (
+    <button onClick={abrir} className="card"
+      style={{ border: "none", width: "100%", padding: 14, marginBottom: 14, cursor: "pointer",
+        display: "flex", alignItems: "center", gap: 12, textAlign: "left",
+        borderLeft: `8px solid ${principio.cor}` }}>
+      <div style={{ fontSize: 28 }}>{feitoHoje ? "💚" : "🕊️"}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.momentTitle}</div>
+        <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 11 }}>
+          {feitoHoje ? t.momentDone : `${principio.icone} ${principio[lang] || principio.en}`}
+        </div>
+      </div>
+      {momento.sequencia > 0 && (
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "4px 10px", fontWeight: 900, fontSize: 12 }}>
+          🔥 {momento.sequencia}
+        </div>
+      )}
+    </button>
+  );
+}
+
 /* ---------- Acompanhamento do responsável ----------
    Um perfil marcado como responsável não joga: abre esta tela, que lê o
    save de cada criança do próprio aparelho e mostra até onde ela chegou.
@@ -4364,7 +4559,7 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
         ) : (
           <div style={{ display: "flex" }}>
             {[["🎮", semana.rodadas], ["🎯", semana.certas], ["⭐", semana.estrelas],
-              ["🎨", semana.desenhos], ["🧠", semana.memorias], ["🪙", semana.lumicoins]].map(([ic, v]) => (
+              ["🎨", semana.desenhos], ["🧠", semana.memorias], ["🕊️", semana.momentos], ["🪙", semana.lumicoins]].map(([ic, v]) => (
               <div key={ic} style={{ flex: 1, textAlign: "center" }}>
                 <div style={{ fontSize: 14 }}>{ic}</div>
                 <div className="display" style={{ fontSize: 15, color: "#1B2A6B" }}>{v}</div>
@@ -4479,7 +4674,7 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
   );
 }
 
-function FamilyScreen({ t, lang, familia, setScreen, presente, presentear }) {
+function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -4487,6 +4682,8 @@ function FamilyScreen({ t, lang, familia, setScreen, presente, presentear }) {
         <div className="display" style={{ color: "#fff", fontSize: 22, flex: 1 }}>👨‍👩‍👧 {t.family}</div>
       </div>
       <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 12, marginBottom: 12 }}>{t.familyHint}</div>
+
+      <CartaoMomento {...{ t, lang, momento, setMomento, feitoHoje: momentoFeitoHoje, responsavel: true, abrir: () => setScreen("devocional") }} />
 
       {/* A mesada da semana. Fica no topo porque é o que traz o adulto de volta. */}
       <div className="card" style={{ padding: 14, marginBottom: 12, display: "flex", alignItems: "center", gap: 12 }}>
@@ -4711,7 +4908,7 @@ function LangGame({ t, lang, escolher, setScreen }) {
 }
 
 /* ---------- Home do hub ---------- */
-function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo }) {
+function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje }) {
   return (
     <div>
       <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill}
@@ -4735,6 +4932,12 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
           <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 14 }}>{t.mascotHome}</div>
         </div>
       </div>
+
+      {/* Antes dos jogos: a família vem primeiro, e o convite só o adulto
+          responde — a decisão é do lar, não da criança. */}
+      {(momento.fe != null || player.papel === "pai") && (
+        <CartaoMomento {...{ t, lang, momento, setMomento, feitoHoje: momentoFeitoHoje, abrir: () => setScreen("devocional") }} />
+      )}
 
       <div className="display" style={{ color: "#fff", fontSize: 22, marginBottom: 10 }}>{t.home}</div>
       {/* Para quem ainda não lê, os jogos de texto aparecem trancados. Dizer

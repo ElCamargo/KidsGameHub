@@ -108,7 +108,7 @@ aparelho aparece num cartão com idade, se já lê, e o que ela andou fazendo:
 
 | No cartão | O que mostra |
 |---|---|
-| **A semana** | rodadas, acertos, estrelas, desenhos, memórias e lumicoins **desde domingo**, com os desenhos daquela semana |
+| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
 | ∑ No total | rodadas, estrelas, conquistas, dias seguidos e lumicoins de sempre |
 | 🎨 Pintar e Colorir | os **últimos cinco desenhos**, desenhados ali — não um número dizendo quantos |
 | 🧠 Memória | o maior tabuleiro vencido em cada tema, com estrelas e melhor tempo |
@@ -153,6 +153,52 @@ E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
 presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
+### Momento em Família
+
+Um devocional curto por dia, para a família fazer **junta**: um versículo, uma
+pergunta para conversar e uma pequena atitude para hoje. Leva poucos minutos e
+cabe na mesa do jantar.
+
+A estrutura vem da **Abordagem Educacional por Princípios** — a mesma que os
+filhos dos fundadores têm na escola. Cada semana fica num dos sete princípios
+(Soberania, Individualidade, Autogoverno, Caráter, Aliança, Semeadura e
+Colheita, Mordomia) e os sete dias daquela semana o aprofundam. Demorar numa
+ideia é o método; sete assuntos soltos em sete dias não é.
+
+**É opcional, e a família decide.** Na primeira vez, só o responsável vê o
+convite: *"Sua família quer isso no Lumus?"*. Quem diz "agora não" tem um app
+de jogos educativos completo, sem nenhuma menção a fé; quem diz "queremos" tem
+o cartão no alto do hub, e o responsável pode reativar depois se mudar de
+ideia.
+
+O que fica marcado é do **lar, não do jogador**: mora em `lumus:familia`, fora
+dos saves de cada perfil, e a sequência de dias é da família inteira — irmão
+não reinicia a do irmão. Já o crédito individual (quem estava ali) vai para o
+perfil de quem marcou, e aparece na semana do cartão do responsável, na coluna
+🕊️.
+
+**Não paga lumicoin nenhuma, de propósito.** Todo o resto do app recompensa
+acerto; se a fé virasse moeda, ela viraria tarefa. A recompensa é a sequência,
+e quatro conquistas ao longo do caminho — 1, 7, 30 e 100 momentos.
+
+Três regras amarram o conteúdo, e estão escritas em
+[`src/data/devocional.js`](src/data/devocional.js):
+
+1. **Nada de doutrina que divida igrejas.** Salmos, Provérbios e os princípios
+   são terreno comum; escatologia, batismo e governo eclesiástico ficam de
+   fora. A mesa de cada família é da igreja dela.
+2. **A pergunta é para conversar, não para acertar.** Não existe alternativa
+   certa ali, e é o único lugar do app onde isso acontece.
+3. **A atitude é pequena, concreta e cabe hoje.** "Ame mais" não é atitude;
+   "diga obrigado a quem fez o seu almoço" é.
+
+Os versículos são curtos e de traduções em domínio público (Almeida, KJV,
+Reina-Valera 1909). São 49 devocionais, 7 por princípio, em português, inglês e
+espanhol; francês, alemão e italiano recaem no inglês por enquanto.
+
+O porquê de tudo isto está em
+[`docs/decisoes/0002-aep-no-lumus.md`](docs/decisoes/0002-aep-no-lumus.md).
 
 ### Senha do responsável
 
@@ -226,6 +272,9 @@ src/
     biblia-pessoas.js    201 personagens, parentescos e papéis
     biblia-lugares.js    lugares, milagres e parábolas
     biblia-fatos.js      versículos, falas, números e fatos avulsos
+    versos.js            o versículo do dia, de Salmos e Provérbios
+    devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
+docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
   check-bancos.mjs   confere os bancos de perguntas e as faixas
@@ -310,6 +359,9 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Quebrar `App.jsx` em componentes
 - [ ] Portar para Expo e publicar nas lojas
 - [ ] Conta de responsável opcional, para sincronizar entre aparelhos
+- [ ] Devocionais do Momento em Família em francês, alemão e italiano
+- [ ] Meu Caderno: a criança registra o que aprendeu, e o responsável vê
+- [ ] Dois jogadores no mesmo aparelho
 
 ## Privacidade
 
