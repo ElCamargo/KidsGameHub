@@ -57,6 +57,7 @@ const T = {
     familyEmpty: "Ainda não há nenhuma criança neste aparelho.",
     familyHint: "Você acompanha, eles jogam.", byGame: "Por jogo",
     giftWeek: "Presente da semana", giveGift: "Presentear",
+    painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
     giftHint: "100 lumicoins por semana para dar a quem você quiser. O que sobra não acumula.",
     needsReading: "Abre quando souber ler — ou com lumicoins",
     stage: "Fase",
@@ -127,7 +128,13 @@ const T = {
       peixe: "Qual destes é um peixe?", patas4: "Qual destes tem quatro patas?", gelo: "Qual destes vive no gelo?",
       anfibio: "Qual destes é um anfíbio?", nao_mamifero: "Qual destes NÃO é um mamífero?",
       nao_reptil: "Qual destes NÃO é um réptil?", nao_inseto: "Qual destes NÃO é um inseto?",
-      nao_ave: "Qual destes NÃO é uma ave?" },
+      nao_ave: "Qual destes NÃO é uma ave?",
+      domestico: "Qual destes vive com gente?", nao_domestico: "Qual destes NÃO vive com gente?",
+      nao_voa: "Qual destes NÃO voa?", nao_agua: "Qual destes NÃO vive na água?",
+      nao_fazenda: "Qual destes NÃO vive na fazenda?", nao_selva: "Qual destes NÃO vive na selva?",
+      nao_peixe: "Qual destes NÃO é um peixe?", nao_patas4: "Qual destes NÃO tem quatro patas?",
+      nao_ovos: "Qual destes NÃO põe ovos?", nao_gelo: "Qual destes NÃO vive no gelo?",
+      nao_anfibio: "Qual destes NÃO é um anfíbio?" },
     generateMore: "Gerar mais 9",
     cores: { vermelho: "vermelho", laranja: "laranja", amarelo: "amarelo", verde: "verde", azul: "azul", roxo: "roxo", marrom: "marrom", preto: "preto", branco: "branco" },
     formas: { circulo: "círculo", quadrado: "quadrado", coracao: "coração" },
@@ -168,6 +175,7 @@ const T = {
     familyEmpty: "No child on this device yet.",
     familyHint: "You follow along, they play.", byGame: "By game",
     giftWeek: "This week's gift", giveGift: "Give a gift",
+    painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
     giftHint: "100 lumicoins a week to give to whoever you like. What is left does not carry over.",
     needsReading: "Opens when you can read — or with lumicoins",
     stage: "Stage", cost: "Costs",
@@ -215,7 +223,13 @@ const T = {
       peixe: "Which one is a fish?", patas4: "Which one has four legs?", gelo: "Which one lives on the ice?",
       anfibio: "Which one is an amphibian?", nao_mamifero: "Which one is NOT a mammal?",
       nao_reptil: "Which one is NOT a reptile?", nao_inseto: "Which one is NOT an insect?",
-      nao_ave: "Which one is NOT a bird?" },
+      nao_ave: "Which one is NOT a bird?",
+      domestico: "Which one lives with people?", nao_domestico: "Which one does NOT live with people?",
+      nao_voa: "Which one does NOT fly?", nao_agua: "Which one does NOT live in water?",
+      nao_fazenda: "Which one does NOT live on a farm?", nao_selva: "Which one does NOT live in the jungle?",
+      nao_peixe: "Which one is NOT a fish?", nao_patas4: "Which one does NOT have four legs?",
+      nao_ovos: "Which one does NOT lay eggs?", nao_gelo: "Which one does NOT live on the ice?",
+      nao_anfibio: "Which one is NOT an amphibian?" },
     generateMore: "Generate 9 more",
     cores: { vermelho: "red", laranja: "orange", amarelo: "yellow", verde: "green", azul: "blue", roxo: "purple", marrom: "brown", preto: "black", branco: "white" },
     formas: { circulo: "circle", quadrado: "square", coracao: "heart" },
@@ -255,6 +269,7 @@ const T = {
     familyEmpty: "Aún no hay ningún niño en este aparato.",
     familyHint: "Tú acompañas, ellos juegan.", byGame: "Por juego",
     giftWeek: "Regalo de la semana", giveGift: "Regalar",
+    painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
     giftHint: "100 lumicoins por semana para dar a quien quieras. Lo que sobra no se acumula.",
     needsReading: "Se abre cuando sepas leer — o con lumicoins",
     stage: "Nivel", cost: "Cuesta",
@@ -302,7 +317,13 @@ const T = {
       peixe: "¿Cuál es un pez?", patas4: "¿Cuál tiene cuatro patas?", gelo: "¿Cuál vive en el hielo?",
       anfibio: "¿Cuál es un anfibio?", nao_mamifero: "¿Cuál NO es un mamífero?",
       nao_reptil: "¿Cuál NO es un reptil?", nao_inseto: "¿Cuál NO es un insecto?",
-      nao_ave: "¿Cuál NO es un ave?" },
+      nao_ave: "¿Cuál NO es un ave?",
+      domestico: "¿Cuál vive con la gente?", nao_domestico: "¿Cuál NO vive con la gente?",
+      nao_voa: "¿Cuál NO vuela?", nao_agua: "¿Cuál NO vive en el agua?",
+      nao_fazenda: "¿Cuál NO vive en la granja?", nao_selva: "¿Cuál NO vive en la selva?",
+      nao_peixe: "¿Cuál NO es un pez?", nao_patas4: "¿Cuál NO tiene cuatro patas?",
+      nao_ovos: "¿Cuál NO pone huevos?", nao_gelo: "¿Cuál NO vive en el hielo?",
+      nao_anfibio: "¿Cuál NO es un anfibio?" },
     generateMore: "Generar 9 más",
     cores: { vermelho: "rojo", laranja: "naranja", amarelo: "amarillo", verde: "verde", azul: "azul", roxo: "morado", marrom: "marrón", preto: "negro", branco: "blanco" },
     formas: { circulo: "círculo", quadrado: "cuadrado", coracao: "corazón" },
@@ -356,6 +377,7 @@ const PACKS = {
     familyEmpty: "Aucun enfant sur cet appareil pour l'instant.",
     familyHint: "Tu suis, ils jouent.", byGame: "Par jeu",
     giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
+    painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
     giftHint: "100 lumicoins par semaine à offrir à qui tu veux. Le reste ne se cumule pas.",
     needsReading: "S'ouvre quand tu sauras lire — ou avec des lumicoins",
     stage: "Niveau", cost: "Coûte", notEnough: "Pas assez de lumicoins. Attends les lumicoins gratuites !",
@@ -397,7 +419,13 @@ const PACKS = {
       peixe: "Lequel est un poisson ?", patas4: "Lequel a quatre pattes ?", gelo: "Lequel vit sur la glace ?",
       anfibio: "Lequel est un amphibien ?", nao_mamifero: "Lequel n'est PAS un mammifère ?",
       nao_reptil: "Lequel n'est PAS un reptile ?", nao_inseto: "Lequel n'est PAS un insecte ?",
-      nao_ave: "Lequel n'est PAS un oiseau ?" },
+      nao_ave: "Lequel n'est PAS un oiseau ?",
+      domestico: "Lequel vit avec les gens ?", nao_domestico: "Lequel ne vit PAS avec les gens ?",
+      nao_voa: "Lequel ne vole PAS ?", nao_agua: "Lequel ne vit PAS dans l'eau ?",
+      nao_fazenda: "Lequel ne vit PAS à la ferme ?", nao_selva: "Lequel ne vit PAS dans la jungle ?",
+      nao_peixe: "Lequel n'est PAS un poisson ?", nao_patas4: "Lequel n'a PAS quatre pattes ?",
+      nao_ovos: "Lequel ne pond PAS d'œufs ?", nao_gelo: "Lequel ne vit PAS sur la glace ?",
+      nao_anfibio: "Lequel n'est PAS un amphibien ?" },
     generateMore: "Générer 9 de plus",
     cores: { vermelho: "rouge", laranja: "orange", amarelo: "jaune", verde: "vert", azul: "bleu", roxo: "violet", marrom: "marron", preto: "noir", branco: "blanc" },
     formas: { circulo: "cercle", quadrado: "carré", coracao: "cœur" },
@@ -436,6 +464,7 @@ const PACKS = {
     familyEmpty: "Noch kein Kind auf diesem Gerät.",
     familyHint: "Du begleitest, sie spielen.", byGame: "Nach Spiel",
     giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
+    painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
     giftHint: "100 Lumicoins pro Woche zum Verschenken. Was übrig bleibt, verfällt.",
     needsReading: "Öffnet sich, wenn du lesen kannst — oder mit Lumicoins",
     stage: "Stufe", cost: "Kostet", notEnough: "Nicht genug Lumicoins. Warte auf die Gratis-Lumicoins!",
@@ -477,7 +506,13 @@ const PACKS = {
       peixe: "Welches ist ein Fisch?", patas4: "Welches hat vier Beine?", gelo: "Welches lebt auf dem Eis?",
       anfibio: "Welches ist eine Amphibie?", nao_mamifero: "Welches ist KEIN Säugetier?",
       nao_reptil: "Welches ist KEIN Reptil?", nao_inseto: "Welches ist KEIN Insekt?",
-      nao_ave: "Welches ist KEIN Vogel?" },
+      nao_ave: "Welches ist KEIN Vogel?",
+      domestico: "Welches lebt bei den Menschen?", nao_domestico: "Welches lebt NICHT bei den Menschen?",
+      nao_voa: "Welches fliegt NICHT?", nao_agua: "Welches lebt NICHT im Wasser?",
+      nao_fazenda: "Welches lebt NICHT auf dem Bauernhof?", nao_selva: "Welches lebt NICHT im Dschungel?",
+      nao_peixe: "Welches ist KEIN Fisch?", nao_patas4: "Welches hat KEINE vier Beine?",
+      nao_ovos: "Welches legt KEINE Eier?", nao_gelo: "Welches lebt NICHT auf dem Eis?",
+      nao_anfibio: "Welches ist KEINE Amphibie?" },
     generateMore: "9 weitere erzeugen",
     cores: { vermelho: "rot", laranja: "orange", amarelo: "gelb", verde: "grün", azul: "blau", roxo: "lila", marrom: "braun", preto: "schwarz", branco: "weiß" },
     formas: { circulo: "Kreis", quadrado: "Quadrat", coracao: "Herz" },
@@ -516,6 +551,7 @@ const PACKS = {
     familyEmpty: "Ancora nessun bambino su questo apparecchio.",
     familyHint: "Tu segui, loro giocano.", byGame: "Per gioco",
     giftWeek: "Regalo della settimana", giveGift: "Regalare",
+    painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
     giftHint: "100 lumicoins a settimana da regalare a chi vuoi. Quel che avanza non si accumula.",
     needsReading: "Si apre quando saprai leggere — o con lumicoins",
     stage: "Livello", cost: "Costa", notEnough: "Lumicoins insufficienti. Aspetta quelle gratis!",
@@ -557,7 +593,13 @@ const PACKS = {
       peixe: "Quale è un pesce?", patas4: "Quale ha quattro zampe?", gelo: "Quale vive sul ghiaccio?",
       anfibio: "Quale è un anfibio?", nao_mamifero: "Quale NON è un mammifero?",
       nao_reptil: "Quale NON è un rettile?", nao_inseto: "Quale NON è un insetto?",
-      nao_ave: "Quale NON è un uccello?" },
+      nao_ave: "Quale NON è un uccello?",
+      domestico: "Quale vive con le persone?", nao_domestico: "Quale NON vive con le persone?",
+      nao_voa: "Quale NON vola?", nao_agua: "Quale NON vive nell'acqua?",
+      nao_fazenda: "Quale NON vive nella fattoria?", nao_selva: "Quale NON vive nella giungla?",
+      nao_peixe: "Quale NON è un pesce?", nao_patas4: "Quale NON ha quattro zampe?",
+      nao_ovos: "Quale NON fa le uova?", nao_gelo: "Quale NON vive sul ghiaccio?",
+      nao_anfibio: "Quale NON è un anfibio?" },
     generateMore: "Genera altri 9",
     cores: { vermelho: "rosso", laranja: "arancione", amarelo: "giallo", verde: "verde", azul: "blu", roxo: "viola", marrom: "marrone", preto: "nero", branco: "bianco" },
     formas: { circulo: "cerchio", quadrado: "quadrato", coracao: "cuore" },
@@ -1762,78 +1804,6 @@ function AppInterno() {
   // REGRA DE OURO: nunca sai do continente escolhido.
   // A dificuldade vem de QUAIS bandeiras daquele continente entram no sorteio:
   // as mais conhecidas primeiro, as raras nas fases finais.
-  const FAIXA_POOL = {
-    easy:   [0,   .55],
-    medium: [0,   .8],
-    hard:   [.25, 1],
-    genius: [.45, 1],
-    mestre: [.6,  1],
-    lenda:  [.7,  1],   // só as mais raras do continente
-  };
-
-  function poolFor(cont, diff, minimo = 10) {
-    const ranked = Object.entries(DATA[cont])
-      .sort((a, b) => (a[1] - b[1]) || (Math.random() - .5))
-      .map(([c]) => c);
-    const n = ranked.length;
-    const [de, ate] = FAIXA_POOL[diff] || FAIXA_POOL.genius;
-    let inicio = Math.floor(n * de);
-    const fim = Math.ceil(n * ate);
-    // A faixa pode não juntar bandeiras suficientes para a rodada — a Oceania
-    // tem 14 países no total. Nesse caso desce para as vizinhas mais fáceis,
-    // uma a uma, até caber. Nunca sai do continente: essa é a regra de ouro.
-    while (fim - inicio < minimo && inicio > 0) inicio--;
-    return ranked.slice(inicio, fim);
-  }
-
-  function buildRound(cont, stage) {
-    const diff = bandFor(cont, stage);
-    const pool = poolFor(cont, diff, qtdPerguntas(diff));
-    const wide = Object.keys(DATA[cont]); // distratores também só do continente
-    const subs = (SUBFLAGS[cont] || []);
-    const subDeck = shuffle(subs);
-    let subAt = 0;
-    // Gênio (13-15): metade da rodada vira estado/região.
-    // Difícil (10-12): só a última pergunta, como aperitivo.
-    const subSlots = new Set();
-    if (subs.length) {
-      if (diff === "genius") [1, 3, 5, 7, 9].forEach(n => subSlots.add(n));  // 5 de 10
-      else if (diff === "hard" && stage >= 12) subSlots.add(9);
-    }
-    // Rodadas curtas para os pequenos, longas para quem já pegou o jeito
-    const qCount = qtdPerguntas(diff);
-    const deck = shuffle(pool).slice(0, qCount); // bandeiras SEMPRE diferentes
-    const qs = [];
-    let deckAt = 0;
-    for (let i = 0; i < qCount; i++) {
-      const useSub = subSlots.has(i) && subAt < subDeck.length;
-      if (useSub) {
-        const s = subDeck[subAt++];
-        const others = shuffle(subs.filter(x => x.code !== s.code)).slice(0, 3);
-        qs.push({
-          flag: s.code, answer: s[lang], sub: true,
-          options: shuffle([s[lang], ...others.map(o => o[lang])]).slice(0, 4),
-        });
-      } else {
-        // Um índice próprio para o baralho: com as fases de estado ocupando
-        // posições, usar o mesmo i desperdiçava bandeiras boas.
-        const code = deck[deckAt++];
-        // Acabaram as bandeiras diferentes do continente: a rodada termina
-        // aqui. Melhor uma rodada mais curta do que repetir bandeira — ou,
-        // como acontecia, montar pergunta sem bandeira nenhuma.
-        if (!code) break;
-        const ans = countryName(code, lang);
-        const distr = shuffle(wide).filter(c => c !== code && countryName(c, lang) !== ans).slice(0, 3);
-        qs.push({
-          flag: code, answer: ans,
-          options: shuffle([ans, ...distr.map(c => countryName(c, lang))]),
-        });
-      }
-    }
-    // Modo Fácil: sem cronômetro. Depois o tempo cai a cada fase.
-    const time = tempoDe(cont, stage);
-    return { cont, diff, stage, qs, time, t0: Date.now(), i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
-  }
 
   /* Fase já vencida com 3 estrelas é treino livre: cobrar de novo por algo
      que a criança já dominou só a empurra para longe de repetir. As outras
@@ -1843,7 +1813,7 @@ function AppInterno() {
     if (coins < custo) { setToast(t.notEnough); return; }
     if (custo) setCoins(c => c - custo);
     const quiz = quizDe(sel.cont);
-    setRound(quiz ? quiz.montar(sel.stage, t, lang, sel.cont) : buildRound(sel.cont, sel.stage));
+    setRound(quiz ? quiz.montar(sel.stage, t, lang, sel.cont) : buildRound(sel.cont, sel.stage, lang));
     setScreen("game");
   }
 
@@ -2297,6 +2267,87 @@ const ANIMAIS = [
   "🐍","🦎","🦖","🐙","🦑","🦀","🐠","🐟","🐬","🐳",
   "🦈","🐊","🐘","🦏","🦒","🦓","🐪","🦩","🦜","🦔",
 ];
+
+/* ---------- Rodada de bandeiras ----------
+   Fora do componente de propósito: assim scripts/check-rodadas.mjs consegue
+   montar uma rodada de cada continente e faixa antes de todo build. A função
+   que ninguém conseguia testar foi justamente a que quebrou no Lenda.
+
+   REGRA DE OURO: nunca sai do continente escolhido. A dificuldade vem de
+   QUAIS bandeiras daquele continente entram no sorteio — as mais conhecidas
+   primeiro, as raras nas faixas de cima. */
+const FAIXA_POOL = {
+  easy:   [0,   .55],
+  medium: [0,   .8],
+  hard:   [.25, 1],
+  genius: [.45, 1],
+  mestre: [.6,  1],
+  lenda:  [.7,  1],   // só as mais raras do continente
+};
+
+function poolFor(cont, diff, minimo = 10) {
+  const ranked = Object.entries(DATA[cont])
+    .sort((a, b) => (a[1] - b[1]) || (Math.random() - .5))
+    .map(([c]) => c);
+  const n = ranked.length;
+  const [de, ate] = FAIXA_POOL[diff] || FAIXA_POOL.genius;
+  let inicio = Math.floor(n * de);
+  const fim = Math.ceil(n * ate);
+  // A faixa pode não juntar bandeiras suficientes para a rodada — a Oceania
+  // tem 14 países no total. Nesse caso desce para as vizinhas mais fáceis,
+  // uma a uma, até caber. Nunca sai do continente: essa é a regra de ouro.
+  while (fim - inicio < minimo && inicio > 0) inicio--;
+  return ranked.slice(inicio, fim);
+}
+
+function buildRound(cont, stage, lang) {
+  const diff = bandFor(cont, stage);
+  const pool = poolFor(cont, diff, qtdPerguntas(diff));
+  const wide = Object.keys(DATA[cont]); // distratores também só do continente
+  const subs = (SUBFLAGS[cont] || []);
+  const subDeck = shuffle(subs);
+  let subAt = 0;
+  // Gênio (13-15): metade da rodada vira estado/região.
+  // Difícil (10-12): só a última pergunta, como aperitivo.
+  const subSlots = new Set();
+  if (subs.length) {
+    if (diff === "genius") [1, 3, 5, 7, 9].forEach(n => subSlots.add(n));  // 5 de 10
+    else if (diff === "hard" && stage >= 12) subSlots.add(9);
+  }
+  // Rodadas curtas para os pequenos, longas para quem já pegou o jeito
+  const qCount = qtdPerguntas(diff);
+  const deck = shuffle(pool).slice(0, qCount); // bandeiras SEMPRE diferentes
+  const qs = [];
+  let deckAt = 0;
+  for (let i = 0; i < qCount; i++) {
+    const useSub = subSlots.has(i) && subAt < subDeck.length;
+    if (useSub) {
+      const s = subDeck[subAt++];
+      const others = shuffle(subs.filter(x => x.code !== s.code)).slice(0, 3);
+      qs.push({
+        flag: s.code, answer: s[lang], sub: true,
+        options: shuffle([s[lang], ...others.map(o => o[lang])]).slice(0, 4),
+      });
+    } else {
+      // Um índice próprio para o baralho: com as fases de estado ocupando
+      // posições, usar o mesmo i desperdiçava bandeiras boas.
+      const code = deck[deckAt++];
+      // Acabaram as bandeiras diferentes do continente: a rodada termina
+      // aqui. Melhor uma rodada mais curta do que repetir bandeira — ou,
+      // como acontecia, montar pergunta sem bandeira nenhuma.
+      if (!code) break;
+      const ans = countryName(code, lang);
+      const distr = shuffle(wide).filter(c => c !== code && countryName(c, lang) !== ans).slice(0, 3);
+      qs.push({
+        flag: code, answer: ans,
+        options: shuffle([ans, ...distr.map(c => countryName(c, lang))]),
+      });
+    }
+  }
+  // Modo Fácil: sem cronômetro. Depois o tempo cai a cada fase.
+  const time = tempoDe(cont, stage);
+  return { cont, diff, stage, qs, time, t0: Date.now(), i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
 
 /* ---------- Jogo da memória ----------
    Mesmas quatro dificuldades do jogo de bandeiras, mas aqui a estrela
@@ -4126,6 +4177,27 @@ function nomeDaTrilha(cont, t) {
   return q ? q.nome(t) : cont;
 }
 
+/* Melhor nível vencido em cada tema da memória. memBest é "tema:nivel", e o
+   que interessa ao adulto é até onde a criança chegou em cada um. */
+function memoriaResumo(save) {
+  const por = new Map();
+  for (const [chave, v] of Object.entries(save?.memBest || {})) {
+    const corte = chave.lastIndexOf(":");
+    const tema = chave.slice(0, corte), nivel = chave.slice(corte + 1);
+    const ordem = DIFFS.indexOf(nivel);
+    if (ordem < 0) continue;
+    const atual = por.get(tema);
+    if (!atual || ordem > atual.ordem) por.set(tema, { tema, nivel, ordem, ...v });
+  }
+  return [...por.values()].sort((a, b) => b.ordem - a.ordem);
+}
+
+function nomeDoTemaMemoria(tema, t) {
+  const alvo = alvoDe(tema);
+  if (alvo) return `${t.games.wordMem} · ${LANG_CATALOG[alvo] || alvo}`;
+  return { flags: t.games.memory, animals: t.games.animals, arts: t.games.artMem, bible: t.games.bibleMem }[tema] || tema;
+}
+
 function FamilyScreen({ t, lang, familia, setScreen, presente, presentear }) {
   return (
     <div>
@@ -4191,6 +4263,67 @@ function FamilyScreen({ t, lang, familia, setScreen, presente, presentear }) {
                   </Btn>
                 ))}
               </div>
+
+              {/* Criança que ainda não lê só joga memória e pintura: sem isto
+                  o cartão dela vem vazio, e é justamente a que mais precisa do
+                  adulto por perto. Aqui o pai vê o que ela pintou, não um
+                  número dizendo quantos. */}
+              {!!(save?.gallery?.length) && (
+                <div style={{ marginBottom: 10 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
+                    <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎨 {t.games.color}</div>
+                    <div style={{ color: "#6C7695", fontWeight: 900, fontSize: 11 }}>
+                      {st.colorDone || 0} {t.painted}
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                    {save.gallery.slice(-5).reverse().map((g, i) => {
+                      const art = acharArte(g.id);
+                      if (!art) return null;
+                      return (
+                        <div key={i} style={{ border: "2px solid #E4E8F5", borderRadius: 12, padding: 2, background: "#fff", lineHeight: 0 }}>
+                          <Mini art={art} fills={g.fills} size={44} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {memoriaResumo(save).length > 0 && (
+                <div style={{ marginBottom: 10 }}>
+                  <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>🧠 {t.memories}</div>
+                  <div style={{ display: "grid", gap: 4 }}>
+                    {memoriaResumo(save).map(m => (
+                      <div key={m.tema} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <div style={{
+                          background: BAND_COLOR[m.nivel], color: "#fff", borderRadius: 8,
+                          padding: "2px 6px", fontWeight: 900, fontSize: 10, whiteSpace: "nowrap",
+                        }}>
+                          {MEM_LEVELS[m.nivel].cols}×{MEM_LEVELS[m.nivel].rows}
+                        </div>
+                        <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {nomeDoTemaMemoria(m.tema, t)}
+                        </div>
+                        <div style={{ fontSize: 10, letterSpacing: -1 }}>
+                          {[1, 2, 3].map(i => <span key={i} style={{ opacity: (m.stars || 0) >= i ? 1 : .25 }}>★</span>)}
+                        </div>
+                        {m.time != null && (
+                          <div style={{ fontSize: 10, fontWeight: 900, color: "#8B93AD", width: 40, textAlign: "right" }}>
+                            ⏱️ {tempoFmt(m.time)}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {!trilhas.length && !save?.gallery?.length && !memoriaResumo(save).length && (
+                <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, textAlign: "center", padding: "4px 0 8px" }}>
+                  {t.nothingYet}
+                </div>
+              )}
 
               {trilhas.length > 0 && (
                 <>

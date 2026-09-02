@@ -15,3 +15,6 @@ public/flags/
 
 # config local de ferramentas
 .claude/
+
+# temporário do scripts/check-rodadas.mjs
+src/.rodadas-*.tmp.mjs
