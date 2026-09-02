@@ -2,7 +2,10 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+    <!-- Sem maximum-scale nem user-scalable=no: bloquear o zoom quebra a WCAG
+         1.4.4 e tira do adulto de vista cansada a chance de aumentar a letra.
+         O toque duplo acidental é resolvido no CSS, com touch-action. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Lumus — Kids Game Hub</title>
     <meta name="description" content="Jogos educativos para crianças. Sem anúncios, sem links externos, sem coleta de dados." />
     <meta name="author" content="ElCamargo Soluções em TI LTDA" />

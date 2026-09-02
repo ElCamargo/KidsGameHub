@@ -1,8 +1,81 @@
 # Lumus — Kids Game Hub
 
-Hub de jogos educativos para crianças. **Sem anúncios, sem links externos, sem coleta de dados.**
+[![CI](https://github.com/ElCamargo/KidsGameHub/actions/workflows/ci.yml/badge.svg)](https://github.com/ElCamargo/KidsGameHub/actions/workflows/ci.yml)
+[![Deploy](https://github.com/ElCamargo/KidsGameHub/actions/workflows/deploy.yml/badge.svg)](https://github.com/ElCamargo/KidsGameHub/actions/workflows/deploy.yml)
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
+[![PWA offline](https://img.shields.io/badge/PWA-100%25%20offline-00B894)](#offline)
+[![Sem coleta de dados](https://img.shields.io/badge/dados%20coletados-nenhum-E84393)](#privacidade)
 
-Uma criação da **ElCamargo Soluções em TI LTDA**.
+**Jogos educativos para crianças, de graça, para o mundo todo.** Sem anúncios,
+sem links para fora, sem cadastro, sem coleta de dados, funcionando offline num
+celular de entrada.
+
+Uma criação da **ElCamargo Soluções em TI LTDA** · CNPJ 57.299.418/0001-69 ·
+Blumenau, Santa Catarina, Brasil.
+
+🎮 **[Jogar agora](https://elcamargo.github.io/KidsGameHub/)** — abre no
+navegador, dá para instalar na tela inicial, e depois disso funciona sem
+internet nenhuma.
+
+---
+
+## Por que isto existe
+
+O Lumus começou porque dois filhos, de 5 e 6 anos, pediam o celular — e o que
+havia do outro lado era anúncio, compra dentro do jogo e um algoritmo medindo
+quanto tempo a criança consegue ficar presa ali.
+
+Fizemos o contrário. **O Lumus não quer o tempo da criança: quer o tempo da
+família junta.** Ele não tem anúncio para vender, não tem dado para coletar e
+não tem nada que empurre a criança a voltar sozinha. O que ele tem é motivo
+para pai e filho abrirem o app na mesma mesa.
+
+E tem um centro declarado, sem letra miúda: **o bem-estar da família com
+Cristo.** Não como enfeite no rodapé — como a coisa em volta da qual o resto
+foi construído. O **Momento em Família** (um devocional curto por dia, para ser
+lido junto) e o **Meu Caderno** (onde a criança registra o que aprendeu) são o
+coração do projeto, não um extra.
+
+**E é escolha da família.** No primeiro acesso, só o responsável vê o convite:
+*"sua família quer isso no Lumus?"*. Quem diz não tem um app de jogos
+educativos completo, sem uma única menção a fé. Esconder o que somos seria
+desonesto; empurrar seria pior.
+
+## Meta, visão e pilares
+
+**Meta.** Colocar nas mãos de um milhão de crianças um app que ensina de
+verdade, que não custa nada, que funciona no aparelho que a família já tem — e
+que aproxima pais e filhos em vez de separá-los.
+
+**Visão.** Que "aplicativo infantil" deixe de ser sinônimo de tela que rouba
+atenção, e volte a ser o que sempre deveria ter sido: uma ferramenta na mão de
+uma família.
+
+Cinco pilares. Cada um tem consequência técnica — é por isso que estão aqui, e
+não numa apresentação:
+
+| Pilar | O que significa no produto | Onde isso aparece no código |
+|---|---|---|
+| **A família no centro, com Cristo** | o app cria motivos para a família estar junta, e a fé é oferecida, nunca imposta | Momento em Família, Meu Caderno, dois jogadores no mesmo aparelho, presente semanal do responsável |
+| **Acesso para todos** | criança de qualquer classe social, em qualquer aparelho, com ou sem internet | 3,4 MB no total, PWA sem loja, 100% offline depois da primeira abertura, gratuito e sem compra interna |
+| **Privacidade sem asterisco** | não coletamos porque não queremos, não porque a lei exige | zero requisições a terceiros em execução, zero SDKs, tudo no armazenamento do próprio aparelho |
+| **Educação de verdade** | reconhecer alternativa é o degrau mais raso; o app tem que ir além | Abordagem Educacional por Princípios: Pesquisar, Raciocinar, Relacionar, **Registrar** |
+| **Respeito à criança** | nada de anúncio, vício, ranking público ou pressão para gastar | sem notificação, sem loja externa, e fase já vencida com 3 estrelas nunca cobra de novo |
+
+## Em 30 segundos
+
+| | |
+|---|---|
+| Jogos | **15**, em 6 áreas |
+| Perguntas conferidas por script | **mais de 2.600** |
+| Bandeiras | **176** (154 países + 22 regiões), empacotadas |
+| Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
+| Tamanho total, com fontes e bandeiras | **3,4 MB** |
+| JavaScript comprimido | **193 KB**, em 3 pedaços |
+| Requisições a terceiros em execução | **0** |
+| Dados coletados | **0** |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 24 testes |
+| Licença | MIT |
 
 ---
 
@@ -37,7 +110,7 @@ O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe 
 - Modo Fácil sem cronômetro; depois o tempo aperta a cada fase, até 6 segundos
 - Lumicoins: cada rodada custa conforme a faixa, dicas custam, acertar rende
 - Mapa-múndi que se abre continente a continente, de carro, barco e avião
-- 63 conquistas em 10 categorias, valendo de 30 a 250 lumicoins cada
+- 74 conquistas em 10 categorias, valendo de 30 a 250 lumicoins cada
 - Perfis de criança e de responsável, com senha opcional e presente semanal
 - Avatar personalizável e loja de itens
 - Vários jogadores no mesmo aparelho, com progresso separado
@@ -294,6 +367,120 @@ nunca a senha — o resumo evita a leitura casual do armazenamento, e só isso. 
 próprio cadastro avisa em texto: *não é senha de banco, não repita uma que você
 usa em outro lugar*.
 
+## Para quem vai avaliar tecnicamente
+
+Esta seção é para quem abriu o repositório querendo saber **o que exatamente foi
+construído, e se foi bem construído**. Ela não esconde o que está fraco.
+
+### A arquitetura, em cinco linhas
+
+**Vite 6 + React 18**, sem TypeScript, sem gerenciador de estado, sem roteador.
+O app é uma tela só que troca de conteúdo por um estado `screen` — para um app
+offline de 15 jogos, um roteador seria peso sem retorno. A persistência inteira
+passa por uma API própria de quatro funções (`window.storage`), implementada
+sobre `localStorage` em [`src/lib/storage.js`](src/lib/storage.js): trocar por
+AsyncStorage ou MMKV, no dia de um app nativo, é trocar o corpo de quatro
+funções e mais nada.
+
+### Onde mora o quê
+
+| | Tamanho | O que é |
+|---|---|---|
+| `src/App.jsx` | 4.882 linhas | a interface inteira: ~40 componentes, e nenhuma linha de conteúdo |
+| `src/data/*.js` | 4.269 linhas | **só dados** — perguntas, textos, países, desenhos, devocionais |
+| `tests/*.test.mjs` | 24 testes | conteúdo, idiomas, geografia, desenhos |
+| `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
+
+A separação não é estética: um pastor consegue revisar
+[`biblia-pessoas.js`](src/data/biblia-pessoas.js) e um tradutor consegue revisar
+[`textos.js`](src/data/textos.js) **sem abrir uma linha de React**. Por que a
+interface continua num arquivo só, e sob que condições isso muda, está escrito
+em [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md).
+
+### O portão de qualidade
+
+É a parte de que temos mais orgulho, e o que separa isto de um protótipo. **Nada
+entra sem passar por aqui** — e o mesmo portão roda no `npm run build` da
+máquina de qualquer pessoa, não só na nuvem:
+
+| Guarda | O que impede |
+|---|---|
+| `check-bancos` | pergunta ambígua, alternativa repetida, resposta certa aparecendo entre as erradas, banco que encolheu por acidente |
+| `check-faixas` | uma faixa de dificuldade existir num mapa e faltar em outro |
+| `check-rodadas` | **monta uma rodada de verdade** de cada trilha em cada faixa e confere se ela é jogável |
+| `npm test` | 24 testes: paridade das 280 chaves nos 6 idiomas, marcadores `{n}` preservados na tradução, todo país com capital, todo desenho com área pintável |
+
+Eles não são teatro. O `check-rodadas` nasceu de um bug real — as fases Lenda
+quebravam o app na 13ª pergunta, porque a rodada pedia 15 bandeiras e o
+continente tinha 12 — e **na primeira execução já encontrou outro**: o Quiz dos
+Animais montava a rodada inteira sem enunciado nas duas faixas do topo. Os dois
+só apareciam jogando até o fim, no celular. Hoje aparecem em dois segundos.
+
+### O que a criança baixa
+
+```
+react      142 KB  →   45 KB comprimido    quase nunca muda
+dados      294 KB  →  102 KB comprimido    muda quando entra conteúdo
+interface  161 KB  →   45 KB comprimido    muda toda semana
+CSS         11 KB  →    1 KB comprimido
+——————————————————————————————————————————————————————————
+instalado, com as fontes e 161 bandeiras SVG:  3,4 MB
+```
+
+Três pedaços em vez de um só: quem já tem o app baixa apenas o que mudou de
+verdade.
+
+### Offline e privacidade, verificáveis
+
+Não é promessa de marketing — é propriedade do build, e dá para conferir:
+
+- **Zero `runtimeCaching`** na configuração do service worker, porque não há
+  servidor com quem falar. Está em [`vite.config.js`](vite.config.js).
+- **Zero SDK de terceiro** no `package.json`: cinco dependências, todas de
+  interface (React, duas fontes, as bandeiras).
+- As bandeiras vêm do pacote npm `flag-icons` e são **copiadas no build** — o
+  script lê a lista de países do próprio código, então as duas nunca divergem.
+- Os nomes dos países vêm de `Intl.DisplayNames`, do próprio navegador: ~100
+  idiomas de graça, nenhum arquivo, nenhuma tradução para manter.
+- Abra o painel de rede e jogue uma partida inteira: não sai um pedido sequer.
+
+### Acessibilidade
+
+Feito, e verificável: todo botão de ícone tem nome (`aria-label`), o
+`<html lang>` acompanha o idioma escolhido, há foco visível para quem navega
+por teclado, `prefers-reduced-motion` desliga todas as animações, e o **zoom
+não é bloqueado** — `user-scalable=no` saiu, e o toque duplo acidental é
+resolvido com `touch-action: manipulation`, que é o certo.
+
+O que ainda não é bom: o app **não foi testado com leitor de tela de verdade**,
+e a bandeira da pergunta tem `alt=""` de propósito — um texto alternativo
+entregaria a resposta —, o que significa que uma criança cega não joga o quiz
+de bandeiras. Não temos solução para isso ainda, e preferimos escrever aqui a
+fingir que está resolvido.
+
+### O que sabemos que está fraco
+
+- O banco bíblico existe em português, inglês e espanhol; **francês, alemão e
+  italiano recaem no inglês**.
+- As perguntas bíblicas **ainda não passaram por revisão pastoral**. São geradas
+  a partir de tabelas de fatos justamente para poderem ser revisadas — mas a
+  revisão está no roadmap, não no passado.
+- Não há teste de interface, só de dados e de montagem de rodada. A verificação
+  de tela é feita à mão, no navegador, a 375 px.
+- Sem presença em loja: hoje a distribuição depende de indicação. O caminho e o
+  porquê estão em [ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md).
+
+### Registros de decisão
+
+As três decisões que moldaram o projeto estão escritas, com as alternativas que
+estavam na mesa e o que abrimos mão em cada uma:
+
+| # | Decisão |
+|---|---|
+| [0001](docs/decisoes/0001-pwa-ou-apps-nativos.md) | PWA única ou aplicativos nativos por plataforma |
+| [0002](docs/decisoes/0002-aep-no-lumus.md) | Como a Abordagem Educacional por Princípios entra no Lumus |
+| [0003](docs/decisoes/0003-um-arquivo-para-a-interface.md) | Dados em arquivos separados, interface num arquivo só |
+
 ## Rodando na sua máquina
 
 Requer Node.js 20 ou superior.
@@ -304,6 +491,23 @@ npm run dev
 ```
 
 O terminal mostra dois endereços. O `Network` é o que você abre no celular — desde que esteja no mesmo Wi-Fi.
+
+### Conferindo tudo antes de confiar
+
+```bash
+npm ci && npm run build
+```
+
+O `build` é o portão inteiro: prepara as bandeiras, confere os três bancos de
+perguntas, confere as faixas de dificuldade, **monta uma rodada de cada trilha
+em cada faixa** e roda os 24 testes — antes de gerar um único arquivo. Se
+qualquer um falhar, não sai build. Leva menos de 5 segundos.
+
+Só os testes:
+
+```bash
+npm test
+```
 
 ## Publicando o site
 
@@ -334,11 +538,14 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          jogo e telas (arquivo único, ainda)
+  App.jsx          a interface inteira: ~40 componentes, nenhum dado (4.882 linhas)
   main.jsx         ponto de entrada
-  lib/storage.js   persistência sobre localStorage
+  lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   index.css        base
-  data/            bancos de perguntas (só dados, nenhuma lógica de jogo)
+  data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
+    textos.js            as 280 frases da interface, nos 6 idiomas
+    geografia.js         154 países com tier, capitais, estados do BR e dos EUA
+    desenhos.js          os 58 desenhos de colorir, área por área
     curiosidades.js      235 lugares do mundo
     ciencias.js          94 animais e os moldes de pergunta
     biblia.js            junta as tabelas e monta o banco
@@ -349,14 +556,18 @@ src/
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
+tests/             24 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
-  check-bancos.mjs   confere os bancos de perguntas e as faixas
+  check-bancos.mjs   confere os bancos de perguntas
   check-faixas.mjs   garante que toda faixa existe em todo mapa que depende dela
   check-rodadas.mjs  monta uma rodada de cada trilha e faixa e confere se é jogável
+.github/workflows/
+  ci.yml             guardas, testes e build em toda alteração
+  deploy.yml         publica no GitHub Pages
 public/            ícones do app
-vite.config.js     build e configuração do PWA
+vite.config.js     build, PWA e a divisão do pacote em três pedaços
 ```
 
 ### Sobre `src/lib/storage.js`
@@ -365,7 +576,7 @@ O app grava tudo através de `window.storage`. Esse arquivo implementa essa API 
 
 ### Sobre as bandeiras
 
-Os SVGs vêm do pacote [`flag-icons`](https://github.com/lipis/flag-icons), instalado como dependência. Antes de cada `dev` e `build`, o script `scripts/prepare-flags.mjs` copia para `public/flags/` **apenas os códigos que o jogo usa** — ele lê `DATA` e `SUBFLAGS` direto de `src/App.jsx`, então as duas listas nunca divergem.
+Os SVGs vêm do pacote [`flag-icons`](https://github.com/lipis/flag-icons), instalado como dependência. Antes de cada `dev` e `build`, o script `scripts/prepare-flags.mjs` copia para `public/flags/` **apenas os códigos que o jogo usa** — ele lê `DATA` e `SUBFLAGS` direto de `src/data/geografia.js`, então as duas listas nunca divergem.
 
 O script avisa quais códigos não existem no pacote e quais SVGs passam de 60 KB (candidatos a otimizar com SVGO). Para bandeiras que faltarem, baixe o SVG do Wikimedia Commons e salve em `public/flags/` com o mesmo código — o script preserva o que já está lá dentro apenas se você rodar depois de adicionar, então guarde os arquivos extras em um commit.
 
@@ -431,8 +642,9 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
 - [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
 - [ ] Capitais com grafia própria em francês, alemão e italiano (hoje usa a forma canônica)
-- [ ] Quebrar `App.jsx` em componentes
-- [ ] Portar para Expo e publicar nas lojas
+- [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
+- [ ] Voz do Lumus lendo as perguntas, só com as vozes do próprio aparelho
+- [ ] Código de transferência, para levar o progresso a outro aparelho sem conta
 - [ ] Conta de responsável opcional, para sincronizar entre aparelhos
 - [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
 - [ ] Raciocinar: ao errar, o app explicar o porquê da resposta certa
@@ -445,6 +657,35 @@ O app não coleta dados, não faz requisições a serviços de análise, não ex
 
 - [Política de Privacidade](public/privacidade.html) — PT-BR e EN
 - [Termos de Uso](public/termos.html) — PT-BR e EN
+
+## In English, briefly
+
+**Lumus** is a free, ad-free, offline-first educational game hub for children,
+built by **ElCamargo Soluções em TI LTDA** (Blumenau, Brazil) and given away to
+families worldwide.
+
+15 games across 6 subject areas, 2,600+ script-verified questions, 6 interface
+languages and 176 flags — in a 3.4 MB installable PWA that makes **zero
+third-party requests at runtime** and collects **no data whatsoever**. Progress
+lives in the device's own storage and never leaves it.
+
+Its pedagogy follows the **Principle Approach** (Research, Reason, Relate,
+Record), and its centre is the well-being of the family — including a short
+daily devotional meant to be read together, which each family **opts into** at
+sign-up and which is entirely absent for those who decline.
+
+Every change passes a build gate that checks the question banks for ambiguity,
+**builds a real round of every track at every difficulty** to prove it is
+playable, and runs 24 tests — among them one that guarantees all six languages
+carry exactly the same 280 interface strings.
+
+The code is MIT-licensed. The reasoning behind the main technical choices is
+recorded in [`docs/decisoes/`](docs/decisoes/), in Portuguese.
+
+## Contato
+
+**ElCamargo Soluções em TI LTDA** — CNPJ 57.299.418/0001-69 · Blumenau/SC,
+Brasil · [github.com/ElCamargo](https://github.com/ElCamargo)
 
 ## Licença
 

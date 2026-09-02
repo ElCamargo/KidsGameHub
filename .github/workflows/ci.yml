@@ -1,0 +1,54 @@
+# Portão de qualidade do Lumus.
+#
+# Roda em toda alteração: se um banco de perguntas ficou ambíguo, uma faixa de
+# dificuldade sumiu de um mapa, uma rodada não é jogável ou um idioma perdeu
+# uma frase, a build falha aqui e não chega ao aparelho de ninguém.
+#
+# ElCamargo Soluções em TI LTDA
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  qualidade:
+    name: Guardas e testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Bandeiras usadas pelo jogo
+        run: npm run prepare-flags
+
+      - name: Bancos de perguntas
+        run: npm run check-bancos
+
+      - name: Faixas de dificuldade
+        run: npm run check-faixas
+
+      - name: Uma rodada de cada trilha e faixa
+        run: npm run check-rodadas
+
+      - name: Testes
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Tamanho do que a criança baixa
+        run: |
+          echo "### Tamanho do pacote" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          du -sh dist >> $GITHUB_STEP_SUMMARY
+          ls -lh dist/assets/*.js | awk '{print $9, $5}' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
