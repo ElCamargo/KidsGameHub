@@ -94,12 +94,12 @@ const CATALOG = [
   ]},
   { id: "nature", icon: "🦁", color: "#00C2CB", games: [
       { id: "animals", icon: "🐾", color: "#00C2CB", preco: 0, leitura: false, ready: true },
-      { id: "animalQuiz", icon: "🦉", color: "#00B894", preco: 300, leitura: true, ready: true },
+      { id: "animalQuiz", icon: "🦉", color: "#00B894", preco: 300, leitura: true, vozBasta: true, ready: true },
       { id: "sciAnimals", icon: "🔬", color: "#6A5AE0", preco: 600, leitura: true, ready: true },
   ]},
   { id: "art", icon: "🎨", color: "#E84393", games: [
       { id: "color", icon: "🖍️", color: "#E84393", preco: 0, leitura: false, ready: true },
-      { id: "colors", icon: "🌈", color: "#F9A826", preco: 200, leitura: true, ready: true },
+      { id: "colors", icon: "🌈", color: "#F9A826", preco: 200, leitura: true, vozBasta: true, ready: true },
       { id: "artMem", icon: "🧩", color: "#9B59B6", preco: 500, leitura: false, ready: true },
   ]},
   { id: "eng", icon: "🔤", color: "#4C6FFF", games: [
@@ -124,6 +124,15 @@ const precoDe = g => g.preco || PRECO_PADRAO;
    ninguém fica sem ver o que ainda vai poder jogar. */
 const jogosGratisPara = leitor =>
   TODOS_JOGOS.filter(g => leitor ? !g.preco : !g.leitura).map(g => g.id);
+
+/* Jogos em que a pergunta é texto mas as ALTERNATIVAS são figuras. Quem não
+   lê não conseguia jogar; com a voz lendo a pergunta, consegue — e é a
+   diferença entre dois jogos e quatro para uma criança de quatro anos.
+
+   Os de alternativa escrita (bandeiras, capitais, ciências, curiosidades)
+   continuam de fora: ouvir quatro frases e lembrar em qual tocar é outra
+   dificuldade, e não é a que a voz resolve. */
+const JOGOS_POR_VOZ = TODOS_JOGOS.filter(g => g.vozBasta).map(g => g.id);
 
 /* Se a pergunta da leitura ficou sem resposta, a idade responde por ela. */
 const ehLeitor = perfil =>
@@ -1304,6 +1313,16 @@ function AppInterno() {
   useEffect(() => { pararVoz(); }, [screen]);
   useEffect(() => pararVoz, []);
 
+  /* A voz abre os jogos de resposta em figura para quem ainda não lê.
+     Fica num efeito porque a lista de vozes do aparelho chega depois do
+     perfil carregar — e porque só ACRESCENTA: desligar a voz não tira da
+     mão da criança um jogo que ela já estava jogando. */
+  useEffect(() => {
+    if (!loaded || !activeId || !voz || !vozOk || ehLeitor(player)) return;
+    setJogosAbertos(js => js.length && JOGOS_POR_VOZ.every(id => js.includes(id))
+      ? js : [...new Set([...js, ...JOGOS_POR_VOZ])]);
+  }, [loaded, activeId, voz, vozOk, player.leitor, player.idade]);
+
   /* ----- relógio + refill ----- */
   useEffect(() => {
     const i = setInterval(() => setNow(Date.now()), 1000);
@@ -1677,7 +1696,7 @@ function AppInterno() {
           voz, setVoz, vozOk }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, lang, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
-          momento, setMomento, momentoFeitoHoje,
+          momento, setMomento, momentoFeitoHoje, voz: voz && vozOk,
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
             const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
@@ -4208,7 +4227,7 @@ function LangGame({ t, lang, escolher, setScreen }) {
 }
 
 /* ---------- Home do hub ---------- */
-function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje }) {
+function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz }) {
   return (
     <div>
       <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill}
@@ -4244,7 +4263,7 @@ function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickG
           por quê evita a criança achar que quebrou — e o adulto, que faltou. */}
       {!ehLeitor(player) && (
         <div style={{ color: "#A7B3EA", fontWeight: 700, fontSize: 11, marginTop: -6, marginBottom: 10 }}>
-          🔒 {t.needsReading}
+          {voz ? `🔊 ${t.voiceOpens}` : `🔒 ${t.needsReading}`}
         </div>
       )}
 

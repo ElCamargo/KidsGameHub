@@ -253,7 +253,12 @@ precisa dela é justamente a que joga em modo avião.
 Nada é gravado, enviado ou medido — é síntese local, e só.
 
 **Quem ainda não lê nasce com a voz ligada**, porque para essa criança a voz
-*é* a pergunta. Quem já lê liga quando quiser, na ficha do jogador. Durante
+*é* a pergunta. E a voz **abre jogos**: o Quiz dos Animais e o Cores e Formas
+perguntam por escrito mas respondem por figura — ouvindo a pergunta, uma
+criança de quatro anos joga os dois. Os de alternativa escrita (bandeiras,
+capitais, ciências, curiosidades) continuam de fora: ouvir quatro frases e
+lembrar em qual tocar é outra dificuldade, e não é a que a voz resolve.
+Desligar a voz nunca tira da mão dela um jogo que já estava aberto. Quem já lê liga quando quiser, na ficha do jogador. Durante
 uma partida há o 🔊 para ouvir de novo. Em duelo a voz cala: o outro jogador
 ouviria a pergunta antes da vez dele.
 
@@ -725,7 +730,6 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
 - [ ] Código de transferência, para levar o progresso a outro aparelho sem conta
 - [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
-- [ ] Rever o que nasce aberto para quem não lê, agora que a voz existe
 
 ## Privacidade
 
