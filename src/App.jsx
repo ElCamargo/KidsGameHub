@@ -61,6 +61,7 @@ const T = {
     giftWeek: "Presente da semana", giveGift: "Presentear",
     painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
     thisWeek: "Esta semana ·", week: "Semana de", allTime: "No total",
+    duoPass: "Passe o celular para {quem}", duoReady: "Estou pronto!", duoTakeTurns: "Uma pergunta de cada vez, revezando",
     duoPlay: "Jogar em dupla", duoWho: "Quem vai jogar com você?", duoWith: "Em dupla com",
     duoFree: "Em dupla é de graça", duoBoth: "para os dois!", duoPaidToday: "Hoje o prêmio da dupla já saiu.",
     duoTie: "Empate!", duoWon: "{quem} venceu!", yourTurn: "SUA VEZ", guest: "Convidado",
@@ -197,6 +198,7 @@ const T = {
     giftWeek: "This week's gift", giveGift: "Give a gift",
     painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
     thisWeek: "This week ·", week: "Week of", allTime: "All time",
+    duoPass: "Pass the phone to {quem}", duoReady: "I'm ready!", duoTakeTurns: "One question each, taking turns",
     duoPlay: "Play in pairs", duoWho: "Who is playing with you?", duoWith: "Playing with",
     duoFree: "Free when you play in pairs", duoBoth: "for both of you!", duoPaidToday: "Today's pair prize is already taken.",
     duoTie: "It's a tie!", duoWon: "{quem} wins!", yourTurn: "YOUR TURN", guest: "Guest",
@@ -309,6 +311,7 @@ const T = {
     giftWeek: "Regalo de la semana", giveGift: "Regalar",
     painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
     thisWeek: "Esta semana ·", week: "Semana del", allTime: "En total",
+    duoPass: "Pasa el celular a {quem}", duoReady: "¡Estoy listo!", duoTakeTurns: "Una pregunta cada uno, por turnos",
     duoPlay: "Jugar en pareja", duoWho: "¿Quién juega contigo?", duoWith: "En pareja con",
     duoFree: "En pareja es gratis", duoBoth: "¡para los dos!", duoPaidToday: "El premio de pareja de hoy ya salió.",
     duoTie: "¡Empate!", duoWon: "¡{quem} ganó!", yourTurn: "TU TURNO", guest: "Invitado",
@@ -435,6 +438,7 @@ const PACKS = {
     giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
     painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
     thisWeek: "Cette semaine ·", week: "Semaine du", allTime: "Au total",
+    duoPass: "Passe le téléphone à {quem}", duoReady: "Je suis prêt !", duoTakeTurns: "Une question chacun, à tour de rôle",
     duoPlay: "Jouer à deux", duoWho: "Qui joue avec toi ?", duoWith: "À deux avec",
     duoFree: "À deux, c'est gratuit", duoBoth: "pour vous deux !", duoPaidToday: "Le prix du duo est déjà pris aujourd'hui.",
     duoTie: "Égalité !", duoWon: "{quem} a gagné !", yourTurn: "À TOI", guest: "Invité",
@@ -540,6 +544,7 @@ const PACKS = {
     giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
     painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
     thisWeek: "Diese Woche ·", week: "Woche vom", allTime: "Insgesamt",
+    duoPass: "Gib das Handy an {quem}", duoReady: "Ich bin bereit!", duoTakeTurns: "Eine Frage pro Person, abwechselnd",
     duoPlay: "Zu zweit spielen", duoWho: "Wer spielt mit dir?", duoWith: "Zu zweit mit",
     duoFree: "Zu zweit ist es gratis", duoBoth: "für euch beide!", duoPaidToday: "Der Preis für heute ist schon vergeben.",
     duoTie: "Unentschieden!", duoWon: "{quem} hat gewonnen!", yourTurn: "DU BIST DRAN", guest: "Gast",
@@ -645,6 +650,7 @@ const PACKS = {
     giftWeek: "Regalo della settimana", giveGift: "Regalare",
     painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
     thisWeek: "Questa settimana ·", week: "Settimana del", allTime: "In totale",
+    duoPass: "Passa il telefono a {quem}", duoReady: "Sono pronto!", duoTakeTurns: "Una domanda a testa, a turno",
     duoPlay: "Giocare in due", duoWho: "Chi gioca con te?", duoWith: "In due con",
     duoFree: "In due è gratis", duoBoth: "per tutti e due!", duoPaidToday: "Il premio in coppia di oggi è già stato dato.",
     duoTie: "Pareggio!", duoWon: "Ha vinto {quem}!", yourTurn: "TOCCA A TE", guest: "Ospite",
@@ -2090,16 +2096,48 @@ function AppInterno() {
   /* Fase já vencida com 3 estrelas é treino livre: cobrar de novo por algo
      que a criança já dominou só a empurra para longe de repetir. As outras
      continuam custando — é o que dá sentido às lumicoins. */
-  function startRound() {
-    const custo = custoDaFase(stars, sel.cont, sel.stage);
+  function startRound(comDupla = null) {
+    // Duelo é de graça, como a memória em dupla, e pelo mesmo motivo.
+    const custo = comDupla ? 0 : custoDaFase(stars, sel.cont, sel.stage);
     if (coins < custo) { setToast(t.notEnough); return; }
     if (custo) setCoins(c => c - custo);
     const quiz = quizDe(sel.cont);
-    setRound(quiz ? quiz.montar(sel.stage, t, lang, sel.cont) : buildRound(sel.cont, sel.stage, lang));
+    const r = quiz ? quiz.montar(sel.stage, t, lang, sel.cont) : buildRound(sel.cont, sel.stage, lang);
+    setRound(comDupla ? { ...r, duo: comDupla, pontos: [0, 0] } : r);
     setScreen("game");
   }
 
+  /* Um duelo não mexe em fase, estrela nem recorde: as perguntas foram
+     divididas entre dois, e metade de uma rodada não vence fase nenhuma. */
+  async function fimDuelo(r) {
+    const hoje = diaISO();
+    const premio = duplaDia === hoje ? 0 : ECON.duplaReward;
+    if (premio) {
+      setCoins(c => Math.min(ECON.cap, c + premio));
+      setDuplaDia(hoje);
+      registrarSemana({ lumicoins: premio });
+    }
+    setStats(x => ({ ...x, earned: x.earned + premio, duplas: (x.duplas || 0) + 1 }));
+    registrarSemana({ duplas: 1 });
+    if (r.duo?.id) {
+      try {
+        const d = await lerSave(r.duo.id);
+        if (premio) {
+          d.coins = Math.min(ECON.cap, (d.coins || 0) + premio);
+          d.stats = { ...d.stats, earned: (d.stats?.earned || 0) + premio,
+            maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
+        }
+        d.stats = { ...d.stats, duplas: (d.stats?.duplas || 0) + 1 };
+        window.storage.set(`lumus:p:${r.duo.id}`, JSON.stringify(d));
+      } catch { }
+    }
+    const [a, b] = r.pontos;
+    setRound({ ...r, vencedor: a === b ? null : a > b ? 0 : 1, reward: premio });
+    setScreen("result");
+  }
+
   function finishRound(r) {
+    if (r.duo) { fimDuelo(r); return; }
     const pct = Math.round((r.right / r.qs.length) * 100);
     // As estrelas contam ERROS, não porcentagem: numa rodada de 5 perguntas
     // a régua de porcentagem pula de 80% para 100% e as 2 estrelas somem.
@@ -2319,42 +2357,11 @@ function AppInterno() {
           duo: mem.duo, eu: { name: player.name, avatar: player.avatar },
           onFinish: fimMemoria, onQuit: () => setScreen("memLevels") }} />}
         {screen === "memResult" && mem?.duo && (
-          <div style={{ paddingTop: 20 }} className="narrow">
-            <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
-              <div style={{ fontSize: 54 }}>{mem.vencedor == null ? "🤝" : "🏆"}</div>
-              <div className="display" style={{ fontSize: 24, color: "#1B2A6B" }}>
-                {mem.vencedor == null ? t.duoTie
-                  : t.duoWon.replace("{quem}", mem.vencedor === 0 ? player.name : mem.duo.name)}
-              </div>
-
-              <div style={{ display: "flex", gap: 10, margin: "16px 0" }}>
-                {[{ name: player.name, avatar: player.avatar }, mem.duo].map((j, i) => (
-                  <div key={i} style={{ flex: 1, background: "#EEF1FF", borderRadius: 16, padding: 12 }}>
-                    <div style={{ display: "grid", placeItems: "center" }}><Rosto p={j} size={44} /></div>
-                    <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 12, marginTop: 5,
-                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{j?.name || "—"}</div>
-                    <div className="display" style={{ fontSize: 26, color: mem.vencedor === i ? "#00B894" : "#1B2A6B" }}>
-                      {mem.pontos?.[i] ?? 0}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 12 }}>
-                ⏱️ {tempoFmt(mem.seg)} · {t.moves}: {mem.jogadas}
-              </div>
-
-              {/* Os dois levam o mesmo, tenham ganhado ou perdido. */}
-              <div className="display" style={{ fontSize: 18, color: mem.reward ? "#F9A826" : "#8B93AD", marginBottom: 16 }}>
-                {mem.reward ? `🪙 ${mem.reward} ${t.duoBoth}` : t.duoPaidToday}
-              </div>
-
-              <div style={{ display: "grid", gap: 9 }}>
-                <Btn full color="#4C6FFF" onClick={() => comecarMemoria(mem.nivel, mem.tema, mem.duo)}>{t.again}</Btn>
-                <Btn full color="#8B93AD" onClick={() => setScreen("memLevels")}>←</Btn>
-              </div>
-            </div>
-          </div>
+          <PlacarDupla {...{ t, eu: { name: player.name, avatar: player.avatar }, outro: mem.duo,
+            pontos: mem.pontos, vencedor: mem.vencedor, reward: mem.reward,
+            rodape: `⏱️ ${tempoFmt(mem.seg)} · ${t.moves}: ${mem.jogadas}`,
+            aoRepetir: () => comecarMemoria(mem.nivel, mem.tema, mem.duo),
+            aoSair: () => setScreen("memLevels") }} />
         )}
         {screen === "memResult" && mem && !mem.duo && (
           <div style={{ paddingTop: 20 }}>
@@ -2402,10 +2409,18 @@ function AppInterno() {
             setScreen("map"); if (!stats.rounds) setTutorial(true);
           } }} />}
         {screen === "map" && <MapScreen {...{ t, lang, player, coins, nextRefill, unlocked, progress, unlockContinent, setSel, setScreen, stats, tutorial, setTutorial }} />}
-        {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao }} />}
+        {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao,
+          dupla, pedirDupla: () => setEscolhendoDupla(true), sairDaDupla: () => setDupla(null) }} />}
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen,
           onQuit: () => { setRound(null); setScreen("stages"); } }} />}
-        {screen === "result" && round && <Result {...{ t, round, player, setScreen, setSel, sel, startRound, coins,
+        {screen === "result" && round?.duo && (
+          <PlacarDupla {...{ t, eu: { name: player.name, avatar: player.avatar }, outro: round.duo,
+            pontos: round.pontos, vencedor: round.vencedor, reward: round.reward,
+            rodape: `${nomeDaTrilha(round.cont, t)} · ${t.stage} ${round.stage}`,
+            aoRepetir: () => startRound(round.duo),
+            aoSair: () => setScreen("stages") }} />
+        )}
+        {screen === "result" && round && !round.duo && <Result {...{ t, round, player, setScreen, setSel, sel, startRound, coins,
           escrever: () => abrirCaderno(perguntaDoRegistro(sementeDoTexto(round.cont) + round.stage),
             `${nomeDaTrilha(round.cont, t)} · ${t.stage} ${round.stage}`, "result") }} />}
         {screen === "shop" && <Shop {...{ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, setScreen, voltaPara }} />}
@@ -4658,6 +4673,46 @@ function PinModal({ t, titulo, onOk, onCancelar, erro }) {
   );
 }
 
+/* O placar de uma partida em dupla — o mesmo na memória e no quiz, porque é a
+   mesma pergunta: quem fez quantos, e quanto os dois levaram. */
+function PlacarDupla({ t, eu, outro, pontos, vencedor, reward, rodape, aoRepetir, aoSair }) {
+  return (
+    <div className="narrow" style={{ paddingTop: 20 }}>
+      <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
+        <div style={{ fontSize: 54 }}>{vencedor == null ? "🤝" : "🏆"}</div>
+        <div className="display" style={{ fontSize: 24, color: "#1B2A6B" }}>
+          {vencedor == null ? t.duoTie : t.duoWon.replace("{quem}", (vencedor === 0 ? eu : outro)?.name || "—")}
+        </div>
+
+        <div style={{ display: "flex", gap: 10, margin: "16px 0" }}>
+          {[eu, outro].map((j, i) => (
+            <div key={i} style={{ flex: 1, background: "#EEF1FF", borderRadius: 16, padding: 12 }}>
+              <div style={{ display: "grid", placeItems: "center" }}><Rosto p={j} size={44} /></div>
+              <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 12, marginTop: 5,
+                overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{j?.name || "—"}</div>
+              <div className="display" style={{ fontSize: 26, color: vencedor === i ? "#00B894" : "#1B2A6B" }}>
+                {pontos?.[i] ?? 0}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {rodape && <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 12 }}>{rodape}</div>}
+
+        {/* Os dois levam o mesmo, tenham ganhado ou perdido. */}
+        <div className="display" style={{ fontSize: 18, color: reward ? "#F9A826" : "#8B93AD", marginBottom: 16 }}>
+          {reward ? `🪙 ${reward} ${t.duoBoth}` : t.duoPaidToday}
+        </div>
+
+        <div style={{ display: "grid", gap: 9 }}>
+          <Btn full color="#4C6FFF" onClick={aoRepetir}>{t.again}</Btn>
+          <Btn full color="#8B93AD" onClick={aoSair}>←</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Meu Caderno ----------
    Registrar, o 4º R. A criança escreve o que ficou — e quem ainda não escreve
    toca carimbos. Os dois valem: o caderno não pode ser só de quem já lê.
@@ -5559,7 +5614,7 @@ function Modal({ children, onClose }) {
 }
 
 /* ---------- Seleção de fases ---------- */
-function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao }) {
+function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao, dupla, pedirDupla, sairDaDupla }) {
   const quiz = quizDe(sel.cont);             // jogos fora do mapa-múndi
   const cont = quiz ? { color: quiz.cor } : ROUTE.find(r => r.id === sel.cont);
   const done = progress[sel.cont] || 0;
@@ -5686,9 +5741,29 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
           ⏱️ {t.record}: {tempoFmt(records[sel.cont][sel.stage])}
         </div>
       )}
-      <Btn full color={BAND_COLOR[band]} disabled={coins < custoFase || !bandaAberta(band)} onClick={startRound}>
-        ▶ {t.stage} {sel.stage} · {t.levels[band]} · {custoFase ? `${t.cost} 🪙${custoFase}` : `⭐ ${t.free}`}
-      </Btn>
+      {dupla ? (
+        <>
+          <div className="card" style={{ padding: 10, marginBottom: 9, display: "flex", alignItems: "center", gap: 10 }}>
+            <Rosto p={dupla} size={32} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 15 }}>{t.duoWith} {dupla.name}</div>
+              <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>{t.duoTakeTurns}</div>
+            </div>
+            <Btn small color="#8B93AD" onClick={sairDaDupla}>✕</Btn>
+          </div>
+          <Btn full color="#00C2CB" disabled={!bandaAberta(band)} onClick={() => startRound(dupla)}>
+            👥 {t.stage} {sel.stage} · {t.levels[band]}
+          </Btn>
+        </>
+      ) : (
+        <>
+          <Btn full color={BAND_COLOR[band]} disabled={coins < custoFase || !bandaAberta(band)} onClick={() => startRound()}>
+            ▶ {t.stage} {sel.stage} · {t.levels[band]} · {custoFase ? `${t.cost} 🪙${custoFase}` : `⭐ ${t.free}`}
+          </Btn>
+          <div style={{ height: 9 }} />
+          <Btn full color="rgba(255,255,255,.2)" onClick={pedirDupla}>👥 {t.duoPlay}</Btn>
+        </>
+      )}
     </div>
   );
 }
@@ -5715,6 +5790,13 @@ const tempoDaPergunta = (round, q) => round.time == null ? null : round.time + f
 
 function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen, onQuit }) {
   const q = round.qs[round.i];
+  /* Em duelo as perguntas se alternam: a de índice par é de quem convidou.
+     Entre uma e outra entra a tela de passar o celular — sem ela o segundo
+     jogador vê a resposta do primeiro e o duelo acaba antes de começar. */
+  const duo = round.duo;
+  const vez = duo ? round.i % 2 : 0;
+  const daVez = duo ? (vez === 0 ? { name: player.name, avatar: player.avatar } : duo) : null;
+  const [passando, setPassando] = useState(false);
   const tempoQ = tempoDaPergunta(round, q);
   const [left, setLeft] = useState(tempoQ);
   const [removed, setRemoved] = useState([]);
@@ -5730,11 +5812,12 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
   }, [round.i]);
 
   useEffect(() => {
+    if (passando) return;                              // relógio parado na troca de mãos
     if (round.time == null || picked !== null) return; // Fácil não tem cronômetro
     if (left <= 0) { answer(null); return; }
     const x = setTimeout(() => setLeft(l => l - 1), 1000);
     return () => clearTimeout(x);
-  }, [left, picked, round.time]);
+  }, [left, picked, round.time, passando]);
 
   function answer(opt) {
     if (lockRef.current) return;
@@ -5746,6 +5829,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
       const fast = ok && tempoQ != null && left >= tempoQ - 3;   // respondeu em ~3s
       const next = {
         ...round,
+        ...(duo ? { pontos: round.pontos.map((v, k) => v + (ok && k === vez ? 1 : 0)) } : null),
         i: round.i + 1,
         right: round.right + (ok ? 1 : 0),
         flash: round.flash + (fast ? 1 : 0),
@@ -5755,13 +5839,14 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
         streak,
         bestStreak: Math.max(round.bestStreak || 0, streak),
       };
-      if (next.i >= round.qs.length) finishRound(next); else setRound(next);
+      if (next.i >= round.qs.length) finishRound(next);
+      else { setRound(next); if (duo) setPassando(true); }
     }, 900);
   }
 
   function useHint(n) {
     const cost = n === 1 ? ECON.hint1 : n === 2 ? ECON.hint2 : ECON.hint3;
-    if (coins < cost || hintLevel >= n || picked) return;
+    if (duo || coins < cost || hintLevel >= n || picked) return;
     setCoins(c => c - cost);
     const wrongs = shuffle(q.options.filter(o => o !== q.answer && !removed.includes(o)));
     setRemoved(r => [...r, ...wrongs.slice(0, n - hintLevel)]);
@@ -5771,6 +5856,29 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
 
   const pct = tempoQ == null ? 100 : (left / tempoQ) * 100;
   const barColor = pct > 55 ? "#00B894" : pct > 25 ? "#F9A826" : "#E74C3C";
+
+  if (passando) return (
+    <div className="narrow" style={{ paddingTop: 40 }}>
+      <div className="card pop" style={{ padding: 26, textAlign: "center" }}>
+        <div style={{ fontSize: 46 }}>🤝</div>
+        <div style={{ display: "grid", placeItems: "center", margin: "10px 0 6px" }}>
+          <Rosto p={daVez} size={72} />
+        </div>
+        <div className="display" style={{ fontSize: 22, color: "#1B2A6B", lineHeight: 1.2 }}>
+          {t.duoPass.replace("{quem}", daVez?.name || "—")}
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 14, margin: "14px 0" }}>
+          {[{ name: player.name }, duo].map((j, i) => (
+            <div key={i} style={{ textAlign: "center", opacity: vez === i ? 1 : .5 }}>
+              <div className="display" style={{ fontSize: 24, color: "#1B2A6B" }}>{round.pontos[i]}</div>
+              <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10 }}>{j?.name}</div>
+            </div>
+          ))}
+        </div>
+        <Btn full color="#00B894" onClick={() => setPassando(false)}>{t.duoReady}</Btn>
+      </div>
+    </div>
+  );
 
   return (
     <div className="narrow">
@@ -5783,8 +5891,30 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
             <div key={i} style={{ flex: 1, height: 7, borderRadius: 4, background: i < round.i ? "#00E5A0" : "rgba(255,255,255,.25)" }} />
           ))}
         </div>
-        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "5px 10px", fontWeight: 900, fontSize: 14 }}><Coin n={coins} /></div>
+        {duo ? (
+          <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+            {round.pontos.map((v, i) => (
+              <div key={i} style={{ background: vez === i ? "#F9A826" : "rgba(255,255,255,.18)",
+                color: vez === i ? "#5A3B00" : "#fff", borderRadius: 999, padding: "5px 9px", fontWeight: 900, fontSize: 14 }}>
+                {v}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "5px 10px", fontWeight: 900, fontSize: 14 }}><Coin n={coins} /></div>
+        )}
       </div>
+
+      {/* De quem é a vez, ao lado da pergunta: a criança confere sem perguntar. */}
+      {duo && (
+        <div className="card" style={{ padding: "6px 10px", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+          <Rosto p={daVez} size={24} />
+          <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 13, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {daVez?.name}
+          </div>
+          <div style={{ color: "#F9A826", fontWeight: 900, fontSize: 10 }}>{t.yourTurn}</div>
+        </div>
+      )}
 
       {/* timer (o modo Fácil joga sem cronômetro) */}
       {round.time == null ? (
@@ -5853,8 +5983,9 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
         })}
       </div>
 
-      {/* dicas */}
-      <div style={{ marginTop: 14 }}>
+      {/* dicas — em duelo não existem: comprar a vitória sobre o irmão
+          não é jogo, e o outro estaria pagando com as lumicoins dele */}
+      <div style={{ marginTop: 14, display: duo ? "none" : "block" }}>
         <div style={{ color: "#C9D2FF", fontWeight: 800, fontSize: 12, marginBottom: 6 }}>💡 {t.hints}</div>
         <div style={{ display: "flex", gap: 7 }}>
           {[[1, ECON.hint1, t.remove1], [2, ECON.hint2, t.remove2], [3, ECON.hint3, t.remove3]].map(([n, c, label]) => (

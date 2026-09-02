@@ -108,7 +108,7 @@ aparelho aparece num cartão com idade, se já lê, e o que ela andou fazendo:
 
 | No cartão | O que mostra |
 |---|---|
-| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, páginas de caderno, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
+| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, páginas de caderno, partidas em dupla, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
 | ∑ No total | rodadas, estrelas, conquistas, dias seguidos e lumicoins de sempre |
 | 📔 Meu Caderno | as **três últimas páginas da semana**, com as palavras da criança |
 | 🎨 Pintar e Colorir | os **últimos cinco desenhos**, desenhados ali — não um número dizendo quantos |
@@ -154,6 +154,39 @@ E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
 presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
+### Dois jogadores no mesmo aparelho
+
+Um celular, duas crianças — ou uma criança e o pai. Sem segundo aparelho, sem
+internet, sem conta: **passando a vez**.
+
+Funciona em dois lugares:
+
+| Onde | Como é a vez |
+|---|---|
+| **Memória**, nos cinco temas | cada um vira duas cartas; **quem acerta o par joga de novo** — a regra do jogo de mesa |
+| **Qualquer quiz**, em qualquer fase aberta | as perguntas se alternam, e entre uma e outra entra a tela *"passe o celular para…"* |
+
+O parceiro sai da lista de perfis do aparelho, ou é um **convidado** — o primo
+que veio passar a tarde não precisa se cadastrar para jogar uma partida.
+
+**De quem é a vez fica grande na tela**, com o rosto e o nome de quem joga.
+Sem isso, jogo em dupla vira discussão. No quiz há ainda a tela de passagem, e
+ela não é enfeite: sem ela o segundo jogador vê a resposta do primeiro e o
+duelo acaba antes de começar. **O cronômetro para** enquanto o aparelho troca
+de mão.
+
+**Em dupla é de graça, e paga os dois** — ganhando ou perdendo, 20 lumicoins na
+primeira partida do dia. O que queremos que aconteça de novo amanhã é o irmão
+chamar o irmão, não um vencer o outro. Depois disso a partida continua livre,
+só não paga de novo.
+
+**O que a dupla não mexe:** fase, estrela, recorde e rodada. As perguntas foram
+divididas entre dois, e metade de uma rodada não vence fase nenhuma; recorde de
+um não se faz a quatro mãos. **Dicas não existem em duelo** — comprar a vitória
+sobre o irmão não é jogo.
+
+No cartão do responsável, a coluna 👥 conta as partidas em dupla da semana.
 
 ### Meu Caderno
 
@@ -403,7 +436,6 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Conta de responsável opcional, para sincronizar entre aparelhos
 - [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
 - [ ] Raciocinar: ao errar, o app explicar o porquê da resposta certa
-- [ ] Dois jogadores no mesmo aparelho
 
 ## Privacidade
 
