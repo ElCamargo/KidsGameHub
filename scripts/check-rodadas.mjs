@@ -24,7 +24,7 @@ const EXPORTA = [
   "buildRound", "poolFor", "montarRodadaMath", "montarRodadaBichos",
   "montarRodadaIdioma", "montarRodadaArte", "montarRodadaBiblia",
   "montarRodadaCapitais", "montarRodadaCuriosidades", "montarRodadaCiencias",
-  "DIFFS", "T", "ROUTE", "CAP_REGIOES", "totalDe", "bandFor", "escadaDe",
+  "DIFFS", "T", "ROUTE", "CAP_REGIOES", "totalDe", "bandFor", "escadaDe", "explicacaoDe",
 ];
 
 async function carregarApp() {
@@ -66,6 +66,12 @@ function conferirRodada(rotulo, r, { exigeBandeira = false } = {}) {
     if (new Set(q.options).size !== q.options.length) aviso(`${onde}: alternativa repetida`);
     if (!q.options.includes(q.answer)) aviso(`${onde}: a resposta certa não está entre as alternativas`);
     if (exigeBandeira && (typeof q.flag !== "string" || !q.flag)) aviso(`${onde}: sem bandeira`);
+    // Raciocinar: errar sem saber por quê ensina só que errou.
+    const porque = app.explicacaoDe(q);
+    if (!porque || !porque.trim()) aviso(`${onde}: sem explicação para quem errar`);
+    // A frase montada da própria pergunta tem que dizer a resposta; a frase
+    // curada no banco pode dizer o fato de outro jeito, e aí é ela que manda.
+    else if (!q.porque && !String(porque).includes(String(q.answer))) aviso(`${onde}: a explicação não diz a resposta certa`);
   });
   return r.qs.length;
 }

@@ -51,6 +51,7 @@ const FRASES = {
     versiculoLivro: "Em que livro está escrito: “{x}”?",
     complete: "Complete: “{x} ...”",
     disse: "Quem disse: “{x}”?",
+    porqueP: "{nome} {feito}. A história está no livro de {livro}.",
   },
   en: {
     capitulos: "How many chapters are in the book of {x}?",
@@ -77,6 +78,7 @@ const FRASES = {
     versiculoLivro: "In which book is it written: “{x}”?",
     complete: "Complete it: “{x} ...”",
     disse: "Who said: “{x}”?",
+    porqueP: "{nome} {feito}. The story is in the book of {livro}.",
   },
   es: {
     capitulos: "¿Cuántos capítulos tiene el libro de {x}?",
@@ -103,6 +105,7 @@ const FRASES = {
     versiculoLivro: "¿En qué libro está escrito: “{x}”?",
     complete: "Completa: “{x} ...”",
     disse: "¿Quién dijo: “{x}”?",
+    porqueP: "{nome} {feito}. La historia está en el libro de {livro}.",
   },
 };
 
@@ -139,9 +142,9 @@ function numerosProximos(r, todos) {
 /* Constrói TODAS as perguntas de um idioma. Roda uma vez e fica em cache. */
 function construir(lang) {
   const qs = [];
-  const add = (n, pergunta, certa, erradas3) => {
+  const add = (n, pergunta, certa, erradas3, porque) => {
     if (!erradas3) return;
-    qs.push({ n, q: [pergunta, certa, erradas3] });
+    qs.push({ n, q: [pergunta, certa, erradas3, porque] });
   };
 
   /* ---------- os 66 livros ---------- */
@@ -195,22 +198,30 @@ function construir(lang) {
   for (const p of PERSONAGENS) {
     const pn = nome(p.nome, lang);
     const unico = contagemNomes.get(pn) === 1;
+    const lv = livroPt.get(p.livro);
+    // Uma frase só, usada nas quatro perguntas da pessoa: quem foi, o que fez
+    // e onde está a história. É isto que a criança lê quando erra.
+    const porque = lv
+      ? FRASES[idioma(lang)].porqueP
+          .replace("{nome}", pn)
+          .replace("{feito}", nome(p.feito, lang))
+          .replace("{livro}", nome(lv, lang))
+      : undefined;
 
     // O feito é sempre único, então esta pergunta vale mesmo para nomes repetidos.
-    add(p.n, tx(lang, "quem", nome(p.feito, lang)), pn, erradas(todosNomes, pn));
+    add(p.n, tx(lang, "quem", nome(p.feito, lang)), pn, erradas(todosNomes, pn), porque);
 
     if (!unico) continue;      // daqui para baixo o nome tem que identificar a pessoa
 
     const feito = maiuscula(nome(p.feito, lang));
-    add(Math.min(4, p.n + 1), tx(lang, "oQueFez", pn), feito, erradas(todosFeitos, feito));
+    add(Math.min(4, p.n + 1), tx(lang, "oQueFez", pn), feito, erradas(todosFeitos, feito), porque);
 
-    const lv = livroPt.get(p.livro);
     if (lv) {
       const ln = nome(lv, lang);
-      add(Math.min(4, p.n + 1), tx(lang, "livroDe", pn), ln, erradas(nomesLivros, ln));
+      add(Math.min(4, p.n + 1), tx(lang, "livroDe", pn), ln, erradas(nomesLivros, ln), porque);
     }
     const pap = nome(PAPEIS[p.papel], lang);
-    add(p.n, tx(lang, "papel", pn), pap, erradas(todosPapeis, pap));
+    add(p.n, tx(lang, "papel", pn), pap, erradas(todosPapeis, pap), porque);
   }
 
   const paisPool = PARENTESCO.map(x => x[4 + (idioma(lang) === "pt" ? 0 : idioma(lang) === "en" ? 1 : 2)]);

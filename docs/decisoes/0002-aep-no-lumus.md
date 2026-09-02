@@ -46,8 +46,12 @@ família.
 | Passo | Onde ele vive no app | Estado |
 |---|---|---|
 | Pesquisar | a rodada de perguntas que já existe | **feito** |
-| Raciocinar | ao errar, o app diz o porquê da resposta certa — não só "errou" | a fazer |
+| Raciocinar | ao errar, o app diz o porquê da resposta certa — não só "errou" | **feito** |
 | Relacionar | ao fim da rodada, uma pergunta que liga o conteúdo a um dos 7 princípios | **feito** |
+
+Os quatro passos estão de pé. O que falta agora não é estrutura, é conteúdo:
+explicação curada nas perguntas bíblicas que ainda caem na própria pergunta, e
+a revisão pastoral do banco inteiro.
 | Registrar | **Meu Caderno**: a criança escreve — ou toca carimbos, se ainda não escreve — e o responsável vê | **feito** |
 
 E o **Momento em Família**: um devocional diário curto — versículo, uma pergunta
