@@ -56,6 +56,8 @@ const T = {
     ageMore: "10+", ageAny: "Ou escreva a idade — o jogo serve para qualquer uma.",    years: "anos", family: "Meus filhos", reads: "Já lê", readsNot: "Ainda não lê",
     familyEmpty: "Ainda não há nenhuma criança neste aparelho.",
     familyHint: "Você acompanha, eles jogam.", byGame: "Por jogo",
+    giftWeek: "Presente da semana", giveGift: "Presentear",
+    giftHint: "100 lumicoins por semana para dar a quem você quiser. O que sobra não acumula.",
     needsReading: "Abre quando souber ler — ou com lumicoins",
     stage: "Fase",
     cost: "Custa",
@@ -165,6 +167,8 @@ const T = {
     ageMore: "10+", ageAny: "Or type the age — the game works at any age.",    years: "years old", family: "My children", reads: "Reads", readsNot: "Not reading yet",
     familyEmpty: "No child on this device yet.",
     familyHint: "You follow along, they play.", byGame: "By game",
+    giftWeek: "This week's gift", giveGift: "Give a gift",
+    giftHint: "100 lumicoins a week to give to whoever you like. What is left does not carry over.",
     needsReading: "Opens when you can read — or with lumicoins",
     stage: "Stage", cost: "Costs",
     notEnough: "Not enough lumicoins. Wait for your free lumicoins!",
@@ -250,6 +254,8 @@ const T = {
     ageMore: "10+", ageAny: "O escribe la edad — el juego sirve para cualquiera.",    years: "años", family: "Mis hijos", reads: "Ya lee", readsNot: "Todavía no lee",
     familyEmpty: "Aún no hay ningún niño en este aparato.",
     familyHint: "Tú acompañas, ellos juegan.", byGame: "Por juego",
+    giftWeek: "Regalo de la semana", giveGift: "Regalar",
+    giftHint: "100 lumicoins por semana para dar a quien quieras. Lo que sobra no se acumula.",
     needsReading: "Se abre cuando sepas leer — o con lumicoins",
     stage: "Nivel", cost: "Cuesta",
     notEnough: "No hay lumicoins. ¡Espera las gratis!",
@@ -349,6 +355,8 @@ const PACKS = {
     ageMore: "10+", ageAny: "Ou écris l'âge — le jeu marche à tout âge.",    years: "ans", family: "Mes enfants", reads: "Sait lire", readsNot: "Ne lit pas encore",
     familyEmpty: "Aucun enfant sur cet appareil pour l'instant.",
     familyHint: "Tu suis, ils jouent.", byGame: "Par jeu",
+    giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
+    giftHint: "100 lumicoins par semaine à offrir à qui tu veux. Le reste ne se cumule pas.",
     needsReading: "S'ouvre quand tu sauras lire — ou avec des lumicoins",
     stage: "Niveau", cost: "Coûte", notEnough: "Pas assez de lumicoins. Attends les lumicoins gratuites !",
     question: "Question", whichCountry: "Quel pays est ce drapeau ?", whichRegion: "Quelle région est ce drapeau ?",
@@ -427,6 +435,8 @@ const PACKS = {
     ageMore: "10+", ageAny: "Oder das Alter eintippen — das Spiel passt zu jedem Alter.",    years: "Jahre", family: "Meine Kinder", reads: "Liest schon", readsNot: "Liest noch nicht",
     familyEmpty: "Noch kein Kind auf diesem Gerät.",
     familyHint: "Du begleitest, sie spielen.", byGame: "Nach Spiel",
+    giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
+    giftHint: "100 Lumicoins pro Woche zum Verschenken. Was übrig bleibt, verfällt.",
     needsReading: "Öffnet sich, wenn du lesen kannst — oder mit Lumicoins",
     stage: "Stufe", cost: "Kostet", notEnough: "Nicht genug Lumicoins. Warte auf die Gratis-Lumicoins!",
     question: "Frage", whichCountry: "Welches Land ist diese Flagge?", whichRegion: "Welche Region ist diese Flagge?",
@@ -505,6 +515,8 @@ const PACKS = {
     ageMore: "10+", ageAny: "Oppure scrivi l'età — il gioco va bene a ogni età.",    years: "anni", family: "I miei figli", reads: "Sa leggere", readsNot: "Non legge ancora",
     familyEmpty: "Ancora nessun bambino su questo apparecchio.",
     familyHint: "Tu segui, loro giocano.", byGame: "Per gioco",
+    giftWeek: "Regalo della settimana", giveGift: "Regalare",
+    giftHint: "100 lumicoins a settimana da regalare a chi vuoi. Quel che avanza non si accumula.",
     needsReading: "Si apre quando saprai leggere — o con lumicoins",
     stage: "Livello", cost: "Costa", notEnough: "Lumicoins insufficienti. Aspetta quelle gratis!",
     question: "Domanda", whichCountry: "Di che paese è questa bandiera?", whichRegion: "Di che regione è questa bandiera?",
@@ -818,6 +830,11 @@ const ECON = {
   hint1: 8, hint2: 20, hint3: 80,
   reward: { 1: 25, 2: 45, 3: 65 },  // por estrela, +5 extra se não usar dica
   memReward: { 1: 10, 2: 25, 3: 50 },
+  /* O responsável ganha 100 lumicoins por semana para dar de presente a
+     quem quiser. Não é para ele gastar: é o motivo de ele abrir o app,
+     olhar como os filhos estão indo e escolher quem premiar. O dinheiro
+     que ele mesmo usa jogando é o dele, ganho como o de todo mundo. */
+  presenteSemanal: 100,
   colorReward: 10,                 // por desenho terminado
   colorDailyCap: 200,              // 20 desenhos premiados por dia (20 × 10)
 };
@@ -1299,6 +1316,8 @@ function AppInterno() {
   const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
   const [destinoIdioma, setDestinoIdioma] = useState("quiz"); // quiz ou memória
   const [editando, setEditando] = useState(false);            // criando ou editando ficha
+  /* {semana, restante} — quanto ainda há para presentear nesta semana. */
+  const [presente, setPresente] = useState({ semana: semanaAtual(), restante: ECON.presenteSemanal });
 
   const t = T[lang];
 
@@ -1312,6 +1331,7 @@ function AppInterno() {
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
     stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
+    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal },
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
@@ -1342,6 +1362,10 @@ function AppInterno() {
     setGerados(d.gerados || []);
     setJogosAbertos([...new Set([...jogosGratisPara(ehLeitor(perfil)), ...(d.jogosAbertos || [])])]);
     setSecoes(d.secoes || []);
+    // Semana nova, cofre cheio de novo. Sobra da semana passada não acumula:
+    // é uma mesada para usar, não um saldo para juntar.
+    const sem = semanaAtual();
+    setPresente(d.presente?.semana === sem ? d.presente : { semana: sem, restante: ECON.presenteSemanal });
   }
 
   useEffect(() => {
@@ -1546,6 +1570,29 @@ function AppInterno() {
     else setScreen("home");
   }
 
+  /* Presenteia um filho com parte da mesada da semana.
+     Escrevo direto no save da criança porque ela não está logada — é o mesmo
+     aparelho e o mesmo armazenamento, só que outro arquivo. Recarrego a lista
+     depois para o número na tela ser o que está gravado, não um palpite. */
+  async function presentear(pr, quanto) {
+    const sem = semanaAtual();
+    const cofre = presente.semana === sem ? presente : { semana: sem, restante: ECON.presenteSemanal };
+    const valor = Math.min(quanto, cofre.restante);
+    if (valor <= 0) return;
+    try {
+      const r = await window.storage.get(`lumus:p:${pr.id}`);
+      const d = r?.value ? JSON.parse(r.value) : blankSave();
+      d.coins = Math.min(ECON.cap, (d.coins || 0) + valor);
+      // O presente entra no cofre, mas não conta como ganho no jogo: quem
+      // ganhou lumicoins jogando é outra história, e as conquistas sabem.
+      d.stats = { ...d.stats, maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
+      window.storage.set(`lumus:p:${pr.id}`, JSON.stringify(d));
+    } catch { return; }
+    setPresente({ semana: sem, restante: cofre.restante - valor });
+    setToast(`🎁 ${pr.name} +${valor} 🪙`);
+    carregarFamilia(activeId);
+  }
+
   /* Perfil com senha só é aberto, editado, zerado ou apagado depois dela.
      Se a tranca valesse só para entrar, a criança apagaria o perfil do pai. */
   const [pedirPin, setPedirPin] = useState(null);   // { pr, acao }
@@ -1635,7 +1682,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1647,7 +1694,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente]);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -1992,7 +2039,7 @@ function AppInterno() {
             </div>
           </div>
         )}
-        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen }} />}
+        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear }} />}
         {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
@@ -2252,6 +2299,12 @@ const MEM_LEVELS = {
   lenda:  { cols: 5, rows: 8, pares: 20, estrelas: [420, 300, 210] },
 };
 /* A memória usa as mesmas seis faixas do resto do app. */
+/* Semana corrida de sete dias contados do mesmo instante para todo mundo.
+   Não uso semana de calendário de propósito: fuso e virada de domingo dão
+   um monte de canto estranho, e aqui basta "a cada sete dias entram mais
+   cem". */
+const semanaAtual = (agora = Date.now()) => Math.floor(agora / (7 * 864e5));
+
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
    vale — e mais pesa errar. Zero quando a fase já foi vencida com as três
@@ -4059,7 +4112,7 @@ function nomeDaTrilha(cont, t) {
   return q ? q.nome(t) : cont;
 }
 
-function FamilyScreen({ t, lang, familia, setScreen }) {
+function FamilyScreen({ t, lang, familia, setScreen, presente, presentear }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -4067,6 +4120,18 @@ function FamilyScreen({ t, lang, familia, setScreen }) {
         <div className="display" style={{ color: "#fff", fontSize: 22, flex: 1 }}>👨‍👩‍👧 {t.family}</div>
       </div>
       <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 12, marginBottom: 12 }}>{t.familyHint}</div>
+
+      {/* A mesada da semana. Fica no topo porque é o que traz o adulto de volta. */}
+      <div className="card" style={{ padding: 14, marginBottom: 12, display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ fontSize: 30 }}>🎁</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.giftWeek}</div>
+          <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, lineHeight: 1.5 }}>{t.giftHint}</div>
+        </div>
+        <div className="display" style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 14px", fontSize: 17 }}>
+          🪙 {presente.restante}
+        </div>
+      </div>
 
       {!familia.length && (
         <div className="card" style={{ padding: 20, textAlign: "center", color: "#6C7695", fontWeight: 800, fontSize: 14 }}>
@@ -4102,6 +4167,17 @@ function FamilyScreen({ t, lang, familia, setScreen }) {
                 ))}
               </div>
 
+              {/* Presentear é o gesto: escolher quem, e quanto. */}
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+                <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎁 {t.giveGift}</div>
+                {[10, 25, 50].map(v => (
+                  <Btn key={v} small color={presente.restante >= v ? "#E84393" : "#C7CEE0"}
+                    disabled={presente.restante < v} onClick={() => presentear(perfil, v)}>
+                    +{v}
+                  </Btn>
+                ))}
+              </div>
+
               {trilhas.length > 0 && (
                 <>
                   <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>{t.byGame}</div>
@@ -4131,6 +4207,8 @@ function FamilyScreen({ t, lang, familia, setScreen }) {
       </div>
 
       <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+        {/* O responsável também joga: é o mesmo perfil, com progresso próprio. */}
+        <Btn full color="#00B894" onClick={() => setScreen("home")}>🎮 {t.play}</Btn>
         <Btn full color="#4C6FFF" onClick={() => setScreen("profiles")}>👥 {t.switchPlayer}</Btn>
       </div>
       <div style={{ height: 20 }} />
@@ -4404,6 +4482,9 @@ function Home({ t, player, coins, nextRefill, setScreen, profiles, onPickGame, a
         <Btn full color="#00C2CB" onClick={() => abrir("awards", "home")}>🏅 {t.awards}</Btn>
       </div>
       <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+        {player.papel === "pai" && (
+          <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("familia")}>👨‍👩‍👧 {t.family}</Btn>
+        )}
         <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("lang")}>🌐 {t.language}</Btn>
       </div>
       <div style={{ textAlign: "center", color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, lineHeight: 1.6 }}>

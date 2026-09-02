@@ -38,6 +38,7 @@ O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe 
 - Lumicoins: cada rodada custa conforme a faixa, dicas custam, acertar rende
 - Mapa-múndi que se abre continente a continente, de carro, barco e avião
 - 63 conquistas em 10 categorias, valendo de 30 a 250 lumicoins cada
+- Perfis de criança e de responsável, com senha opcional e presente semanal
 - Avatar personalizável e loja de itens
 - Vários jogadores no mesmo aparelho, com progresso separado
 - 6 idiomas, todos embutidos no app
@@ -71,18 +72,73 @@ a anterior termina.
 
 ### Quem está jogando
 
-O cadastro pergunta três coisas antes da aparência: **criança ou
-responsável**, a **idade**, e se **já sabe ler**.
+O cadastro pergunta três coisas antes da aparência:
 
-Quem ainda não lê começa com os jogos que se joga olhando — as memórias, a
+| Pergunta | Opções | Para que serve |
+|---|---|---|
+| Quem vai usar? | Criança · Responsável | separa quem joga de quem acompanha |
+| Quantos anos? | botões de 3 a 10, ou escrever qualquer idade | responde pela leitura quando ela fica em branco |
+| Já sabe ler? | Ainda não · Sim | decide o que nasce aberto |
+
+A idade não tem teto. Os botões de 3 a 10 são o caminho rápido para o público
+principal; ao lado deles há um campo para escrever qualquer idade. O jogo é
+feito para criança, mas geografia, Bíblia e ciências servem em qualquer uma —
+ninguém precisa mentir a idade para usar.
+
+**Quem ainda não lê** começa com os jogos que se joga olhando: as memórias, a
 pintura e as contas, onde o conteúdo são números e figuras. Os de texto
-aparecem trancados, com o preço à vista e a razão escrita. Quem já lê começa
-pelos mesmos jogos grátis de sempre. Cada jogo declara se exige leitura, e é
-esse campo — não o preço — que decide o que nasce aberto.
+aparecem trancados, com o preço à vista e a razão escrita — a criança não acha
+que quebrou, nem o adulto que faltou jogo. **Quem já lê** começa pelos mesmos
+jogos grátis de sempre.
 
-Um perfil marcado como **responsável** não joga: abre a tela *Meus filhos*,
-com cada criança do aparelho, idade, se lê, rodadas, estrelas, conquistas,
-dias seguidos, lumicoins e o progresso por trilha. Nada sai do aparelho.
+Cada jogo declara se exige leitura, e é esse campo — não o preço — que decide o
+que nasce aberto. Se a pergunta da leitura ficar sem resposta, a idade responde
+por ela: 5 anos é a linha.
+
+Dá para **editar a ficha de quem já existe** pelo lápis, no modo de edição da
+tela de jogadores. A ficha (nome, avatar, papel, idade, leitura) mora em
+`lumus:profiles`; o progresso mora em `lumus:p:<id>`, outro arquivo — editar
+uma nunca encosta no outro. E editar só acrescenta jogos: nunca tira da mão de
+quem já estava jogando.
+
+### O responsável
+
+Um perfil marcado como responsável abre a tela **Meus filhos**: cada criança do
+aparelho com idade, se lê, rodadas, estrelas, conquistas, dias seguidos,
+lumicoins e o progresso por trilha. Nada sai do aparelho — é o mesmo
+armazenamento, aberto por outra porta.
+
+**Ele também joga.** É um perfil como os outros, com progresso próprio; a tela
+de acompanhamento tem um botão *Jogar*, e o hub tem o caminho de volta.
+
+**Presente da semana: 100 lumicoins.** Toda semana o responsável recebe cem
+lumicoins que não são para ele gastar — são para dar de presente a quem ele
+quiser, em parcelas de 10, 25 ou 50, direto no cartão de cada filho. O que
+sobra não acumula.
+
+O ponto não é o dinheiro: é dar ao adulto um motivo concreto para abrir o app,
+olhar como cada filho está indo e escolher quem premiar. Acompanhar vira um
+gesto, não um relatório.
+
+### Senha do responsável
+
+O perfil do responsável aceita quatro números. Com eles, **as quatro ações do
+perfil** pedem a senha: abrir, editar a ficha, zerar e apagar. Trancar só a
+entrada seria teatro — bastaria a criança apagar o perfil protegido.
+
+O que isto é, e o que não é:
+
+- **É** uma tranca contra criança, e resolve o problema real: a criança de 6
+  anos não entra na tela do pai nem apaga nada.
+- **Não é** segurança. Tudo mora no aparelho, em `localStorage`; quem souber
+  abrir o navegador por dentro passa em um minuto, e não há como ser diferente
+  num app sem servidor e sem conta. Quatro dígitos também se quebram por
+  tentativa e erro.
+
+Por isso o que fica gravado é o resumo SHA-256 temperado com o id do perfil,
+nunca a senha — o resumo evita a leitura casual do armazenamento, e só isso. O
+próprio cadastro avisa em texto: *não é senha de banco, não repita uma que você
+usa em outro lugar*.
 
 ## Rodando na sua máquina
 
