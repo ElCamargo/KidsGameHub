@@ -13,6 +13,7 @@ import { T, LANG_CATALOG, PACKS } from "./data/textos.js";
 import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES } from "./data/geografia.js";
 import { PALETA, DESENHOS } from "./data/desenhos.js";
 import { iniciarVozes, temVoz, falar, parar as pararVoz, textoDaPergunta, juntar } from "./lib/voz.js";
+import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -1196,6 +1197,38 @@ function AppInterno() {
     carregarFamilia(activeId);
   }
 
+  /* ----- levar o progresso para outro aparelho -----
+     Sem conta e sem servidor: um arquivo que o responsável guarda e abre no
+     aparelho novo. Ver src/lib/transferir.js para o que vai e o que não vai
+     dentro dele. */
+  async function salvarCopia(pr) {
+    const save = await lerSave(pr.id);
+    const nome = nomeDoArquivo(pr.name);
+    const ok = baixar(nome, JSON.stringify(montarCopia(pr, save), null, 1));
+    setToast(ok ? `💾 ${nome}` : t.copyFail);
+  }
+
+  async function restaurarCopia(arquivo) {
+    if (!arquivo) return;
+    if (arquivo.size > TAMANHO_MAX) { setToast(t.restoreErr.formato); return; }
+    let cru = "";
+    try { cru = await arquivo.text(); } catch { setToast(t.restoreErr.formato); return; }
+
+    const { erro, perfil, save } = lerCopia(cru);
+    if (erro) { setToast(t.restoreErr[erro] || t.restoreErr.formato); return; }
+
+    // Id novo sempre: restaurar nunca escreve por cima de quem já joga aqui.
+    const id = `p${Date.now()}`;
+    const completo = { ...blankSave(), ...save };
+    try {
+      window.storage.set(`lumus:p:${id}`, JSON.stringify(completo));
+      const lista = [...profiles, { id, ...perfil }];
+      window.storage.set("lumus:profiles", JSON.stringify(lista));
+      setProfiles(lista);
+    } catch { setToast(t.restoreErr.formato); return; }
+    setToast(`✅ ${perfil.name}`);
+  }
+
   /* Perfil com senha só é aberto, editado, zerado ou apagado depois dela.
      Se a tranca valesse só para entrar, a criança apagaria o perfil do pai. */
   const [pedirPin, setPedirPin] = useState(null);   // { pr, acao }
@@ -1631,7 +1664,8 @@ function AppInterno() {
             if (player.papel === "pai") { carregarFamilia(activeId); setScreen("familia"); }
             else setScreen("home");
           } }} />}
-        {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha }} />}
+        {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha,
+          salvarCopia, restaurarCopia }} />}
         {screen === "gallery" && <Gallery {...{ t, gallery, setScreen, gerados, gerarMais, coins,
           abrirDesenho: (art, fills) => { setPintando({ art, fills }); setScreen("color"); } }} />}
         {screen === "color" && pintando && <Coloring {...{ t, art: pintando.art, fillsIniciais: pintando.fills,
@@ -3250,10 +3284,12 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
 }
 
 /* ---------- Quem vai jogar ---------- */
-function Profiles({ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha }) {
+function Profiles({ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha, salvarCopia, restaurarCopia }) {
   const [editing, setEditing] = useState(false);
   const [ask, setAsk] = useState(null);
   const [zerar, setZerar] = useState(null);
+  const [copiar, setCopiar] = useState(null);   // perfil esperando confirmação
+  const entrada = useRef(null);
   return (
     <div style={{ paddingTop: 24 }}>
       <div style={{ textAlign: "center", marginBottom: 18 }}>
@@ -3288,6 +3324,8 @@ function Profiles({ t, profiles, openProfile, newProfile, editProfile, deletePro
                   style={{ position: "absolute", top: -6, left: -6, width: 34, height: 34, borderRadius: 17, background: "#F9A826", fontSize: 15 }}>↺</button>
                 <button onClick={() => comSenha(pr, editProfile)} className="chunky" aria-label={t.editProfile}
                   style={{ position: "absolute", bottom: -6, right: -6, width: 34, height: 34, borderRadius: 17, background: "#4C6FFF", fontSize: 14 }}>✏️</button>
+                <button onClick={() => comSenha(pr, setCopiar)} className="chunky" aria-label={t.copyTitle}
+                  style={{ position: "absolute", bottom: -6, left: -6, width: 34, height: 34, borderRadius: 17, background: "#00B894", fontSize: 14 }}>💾</button>
               </>
             )}
           </div>
@@ -3303,6 +3341,43 @@ function Profiles({ t, profiles, openProfile, newProfile, editProfile, deletePro
         <Btn full small color="rgba(255,255,255,.2)" onClick={() => setEditing(e => !e)}>{editing ? "✓" : "✏️"}</Btn>
         <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("lang")}>🌐 {t.language}</Btn>
       </div>
+
+      {/* Restaurar fica no modo de edição, junto do resto que só o adulto
+          mexe — e o arquivo é escolhido pelo seletor do próprio aparelho. */}
+      {editing && (
+        <div style={{ marginTop: 10 }}>
+          <input ref={entrada} type="file" accept="application/json,.json" style={{ display: "none" }}
+            onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; restaurarCopia(f); }} />
+          <Btn full small color="rgba(255,255,255,.2)" onClick={() => entrada.current?.click()}>
+            📥 {t.restoreTitle}
+          </Btn>
+          <div style={{ color: "#8E9CE0", fontSize: 11, fontWeight: 700, textAlign: "center", marginTop: 8, lineHeight: 1.6 }}>
+            {t.restoreHint}
+          </div>
+        </div>
+      )}
+
+      {copiar && (
+        <Modal onClose={() => setCopiar(null)}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 40 }}>💾</div>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 20, margin: "8px 0 4px" }}>{t.copyTitle}</div>
+            <div style={{ color: "#3B4468", fontWeight: 700, fontSize: 13, lineHeight: 1.6, marginBottom: 10 }}>
+              {t.copyHint.replace("{quem}", copiar.name)}
+            </div>
+            {/* O caderno da criança vai junto. O adulto tem que saber disso
+                antes de mandar o arquivo por aí. */}
+            <div style={{ background: "#FFF4E0", borderRadius: 14, padding: 10, color: "#6B4E00",
+              fontWeight: 800, fontSize: 12, lineHeight: 1.5, marginBottom: 14 }}>
+              ⚠️ {t.copyWarn}
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Btn full small color="#8B93AD" onClick={() => setCopiar(null)}>{t.cancel}</Btn>
+              <Btn full small color="#00B894" onClick={() => { salvarCopia(copiar); setCopiar(null); }}>💾 {t.copySave}</Btn>
+            </div>
+          </div>
+        </Modal>
+      )}
 
       <div style={{ textAlign: "center", marginTop: 22, color: "#8E9CE0", fontSize: 11, fontWeight: 700, lineHeight: 1.6 }}>
         {t.parentsInfo}<br />

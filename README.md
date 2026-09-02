@@ -74,7 +74,7 @@ não numa apresentação:
 | JavaScript comprimido | **193 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 30 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 37 testes |
 | Licença | MIT |
 
 ---
@@ -227,6 +227,38 @@ E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
 presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
+### Levar o progresso para outro aparelho
+
+O Lumus não tem conta e não tem servidor — e não vai ter. Mas o celular
+quebra, a família troca de aparelho, e **dois anos de fases vencidas não podem
+morrer com o telefone**.
+
+A solução é a mais velha que existe: **um arquivo**. No modo de edição da tela
+de jogadores, o 💾 de cada criança salva uma cópia; o adulto guarda ou manda
+para si mesmo como mandaria uma foto, e no aparelho novo abre em
+📥 **Restaurar de um arquivo**. Nada sobe para lugar nenhum, e funciona em
+modo avião.
+
+**Restaurar nunca escreve por cima.** Cria sempre um jogador novo, com
+identificador novo — quem já joga naquele aparelho continua intacto.
+
+**A senha do responsável não viaja.** Um arquivo que carrega a tranca é um
+arquivo que abre a tranca; e mesmo que alguém escreva uma senha dentro dele à
+mão, ela é descartada na leitura.
+
+**O caderno da criança vai junto**, e a tela avisa isso em amarelo antes de
+salvar: são as palavras dela, e o arquivo se guarda como se guardaria um
+caderno de verdade.
+
+Ler um arquivo é **fronteira de confiança** — o que chega pode ter sido
+editado à mão, trocado por outro ou corrompido pelo aplicativo de mensagens.
+Por isso nada é aproveitado sem passar por `lerCopia`, que confere campo por
+campo, recorta o que é grande demais e **devolve só o que reconhece**: nome
+sem tamanho, avatar que não é objeto, papel inventado, idade de 9999 anos —
+tudo isso vira campo são ou vira recusa, nunca vira erro no meio da partida.
+São 7 testes só para isso, em
+[`tests/transferir.test.mjs`](tests/transferir.test.mjs).
 
 ### A voz do Lumus
 
@@ -466,7 +498,7 @@ funções e mais nada.
 |---|---|---|
 | `src/App.jsx` | 4.882 linhas | a interface inteira: ~40 componentes, e nenhuma linha de conteúdo |
 | `src/data/*.js` | 4.269 linhas | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 30 testes | conteúdo, idiomas, geografia, desenhos, voz |
+| `tests/*.test.mjs` | 37 testes | conteúdo, idiomas, geografia, desenhos, voz, transferência |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -486,7 +518,7 @@ máquina de qualquer pessoa, não só na nuvem:
 | `check-bancos` | pergunta ambígua, alternativa repetida, resposta certa aparecendo entre as erradas, banco que encolheu por acidente |
 | `check-faixas` | uma faixa de dificuldade existir num mapa e faltar em outro |
 | `check-rodadas` | **monta uma rodada de verdade** de cada trilha em cada faixa e confere se ela é jogável |
-| `npm test` | 30 testes: paridade das chaves nos 6 idiomas, marcadores `{n}` preservados na tradução, todo país com capital, todo desenho com área pintável, nenhum emoji indo para a fala |
+| `npm test` | 37 testes: paridade das chaves nos 6 idiomas, marcadores `{n}` preservados na tradução, todo país com capital, todo desenho com área pintável, nenhum emoji indo para a fala, nenhum arquivo de fora virando progresso |
 
 Eles não são teatro. O `check-rodadas` nasceu de um bug real — as fases Lenda
 quebravam o app na 13ª pergunta, porque a rodada pedia 15 bandeiras e o
@@ -583,7 +615,7 @@ npm ci && npm run build
 
 O `build` é o portão inteiro: prepara as bandeiras, confere os três bancos de
 perguntas, confere as faixas de dificuldade, **monta uma rodada de cada trilha
-em cada faixa** e roda os 30 testes — antes de gerar um único arquivo. Se
+em cada faixa** e roda os 37 testes — antes de gerar um único arquivo. Se
 qualquer um falhar, não sai build. Leva menos de 5 segundos.
 
 Só os testes:
@@ -625,6 +657,7 @@ src/
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
+  lib/transferir.js  salvar e restaurar o progresso por arquivo, sem conta
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -640,7 +673,7 @@ src/
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
-tests/             30 testes em node --test, sem framework nenhum
+tests/             37 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -728,7 +761,6 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
 - [ ] Capitais com grafia própria em francês, alemão e italiano (hoje usa a forma canônica)
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
-- [ ] Código de transferência, para levar o progresso a outro aparelho sem conta
 - [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
 
 ## Privacidade
@@ -758,7 +790,7 @@ sign-up and which is entirely absent for those who decline.
 
 Every change passes a build gate that checks the question banks for ambiguity,
 **builds a real round of every track at every difficulty** to prove it is
-playable, and runs 30 tests — among them one that guarantees all six languages
+playable, and runs 37 tests — among them one that guarantees all six languages
 carry exactly the same 280 interface strings.
 
 The code is MIT-licensed. The reasoning behind the main technical choices is
