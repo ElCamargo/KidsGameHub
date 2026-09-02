@@ -108,10 +108,24 @@ aparelho aparece num cartão com idade, se já lê, e o que ela andou fazendo:
 
 | No cartão | O que mostra |
 |---|---|
-| Os números | rodadas, estrelas, conquistas, dias seguidos e lumicoins |
+| **A semana** | rodadas, acertos, estrelas, desenhos, memórias e lumicoins **desde domingo**, com os desenhos daquela semana |
+| ∑ No total | rodadas, estrelas, conquistas, dias seguidos e lumicoins de sempre |
 | 🎨 Pintar e Colorir | os **últimos cinco desenhos**, desenhados ali — não um número dizendo quantos |
 | 🧠 Memória | o maior tabuleiro vencido em cada tema, com estrelas e melhor tempo |
 | Por jogo | quantas fases de cada trilha, com barra de progresso |
+
+**A semana começa no domingo** e vem primeiro no cartão, porque é a pergunta
+que o adulto faz ao pegar o celular: *o que ele fez esta semana?* Um total de
+1.240 acertos não diz se a criança jogou ontem.
+
+Dá para folhear as semanas anteriores com ◀ e ▶ — ficam guardadas as **12
+últimas**, três meses, que é o quanto alguém olha para trás sem virar entulho
+no aparelho. O presente do responsável reinicia no mesmo domingo: uma semana
+só para a família toda.
+
+O histórico começa a existir a partir de agora — os totais de antes continuam
+em *No total*, mas não dá para saber em que semana aconteceram, porque o app
+não gravava isso.
 
 Os desenhos estão ali por um motivo. A tela só mostrava progresso de quiz, e
 **criança que ainda não lê joga memória e pintura** — era justamente ela que
