@@ -47,12 +47,12 @@ família.
 |---|---|---|
 | Pesquisar | a rodada de perguntas que já existe | **feito** |
 | Raciocinar | ao errar, o app diz o porquê da resposta certa — não só "errou" | a fazer |
-| Relacionar | ao fim da rodada, uma pergunta que liga o conteúdo a um dos 7 princípios | a fazer |
-| Registrar | **Meu Caderno**: a criança escreve ou desenha o que aprendeu, e o responsável vê | a fazer |
+| Relacionar | ao fim da rodada, uma pergunta que liga o conteúdo a um dos 7 princípios | **feito** |
+| Registrar | **Meu Caderno**: a criança escreve — ou toca carimbos, se ainda não escreve — e o responsável vê | **feito** |
 
 E o **Momento em Família**: um devocional diário curto — versículo, uma pergunta
 para conversar e uma pequena atitude — girando pelos 7 princípios, marcado como
-feito pelos dois lados.
+feito pelos dois lados. **Feito.**
 
 ## Por que assim, e não mais conteúdo
 

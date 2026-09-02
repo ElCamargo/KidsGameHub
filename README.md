@@ -108,8 +108,9 @@ aparelho aparece num cartão com idade, se já lê, e o que ela andou fazendo:
 
 | No cartão | O que mostra |
 |---|---|
-| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
+| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, páginas de caderno, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
 | ∑ No total | rodadas, estrelas, conquistas, dias seguidos e lumicoins de sempre |
+| 📔 Meu Caderno | as **três últimas páginas da semana**, com as palavras da criança |
 | 🎨 Pintar e Colorir | os **últimos cinco desenhos**, desenhados ali — não um número dizendo quantos |
 | 🧠 Memória | o maior tabuleiro vencido em cada tema, com estrelas e melhor tempo |
 | Por jogo | quantas fases de cada trilha, com barra de progresso |
@@ -153,6 +154,46 @@ E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
 presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
+### Meu Caderno
+
+O **4º R** da Abordagem Educacional por Princípios: *Registrar*.
+
+Ao fim de cada rodada, antes dos botões de jogar de novo, aparece uma
+pergunta que liga o que acabou de acontecer a um dos sete princípios — *"teve
+alguma hora que você quis desistir e continuou?"*, *"quem você quer ensinar o
+que aprendeu hoje?"*. Nunca é sobre o conteúdo da rodada; é sobre quem jogou.
+Esse é o passo **Relacionar**. O que a criança responde vira a página do
+caderno: o passo **Registrar**.
+
+**Não é corrigido, não vale ponto e não é comparado com nada.** É o único
+lugar do app onde não existe resposta certa, e isso é o ponto: o resto mede
+acerto, aqui a criança pensa.
+
+**Quem ainda não escreve também registra.** São oito carimbos — *foi
+divertido*, *foi difícil*, *aprendi algo novo*, *não desisti*, *errei e tentei
+de novo*... — que a criança de quatro anos toca com o dedo. Eles vêm **antes**
+do campo de texto na tela, de propósito: quem não digita precisa encontrar o
+seu jeito primeiro, não depois de um campo que não sabe usar. Uma página só de
+carimbos vale tanto quanto uma página escrita.
+
+Dá para escrever também fora da rodada, pelo botão 📔 no hub — aí a pergunta
+do dia é a mesma para o dia inteiro.
+
+**15 lumicoins na primeira página do dia, e só nela.** Escrever tem que valer
+a pena, mas não pode virar torneira de moedas: sem esse limite a criança
+escreve dez linhas vazias e o caderno morre no mesmo dia em que nasceu. Depois
+disso são quatro conquistas — 1, 10, 30 e 100 páginas.
+
+O caderno guarda as **200 páginas mais recentes** (uma por dia é mais de meio
+ano) e fica no save do próprio perfil. **O responsável lê as três últimas da
+semana** direto no cartão da criança, com as palavras dela — é a parte do
+cartão que ele lê inteira; o resto ele confere. Nada sai do aparelho.
+
+As 28 perguntas — quatro por princípio — estão em
+[`src/data/caderno.js`](src/data/caderno.js). O sorteio é estável: a mesma
+rodada devolve sempre a mesma pergunta, senão ela trocaria a cada tecla
+digitada.
 
 ### Momento em Família
 
@@ -274,6 +315,7 @@ src/
     biblia-fatos.js      versículos, falas, números e fatos avulsos
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
+    caderno.js           as 28 perguntas do Meu Caderno e os carimbos
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -359,8 +401,8 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 - [ ] Quebrar `App.jsx` em componentes
 - [ ] Portar para Expo e publicar nas lojas
 - [ ] Conta de responsável opcional, para sincronizar entre aparelhos
-- [ ] Devocionais do Momento em Família em francês, alemão e italiano
-- [ ] Meu Caderno: a criança registra o que aprendeu, e o responsável vê
+- [ ] Devocionais e perguntas do caderno em francês, alemão e italiano
+- [ ] Raciocinar: ao errar, o app explicar o porquê da resposta certa
 - [ ] Dois jogadores no mesmo aparelho
 
 ## Privacidade
