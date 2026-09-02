@@ -54,6 +54,9 @@ export function conferirFaixas(aviso) {
     BAND_COLOR: bloco(app, "const BAND_COLOR = {"),
     MEM_LEVELS: bloco(app, "const MEM_LEVELS = {"),
     MEM_PRECO: bloco(app, "const MEM_PRECO  = {"),
+    /* Faltar aqui não deixa a rodada vazia: deixa a faixa nova sorteando do
+       mesmo pool do Gênio, sem ninguém perceber que ela não ficou mais difícil. */
+    FAIXA_POOL: bloco(app, "const FAIXA_POOL = {"),
   };
 
   for (const [nome, mapa] of Object.entries(mapas)) {
