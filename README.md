@@ -316,7 +316,7 @@ De onde vem a frase, por trilha:
 | Bandeiras (regiões) | de que país aquela região faz parte |
 | Capitais | a frase inteira: *"São Luís é a capital do Maranhão."* |
 | Matemática | a conta resolvida: `833 + 203 = 1036` |
-| Bíblia (pessoas) | o que a pessoa fez **e em que livro está a história** |
+| Bíblia | **85% do banco** traz o fato escrito na própria tabela: o que a pessoa fez e em que livro está, o Evangelho do milagre e da parábola, o grupo e o autor do livro, quem disse a frase |
 | Bichos, Cores, Idiomas, Curiosidades, Ciências | a própria pergunta com a resposta ao lado — *"🐰 O que este animal come? Só plantas"* |
 
 A última linha é deliberada, não preguiça. Numa pergunta de fato, a frase
@@ -324,10 +324,11 @@ completa e verdadeira **é** a explicação: a criança viu a pergunta e escolhe
 errado; o que faltava era ver as duas coisas juntas. Onde havia fato a
 acrescentar, ele foi acrescentado; onde não havia, não inventamos um.
 
-Nas perguntas bíblicas de personagem — cerca de **um terço do banco** — a
-explicação vem escrita na própria tabela de fatos
-([`biblia-pessoas.js`](src/data/biblia-pessoas.js)), então revisá-la é revisar
-a tabela. As outras usam a pergunta com a resposta.
+Nas perguntas bíblicas, **85% do banco** tem a explicação escrita nas próprias
+tabelas de fatos — revisá-la é revisar a tabela, não caçar frase no meio do
+código. Os 15% restantes são as perguntas de ordem dos livros ("qual vem
+depois de Josué?"), de número e de lista: ali não existe porquê, a ordem é a
+ordem, e inventar um seria pior do que a pergunta com a resposta ao lado.
 
 **A guarda cuida disso.** O `check-rodadas` monta uma rodada de cada trilha em
 cada faixa e falha o build se **uma única pergunta** ficar sem explicação — ou
@@ -757,7 +758,6 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 
 - [ ] Bandeiras dos 27 estados brasileiros (destrava Capitais e o nível Gênio da América do Sul)
 - [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
-- [ ] Explicação curada também nas perguntas bíblicas de livro, milagre e parábola
 - [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
 - [ ] Capitais com grafia própria em francês, alemão e italiano (hoje usa a forma canônica)
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))

@@ -52,6 +52,13 @@ const FRASES = {
     complete: "Complete: “{x} ...”",
     disse: "Quem disse: “{x}”?",
     porqueP: "{nome} {feito}. A história está no livro de {livro}.",
+    porqueL: "{livro} é do grupo {grupo} e tem {cap} capítulos.",
+    porqueLA: "{livro} é do grupo {grupo}, tem {cap} capítulos, e a autoria tradicional é de {autor}.",
+    porqueG: "{lugar}: {evento}. Está no livro de {livro}.",
+    porqueM: "Jesus {obra} {lugar}. O milagre está no Evangelho de {evangelho}.",
+    porqueB: "A parábola {parabola} ensina que {ensina}. Está no Evangelho de {evangelho}.",
+    porqueV: "“{verso}” — livro de {livro}.",
+    porqueC: "Quem disse foi {quem}: “{fala}”.",
   },
   en: {
     capitulos: "How many chapters are in the book of {x}?",
@@ -79,6 +86,13 @@ const FRASES = {
     complete: "Complete it: “{x} ...”",
     disse: "Who said: “{x}”?",
     porqueP: "{nome} {feito}. The story is in the book of {livro}.",
+    porqueL: "{livro} belongs to the {grupo} and has {cap} chapters.",
+    porqueLA: "{livro} belongs to the {grupo}, has {cap} chapters, and is traditionally attributed to {autor}.",
+    porqueG: "{lugar}: {evento}. It is in the book of {livro}.",
+    porqueM: "Jesus {obra} {lugar}. The miracle is in the Gospel of {evangelho}.",
+    porqueB: "The parable of {parabola} teaches that {ensina}. It is in the Gospel of {evangelho}.",
+    porqueV: "“{verso}” — book of {livro}.",
+    porqueC: "It was {quem} who said: “{fala}”.",
   },
   es: {
     capitulos: "¿Cuántos capítulos tiene el libro de {x}?",
@@ -106,12 +120,23 @@ const FRASES = {
     complete: "Completa: “{x} ...”",
     disse: "¿Quién dijo: “{x}”?",
     porqueP: "{nome} {feito}. La historia está en el libro de {livro}.",
+    porqueL: "{livro} es del grupo {grupo} y tiene {cap} capítulos.",
+    porqueLA: "{livro} es del grupo {grupo}, tiene {cap} capítulos, y la autoría tradicional es de {autor}.",
+    porqueG: "{lugar}: {evento}. Está en el libro de {livro}.",
+    porqueM: "Jesús {obra} {lugar}. El milagro está en el Evangelio de {evangelho}.",
+    porqueB: "La parábola {parabola} enseña que {ensina}. Está en el Evangelio de {evangelho}.",
+    porqueV: "“{verso}” — libro de {livro}.",
+    porqueC: "Quien lo dijo fue {quem}: “{fala}”.",
   },
 };
 
 const idioma = lang => (FRASES[lang] ? lang : "en");
 const tx = (lang, chave, x) => FRASES[idioma(lang)][chave].replace("{x}", x);
 const nome = (obj, lang) => obj[idioma(lang)] ?? obj.en;
+
+/* tx() só troca {x}. O porquê tem vários campos, então vai por aqui. */
+const porq = (lang, chave, campos) =>
+  Object.entries(campos).reduce((f, [k, v]) => f.split(`{${k}}`).join(v), FRASES[idioma(lang)][chave]);
 const maiuscula = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 /* Escolhe 3 erradas distintas da resposta certa, sem repetir. */
@@ -155,18 +180,25 @@ function construir(lang) {
   LIVROS.forEach((l, i) => {
     const nv = nivelLivro(l);
     const nl = nome(l, lang);
+    // O cartão de identidade do livro, o mesmo nas seis perguntas dele.
+    const ficha = porq(lang, l.autor ? "porqueLA" : "porqueL", {
+      livro: nl, grupo: nome(GRUPOS_BIBLIA[l.g], lang), cap: String(l.cap),
+      autor: l.autor ? nome(AUTORES[l.autor], lang) : "",
+    });
 
     add(nv, tx(lang, "capitulos", nl), String(l.cap),
-      erradas(LIVROS.map(x => String(x.cap)), String(l.cap)));
+      erradas(LIVROS.map(x => String(x.cap)), String(l.cap)), ficha);
 
     // Só quando o número de capítulos é único na Bíblia inteira: senão a
     // pergunta teria mais de uma resposta certa.
     if (capsUnicos.get(l.cap) === 1)
-      add(Math.min(4, nv + 1), tx(lang, "qualLivroCap", String(l.cap)), nl, erradas(nomesLivros, nl));
+      add(Math.min(4, nv + 1), tx(lang, "qualLivroCap", String(l.cap)), nl, erradas(nomesLivros, nl), ficha);
 
     add(nv, tx(lang, "grupo", nl), nome(GRUPOS_BIBLIA[l.g], lang),
-      erradas(Object.values(GRUPOS_BIBLIA).map(g => nome(g, lang)), nome(GRUPOS_BIBLIA[l.g], lang)));
+      erradas(Object.values(GRUPOS_BIBLIA).map(g => nome(g, lang)), nome(GRUPOS_BIBLIA[l.g], lang)), ficha);
 
+    // Vizinhança na Bíblia não tem "porquê": a ordem é a ordem. A frase
+    // montada da própria pergunta já diz tudo o que há para dizer.
     if (i < LIVROS.length - 1) {
       const prox = nome(LIVROS[i + 1], lang);
       add(Math.min(4, nv + 1), tx(lang, "depois", nl), prox, erradas(nomesLivros, prox));
@@ -178,7 +210,7 @@ function construir(lang) {
     if (l.autor) {
       const a = nome(AUTORES[l.autor], lang);
       add(nv, tx(lang, "autor", nl), a,
-        erradas(Object.values(AUTORES).map(x => nome(x, lang)), a));
+        erradas(Object.values(AUTORES).map(x => nome(x, lang)), a), ficha);
     }
   });
 
@@ -248,14 +280,18 @@ function construir(lang) {
 
   for (const g of LUGARES) {
     const lg = nome(g.lugar, lang);
-    add(g.n, tx(lang, "onde", nome(g.evento, lang)), lg, erradas(todosLugares, lg));
+    const lv = livroPt.get(g.livro);
+    const porqueLugar = lv ? porq(lang, "porqueG", {
+      lugar: maiuscula(lg), evento: nome(g.evento, lang), livro: nome(lv, lang),
+    }) : undefined;
+
+    add(g.n, tx(lang, "onde", nome(g.evento, lang)), lg, erradas(todosLugares, lg), porqueLugar);
     if (contagemLugares.get(lg) !== 1) continue;
     const ev = maiuscula(nome(g.evento, lang));
-    add(Math.min(4, g.n + 1), tx(lang, "oQueAconteceu", lg), ev, erradas(todosEventos, ev));
-    const lv = livroPt.get(g.livro);
+    add(Math.min(4, g.n + 1), tx(lang, "oQueAconteceu", lg), ev, erradas(todosEventos, ev), porqueLugar);
     if (lv) {
       const ln = nome(lv, lang);
-      add(Math.min(4, g.n + 1), tx(lang, "livroLugar", lg), ln, erradas(nomesLivros, ln));
+      add(Math.min(4, g.n + 1), tx(lang, "livroLugar", lg), ln, erradas(nomesLivros, ln), porqueLugar);
     }
   }
 
@@ -265,11 +301,15 @@ function construir(lang) {
   const evangelhos = ["Mateus", "Marcos", "Lucas", "João"].map(x => nome(livroPt.get(x), lang));
   for (const m of MILAGRES) {
     const lg = nome(m.lugar, lang);
-    add(m.n, tx(lang, "ondeMilagre", nome(m.obra, lang)), lg, erradas(lugaresMilagre, lg));
-    const ob = maiuscula(nome(m.obra, lang));
-    add(m.n, tx(lang, "oQueMilagre", lg), ob, erradas(obrasMilagre, ob));
     const ev = nome(livroPt.get(m.evangelho), lang);
-    add(Math.min(4, m.n + 1), tx(lang, "evangelhoMilagre", nome(m.obra, lang)), ev, erradas(evangelhos, ev));
+    const porqueMilagre = porq(lang, "porqueM", {
+      obra: nome(m.obra, lang), lugar: lg, evangelho: ev,
+    });
+
+    add(m.n, tx(lang, "ondeMilagre", nome(m.obra, lang)), lg, erradas(lugaresMilagre, lg), porqueMilagre);
+    const ob = maiuscula(nome(m.obra, lang));
+    add(m.n, tx(lang, "oQueMilagre", lg), ob, erradas(obrasMilagre, ob), porqueMilagre);
+    add(Math.min(4, m.n + 1), tx(lang, "evangelhoMilagre", nome(m.obra, lang)), ev, erradas(evangelhos, ev), porqueMilagre);
   }
 
   /* ---------- parábolas ---------- */
@@ -278,10 +318,14 @@ function construir(lang) {
   for (const b of PARABOLAS) {
     const nm = nome(b.nome, lang);
     const en = maiuscula(nome(b.ensina, lang));
-    add(b.n, tx(lang, "ensino", nm), en, erradas(ensinos, en));
-    add(b.n, tx(lang, "qualParabola", nome(b.ensina, lang)), nm, erradas(nomesParabolas, nm));
     const ev = nome(livroPt.get(b.evangelho), lang);
-    add(Math.min(4, b.n + 1), tx(lang, "evangelhoParabola", nm), ev, erradas(evangelhos, ev));
+    const porqueParabola = porq(lang, "porqueB", {
+      parabola: nm, ensina: nome(b.ensina, lang), evangelho: ev,
+    });
+
+    add(b.n, tx(lang, "ensino", nm), en, erradas(ensinos, en), porqueParabola);
+    add(b.n, tx(lang, "qualParabola", nome(b.ensina, lang)), nm, erradas(nomesParabolas, nm), porqueParabola);
+    add(Math.min(4, b.n + 1), tx(lang, "evangelhoParabola", nm), ev, erradas(evangelhos, ev), porqueParabola);
   }
 
   /* ---------- versículos ---------- */
@@ -289,11 +333,15 @@ function construir(lang) {
   for (const v of VERSICULOS) {
     const ini = nome(v.ini, lang), fim = nome(v.fim, lang);
     const lv = livroPt.get(v.livro);
+    const porqueVerso = lv ? porq(lang, "porqueV", {
+      verso: `${ini} ${fim}`, livro: nome(lv, lang),
+    }) : undefined;
+
     if (lv) {
       const ln = nome(lv, lang);
-      add(v.n, tx(lang, "versiculoLivro", `${ini} ${fim}`), ln, erradas(nomesLivros, ln));
+      add(v.n, tx(lang, "versiculoLivro", `${ini} ${fim}`), ln, erradas(nomesLivros, ln), porqueVerso);
     }
-    add(Math.min(4, v.n + 1), tx(lang, "complete", ini), fim, erradas(finais, fim));
+    add(Math.min(4, v.n + 1), tx(lang, "complete", ini), fim, erradas(finais, fim), porqueVerso);
   }
 
   /* ---------- falas ---------- */
@@ -302,7 +350,8 @@ function construir(lang) {
     const p = porNomePt.get(c.quem);
     if (!p) continue;                       // nome errado não vira pergunta
     const pn = nome(p.nome, lang);
-    add(c.n, tx(lang, "disse", nome(c.fala, lang)), pn, erradas(todosNomes, pn));
+    add(c.n, tx(lang, "disse", nome(c.fala, lang)), pn, erradas(todosNomes, pn),
+      porq(lang, "porqueC", { quem: pn, fala: nome(c.fala, lang) }));
   }
 
   /* ---------- números ---------- */
