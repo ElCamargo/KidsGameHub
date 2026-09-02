@@ -57,7 +57,7 @@ não numa apresentação:
 | Pilar | O que significa no produto | Onde isso aparece no código |
 |---|---|---|
 | **A família no centro, com Cristo** | o app cria motivos para a família estar junta, e a fé é oferecida, nunca imposta | Momento em Família, Meu Caderno, dois jogadores no mesmo aparelho, presente semanal do responsável |
-| **Acesso para todos** | criança de qualquer classe social, em qualquer aparelho, com ou sem internet | 3,4 MB no total, PWA sem loja, 100% offline depois da primeira abertura, gratuito e sem compra interna |
+| **Acesso para todos** | criança de qualquer classe social, em qualquer aparelho, com ou sem internet | 3,5 MB no total, PWA sem loja, 100% offline depois da primeira abertura, gratuito e sem compra interna |
 | **Privacidade sem asterisco** | não coletamos porque não queremos, não porque a lei exige | zero requisições a terceiros em execução, zero SDKs, tudo no armazenamento do próprio aparelho |
 | **Educação de verdade** | reconhecer alternativa é o degrau mais raso; o app tem que ir além | Abordagem Educacional por Princípios: Pesquisar, Raciocinar, Relacionar, **Registrar** |
 | **Respeito à criança** | nada de anúncio, vício, ranking público ou pressão para gastar | sem notificação, sem loja externa, e fase já vencida com 3 estrelas nunca cobra de novo |
@@ -70,11 +70,11 @@ não numa apresentação:
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **176** (154 países + 22 regiões), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
-| Tamanho total, com fontes e bandeiras | **3,4 MB** |
-| JavaScript comprimido | **193 KB**, em 3 pedaços |
+| Tamanho total, com fontes e bandeiras | **3,5 MB** |
+| JavaScript comprimido | **254 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 38 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 44 testes |
 | Licença | MIT |
 
 ---
@@ -227,6 +227,46 @@ E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
 presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
+### O banco bíblico nos seis idiomas
+
+O banco nasceu em português, inglês e espanhol. Francês, alemão e italiano
+agora leem **99% das perguntas no próprio idioma** — e o 1% que falta é
+escolha, não descuido.
+
+O que foi traduzido, em [`biblia-idiomas.js`](src/data/biblia-idiomas.js):
+
+| | |
+|---|---|
+| Os 66 livros | *Genèse · 1. Mose · Genesi* — a grafia que cada Bíblia usa |
+| Grupos, autores tradicionais e papéis | *Loi (Pentateuque) · Große Propheten · Profeti minori* |
+| 201 personagens | nome **e** o que cada um fez |
+| 96 lugares, 33 milagres, 28 parábolas | o lugar, o evento, a obra e o ensino |
+| 97 perguntas de número e 28 fatos | com as alternativas |
+
+**O que ficou em inglês de propósito: a citação de Escritura.** Os versículos
+(`VERSICULOS`) e as falas (`CITACOES`) são texto bíblico. Traduzir texto
+bíblico de cabeça é inventá-lo, e uma frase bonita e errada, num app cristão
+para criança, é pior que uma frase certa em outro idioma. Eles só mudam quando
+alguém trouxer a edição em domínio público de cada idioma — **Louis Segond
+1910, Luther 1912, Diodati** — e conferir palavra por palavra.
+
+Isso não é uma promessa no README: é um **teste**. Se alguém acrescentar
+`fr`, `de` ou `it` a um versículo, o build falha, com a mensagem dizendo por
+quê. As listas fechadas (os Dez Mandamentos, as pragas, os dias da criação)
+seguem a mesma regra, pelo mesmo motivo.
+
+**Como isso foi feito sem tocar nas tabelas.** Os arquivos de fatos continuam
+com pt/en/es escritos à mão, do jeito que um revisor os lê. `biblia-idiomas.js`
+é um mapa à parte, indexado pela frase em português, e cada tabela consulta
+esse mapa ao montar a linha. Quem revisa conteúdo abre um arquivo; quem revisa
+tradução abre o outro.
+
+**O que isso custou:** o pacote de dados foi de 102 KB para **160 KB
+comprimidos**, e o app inteiro de 3,4 para **3,5 MB**. Todo mundo baixa os
+seis idiomas, inclusive quem só joga em português — é o preço de um app que
+funciona offline sem baixar nada depois, e a conta continua fechando num
+celular de entrada.
 
 ### Levar o progresso para outro aparelho
 
@@ -504,7 +544,7 @@ funções e mais nada.
 |---|---|---|
 | `src/App.jsx` | 4.882 linhas | a interface inteira: ~40 componentes, e nenhuma linha de conteúdo |
 | `src/data/*.js` | 4.269 linhas | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 38 testes | conteúdo, idiomas, geografia, desenhos, voz, transferência |
+| `tests/*.test.mjs` | 44 testes | conteúdo, idiomas, geografia, desenhos, voz, transferência |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -536,11 +576,11 @@ só apareciam jogando até o fim, no celular. Hoje aparecem em dois segundos.
 
 ```
 react      142 KB  →   45 KB comprimido    quase nunca muda
-dados      294 KB  →  102 KB comprimido    muda quando entra conteúdo
-interface  161 KB  →   45 KB comprimido    muda toda semana
+dados      449 KB  →  160 KB comprimido    muda quando entra conteúdo
+interface  169 KB  →   48 KB comprimido    muda toda semana
 CSS         11 KB  →    1 KB comprimido
 ——————————————————————————————————————————————————————————
-instalado, com as fontes e 161 bandeiras SVG:  3,4 MB
+instalado, com as fontes e 161 bandeiras SVG:  3,5 MB
 ```
 
 Três pedaços em vez de um só: quem já tem o app baixa apenas o que mudou de
@@ -576,8 +616,6 @@ fingir que está resolvido.
 
 ### O que sabemos que está fraco
 
-- O banco bíblico existe em português, inglês e espanhol; **francês, alemão e
-  italiano recaem no inglês**.
 - As perguntas bíblicas **ainda não passaram por revisão pastoral**. São geradas
   a partir de tabelas de fatos justamente para poderem ser revisadas — mas a
   revisão está no roadmap, não no passado.
@@ -621,7 +659,7 @@ npm ci && npm run build
 
 O `build` é o portão inteiro: prepara as bandeiras, confere os três bancos de
 perguntas, confere as faixas de dificuldade, **monta uma rodada de cada trilha
-em cada faixa** e roda os 38 testes — antes de gerar um único arquivo. Se
+em cada faixa** e roda os 44 testes — antes de gerar um único arquivo. Se
 qualquer um falhar, não sai build. Leva menos de 5 segundos.
 
 Só os testes:
@@ -676,10 +714,11 @@ src/
     biblia-pessoas.js    201 personagens, parentescos e papéis
     biblia-lugares.js    lugares, milagres e parábolas
     biblia-fatos.js      versículos, falas, números e fatos avulsos
+    biblia-idiomas.js    fr/de/it do banco bíblico — sem a citação de Escritura
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
-tests/             38 testes em node --test, sem framework nenhum
+tests/             44 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -763,7 +802,7 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 
 - [ ] Bandeiras dos 27 estados brasileiros (destrava Capitais e o nível Gênio da América do Sul)
 - [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
-- [ ] Banco bíblico em francês, alemão e italiano (hoje recai no inglês)
+- [ ] Versículos e falas em francês, alemão e italiano, de edição em domínio público conferida
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
 - [ ] Devocionais em francês, alemão e italiano (o versículo pede edição em domínio público conferida)
 
@@ -783,7 +822,7 @@ built by **ElCamargo Soluções em TI LTDA** (Blumenau, Brazil) and given away t
 families worldwide.
 
 15 games across 6 subject areas, 2,600+ script-verified questions, 6 interface
-languages and 176 flags — in a 3.4 MB installable PWA that makes **zero
+languages and 176 flags — in a 3.5 MB installable PWA that makes **zero
 third-party requests at runtime** and collects **no data whatsoever**. Progress
 lives in the device's own storage and never leaves it.
 
@@ -794,7 +833,7 @@ sign-up and which is entirely absent for those who decline.
 
 Every change passes a build gate that checks the question banks for ambiguity,
 **builds a real round of every track at every difficulty** to prove it is
-playable, and runs 38 tests — among them one that guarantees all six languages
+playable, and runs 44 tests — among them one that guarantees all six languages
 carry exactly the same 280 interface strings.
 
 The code is MIT-licensed. The reasoning behind the main technical choices is

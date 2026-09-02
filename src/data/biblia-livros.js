@@ -14,7 +14,14 @@
  * Contagem de capítulos: cânon protestante, 66 livros.
  */
 
-export const GRUPOS_BIBLIA = {
+import { LIVROS_IDIOMAS, GRUPOS_IDIOMAS, AUTORES_IDIOMAS, idiomasDe } from "./biblia-idiomas.js";
+
+/* Acrescenta fr/de/it a cada entrada, quando o mapa tiver. O que não tiver
+   segue recaindo no inglês — ver biblia-idiomas.js. */
+const comIdiomas = (obj, mapa) => Object.fromEntries(
+  Object.entries(obj).map(([k, v]) => [k, { ...v, ...idiomasDe(mapa, k) }]));
+
+export const GRUPOS_BIBLIA = comIdiomas({
   lei:        { pt: "Lei (Pentateuco)",     en: "Law (Pentateuch)",     es: "Ley (Pentateuco)" },
   historicos: { pt: "Históricos",           en: "History",              es: "Históricos" },
   poeticos:   { pt: "Poéticos",             en: "Poetry",               es: "Poéticos" },
@@ -25,9 +32,10 @@ export const GRUPOS_BIBLIA = {
   paulo:      { pt: "Cartas de Paulo",      en: "Letters of Paul",      es: "Cartas de Pablo" },
   gerais:     { pt: "Cartas Gerais",        en: "General Letters",      es: "Cartas Generales" },
   profecia:   { pt: "Profecia",             en: "Prophecy",             es: "Profecía" },
-};
+}, GRUPOS_IDIOMAS);
 
-const L = (pt, en, es, t, g, cap, autor) => ({ pt, en, es, t, g, cap, autor });
+const L = (pt, en, es, t, g, cap, autor) =>
+  ({ pt, en, es, ...idiomasDe(LIVROS_IDIOMAS, pt), t, g, cap, autor });
 
 /* Na ordem canônica: o índice do vetor É a posição do livro na Bíblia. */
 export const LIVROS = [
@@ -110,7 +118,7 @@ export const LIVROS = [
 ];
 
 /* Nomes dos autores, nos três idiomas. Chave curta para não repetir grafia. */
-export const AUTORES = {
+export const AUTORES = comIdiomas({
   moises:     { pt: "Moisés", en: "Moses", es: "Moisés" },
   josue:      { pt: "Josué", en: "Joshua", es: "Josué" },
   esdras:     { pt: "Esdras", en: "Ezra", es: "Esdras" },
@@ -141,7 +149,7 @@ export const AUTORES = {
   tiago:      { pt: "Tiago", en: "James", es: "Santiago" },
   pedro:      { pt: "Pedro", en: "Peter", es: "Pedro" },
   judasTadeu: { pt: "Judas, irmão de Tiago", en: "Jude, brother of James", es: "Judas, hermano de Santiago" },
-};
+}, AUTORES_IDIOMAS);
 
 /* Listas fechadas que dão perguntas boas sozinhas. */
 export const LISTAS_BIBLIA = {

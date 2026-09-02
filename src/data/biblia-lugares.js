@@ -8,7 +8,12 @@
  */
 
 const G = (n, lpt, len, les, ept, een, ees, livro) =>
-  ({ n, lugar: { pt: lpt, en: len, es: les }, evento: { pt: ept, en: een, es: ees }, livro });
+  ({ n,
+    lugar: { pt: lpt, en: len, es: les, ...idiomasDe(TEXTOS_IDIOMAS, lpt) },
+    evento: { pt: ept, en: een, es: ees, ...idiomasDe(TEXTOS_IDIOMAS, ept) },
+    livro });
+
+import { TEXTOS_IDIOMAS, idiomasDe } from "./biblia-idiomas.js";
 
 export const LUGARES = [
   G(1, "o Jardim do Éden", "the Garden of Eden", "el Jardín del Edén", "Adão e Eva viveram no começo", "Adam and Eve lived at the beginning", "vivieron Adán y Eva al principio", "Gênesis"),
@@ -110,7 +115,10 @@ export const LUGARES = [
 ];
 
 const M = (n, opt, oen, oes, lpt, len, les, evangelho) =>
-  ({ n, obra: { pt: opt, en: oen, es: oes }, lugar: { pt: lpt, en: len, es: les }, evangelho });
+  ({ n,
+    obra: { pt: opt, en: oen, es: oes, ...idiomasDe(TEXTOS_IDIOMAS, opt) },
+    lugar: { pt: lpt, en: len, es: les, ...idiomasDe(TEXTOS_IDIOMAS, lpt) },
+    evangelho });
 
 export const MILAGRES = [
   M(1, "transformou água em vinho", "turned water into wine", "convirtió el agua en vino", "numa festa de casamento em Caná", "at a wedding feast in Cana", "en una boda en Caná", "João"),
@@ -149,7 +157,10 @@ export const MILAGRES = [
 ];
 
 const B = (n, npt, nen, nes, ept, een, ees, evangelho) =>
-  ({ n, nome: { pt: npt, en: nen, es: nes }, ensina: { pt: ept, en: een, es: ees }, evangelho });
+  ({ n,
+    nome: { pt: npt, en: nen, es: nes, ...idiomasDe(TEXTOS_IDIOMAS, npt) },
+    ensina: { pt: ept, en: een, es: ees, ...idiomasDe(TEXTOS_IDIOMAS, ept) },
+    evangelho });
 
 export const PARABOLAS = [
   B(1, "a Ovelha Perdida", "the Lost Sheep", "la Oveja Perdida", "Deus procura cada um que se perde", "God searches for every single one who is lost", "Dios busca a cada uno que se pierde", "Lucas"),

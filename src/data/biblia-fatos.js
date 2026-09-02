@@ -13,6 +13,8 @@
  *               escrever, então fica para o que realmente vale a pena.
  */
 
+import { NUMEROS_E_FATOS_IDIOMAS as EXTRA, idiomasDe } from "./biblia-idiomas.js";
+
 const V = (n, ipt, ien, ies, fpt, fen, fes, livro) =>
   ({ n, ini: { pt: ipt, en: ien, es: ies }, fim: { pt: fpt, en: fen, es: fes }, livro });
 
@@ -167,7 +169,7 @@ export const CITACOES = [
   C(4, "Que é a verdade?", "What is truth?", "¿Qué es la verdad?", "Pilatos"),
 ];
 
-const N = (n, pt, en, es, r) => ({ n, q: { pt, en, es }, r });
+const N = (n, pt, en, es, r) => ({ n, q: { pt, en, es, ...idiomasDe(EXTRA, pt) }, r });
 
 /* Perguntas cuja resposta é um número: as alternativas o jogo gera sozinho. */
 export const NUMEROS = [
@@ -270,9 +272,13 @@ export const NUMEROS = [
   N(4, "Quantos filhos Ana teve depois de Samuel?", "How many more children did Hannah have after Samuel?", "¿Cuántos hijos más tuvo Ana después de Samuel?", 5),
 ];
 
-const F = (n, qpt, qen, qes, apt, aen, aes, d1, d2, d3) =>
-  ({ n, q: { pt: qpt, en: qen, es: qes }, a: { pt: apt, en: aen, es: aes }, d: [d1, d2, d3] });
-const o = (pt, en, es) => ({ pt, en, es });
+const F = (n, qpt, qen, qes, apt, aen, aes, d1, d2, d3) => ({
+  n,
+  q: { pt: qpt, en: qen, es: qes, ...idiomasDe(EXTRA, qpt) },
+  a: { pt: apt, en: aen, es: aes, ...idiomasDe(EXTRA, apt) },
+  d: [d1, d2, d3],
+});
+const o = (pt, en, es) => ({ pt, en, es, ...idiomasDe(EXTRA, pt) });
 
 export const FATOS = [
   F(1, "Qual foi o primeiro milagre de Jesus?", "What was Jesus' first miracle?", "¿Cuál fue el primer milagro de Jesús?",
