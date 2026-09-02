@@ -8,6 +8,7 @@ import { CURIOSIDADES, CURIOSIDADE_NIVEL, AGUAS } from "./data/curiosidades.js";
 import { perguntasCiencia, CIENCIA_NIVEL, GRUPOS, DIETAS, CASAS, NASCE } from "./data/ciencias.js";
 import { versoDoDia } from "./data/versos.js";
 import { devocionalDoDia } from "./data/devocional.js";
+import { CARIMBOS, carimboPorId, perguntaDoRegistro, semente as sementeDoTexto } from "./data/caderno.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -60,6 +61,10 @@ const T = {
     giftWeek: "Presente da semana", giveGift: "Presentear",
     painted: "pintados", memories: "Memória", nothingYet: "Ainda não começou a jogar.",
     thisWeek: "Esta semana ·", week: "Semana de", allTime: "No total",
+    notebook: "Meu Caderno", newNote: "Escrever agora", saveNote: "Guardar no caderno",
+    writeIt: "Escrever no meu caderno", howWasIt: "COMO FOI?", writeHere: "O QUE VOCÊ QUER GUARDAR",
+    writePlaceholder: "Escreva do seu jeito. Ninguém corrige aqui.", notesTotal: "páginas",
+    notebookEmpty: "Seu caderno está esperando a primeira página. Depois de uma rodada, ou agora mesmo: o que você aprendeu hoje?",
     momentTitle: "Momento em Família", principle: "PRINCÍPIO DA SEMANA",
     talkAbout: "PARA CONVERSAR", todayDo: "HOJE, VAMOS", momentMark: "Fizemos juntos",
     momentDone: "Feito hoje, juntos", momentCount: "Momentos em família: {n}",
@@ -188,6 +193,10 @@ const T = {
     giftWeek: "This week's gift", giveGift: "Give a gift",
     painted: "painted", memories: "Memory", nothingYet: "Hasn't started playing yet.",
     thisWeek: "This week ·", week: "Week of", allTime: "All time",
+    notebook: "My Notebook", newNote: "Write now", saveNote: "Save in my notebook",
+    writeIt: "Write in my notebook", howWasIt: "HOW WAS IT?", writeHere: "WHAT YOU WANT TO KEEP",
+    writePlaceholder: "Write it your way. Nobody corrects it here.", notesTotal: "pages",
+    notebookEmpty: "Your notebook is waiting for its first page. After a round, or right now: what did you learn today?",
     momentTitle: "Family Moment", principle: "PRINCIPLE OF THE WEEK",
     talkAbout: "TO TALK ABOUT", todayDo: "TODAY, LET'S", momentMark: "We did it together",
     momentDone: "Done today, together", momentCount: "Family moments: {n}",
@@ -292,6 +301,10 @@ const T = {
     giftWeek: "Regalo de la semana", giveGift: "Regalar",
     painted: "pintados", memories: "Memoria", nothingYet: "Todavía no empezó a jugar.",
     thisWeek: "Esta semana ·", week: "Semana del", allTime: "En total",
+    notebook: "Mi Cuaderno", newNote: "Escribir ahora", saveNote: "Guardar en el cuaderno",
+    writeIt: "Escribir en mi cuaderno", howWasIt: "¿CÓMO TE FUE?", writeHere: "LO QUE QUIERES GUARDAR",
+    writePlaceholder: "Escribe a tu manera. Aquí nadie corrige.", notesTotal: "páginas",
+    notebookEmpty: "Tu cuaderno espera su primera página. Después de una ronda, o ahora mismo: ¿qué aprendiste hoy?",
     momentTitle: "Momento en Familia", principle: "PRINCIPIO DE LA SEMANA",
     talkAbout: "PARA CONVERSAR", todayDo: "HOY, VAMOS A", momentMark: "Lo hicimos juntos",
     momentDone: "Hecho hoy, juntos", momentCount: "Momentos en familia: {n}",
@@ -410,6 +423,10 @@ const PACKS = {
     giftWeek: "Cadeau de la semaine", giveGift: "Offrir",
     painted: "coloriés", memories: "Mémoire", nothingYet: "N'a pas encore commencé à jouer.",
     thisWeek: "Cette semaine ·", week: "Semaine du", allTime: "Au total",
+    notebook: "Mon Cahier", newNote: "Écrire maintenant", saveNote: "Garder dans le cahier",
+    writeIt: "Écrire dans mon cahier", howWasIt: "C'ÉTAIT COMMENT ?", writeHere: "CE QUE TU VEUX GARDER",
+    writePlaceholder: "Écris à ta façon. Ici, personne ne corrige.", notesTotal: "pages",
+    notebookEmpty: "Ton cahier attend sa première page. Après une manche, ou tout de suite : qu'as-tu appris aujourd'hui ?",
     momentTitle: "Moment en Famille", principle: "PRINCIPE DE LA SEMAINE",
     talkAbout: "POUR EN PARLER", todayDo: "AUJOURD'HUI, FAISONS", momentMark: "Nous l'avons fait ensemble",
     momentDone: "Fait aujourd'hui, ensemble", momentCount: "Moments en famille : {n}",
@@ -507,6 +524,10 @@ const PACKS = {
     giftWeek: "Geschenk der Woche", giveGift: "Verschenken",
     painted: "ausgemalt", memories: "Memory", nothingYet: "Hat noch nicht angefangen zu spielen.",
     thisWeek: "Diese Woche ·", week: "Woche vom", allTime: "Insgesamt",
+    notebook: "Mein Heft", newNote: "Jetzt schreiben", saveNote: "Ins Heft schreiben",
+    writeIt: "In mein Heft schreiben", howWasIt: "WIE WAR ES?", writeHere: "WAS DU BEHALTEN WILLST",
+    writePlaceholder: "Schreib es so, wie du willst. Hier korrigiert niemand.", notesTotal: "Seiten",
+    notebookEmpty: "Dein Heft wartet auf die erste Seite. Nach einer Runde oder gleich jetzt: Was hast du heute gelernt?",
     momentTitle: "Familienmoment", principle: "PRINZIP DER WOCHE",
     talkAbout: "ZUM REDEN", todayDo: "HEUTE WOLLEN WIR", momentMark: "Wir haben es zusammen gemacht",
     momentDone: "Heute gemeinsam gemacht", momentCount: "Familienmomente: {n}",
@@ -604,6 +625,10 @@ const PACKS = {
     giftWeek: "Regalo della settimana", giveGift: "Regalare",
     painted: "colorati", memories: "Memoria", nothingYet: "Non ha ancora iniziato a giocare.",
     thisWeek: "Questa settimana ·", week: "Settimana del", allTime: "In totale",
+    notebook: "Il Mio Quaderno", newNote: "Scrivi ora", saveNote: "Salva nel quaderno",
+    writeIt: "Scrivi nel mio quaderno", howWasIt: "COM'È ANDATA?", writeHere: "COSA VUOI TENERE",
+    writePlaceholder: "Scrivi a modo tuo. Qui nessuno corregge.", notesTotal: "pagine",
+    notebookEmpty: "Il tuo quaderno aspetta la prima pagina. Dopo una partita, o proprio adesso: cosa hai imparato oggi?",
     momentTitle: "Momento in Famiglia", principle: "PRINCIPIO DELLA SETTIMANA",
     talkAbout: "DI CUI PARLARE", todayDo: "OGGI, FACCIAMO", momentMark: "L'abbiamo fatto insieme",
     momentDone: "Fatto oggi, insieme", momentCount: "Momenti in famiglia: {n}",
@@ -938,6 +963,10 @@ const ECON = {
      olhar como os filhos estão indo e escolher quem premiar. O dinheiro
      que ele mesmo usa jogando é o dele, ganho como o de todo mundo. */
   presenteSemanal: 100,
+  /* O primeiro registro do dia paga; o segundo não. Escrever tem que valer a
+     pena, mas não pode virar uma torneira de moedas — senão a criança escreve
+     dez linhas vazias e o caderno morre no mesmo dia em que nasceu. */
+  cadernoReward: 15,
   colorReward: 10,                 // por desenho terminado
   colorDailyCap: 200,              // 20 desenhos premiados por dia (20 × 10)
 };
@@ -1092,6 +1121,10 @@ const ACHIEVEMENTS = [
   /* --- dedicação --- */
   { id: "day3", cat: "habit", n: 1, icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
   { id: "day7", cat: "habit", n: 2, icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
+  { id: "note1", cat: "habit", n: 1, icon: "📔", pt: "Primeira página do caderno", en: "First notebook page", es: "Primera página del cuaderno", test: s => s.registros >= 1 },
+  { id: "note10", cat: "habit", n: 2, icon: "✏️", pt: "10 registros no caderno", en: "10 notebook entries", es: "10 registros en el cuaderno", test: s => s.registros >= 10 },
+  { id: "note30", cat: "habit", n: 3, icon: "📚", pt: "30 registros no caderno", en: "30 notebook entries", es: "30 registros en el cuaderno", test: s => s.registros >= 30 },
+  { id: "note100", cat: "habit", n: 4, icon: "🖋️", pt: "100 registros no caderno", en: "100 notebook entries", es: "100 registros en el cuaderno", test: s => s.registros >= 100 },
   { id: "moment1", cat: "habit", n: 1, icon: "🕊️", pt: "Primeiro Momento em Família", en: "First Family Moment", es: "Primer Momento en Familia", test: s => s.momentos >= 1 },
   { id: "moment7", cat: "habit", n: 2, icon: "📖", pt: "7 Momentos em Família", en: "7 Family Moments", es: "7 Momentos en Familia", test: s => s.momentos >= 7 },
   { id: "moment30", cat: "habit", n: 3, icon: "💚", pt: "30 Momentos em Família", en: "30 Family Moments", es: "30 Momentos en Familia", test: s => s.momentos >= 30 },
@@ -1402,7 +1435,7 @@ function AppInterno() {
     noHintRounds: 0, geniusCleared: 0, continents: 1,
     flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
     contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, registros: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
   });
   const [seenAch, setSeenAch] = useState([]);
   const [toast, setToast] = useState(null);
@@ -1436,6 +1469,13 @@ function AppInterno() {
   const [presente, setPresente] = useState({ semana: semanaAtual(), restante: ECON.presenteSemanal });
   /* { "2026-08-30": {rodadas, certas, estrelas, desenhos, memorias, lumicoins} } */
   const [semanas, setSemanas] = useState({});
+  /* Meu Caderno: o que a criança registrou, do mais antigo para o mais novo.
+     Chaves curtas de propósito — isto cresce e mora no localStorage.
+     { d: dia, t: texto, c: [carimbos], p: princípio, s: sobre o quê } */
+  const [caderno, setCaderno] = useState([]);
+  /* A pergunta que está sendo respondida agora, e para onde voltar depois. */
+  const [rascunho, setRascunho] = useState(null);
+
   /* Bônus dado pelo responsável e ainda não mostrado: {valor, de}. */
   const [presenteRecebido, setPresenteRecebido] = useState(null);
 
@@ -1482,13 +1522,13 @@ function AppInterno() {
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
     stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
-    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null,
+    presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [],
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
       flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
       contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, registros: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
     },
   });
 
@@ -1519,6 +1559,7 @@ function AppInterno() {
     setPresente(d.presente?.semana === sem ? d.presente : { semana: sem, restante: ECON.presenteSemanal });
     setSemanas(d.semanas || {});
     setPresenteRecebido(d.presenteRecebido || null);
+    setCaderno(d.caderno || []);
   }
 
   useEffect(() => {
@@ -1689,6 +1730,34 @@ function AppInterno() {
     setScreen("gallery");
   }
 
+  /* ----- Meu Caderno -----
+     Registrar é o 4º R da AEP, e o único passo do app em que não existe
+     resposta certa. Nada aqui é corrigido, pontuado ou comparado. */
+  function salvarRegistro({ texto, carimbos, principio, sobre }) {
+    const hoje = diaISO();
+    const primeiroDoDia = !caderno.some(r => r.d === hoje);
+    const premio = primeiroDoDia ? ECON.cadernoReward : 0;
+    if (premio) {
+      setCoins(c => Math.min(ECON.cap, c + premio));
+      setStats(x => ({ ...x, earned: x.earned + premio }));
+    }
+    // 200 páginas: uma por dia dá mais de meio ano de caderno, e o
+    // localStorage do aparelho mais simples continua dando conta.
+    setCaderno(g => [...g, { d: hoje, t: texto || "", c: carimbos || [], p: principio, s: sobre || "" }].slice(-200));
+    setStats(x => ({ ...x, registros: (x.registros || 0) + 1 }));
+    registrarSemana({ registros: 1, lumicoins: premio });
+    setToast(premio ? `📔 +${premio} 🪙` : "📔 💾");
+    setRascunho(null);
+    setScreen("caderno");
+  }
+
+  /* Sorteia a pergunta uma vez e guarda: se ficasse no render da tela, ela
+     trocaria a cada tecla digitada. */
+  function abrirCaderno({ principio, pergunta }, sobre, volta) {
+    setRascunho({ principio, pergunta, sobre, volta: volta || screen });
+    setScreen("escrever");
+  }
+
   /* Puxar a tela para baixo recarrega a página no Chrome Android — e no meio
      de uma partida isso perde a rodada e as moedas. Nos menus continua valendo. */
   const EM_PARTIDA = ["game", "mem", "color"];
@@ -1853,7 +1922,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1865,7 +1934,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno]);
 
   /* ----- relógio + refill ----- */
   useEffect(() => {
@@ -2178,6 +2247,10 @@ function AppInterno() {
           </div>
         )}
         {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje }} />}
+        {screen === "caderno" && <CadernoScreen {...{ t, lang, caderno, setScreen, voltar: voltaPara,
+          novo: () => { abrirCaderno(perguntaDoRegistro(sementeDoTexto(diaISO())), ""); } }} />}
+        {screen === "escrever" && rascunho && <EscreverScreen {...{ t, lang, rascunho,
+          salvar: salvarRegistro, cancelar: () => { setRascunho(null); setScreen(rascunho.volta || "caderno"); } }} />}
         {screen === "devocional" && <DevocionalScreen {...{ t, lang, momento, marcarMomento, feitoHoje: momentoFeitoHoje, setScreen,
           voltar: player.papel === "pai" ? "familia" : "home" }} />}
         {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar }} />}
@@ -2203,7 +2276,9 @@ function AppInterno() {
         {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao }} />}
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen,
           onQuit: () => { setRound(null); setScreen("stages"); } }} />}
-        {screen === "result" && round && <Result {...{ t, round, player, setScreen, setSel, sel, startRound, coins }} />}
+        {screen === "result" && round && <Result {...{ t, round, player, setScreen, setSel, sel, startRound, coins,
+          escrever: () => abrirCaderno(perguntaDoRegistro(sementeDoTexto(round.cont) + round.stage),
+            `${nomeDaTrilha(round.cont, t)} · ${t.stage} ${round.stage}`, "result") }} />}
         {screen === "shop" && <Shop {...{ t, lang, coins, setCoins, owned, setOwned, player, setPlayer, setScreen, voltaPara }} />}
         {screen === "awards" && <Awards {...{ t, lang, stats, seenAch, setScreen, player, voltaPara }} />}
       </div>
@@ -2555,7 +2630,23 @@ const SEMANAS_GUARDADAS = 12;
 const diaISO = (d = new Date()) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
-const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, momentos: 0, lumicoins: 0 };
+/* A mesma cor de cada princípio em devocional.js. Está repetida aqui porque é
+   estilo de tela, não dado: o caderno não deveria carregar 49 devocionais só
+   para saber pintar uma borda. */
+const CORES_PRINCIPIO = {
+  soberania: "#6A5AE0", individualidade: "#00B894", autogoverno: "#4C6FFF",
+  carater: "#F9A826", alianca: "#E84393", semeadura: "#00C2CB", mordomia: "#8D6E3A",
+};
+
+/* "2026-09-02" → "2 de set." no idioma de quem lê. */
+function diaCurto(iso, lang) {
+  const [a, m, d] = String(iso || "").split("-").map(Number);
+  if (!a) return iso || "";
+  try { return new Date(a, m - 1, d).toLocaleDateString(lang, { day: "numeric", month: "short" }); }
+  catch { return iso; }
+}
+
+const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, momentos: 0, registros: 0, lumicoins: 0 };
 
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
@@ -4348,6 +4439,160 @@ function PinModal({ t, titulo, onOk, onCancelar, erro }) {
   );
 }
 
+/* ---------- Meu Caderno ----------
+   Registrar, o 4º R. A criança escreve o que ficou — e quem ainda não escreve
+   toca carimbos. Os dois valem: o caderno não pode ser só de quem já lê.
+
+   Nada aqui é corrigido nem pontuado. É o único lugar do app assim. */
+function EscreverScreen({ t, lang, rascunho, salvar, cancelar }) {
+  const [texto, setTexto] = useState("");
+  const [marcados, setMarcados] = useState([]);
+  const txt = o => o[lang] || o.en;
+  const vazio = !texto.trim() && !marcados.length;
+
+  const alternar = id => setMarcados(m => m.includes(id) ? m.filter(x => x !== id) : [...m, id]);
+
+  return (
+    <div className="narrow">
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={cancelar}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 20, flex: 1 }}>📔 {t.notebook}</div>
+      </div>
+
+      <div className="card" style={{ padding: 16, marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+          <Mundi size={44} bounce={false} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {rascunho.sobre && (
+              <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, letterSpacing: 1, marginBottom: 3 }}>
+                {rascunho.sobre}
+              </div>
+            )}
+            <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 16, lineHeight: 1.45 }}>
+              {txt(rascunho.pergunta)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Os carimbos vêm antes do texto: quem não escreve precisa encontrar o
+          seu jeito primeiro, e não depois de um campo que não sabe usar. */}
+      <div className="card" style={{ padding: 14, marginBottom: 12 }}>
+        <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, letterSpacing: 1, marginBottom: 8 }}>{t.howWasIt}</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+          {CARIMBOS.map(c => {
+            const on = marcados.includes(c.id);
+            return (
+              <button key={c.id} onClick={() => alternar(c.id)}
+                style={{ border: "none", cursor: "pointer", borderRadius: 999, padding: "8px 12px",
+                  background: on ? "#4C6FFF" : "#E9ECF7", color: on ? "#fff" : "#3B4468",
+                  fontWeight: 800, fontSize: 12, display: "flex", alignItems: "center", gap: 5 }}>
+                <span style={{ fontSize: 16 }}>{c.e}</span>{txt(c)}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="card" style={{ padding: 14, marginBottom: 12 }}>
+        <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, letterSpacing: 1, marginBottom: 8 }}>{t.writeHere}</div>
+        <textarea value={texto} onChange={e => setTexto(e.target.value.slice(0, 500))}
+          rows={5} placeholder={t.writePlaceholder}
+          style={{ width: "100%", boxSizing: "border-box", border: "2px solid #E4E8F5", borderRadius: 14,
+            padding: 12, fontSize: 15, fontWeight: 700, color: "#1B2A6B", fontFamily: "inherit",
+            resize: "none", outline: "none", lineHeight: 1.5 }} />
+        <div style={{ textAlign: "right", color: "#B3BBD4", fontWeight: 800, fontSize: 11 }}>{texto.length}/500</div>
+      </div>
+
+      <Btn full color="#00B894" disabled={vazio}
+        onClick={() => salvar({ texto: texto.trim(), carimbos: marcados, principio: rascunho.principio, sobre: rascunho.sobre })}>
+        📔 {t.saveNote}
+      </Btn>
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+
+/* Uma página do caderno, do jeito que ela é lida — pela criança e pelo pai. */
+function PaginaCaderno({ r, lang, compacta }) {
+  const cor = CORES_PRINCIPIO[r.p] || "#8B93AD";
+  return (
+    <div className="card" style={{ padding: compacta ? 10 : 14, borderLeft: `6px solid ${cor}` }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
+        <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10, flex: 1 }}>{diaCurto(r.d, lang)}</div>
+        {r.s && <div style={{ color: "#B3BBD4", fontWeight: 800, fontSize: 10, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "55%" }}>{r.s}</div>}
+      </div>
+      {!!r.c?.length && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: r.t ? 6 : 0 }}>
+          {r.c.map(id => {
+            const c = carimboPorId(id);
+            return c ? (
+              <span key={id} style={{ background: "#EEF1FF", borderRadius: 999, padding: "3px 8px",
+                fontWeight: 800, fontSize: 11, color: "#3B4468" }}>
+                {c.e} {c[lang] || c.en}
+              </span>
+            ) : null;
+          })}
+        </div>
+      )}
+      {r.t && (
+        <div style={{ color: "#1B2A6B", fontWeight: 700, fontSize: compacta ? 12 : 14, lineHeight: 1.55, whiteSpace: "pre-wrap" }}>
+          {r.t}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CadernoScreen({ t, lang, caderno, setScreen, novo, voltar }) {
+  const POR_PAGINA = 8;
+  const paginas = Math.max(1, Math.ceil(caderno.length / POR_PAGINA));
+  const [pag, setPag] = useState(0);           // 0 = as mais recentes
+  const p = Math.min(pag, paginas - 1);
+  const doNovoAoVelho = [...caderno].reverse();
+  const fatia = doNovoAoVelho.slice(p * POR_PAGINA, (p + 1) * POR_PAGINA);
+
+  return (
+    <div className="narrow">
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(voltar)}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 20, flex: 1 }}>📔 {t.notebook}</div>
+        {caderno.length > 0 && (
+          <div style={{ background: "rgba(255,255,255,.2)", color: "#fff", borderRadius: 999,
+            padding: "6px 12px", fontWeight: 900, fontSize: 13 }}>
+            {caderno.length}
+          </div>
+        )}
+      </div>
+
+      <Btn full color="#00B894" onClick={novo}>✏️ {t.newNote}</Btn>
+      <div style={{ height: 12 }} />
+
+      {!caderno.length ? (
+        <div className="card" style={{ padding: 22, textAlign: "center" }}>
+          <div style={{ fontSize: 40 }}>📔</div>
+          <div style={{ color: "#3B4468", fontWeight: 800, fontSize: 14, lineHeight: 1.7, marginTop: 8 }}>
+            {t.notebookEmpty}
+          </div>
+        </div>
+      ) : (
+        <div style={{ display: "grid", gap: 9 }}>
+          {fatia.map((r, i) => <PaginaCaderno key={p * POR_PAGINA + i} r={r} lang={lang} />)}
+        </div>
+      )}
+
+      {paginas > 1 && (
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12 }}>
+          <Btn small color={p === 0 ? "rgba(255,255,255,.12)" : "#4C6FFF"} disabled={p === 0} onClick={() => setPag(p - 1)}>◀</Btn>
+          <div style={{ flex: 1, textAlign: "center", color: "#C9D2FF", fontWeight: 900, fontSize: 12 }}>{p + 1} / {paginas}</div>
+          <Btn small color={p >= paginas - 1 ? "rgba(255,255,255,.12)" : "#4C6FFF"} disabled={p >= paginas - 1} onClick={() => setPag(p + 1)}>▶</Btn>
+        </div>
+      )}
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+
 /* ---------- Momento em Família ----------
    O devocional do dia, para ser lido junto: um versículo, uma pergunta para
    conversar e uma pequena atitude para hoje.
@@ -4523,6 +4768,7 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
   const fimSemana = (() => { const [a, m, d] = chave.split("-").map(Number); const x = new Date(a, m - 1, d + 6);
     return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-${String(x.getDate()).padStart(2, "0")}`; })();
   const desenhosDaSemana = (save?.gallery || []).filter(g => g.data >= ini && g.data <= fimSemana);
+  const cadernoDaSemana = (save?.caderno || []).filter(r => r.d >= ini && r.d <= fimSemana);
 
   return (
     <div className="card" style={{ padding: 14 }}>
@@ -4559,10 +4805,11 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
         ) : (
           <div style={{ display: "flex" }}>
             {[["🎮", semana.rodadas], ["🎯", semana.certas], ["⭐", semana.estrelas],
-              ["🎨", semana.desenhos], ["🧠", semana.memorias], ["🕊️", semana.momentos], ["🪙", semana.lumicoins]].map(([ic, v]) => (
+              ["🎨", semana.desenhos], ["🧠", semana.memorias], ["📔", semana.registros],
+              ["🕊️", semana.momentos], ["🪙", semana.lumicoins]].map(([ic, v]) => (
               <div key={ic} style={{ flex: 1, textAlign: "center" }}>
                 <div style={{ fontSize: 14 }}>{ic}</div>
-                <div className="display" style={{ fontSize: 15, color: "#1B2A6B" }}>{v}</div>
+                <div className="display" style={{ fontSize: String(v).length > 3 ? 13 : 15, color: "#1B2A6B" }}>{v}</div>
               </div>
             ))}
           </div>
@@ -4600,6 +4847,22 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
           </div>
         ))}
       </div>
+
+      {/* O caderno da criança, com as palavras dela. É a parte do cartão que
+          o adulto lê inteira — o resto ele confere. */}
+      {cadernoDaSemana.length > 0 && (
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>📔 {t.notebook}</div>
+            <div style={{ color: "#6C7695", fontWeight: 900, fontSize: 11 }}>{st.registros || 0} {t.notesTotal}</div>
+          </div>
+          <div style={{ display: "grid", gap: 6 }}>
+            {cadernoDaSemana.slice(-3).reverse().map((r, i) => (
+              <PaginaCaderno key={i} r={r} lang={lang} compacta />
+            ))}
+          </div>
+        </div>
+      )}
 
       {!!(save?.gallery?.length) && (
         <div style={{ marginBottom: 10 }}>
@@ -4987,6 +5250,9 @@ function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickG
       ))}
 
       <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
+        <Btn full color="#8D6E3A" onClick={() => abrir("caderno", "home")}>📔 {t.notebook}</Btn>
+      </div>
+      <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
         <Btn full color="#E84393" onClick={() => abrir("shop", "home")}>🛍️ {t.shop}</Btn>
         <Btn full color="#00C2CB" onClick={() => abrir("awards", "home")}>🏅 {t.awards}</Btn>
       </div>
@@ -5406,7 +5672,7 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
 }
 
 /* ---------- Resultado ---------- */
-function Result({ t, round, player, setScreen, setSel, sel, startRound, coins }) {
+function Result({ t, round, player, setScreen, setSel, sel, startRound, coins, escrever }) {
   const perfect = round.pct === 100;
   return (
     <div className="narrow" style={{ paddingTop: 20 }}>
@@ -5429,6 +5695,12 @@ function Result({ t, round, player, setScreen, setSel, sel, startRound, coins })
         <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 14 }}>
           ⏱️ {tempoFmt(round.seg || 0)}{round.novoRecorde ? ` · 🏆 ${t.newRecord}` : ""}
         </div>
+
+        {/* Relacionar e Registrar, os dois passos que faltavam. Vem antes dos
+            botões de jogar de novo de propósito: pensar no que passou é mais
+            valioso que a próxima rodada, e quem quiser pular, pula. */}
+        <Btn full color="#8D6E3A" onClick={escrever}>📔 {t.writeIt}</Btn>
+        <div style={{ height: 9 }} />
 
         <div style={{ display: "grid", gap: 9 }}>
           {round.st > 0 && round.stage < totalDe(round.cont) && (
