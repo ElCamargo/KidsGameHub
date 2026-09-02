@@ -17,7 +17,9 @@
  * script scripts/check-bancos.mjs falha o build se alguém escrever errado.
  */
 
-export const PAPEIS = {
+import { PAPEIS_IDIOMAS, NOMES_IDIOMAS, FEITOS_IDIOMAS, idiomasDe } from "./biblia-idiomas.js";
+
+export const PAPEIS = Object.fromEntries(Object.entries({
   patriarca: { pt: "Patriarca",        en: "Patriarch",      es: "Patriarca" },
   profeta:   { pt: "Profeta",          en: "Prophet",        es: "Profeta" },
   rei:       { pt: "Rei",              en: "King",           es: "Rey" },
@@ -29,10 +31,17 @@ export const PAPEIS = {
   lider:     { pt: "Líder do povo",    en: "Leader of the people", es: "Líder del pueblo" },
   inimigo:   { pt: "Inimigo do povo",  en: "Enemy of the people",  es: "Enemigo del pueblo" },
   anjo:      { pt: "Anjo",             en: "Angel",          es: "Ángel" },
-};
+}).map(([k, v]) => [k, { ...v, ...idiomasDe(PAPEIS_IDIOMAS, k) }]));
 
-const P = (n, pt, en, es, fpt, fen, fes, papel, livro) =>
-  ({ n, nome: { pt, en, es }, feito: { pt: fpt, en: fen, es: fes }, papel, livro });
+/* fr/de/it entram por biblia-idiomas.js: o nome pela chave em português, o
+   feito pela frase em português — que é única na tabela, ao contrário do
+   nome ("José" aparece duas vezes, com feitos diferentes). */
+const P = (n, pt, en, es, fpt, fen, fes, papel, livro) => ({
+  n,
+  nome: { pt, en, es, ...idiomasDe(NOMES_IDIOMAS, pt) },
+  feito: { pt: fpt, en: fen, es: fes, ...idiomasDe(FEITOS_IDIOMAS, fpt) },
+  papel, livro,
+});
 
 export const PERSONAGENS = [
   /* ---------- Gênesis e os patriarcas ---------- */
