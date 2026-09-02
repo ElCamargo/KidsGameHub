@@ -19,7 +19,7 @@
     "preview": "vite preview --host",
     "check-bancos": "node scripts/check-bancos.mjs",
     "check-rodadas": "node scripts/check-rodadas.mjs",
-    "test": "node --test \"tests/**/*.test.mjs\"",
+    "test": "node --test \"tests/*.test.mjs\"",
     "check-faixas": "node scripts/check-faixas.mjs"
   },
   "dependencies": {
