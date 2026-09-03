@@ -14,6 +14,7 @@ import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES, CAP_F
 import { PALETA, DESENHOS } from "./data/desenhos.js";
 import { iniciarVozes, temVoz, falar, parar as pararVoz, textoDaPergunta, juntar } from "./lib/voz.js";
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
+import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -863,7 +864,7 @@ function AppInterno() {
     const oldFmt = Object.keys(d.progress || {}).some(k => k.includes(":"));
     setProgress(oldFmt ? {} : (d.progress || {}));
     setOwned(d.owned || []); setStats(d.stats); setSeenAch(d.seenAch || []);
-    setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(d.memBest || {});
+    setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(migrarMemBest(d.memBest, DIFFS));
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
     setGerados(d.gerados || []);
     setJogosAbertos([...new Set([...jogosGratisPara(ehLeitor(perfil)), ...(d.jogosAbertos || [])])]);
@@ -3850,8 +3851,7 @@ function nomeDaTrilha(cont, t) {
 function memoriaResumo(save) {
   const por = new Map();
   for (const [chave, v] of Object.entries(save?.memBest || {})) {
-    const corte = chave.lastIndexOf(":");
-    const tema = chave.slice(0, corte), nivel = chave.slice(corte + 1);
+    const [tema, nivel] = partirChaveMemoria(chave);
     const ordem = DIFFS.indexOf(nivel);
     if (ordem < 0) continue;
     const atual = por.get(tema);
@@ -3870,6 +3870,12 @@ function nomeDoTemaMemoria(tema, t) {
    semana, os recordes de memória e o progresso por trilha. */
 function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
   const st = save?.stats || {};
+  /* O que dá para dar agora. Se nem o menor degrau couber, o degrau é o
+     próprio resto: 5 lumicoins guardadas não valem nada para ninguém. */
+  const valoresDoPresente = (() => {
+    const cabem = [10, 25, 50].filter(v => v <= presente.restante);
+    return cabem.length ? cabem : presente.restante > 0 ? [presente.restante] : [];
+  })();
   const semanas = save?.semanas || {};
   const chaves = Object.keys(semanas).sort();
   const atual = semanaAtual();
@@ -3949,10 +3955,14 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
         <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎁 {t.giveGift}</div>
-        {[10, 25, 50].map(v => (
-          <Btn key={v} small color={presente.restante >= v ? "#E84393" : "#C7CEE0"}
-            disabled={presente.restante < v} onClick={() => presentear(perfil, v)}>+{v}</Btn>
-        ))}
+        {/* Com 5 lumicoins no cofre, os três botões de 10, 25 e 50 ficavam
+            apagados e o resto da semana morria ali sem ninguém receber.
+            Agora aparece o que cabe — e, quando nada cabe, o que sobrou. */}
+        {valoresDoPresente.length
+          ? valoresDoPresente.map(v => (
+            <Btn key={v} small color="#E84393" onClick={() => presentear(perfil, v)}>+{v}</Btn>
+          ))
+          : <div style={{ color: "#B3BBD4", fontWeight: 800, fontSize: 11 }}>{t.giftGone}</div>}
       </div>
 
       <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>∑ {t.allTime}</div>
