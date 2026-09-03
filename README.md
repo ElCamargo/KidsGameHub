@@ -90,7 +90,7 @@ São **15 jogos em 6 áreas**.
 |---|---|---|
 | 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
-| 🌍 Geografia | Capitais | 27 estados do BR → países por continente → estados dos EUA |
+| 🌍 Geografia | Capitais | 27 estados do BR **com a bandeira de cada um** → países por continente → estados dos EUA |
 | 🌍 Geografia | Curiosidades do Mundo | 235 lugares reais: em que país, cidade, mar ou continente |
 | 🔢 Matemática | Contas e Números | soma a decimais, até 5º ano |
 | 🦁 Natureza | Memória dos Animais | 50 animais |
@@ -244,6 +244,15 @@ pelo estado dela.
 Junto vieram as 15 que já eram citadas no jogo e faltavam: Andaluzia,
 Canárias, Baleares e doze estados americanos, que até então apareciam como
 desenho de reserva.
+
+**E elas apareceram também no jogo de Capitais.** Perguntar *"qual é a capital
+do Rio Grande do Norte?"* para quem tem seis anos é pedir que ela leia uma
+parede de texto antes de pensar na resposta; com a bandeira em cima do nome,
+ela reconhece o estado pelo desenho. Vale para os 27 do Brasil e para os onze
+estados americanos cujas bandeiras temos — os outros seguem só com o nome, sem
+buraco na tela. **País continua sem bandeira ali**: a bandeira do país já é o
+jogo ao lado, e mostrá-la aqui transformaria a pergunta de capital numa
+pergunta de bandeira.
 
 **De onde vêm, e por que estão versionadas.** Foram baixadas uma vez do
 **Wikimedia Commons** por

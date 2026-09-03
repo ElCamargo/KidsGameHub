@@ -2951,9 +2951,13 @@ const CAP_REGIOES = [
   { id: "cap_us", icone: "🇺🇸", cor: "#9B59B6" },
 ];
 
+/* [lugar, capital, bandeira]. A bandeira é o que faz a criança reconhecer o
+   estado antes de saber o nome — e é opcional: nem todo estado americano tem
+   a sua no pacote, e país nenhum precisa dela aqui, porque a bandeira do país
+   já é o jogo ao lado. */
 function paresCapitais(regiao, lang) {
-  if (regiao === "cap_br") return BR_ESTADOS.map(([n, c]) => [n, c]);
-  if (regiao === "cap_us") return US_ESTADOS.map(([n, c]) => [n, c]);
+  if (regiao === "cap_br") return BR_ESTADOS.map(([n, c, f]) => [n, c, f]);
+  if (regiao === "cap_us") return US_ESTADOS.map(([n, c, f]) => [n, c, f]);
   const cont = regiao.slice(4);
   return Object.keys(DATA[cont]).map(code => [countryName(code, lang), capNome(code, lang)]);
 }
@@ -2967,10 +2971,10 @@ function montarRodadaCapitais(stage, t, lang, cont) {
     : band === "medium" ? Math.ceil(pares.length * 0.75) : pares.length;
   const pool = shuffle(pares).slice(0, Math.max(qCount + 3, fatia));
   const escolhidos = shuffle(pool).slice(0, qCount);
-  const qs = escolhidos.map(([lugar, capital]) => {
+  const qs = escolhidos.map(([lugar, capital, bandeira]) => {
     const distr = shuffle(pares.filter(([, c]) => c !== capital)).slice(0, 3);
     return {
-      kind: "texto", prompt: lugar, ask: t.whichCapital,
+      kind: "texto", prompt: lugar, ask: t.whichCapital, flag: bandeira || undefined,
       answer: capital, options: shuffle([capital, ...distr.map(d => d[1])]),
       porque: t.porq.capital.replace("{cap}", capital).replace("{lugar}", lugar),
     };
@@ -4849,9 +4853,21 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
         {q.kind === "emojiPick" ? (
           <div style={{ fontSize: 46, padding: "6px 0 2px" }}>🔎</div>
         ) : q.kind === "texto" ? (
-          <div className={`display ${picked && picked !== q.answer ? "shake" : ""}`}
-            style={{ fontSize: q.ask ? 30 : 44, color: "#1B2A6B", padding: "10px 6px", lineHeight: 1.2 }}>
-            {q.ask ? q.prompt : "📖"}
+          <div className={picked && picked !== q.answer ? "shake" : ""}>
+            {/* Nas capitais, a bandeira do estado vem antes do nome: a criança
+                reconhece o desenho muito antes de ler "Rio Grande do Norte".
+                Estado sem bandeira no pacote continua só com o nome. */}
+            {q.flag && imgOk && (
+              <div style={{ display: "inline-block", borderRadius: 14, overflow: "hidden",
+                boxShadow: "0 4px 14px rgba(20,25,60,.22)", background: "#EEF1FF", marginBottom: 6 }}>
+                <img src={flagUrl(q.flag)} alt="" onError={() => setImgOk(false)}
+                  style={{ width: 168, height: 112, objectFit: "contain", display: "block", background: "#fff" }} />
+              </div>
+            )}
+            <div className="display"
+              style={{ fontSize: q.ask ? 30 : 44, color: "#1B2A6B", padding: q.flag ? "0 6px 4px" : "10px 6px", lineHeight: 1.2 }}>
+              {q.ask ? q.prompt : "📖"}
+            </div>
           </div>
         ) : q.kind === "emojiAsk" ? (
           <div className={picked && picked !== q.answer ? "shake" : ""} style={{ fontSize: 76, padding: "4px 0" }}>{q.prompt}</div>
