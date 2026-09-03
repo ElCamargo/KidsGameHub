@@ -60,10 +60,26 @@ test("as bandeiras de região têm código no formato pais-regiao", () => {
     }
 });
 
-test("os estados brasileiros e americanos vêm em pares nome/capital", () => {
+test("os estados brasileiros e americanos vêm em nome/capital, com bandeira opcional", () => {
   assert.equal(BR_ESTADOS.length, 27, "o Brasil tem 26 estados e o Distrito Federal");
-  for (const par of [...BR_ESTADOS, ...US_ESTADOS]) {
-    assert.equal(par.length, 2);
-    assert.ok(par[0]?.trim() && par[1]?.trim(), `par incompleto: ${par}`);
+  for (const [nome, capital, bandeira] of [...BR_ESTADOS, ...US_ESTADOS]) {
+    assert.ok(nome?.trim() && capital?.trim(), `par incompleto: ${nome} / ${capital}`);
+    if (bandeira !== undefined)
+      assert.match(bandeira, /^(br|us)-[a-z]{2}$/, `${nome}: código de bandeira estranho`);
   }
+});
+
+test("todo estado brasileiro tem bandeira, e ela existe em SUBFLAGS", () => {
+  const conhecidas = new Set(Object.values(SUBFLAGS).flat().map(r => r.code));
+  for (const [nome, , bandeira] of BR_ESTADOS) {
+    assert.ok(bandeira, `${nome} sem bandeira — são 27, e temos as 27`);
+    assert.ok(conhecidas.has(bandeira), `${bandeira} não está em SUBFLAGS`);
+  }
+  // Estado americano sem bandeira é esperado: temos doze dos trinta.
+  // Onze, e não doze: temos a bandeira do Novo México para o quiz de
+  // bandeiras, mas ele não está entre os trinta estados do jogo de capitais.
+  const comBandeira = US_ESTADOS.filter(x => x[2]);
+  assert.equal(comBandeira.length, 11, "mudou o número de bandeiras americanas");
+  for (const [nome, , b] of comBandeira)
+    assert.ok(conhecidas.has(b), `${nome}: ${b} não está em SUBFLAGS`);
 });
