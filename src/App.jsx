@@ -15,6 +15,7 @@ import { PALETA, DESENHOS } from "./data/desenhos.js";
 import { iniciarVozes, temVoz, falar, parar as pararVoz, textoDaPergunta, juntar } from "./lib/voz.js";
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
 import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
+import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -463,7 +464,12 @@ const BADGES = [
 /* Bandeiras servidas pelo próprio app (public/flags), preparadas por
    scripts/prepare-flags.mjs. Nenhuma requisição sai para terceiros. */
 const BASE = (typeof import.meta !== "undefined" && import.meta.env?.BASE_URL) || "/";
-const flagUrl = c => `${BASE}flags/${c.toLowerCase()}.svg`;
+/* Quase toda bandeira é SVG. As que têm brasão vieram em PNG para caber no
+   aparelho — ver scripts/prepare-flags.mjs, que gera essa lista. */
+const flagUrl = c => {
+  const k = String(c).toLowerCase();
+  return `${BASE}flags/${k}.${BANDEIRAS_PNG.has(k) ? "png" : "svg"}`;
+};
 
 function countryName(code, lang) {
   try {
@@ -2023,12 +2029,18 @@ function buildRound(cont, stage, lang, t = T[lang] || T.pt) {
   const subs = (SUBFLAGS[cont] || []);
   const subDeck = shuffle(subs);
   let subAt = 0;
-  // Gênio (13-15): metade da rodada vira estado/região.
-  // Difícil (10-12): só a última pergunta, como aperitivo.
+  /* Quantas perguntas da rodada são de estado/região, e não de país.
+     Difícil: uma só, como aperitivo. Gênio: metade. Mestre e Lenda: quase
+     metade — e é o que finalmente enche a rodada na América do Sul, que tem
+     doze países e pedia quinze bandeiras diferentes. */
+  const QUANTAS_SUB = { hard: 1, genius: 5, mestre: 5, lenda: 7 };
   const subSlots = new Set();
-  if (subs.length) {
-    if (diff === "genius") [1, 3, 5, 7, 9].forEach(n => subSlots.add(n));  // 5 de 10
-    else if (diff === "hard" && stage >= 12) subSlots.add(9);
+  if (subs.length && (diff !== "hard" || stage >= 12)) {
+    const quantas = Math.min(QUANTAS_SUB[diff] || 0, subs.length);
+    // Espalhadas pela rodada, sempre nas posições ímpares: assim nunca abrem
+    // a partida e nunca caem duas seguidas.
+    for (let i = 1, postas = 0; i < qtdPerguntas(diff) && postas < quantas; i += 2, postas++)
+      subSlots.add(i);
   }
   // Rodadas curtas para os pequenos, longas para quem já pegou o jeito
   const qCount = qtdPerguntas(diff);

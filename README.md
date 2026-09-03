@@ -57,7 +57,7 @@ não numa apresentação:
 | Pilar | O que significa no produto | Onde isso aparece no código |
 |---|---|---|
 | **A família no centro, com Cristo** | o app cria motivos para a família estar junta, e a fé é oferecida, nunca imposta | Momento em Família, Meu Caderno, dois jogadores no mesmo aparelho, presente semanal do responsável |
-| **Acesso para todos** | criança de qualquer classe social, em qualquer aparelho, com ou sem internet | 3,5 MB no total, PWA sem loja, 100% offline depois da primeira abertura, gratuito e sem compra interna |
+| **Acesso para todos** | criança de qualquer classe social, em qualquer aparelho, com ou sem internet | 3,8 MB no total, PWA sem loja, 100% offline depois da primeira abertura, gratuito e sem compra interna |
 | **Privacidade sem asterisco** | não coletamos porque não queremos, não porque a lei exige | zero requisições a terceiros em execução, zero SDKs, tudo no armazenamento do próprio aparelho |
 | **Educação de verdade** | reconhecer alternativa é o degrau mais raso; o app tem que ir além | Abordagem Educacional por Princípios: Pesquisar, Raciocinar, Relacionar, **Registrar** |
 | **Respeito à criança** | nada de anúncio, vício, ranking público ou pressão para gastar | sem notificação, sem loja externa, e fase já vencida com 3 estrelas nunca cobra de novo |
@@ -68,9 +68,9 @@ não numa apresentação:
 |---|---|
 | Jogos | **15**, em 6 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
-| Bandeiras | **176** (154 países + 22 regiões), empacotadas |
+| Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
-| Tamanho total, com fontes e bandeiras | **3,5 MB** |
+| Tamanho total, com fontes e bandeiras | **3,8 MB** |
 | JavaScript comprimido | **254 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
@@ -88,7 +88,7 @@ São **15 jogos em 6 áreas**.
 
 | Área | Jogo | O que treina |
 |---|---|---|
-| 🌍 Geografia | Bandeiras do Mundo | 176 bandeiras, 60 fases por continente |
+| 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR → países por continente → estados dos EUA |
 | 🌍 Geografia | Curiosidades do Mundo | 235 lugares reais: em que país, cidade, mar ou continente |
@@ -107,6 +107,7 @@ São **15 jogos em 6 áreas**.
 O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe o país entre quatro opções.
 
 - 60 fases por continente, em escada de seis faixas (ver abaixo)
+- Nas fases altas entram estados e regiões: os 27 do Brasil, doze dos EUA, e as regiões da Europa
 - Modo Fácil sem cronômetro; depois o tempo aperta a cada fase, até 6 segundos
 - Lumicoins: cada rodada custa conforme a faixa, dicas custam, acertar rende
 - Mapa-múndi que se abre continente a continente, de carro, barco e avião
@@ -227,6 +228,43 @@ E o gesto chega do outro lado. Quando a criança abre o perfil dela, um
 presente: 🪙 +35. Parabéns! Continue assim."* Sem isso o presente era um
 número que mudava sozinho no canto da tela, e ninguém saberia que veio de
 alguém. Presentes dados antes de a criança entrar somam num aviso só.
+
+### As bandeiras dos 27 estados
+
+O pacote `flag-icons` traz países e algumas regiões, mas **não** os estados
+brasileiros. Sem eles, a América do Sul travava: são doze países, e uma rodada
+Lenda pede quinze bandeiras diferentes — ela terminava curta, com doze.
+
+Agora os 27 estados entram nas fases mais altas: **uma pergunta no Difícil,
+cinco no Gênio e no Mestre, sete no Lenda**, sempre em posições ímpares, para
+nunca abrirem a partida nem caírem duas seguidas. A América do Sul passou a
+ter a rodada Lenda cheia — e o Brasil de uma criança brasileira agora começa
+pelo estado dela.
+
+Junto vieram as 15 que já eram citadas no jogo e faltavam: Andaluzia,
+Canárias, Baleares e doze estados americanos, que até então apareciam como
+desenho de reserva.
+
+**De onde vêm, e por que estão versionadas.** Foram baixadas uma vez do
+**Wikimedia Commons** por
+[`scripts/baixar-bandeiras.mjs`](scripts/baixar-bandeiras.mjs) e commitadas em
+`flags-extra/`, com a procedência de cada arquivo em
+[`flags-extra/FONTES.md`](flags-extra/FONTES.md). Nem o build nem quem clona o
+repositório depende da internet — o script roda quando a lista muda, e só.
+São bandeiras oficiais de estados e regiões: símbolos públicos, hospedados no
+Commons como domínio público.
+
+**Doze delas viraram PNG, e isso é o ponto interessante.** Bandeira com brasão
+desenhada em vetor é pesada: a de Louisiana tem **629 KB**, a de Nova York
+584, a do Rio de Janeiro 342. As 42 somavam **3,03 MB** — quase dobrariam o
+app. As que passam de 40 KB são baixadas já rasterizadas pelo próprio Commons,
+a 320 px de largura, o suficiente para os 210 px em que a bandeira aparece na
+tela. As mesmas 42 agora somam **0,33 MB**.
+
+Qual é PNG e qual é SVG não é decidido no chute: o
+[`prepare-flags.mjs`](scripts/prepare-flags.mjs) gera
+`src/data/bandeiras-png.js` com a lista, e o app monta o endereço a partir
+dela. Errar a extensão mostraria o desenho de reserva no lugar da bandeira.
 
 ### O banco bíblico nos seis idiomas
 
@@ -580,7 +618,7 @@ dados      449 KB  →  160 KB comprimido    muda quando entra conteúdo
 interface  169 KB  →   48 KB comprimido    muda toda semana
 CSS         11 KB  →    1 KB comprimido
 ——————————————————————————————————————————————————————————
-instalado, com as fontes e 161 bandeiras SVG:  3,5 MB
+instalado, com as fontes e 203 bandeiras:      3,8 MB
 ```
 
 Três pedaços em vez de um só: quem já tem o app baixa apenas o que mudou de
@@ -715,6 +753,7 @@ src/
     biblia-lugares.js    lugares, milagres e parábolas
     biblia-fatos.js      versículos, falas, números e fatos avulsos
     biblia-idiomas.js    fr/de/it do banco bíblico — sem a citação de Escritura
+    bandeiras-png.js     GERADO: quais bandeiras são servidas em PNG
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
@@ -725,6 +764,8 @@ scripts/
   check-bancos.mjs   confere os bancos de perguntas
   check-faixas.mjs   garante que toda faixa existe em todo mapa que depende dela
   check-rodadas.mjs  monta uma rodada de cada trilha e faixa e confere se é jogável
+  baixar-bandeiras.mjs  busca no Wikimedia Commons o que o flag-icons não tem
+flags-extra/       as 42 bandeiras baixadas à mão, com FONTES.md ao lado
 .github/workflows/
   ci.yml             guardas, testes e build em toda alteração
   deploy.yml         publica no GitHub Pages
@@ -738,9 +779,9 @@ O app grava tudo através de `window.storage`. Esse arquivo implementa essa API 
 
 ### Sobre as bandeiras
 
-Os SVGs vêm do pacote [`flag-icons`](https://github.com/lipis/flag-icons), instalado como dependência. Antes de cada `dev` e `build`, o script `scripts/prepare-flags.mjs` copia para `public/flags/` **apenas os códigos que o jogo usa** — ele lê `DATA` e `SUBFLAGS` direto de `src/data/geografia.js`, então as duas listas nunca divergem.
+Os SVGs vêm do pacote [`flag-icons`](https://github.com/lipis/flag-icons), instalado como dependência, mais 42 baixadas do Wikimedia Commons que ele não tem (ver acima). Antes de cada `dev` e `build`, o script `scripts/prepare-flags.mjs` copia para `public/flags/` **apenas os códigos que o jogo usa** — ele lê `DATA` e `SUBFLAGS` direto de `src/data/geografia.js`, então as duas listas nunca divergem.
 
-O script avisa quais códigos não existem no pacote e quais SVGs passam de 60 KB (candidatos a otimizar com SVGO). Para bandeiras que faltarem, baixe o SVG do Wikimedia Commons e salve em `public/flags/` com o mesmo código — o script preserva o que já está lá dentro apenas se você rodar depois de adicionar, então guarde os arquivos extras em um commit.
+O script avisa quais códigos ainda faltam e quais SVGs passam de 60 KB. Para incluir uma bandeira nova, acrescente o código em `scripts/baixar-bandeiras.mjs` e rode `npm run baixar-bandeiras`: ela é baixada para `flags-extra/`, que é versionado. `public/flags/` é apagado e refeito a cada execução, então nada manual sobrevive lá.
 
 Nada é buscado em servidor externo em tempo de execução.
 
@@ -800,7 +841,6 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 
 ## Roadmap
 
-- [ ] Bandeiras dos 27 estados brasileiros (destrava Capitais e o nível Gênio da América do Sul)
 - [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
 - [ ] Versículos e falas em francês, alemão e italiano, de edição em domínio público conferida
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
@@ -822,7 +862,7 @@ built by **ElCamargo Soluções em TI LTDA** (Blumenau, Brazil) and given away t
 families worldwide.
 
 15 games across 6 subject areas, 2,600+ script-verified questions, 6 interface
-languages and 176 flags — in a 3.5 MB installable PWA that makes **zero
+languages and 176 flags — in a 3.8 MB installable PWA that makes **zero
 third-party requests at runtime** and collects **no data whatsoever**. Progress
 lives in the device's own storage and never leaves it.
 
