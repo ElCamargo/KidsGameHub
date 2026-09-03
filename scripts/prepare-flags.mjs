@@ -2,9 +2,15 @@
  * KidsGameHub — preparação das bandeiras
  * ElCamargo Soluções em TI LTDA
  *
- * Copia de node_modules/flag-icons apenas os SVGs que o jogo realmente usa,
- * para public/flags/. Assim o app não faz nenhuma requisição a servidor de
- * terceiro: as bandeiras viajam dentro do próprio aplicativo.
+ * Copia para public/flags/ apenas as bandeiras que o jogo realmente usa —
+ * de node_modules/flag-icons, e de flags-extra/ para as que o pacote não tem
+ * (os estados brasileiros, parte dos americanos e das comunidades espanholas;
+ * ver flags-extra/FONTES.md). Assim o app não faz nenhuma requisição a
+ * servidor de terceiro: as bandeiras viajam dentro do próprio aplicativo.
+ *
+ * Também gera src/data/bandeiras-png.js, com os códigos que ficaram em PNG:
+ * um brasão desenhado em vetor pesa centenas de KB, e o app precisa caber num
+ * celular de entrada.
  *
  * Roda sozinho antes de `npm run dev` e `npm run build`.
  * Se algum código não existir no pacote, o script avisa e segue — o app tem
@@ -16,6 +22,7 @@ import { fileURLToPath } from "node:url";
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..");
 const origem = join(raiz, "node_modules", "flag-icons", "flags", "4x3");
+const extras = join(raiz, "flags-extra");
 const destino = join(raiz, "public", "flags");
 
 if (!existsSync(origem)) {
@@ -51,20 +58,46 @@ rmSync(destino, { recursive: true, force: true });
 mkdirSync(destino, { recursive: true });
 
 const faltando = [];
+const emPng = [];
 let bytes = 0;
 
 for (const c of codigos) {
-  const arq = join(origem, `${c}.svg`);
-  if (!existsSync(arq)) { faltando.push(c); continue; }
-  const svg = readFileSync(arq);
-  writeFileSync(join(destino, `${c}.svg`), svg);
-  bytes += svg.length;
+  // Primeiro o pacote; depois o que baixamos à mão, em SVG ou em PNG.
+  const candidatos = [
+    [join(origem, `${c}.svg`), ".svg"],
+    [join(extras, `${c}.svg`), ".svg"],
+    [join(extras, `${c}.png`), ".png"],
+  ];
+  const achado = candidatos.find(([caminho]) => existsSync(caminho));
+  if (!achado) { faltando.push(c); continue; }
+  const [caminho, ext] = achado;
+  const dados = readFileSync(caminho);
+  writeFileSync(join(destino, c + ext), dados);
+  if (ext === ".png") emPng.push(c);
+  bytes += dados.length;
 }
+
+/* O app precisa saber a extensão de cada bandeira antes de pedir o arquivo:
+   errar a extensão mostraria o desenho de reserva no lugar da bandeira. */
+writeFileSync(join(raiz, "src", "data", "bandeiras-png.js"),
+`/**
+ * KidsGameHub — bandeiras servidas em PNG
+ * ElCamargo Soluções em TI LTDA
+ *
+ * ARQUIVO GERADO por scripts/prepare-flags.mjs. Não edite à mão: ele é
+ * refeito antes de todo dev e de todo build.
+ *
+ * A regra é o tamanho, não o gosto: bandeira com brasão desenhada em vetor
+ * passa de 600 KB, e o app inteiro tem que caber num celular de entrada.
+ * Essas viram PNG de 320px, o resto continua em SVG.
+ */
+export const BANDEIRAS_PNG = new Set(${JSON.stringify(emPng.sort())});
+`);
 
 const copiados = readdirSync(destino).length;
 const mb = (bytes / 1048576).toFixed(2);
 
-console.log(`\n🚩 ${copiados} bandeiras em public/flags/ (${mb} MB)`);
+console.log(`\n🚩 ${copiados} bandeiras em public/flags/ (${mb} MB)${emPng.length ? ` · ${emPng.length} em PNG` : ""}`);
 
 /* Bandeiras muito pesadas engordam o cache offline e atrasam a primeira
    abertura em conexão fraca — justamente o público que queremos atender. */
@@ -80,7 +113,7 @@ if (pesadas.length) {
 
 if (faltando.length) {
   console.log(`\n⚠ Sem SVG no flag-icons (${faltando.length}): ${faltando.join(", ")}`);
-  console.log("  O app mostra um desenho de reserva. Para incluí-las, baixe o SVG");
-  console.log("  do Wikimedia Commons e salve em public/flags/ com o mesmo código.");
+  console.log("  O app mostra um desenho de reserva. Para incluí-las, acrescente o");
+  console.log("  código em scripts/baixar-bandeiras.mjs e rode: npm run baixar-bandeiras");
 }
 console.log("");

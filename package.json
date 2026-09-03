@@ -11,6 +11,7 @@
   },
   "type": "module",
   "scripts": {
+    "baixar-bandeiras": "node scripts/baixar-bandeiras.mjs",
     "prepare-flags": "node scripts/prepare-flags.mjs",
     "predev": "npm run prepare-flags && npm run check-bancos && npm run check-rodadas",
     "dev": "vite --host",

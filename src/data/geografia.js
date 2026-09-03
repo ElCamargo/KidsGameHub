@@ -34,6 +34,42 @@ export const DATA = {
    estados do Brasil, províncias do Canadá ou bandeiras de cidade — basta salvar
    o SVG em public/flags/ com o mesmo código; nada é buscado na internet. */
 export const SUBFLAGS = {
+  /* Os 27 estados brasileiros. Entram nas fases Gênio da América do Sul —
+     doze países não dão dez perguntas diferentes, e o Brasil de uma criança
+     brasileira começa pelo estado dela.
+
+     O nome não é traduzido de propósito: São Paulo é São Paulo em inglês e em
+     espanhol, e "Rio Grande do Sul" traduzido seria invenção nossa. Só o
+     Distrito Federal tem forma corrente em inglês. */
+  sa: [
+    { code: "br-ac", pt: "Acre", en: "Acre", es: "Acre" },
+    { code: "br-al", pt: "Alagoas", en: "Alagoas", es: "Alagoas" },
+    { code: "br-ap", pt: "Amapá", en: "Amapá", es: "Amapá" },
+    { code: "br-am", pt: "Amazonas", en: "Amazonas", es: "Amazonas" },
+    { code: "br-ba", pt: "Bahia", en: "Bahia", es: "Bahia" },
+    { code: "br-ce", pt: "Ceará", en: "Ceará", es: "Ceará" },
+    { code: "br-df", pt: "Distrito Federal", en: "Federal District", es: "Distrito Federal" },
+    { code: "br-es", pt: "Espírito Santo", en: "Espírito Santo", es: "Espírito Santo" },
+    { code: "br-go", pt: "Goiás", en: "Goiás", es: "Goiás" },
+    { code: "br-ma", pt: "Maranhão", en: "Maranhão", es: "Maranhão" },
+    { code: "br-mt", pt: "Mato Grosso", en: "Mato Grosso", es: "Mato Grosso" },
+    { code: "br-ms", pt: "Mato Grosso do Sul", en: "Mato Grosso do Sul", es: "Mato Grosso do Sul" },
+    { code: "br-mg", pt: "Minas Gerais", en: "Minas Gerais", es: "Minas Gerais" },
+    { code: "br-pa", pt: "Pará", en: "Pará", es: "Pará" },
+    { code: "br-pb", pt: "Paraíba", en: "Paraíba", es: "Paraíba" },
+    { code: "br-pr", pt: "Paraná", en: "Paraná", es: "Paraná" },
+    { code: "br-pe", pt: "Pernambuco", en: "Pernambuco", es: "Pernambuco" },
+    { code: "br-pi", pt: "Piauí", en: "Piauí", es: "Piauí" },
+    { code: "br-rj", pt: "Rio de Janeiro", en: "Rio de Janeiro", es: "Rio de Janeiro" },
+    { code: "br-rn", pt: "Rio Grande do Norte", en: "Rio Grande do Norte", es: "Rio Grande do Norte" },
+    { code: "br-rs", pt: "Rio Grande do Sul", en: "Rio Grande do Sul", es: "Rio Grande do Sul" },
+    { code: "br-ro", pt: "Rondônia", en: "Rondônia", es: "Rondônia" },
+    { code: "br-rr", pt: "Roraima", en: "Roraima", es: "Roraima" },
+    { code: "br-sc", pt: "Santa Catarina", en: "Santa Catarina", es: "Santa Catarina" },
+    { code: "br-sp", pt: "São Paulo", en: "São Paulo", es: "São Paulo" },
+    { code: "br-se", pt: "Sergipe", en: "Sergipe", es: "Sergipe" },
+    { code: "br-to", pt: "Tocantins", en: "Tocantins", es: "Tocantins" },
+  ],
   eu: [
     { code: "gb-eng", pt: "Inglaterra", en: "England", es: "Inglaterra" },
     { code: "gb-sct", pt: "Escócia", en: "Scotland", es: "Escocia" },
