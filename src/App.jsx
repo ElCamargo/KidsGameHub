@@ -2204,7 +2204,12 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
   }, [achadas]);
 
   function tocar(i) {
-    if (travado.current || viradas.includes(i) || achadas.includes(i)) return;
+    /* viradas.length >= 2 é a guarda contra o toque que chega no instante em
+       que as duas cartas se fecham: ali o travado já caiu, mas a tela ainda
+       não redesenhou com o tabuleiro limpo. Sem ela esse toque montaria um
+       terceiro item em viradas, e o par nunca mais se resolveria — tabuleiro
+       morto, e a criança sem entender por que o jogo parou. */
+    if (travado.current || viradas.length >= 2 || viradas.includes(i) || achadas.includes(i)) return;
     const novas = [...viradas, i];
     setViradas(novas);
     if (novas.length === 2) {
