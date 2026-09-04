@@ -16,6 +16,7 @@ import { iniciarVozes, temVoz, falar, parar as pararVoz, textoDaPergunta, juntar
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
 import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
+import { MAX_JOGADORES, vencedorDe, perguntasParaTodos } from "./lib/turma.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -257,9 +258,10 @@ const ECON = {
      pena, mas não pode virar uma torneira de moedas — senão a criança escreve
      dez linhas vazias e o caderno morre no mesmo dia em que nasceu. */
   cadernoReward: 15,
-  /* Jogar em dupla é de graça, e paga os dois — ganhando ou perdendo. O que
-     queremos que aconteça de novo amanhã é o irmão chamar o irmão, não um
-     vencer o outro. Uma vez por dia, senão vira fábrica de lumicoins. */
+  /* Jogar junto é de graça, e paga todo mundo — ganhando ou perdendo. O que
+     queremos que aconteça de novo amanhã é o irmão chamar o irmão, e os dois
+     chamarem a mãe; não um vencer o outro. Uma vez por dia, senão vira
+     fábrica de lumicoins. */
   duplaReward: 20,
   colorReward: 10,                 // por desenho terminado
   colorDailyCap: 200,              // 20 desenhos premiados por dia (20 × 10)
@@ -414,9 +416,9 @@ const ACHIEVEMENTS = [
   /* --- dedicação --- */
   { id: "day3", cat: "habit", n: 1, icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
   { id: "day7", cat: "habit", n: 2, icon: "🗓️", pt: "7 dias seguidos jogando", en: "7 days in a row", es: "7 días seguidos", test: s => s.dayStreak >= 7 },
-  { id: "duo1", cat: "habit", n: 1, icon: "👥", pt: "Primeira partida em dupla", en: "First game in pairs", es: "Primera partida en pareja", test: s => s.duplas >= 1 },
-  { id: "duo10", cat: "habit", n: 2, icon: "🤜", pt: "10 partidas em dupla", en: "10 games in pairs", es: "10 partidas en pareja", test: s => s.duplas >= 10 },
-  { id: "duo50", cat: "habit", n: 3, icon: "🎏", pt: "50 partidas em dupla", en: "50 games in pairs", es: "50 partidas en pareja", test: s => s.duplas >= 50 },
+  { id: "duo1", cat: "habit", n: 1, icon: "👥", pt: "Primeira partida em grupo", en: "First game together", es: "Primera partida en grupo", test: s => s.duplas >= 1 },
+  { id: "duo10", cat: "habit", n: 2, icon: "🤜", pt: "10 partidas em grupo", en: "10 games together", es: "10 partidas en grupo", test: s => s.duplas >= 10 },
+  { id: "duo50", cat: "habit", n: 3, icon: "🎏", pt: "50 partidas em grupo", en: "50 games together", es: "50 partidas en grupo", test: s => s.duplas >= 50 },
   { id: "note1", cat: "habit", n: 1, icon: "📔", pt: "Primeira página do caderno", en: "First notebook page", es: "Primera página del cuaderno", test: s => s.registros >= 1 },
   { id: "note10", cat: "habit", n: 2, icon: "✏️", pt: "10 registros no caderno", en: "10 notebook entries", es: "10 registros en el cuaderno", test: s => s.registros >= 10 },
   { id: "note30", cat: "habit", n: 3, icon: "📚", pt: "30 registros no caderno", en: "30 notebook entries", es: "30 registros en el cuaderno", test: s => s.registros >= 30 },
@@ -776,12 +778,14 @@ function AppInterno() {
      Chaves curtas de propósito — isto cresce e mora no localStorage.
      { d: dia, t: texto, c: [carimbos], p: princípio, s: sobre o quê } */
   const [caderno, setCaderno] = useState([]);
-  /* O dia em que a dupla já foi premiada, para não pagar duas vezes. */
+  /* O dia em que a turma já foi premiada, para não pagar duas vezes. A chave
+     no save continua duplaDia: renomear apagaria o dia de quem já jogou. */
   const [duplaDia, setDuplaDia] = useState("");
-  /* Com quem se está jogando agora: {id, name, avatar}. id nulo = convidado,
-     alguém que não tem perfil no aparelho e por isso não recebe lumicoins. */
-  const [dupla, setDupla] = useState(null);
-  const [escolhendoDupla, setEscolhendoDupla] = useState(false);
+  /* Quem está jogando junto, fora o dono do perfil: de um a três, cada um
+     {id, name, avatar}. id nulo = convidado, alguém que não tem perfil no
+     aparelho e por isso não recebe lumicoins. Null = partida de um só. */
+  const [turma, setTurma] = useState(null);
+  const [escolhendoTurma, setEscolhendoTurma] = useState(false);
 
   /* ----- a voz do Lumus -----
      Quem ainda não lê nasce com ela ligada: é o que faz a pergunta existir
@@ -943,9 +947,9 @@ function AppInterno() {
   }, [loaded, momento]);
 
   /* ----- memória ----- */
-  function comecarMemoria(nivel, tema = memTema, comDupla = null) {
-    // Em dupla não se cobra: o que queremos é que eles joguem juntos.
-    const custo = comDupla ? 0 : custoDaMemoria(memBest, tema, nivel);
+  function comecarMemoria(nivel, tema = memTema, comTurma = null) {
+    // Jogando junto não se cobra: o que queremos é que eles joguem juntos.
+    const custo = comTurma?.length ? 0 : custoDaMemoria(memBest, tema, nivel);
     if (coins < custo) { setToast(t.notEnough); return; }
     if (custo) setCoins(c => c - custo);
     const cfg = MEM_LEVELS[nivel];
@@ -968,16 +972,34 @@ function AppInterno() {
       const escolhidas = shuffle([...new Set(fonte)]).slice(0, cfg.pares);
       cartas = shuffle(escolhidas.flatMap(k => [{ key: k, face: k, tipo }, { key: k, face: k, tipo }]));
     }
-    setMem({ nivel, cartas, tema, duo: comDupla || null });
+    setMem({ nivel, cartas, tema, duo: comTurma?.length ? comTurma : null });
     setScreen("mem");
   }
 
-  /* Fim de uma partida em dupla. Não mexe em estrelas nem em recordes: é outro
-     jogo, com outra graça, e o recorde de um não pode ser feito a quatro mãos. */
-  async function fimDupla({ seg, jogadas, pontos }) {
+  /* Os outros jogadores recebem no save deles, direto — eles não estão com o
+     app aberto para receber de outro jeito. Convidado não tem save, e tudo
+     bem: ele veio jogar, não juntar moeda. */
+  async function premiarOutros(outros, premio) {
+    for (const o of outros || []) {
+      if (!o?.id) continue;
+      try {
+        const d = await lerSave(o.id);
+        if (premio) {
+          d.coins = Math.min(ECON.cap, (d.coins || 0) + premio);
+          d.stats = { ...d.stats, earned: (d.stats?.earned || 0) + premio,
+            maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
+        }
+        d.stats = { ...d.stats, duplas: (d.stats?.duplas || 0) + 1 };
+        window.storage.set(`lumus:p:${o.id}`, JSON.stringify(d));
+      } catch { }
+    }
+  }
+
+  /* Fim de uma partida em grupo. Não mexe em estrelas nem em recordes: é outro
+     jogo, com outra graça, e o recorde de um não pode ser feito a oito mãos. */
+  async function fimTurma({ seg, jogadas, pontos }) {
     const hoje = diaISO();
     const premio = duplaDia === hoje ? 0 : ECON.duplaReward;
-    const outro = mem.duo;
     if (premio) {
       setCoins(c => Math.min(ECON.cap, c + premio));
       setDuplaDia(hoje);
@@ -985,29 +1007,14 @@ function AppInterno() {
     }
     setStats(x => ({ ...x, earned: x.earned + premio, duplas: (x.duplas || 0) + 1 }));
     registrarSemana({ duplas: 1 });
+    await premiarOutros(mem.duo, premio);
 
-    // O outro jogador recebe no save dele, direto — ele não está com o app
-    // aberto para receber de outro jeito. Convidado não tem save, e tudo bem.
-    if (outro?.id) {
-      try {
-        const d = await lerSave(outro.id);
-        if (premio) {
-          d.coins = Math.min(ECON.cap, (d.coins || 0) + premio);
-          d.stats = { ...d.stats, earned: (d.stats?.earned || 0) + premio,
-            maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
-        }
-        d.stats = { ...d.stats, duplas: (d.stats?.duplas || 0) + 1 };
-        window.storage.set(`lumus:p:${outro.id}`, JSON.stringify(d));
-      } catch { }
-    }
-
-    const vencedor = pontos[0] === pontos[1] ? null : pontos[0] > pontos[1] ? 0 : 1;
-    setMem(m => ({ ...m, done: true, seg, jogadas, pontos, vencedor, reward: premio }));
+    setMem(m => ({ ...m, done: true, seg, jogadas, pontos, vencedor: vencedorDe(pontos), reward: premio }));
     setScreen("memResult");
   }
 
   function fimMemoria({ seg, jogadas, pontos }) {
-    if (mem?.duo) { fimDupla({ seg, jogadas, pontos }); return; }
+    if (mem?.duo) { fimTurma({ seg, jogadas, pontos }); return; }
     const nivel = mem.nivel;
     const st = memEstrelas(nivel, seg);
     const reward = st ? ECON.memReward[st] : 0;
@@ -1433,19 +1440,22 @@ function AppInterno() {
   /* Fase já vencida com 3 estrelas é treino livre: cobrar de novo por algo
      que a criança já dominou só a empurra para longe de repetir. As outras
      continuam custando — é o que dá sentido às lumicoins. */
-  function startRound(comDupla = null) {
-    // Duelo é de graça, como a memória em dupla, e pelo mesmo motivo.
-    const custo = comDupla ? 0 : custoDaFase(stars, sel.cont, sel.stage);
+  function startRound(comTurma = null) {
+    // Em grupo é de graça, como a memória, e pelo mesmo motivo.
+    const custo = comTurma?.length ? 0 : custoDaFase(stars, sel.cont, sel.stage);
     if (coins < custo) { setToast(t.notEnough); return; }
     if (custo) setCoins(c => c - custo);
     const quiz = quizDe(sel.cont);
     const r = quiz ? quiz.montar(sel.stage, t, lang, sel.cont) : buildRound(sel.cont, sel.stage, lang);
-    setRound(comDupla ? { ...r, duo: comDupla, pontos: [0, 0] } : r);
+    const quantos = (comTurma?.length || 0) + 1;
+    setRound(comTurma?.length
+      ? { ...r, qs: perguntasParaTodos(r.qs, quantos), duo: comTurma, pontos: Array(quantos).fill(0) }
+      : r);
     setScreen("game");
   }
 
-  /* Um duelo não mexe em fase, estrela nem recorde: as perguntas foram
-     divididas entre dois, e metade de uma rodada não vence fase nenhuma. */
+  /* Uma rodada em grupo não mexe em fase, estrela nem recorde: as perguntas
+     foram divididas, e um pedaço de rodada não vence fase nenhuma. */
   async function fimDuelo(r) {
     const hoje = diaISO();
     const premio = duplaDia === hoje ? 0 : ECON.duplaReward;
@@ -1456,20 +1466,8 @@ function AppInterno() {
     }
     setStats(x => ({ ...x, earned: x.earned + premio, duplas: (x.duplas || 0) + 1 }));
     registrarSemana({ duplas: 1 });
-    if (r.duo?.id) {
-      try {
-        const d = await lerSave(r.duo.id);
-        if (premio) {
-          d.coins = Math.min(ECON.cap, (d.coins || 0) + premio);
-          d.stats = { ...d.stats, earned: (d.stats?.earned || 0) + premio,
-            maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
-        }
-        d.stats = { ...d.stats, duplas: (d.stats?.duplas || 0) + 1 };
-        window.storage.set(`lumus:p:${r.duo.id}`, JSON.stringify(d));
-      } catch { }
-    }
-    const [a, b] = r.pontos;
-    setRound({ ...r, vencedor: a === b ? null : a > b ? 0 : 1, reward: premio });
+    await premiarOutros(r.duo, premio);
+    setRound({ ...r, vencedor: vencedorDe(r.pontos), reward: premio });
     setScreen("result");
   }
 
@@ -1690,17 +1688,17 @@ function AppInterno() {
           titulo: alvoDe(memTema) ? `${t.games.wordMem} · ${LANG_CATALOG[alvoDe(memTema)]}`
             : { flags: t.games.memory, animals: t.games.animals, arts: t.games.artMem, bible: t.games.bibleMem }[memTema],
           icone: alvoDe(memTema) ? "🃏" : { flags: "🧠", animals: "🐾", arts: "🧩", bible: "🕊️" }[memTema],
-          dupla, pedirDupla: () => setEscolhendoDupla(true), sairDaDupla: () => setDupla(null) }} />}
-        {escolhendoDupla && (
-          <EscolherDupla {...{ t, perfis: profiles.filter(pr => pr.id !== activeId),
-            escolher: pr => { setDupla({ id: pr.id, name: pr.name, avatar: pr.avatar }); setEscolhendoDupla(false); },
-            fechar: () => setEscolhendoDupla(false) }} />
+          turma, pedirTurma: () => setEscolhendoTurma(true), sairDaTurma: () => setTurma(null) }} />}
+        {escolhendoTurma && (
+          <EscolherTurma {...{ t, perfis: profiles.filter(pr => pr.id !== activeId),
+            escolher: js => { setTurma(js.length ? js : null); setEscolhendoTurma(false); },
+            fechar: () => setEscolhendoTurma(false) }} />
         )}
         {screen === "mem" && mem && <MemoryGame {...{ t, lang, nivel: mem.nivel, cartas: mem.cartas,
           duo: mem.duo, eu: { name: player.name, avatar: player.avatar },
           onFinish: fimMemoria, onQuit: () => setScreen("memLevels") }} />}
         {screen === "memResult" && mem?.duo && (
-          <PlacarDupla {...{ t, eu: { name: player.name, avatar: player.avatar }, outro: mem.duo,
+          <Placar {...{ t, jogadores: [{ name: player.name, avatar: player.avatar }, ...mem.duo],
             pontos: mem.pontos, vencedor: mem.vencedor, reward: mem.reward,
             rodape: `⏱️ ${tempoFmt(mem.seg)} · ${t.moves}: ${mem.jogadas}`,
             aoRepetir: () => comecarMemoria(mem.nivel, mem.tema, mem.duo),
@@ -1755,12 +1753,12 @@ function AppInterno() {
           } }} />}
         {screen === "map" && <MapScreen {...{ t, lang, player, coins, nextRefill, unlocked, progress, unlockContinent, setSel, setScreen, stats, tutorial, setTutorial }} />}
         {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao,
-          dupla, pedirDupla: () => setEscolhendoDupla(true), sairDaDupla: () => setDupla(null) }} />}
+          turma, pedirTurma: () => setEscolhendoTurma(true), sairDaTurma: () => setTurma(null) }} />}
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen,
           voz: voz && vozOk,
           onQuit: () => { setRound(null); setScreen("stages"); } }} />}
         {screen === "result" && round?.duo && (
-          <PlacarDupla {...{ t, eu: { name: player.name, avatar: player.avatar }, outro: round.duo,
+          <Placar {...{ t, jogadores: [{ name: player.name, avatar: player.avatar }, ...round.duo],
             pontos: round.pontos, vencedor: round.vencedor, reward: round.reward,
             rodape: `${nomeDaTrilha(round.cont, t)} · ${t.stage} ${round.stage}`,
             aoRepetir: () => startRound(round.duo),
@@ -2184,14 +2182,14 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
   const [achadas, setAchadas] = useState([]);   // índices já casados
   const [jogadas, setJogadas] = useState(0);
   const [seg, setSeg] = useState(0);
-  /* Em dupla: de quem é a vez (0 ou 1) e quantos pares cada um levou.
-     Quem acerta continua — é a regra do jogo de mesa, e é ela que faz a
-     criança querer prestar atenção na jogada do outro. */
+  /* Jogando junto: de quem é a vez e quantos pares cada um levou. Quem acerta
+     continua — é a regra do jogo de mesa, e é ela que faz a criança querer
+     prestar atenção na jogada do outro. */
   const [vez, setVez] = useState(0);
-  const [pontos, setPontos] = useState([0, 0]);
+  const [pontos, setPontos] = useState(() => Array(duo ? duo.length + 1 : 2).fill(0));
   const travado = useRef(false);
   const cfg = MEM_LEVELS[nivel];
-  const jogadores = duo ? [eu, duo] : null;
+  const jogadores = duo ? [eu, ...duo] : null;
 
   useEffect(() => {
     const i = setInterval(() => setSeg(x => x + 1), 1000);
@@ -2218,7 +2216,7 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
         if (igual) {
           setAchadas(x => [...x, a, b]);
           if (duo) setPontos(p => { const q = [...p]; q[vez]++; return q; });
-        } else if (duo) setVez(v => 1 - v);
+        } else if (duo) setVez(v => (v + 1) % jogadores.length);
         setViradas([]);
         travado.current = false;
       }, igual ? 420 : 850);
@@ -2236,12 +2234,13 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
       </div>
 
       {/* De quem é a vez, do tamanho que uma criança de cinco anos enxerga do
-          outro lado da mesa. Sem isto o jogo em dupla vira discussão. */}
+          outro lado da mesa. Sem isto o jogo junto vira discussão. */}
       {duo && (
-        <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+        <div style={{ display: "grid", gap: 6, marginBottom: 8,
+          gridTemplateColumns: `repeat(${jogadores.length > 3 ? 2 : jogadores.length},1fr)` }}>
           {jogadores.map((j, i) => (
             <div key={i} className="card" style={{
-              flex: 1, padding: "5px 8px", display: "flex", alignItems: "center", gap: 7,
+              minWidth: 0, padding: "5px 8px", display: "flex", alignItems: "center", gap: 7,
               opacity: vez === i ? 1 : .5,
               outline: vez === i ? "3px solid #F9A826" : "none",
             }}>
@@ -2289,48 +2288,100 @@ function MemoryGame({ t, lang, nivel, cartas, onFinish, onQuit, duo, eu }) {
   );
 }
 
-/* Convidado não tem perfil no aparelho, então não tem avatar. Um rosto neutro
+/* As caras de quem vai jogar, sobrepostas como cartas na mão. Cabe na mesma
+   linha com um ou com três. */
+function Caras({ turma, size = 36 }) {
+  return (
+    <div style={{ display: "flex", flexShrink: 0 }}>
+      {turma.map((j, i) => (
+        <div key={i} style={{ marginLeft: i ? -size * 0.35 : 0 }}><Rosto p={j} size={size} /></div>
+      ))}
+    </div>
+  );
+}
+
+/* Uma cara para cada convidado. Com quatro jogando, o nome escrito não resolve
+   para quem tem cinco anos e ainda não lê — a cara resolve. */
+const CARAS = ["🙂", "🐱", "🦊"];
+
+/* Convidado não tem perfil no aparelho, então não tem avatar. Um rosto
    resolve, e ninguém precisa se cadastrar só para jogar uma partida. */
 function Rosto({ p, size = 40 }) {
   if (p?.avatar) return <Avatar a={p.avatar} size={size} />;
   return (
     <div style={{ width: size, height: size, borderRadius: "50%", background: "#E9ECF7",
-      display: "grid", placeItems: "center", fontSize: size * 0.55 }}>🙂</div>
+      display: "grid", placeItems: "center", fontSize: size * 0.55 }}>{p?.face || "🙂"}</div>
   );
 }
 
-/* Com quem vou jogar: os outros perfis do aparelho, mais um convidado. */
-function EscolherDupla({ t, perfis, escolher, fechar }) {
+/* Quem vai jogar junto: os outros perfis do aparelho e quantos convidados
+   precisarem, até quatro no total contando quem convidou.
+
+   Escolher é ligar e desligar, não confirmar um de cada vez: a mãe entra, o
+   irmão entra, o amigo que dorme aqui hoje entra como convidado. */
+function EscolherTurma({ t, perfis, escolher, fechar }) {
+  const [escolhidos, setEscolhidos] = useState([]);
+  const cheio = escolhidos.length >= MAX_JOGADORES - 1;
+  const dentro = id => escolhidos.some(j => j.id === id);
+
+  const alternar = pr => setEscolhidos(x => dentro(pr.id) ? x.filter(j => j.id !== pr.id)
+    : x.length >= MAX_JOGADORES - 1 ? x : [...x, { id: pr.id, name: pr.name, avatar: pr.avatar }]);
+
+  const convidar = () => setEscolhidos(x => {
+    if (x.length >= MAX_JOGADORES - 1) return x;
+    const quantos = x.filter(j => !j.id).length;
+    // O primeiro convidado é só "Convidado"; do segundo em diante ganha número.
+    return [...x, { id: null, name: quantos ? `${t.guest} ${quantos + 1}` : t.guest, face: CARAS[quantos % CARAS.length] }];
+  });
+
+  const tirar = alvo => setEscolhidos(x => x.filter(j => j !== alvo));
+
   return (
     <Modal onClose={fechar}>
       <div className="display" style={{ fontSize: 21, color: "#1B2A6B", textAlign: "center" }}>👥 {t.duoWho}</div>
       <div style={{ color: "#6C7695", fontWeight: 700, fontSize: 12, textAlign: "center", lineHeight: 1.6, margin: "6px 0 14px" }}>
         {t.duoHint}
       </div>
-      <div style={{ display: "grid", gap: 8, maxHeight: 300, overflowY: "auto" }}>
+      <div style={{ display: "grid", gap: 8, maxHeight: 260, overflowY: "auto" }}>
         {perfis.map(pr => (
-          <button key={pr.id} onClick={() => escolher(pr)} className="card"
+          <button key={pr.id} onClick={() => alternar(pr)} className="card"
+            aria-pressed={dentro(pr.id)}
             style={{ border: "none", padding: 10, cursor: "pointer", display: "flex",
-              alignItems: "center", gap: 10, textAlign: "left" }}>
+              alignItems: "center", gap: 10, textAlign: "left",
+              outline: dentro(pr.id) ? "3px solid #00B894" : "none",
+              opacity: !dentro(pr.id) && cheio ? .45 : 1 }}>
             <Rosto p={pr} size={40} />
             <div className="display" style={{ color: "#1B2A6B", fontSize: 16, flex: 1 }}>{pr.name}</div>
+            <div style={{ fontSize: 20 }}>{dentro(pr.id) ? "✅" : "＋"}</div>
           </button>
         ))}
-        <button onClick={() => escolher({ id: null, name: t.guest, avatar: null })} className="card"
-          style={{ border: "none", padding: 10, cursor: "pointer", display: "flex",
-            alignItems: "center", gap: 10, textAlign: "left" }}>
-          <Rosto p={null} size={40} />
-          <div className="display" style={{ color: "#1B2A6B", fontSize: 16, flex: 1 }}>{t.guest}</div>
-        </button>
+        {escolhidos.filter(j => !j.id).map((j, i) => (
+          <button key={"c" + i} onClick={() => tirar(j)} className="card"
+            style={{ border: "none", padding: 10, cursor: "pointer", display: "flex",
+              alignItems: "center", gap: 10, textAlign: "left", outline: "3px solid #00B894" }}>
+            <Rosto p={j} size={40} />
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 16, flex: 1 }}>{j.name}</div>
+            <div style={{ fontSize: 18 }}>✕</div>
+          </button>
+        ))}
+        {!cheio && (
+          <Btn full color="rgba(0,194,203,.18)" onClick={convidar}>
+            <span style={{ color: "#1B2A6B" }}>{t.duoAdd}</span>
+          </Btn>
+        )}
       </div>
       <div style={{ height: 10 }} />
+      <Btn full color="#00C2CB" disabled={!escolhidos.length} onClick={() => escolher(escolhidos)}>
+        👥 {t.play}
+      </Btn>
+      <div style={{ height: 8 }} />
       <Btn full color="#8B93AD" onClick={fechar} rotulo={t.a11yClose}>✕</Btn>
     </Modal>
   );
 }
 
 /* ---------- Escolha de nível da memória ---------- */
-function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titulo, icone, temSecao, comprarSecao, dupla, pedirDupla, sairDaDupla }) {
+function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titulo, icone, temSecao, comprarSecao, turma, pedirTurma, sairDaTurma }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
@@ -2338,19 +2389,21 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{icone} {titulo}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
-      {/* Jogar em dupla é do tamanho de um botão porque é para ser achado.
+      {/* Jogar junto é do tamanho de um botão porque é para ser achado.
           Era o pedido mais simples da casa e o mais difícil de descobrir. */}
-      {dupla ? (
+      {turma ? (
         <div className="card" style={{ padding: 12, marginBottom: 12, display: "flex", alignItems: "center", gap: 10 }}>
-          <Rosto p={dupla} size={36} />
+          <Caras turma={turma} size={36} />
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.duoWith} {dupla.name}</div>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 16, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {t.duoWith} {turma.map(j => j.name).join(", ")}
+            </div>
             <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>⭐ {t.duoFree}</div>
           </div>
-          <Btn small color="#8B93AD" onClick={sairDaDupla} rotulo={t.a11yClose}>✕</Btn>
+          <Btn small color="#8B93AD" onClick={sairDaTurma} rotulo={t.a11yClose}>✕</Btn>
         </div>
       ) : (
-        <Btn full color="#00C2CB" onClick={pedirDupla}>👥 {t.duoPlay}</Btn>
+        <Btn full color="#00C2CB" onClick={pedirTurma}>👥 {t.duoPlay}</Btn>
       )}
       <div style={{ height: 12 }} />
 
@@ -2380,9 +2433,9 @@ function MemLevels({ t, coins, memBest, setScreen, comecar, tema = "flags", titu
               </div>
               {aberto ? (
                 <Btn small color={BAND_COLOR[d]}
-                  disabled={!dupla && coins < custoDaMemoria(memBest, tema, d)}
-                  onClick={() => comecar(d, tema, dupla)}>
-                  {dupla ? "👥" : custoDaMemoria(memBest, tema, d) ? `🪙${custoDaMemoria(memBest, tema, d)}` : `⭐ ${t.free}`}
+                  disabled={!turma && coins < custoDaMemoria(memBest, tema, d)}
+                  onClick={() => comecar(d, tema, turma)}>
+                  {turma ? "👥" : custoDaMemoria(memBest, tema, d) ? `🪙${custoDaMemoria(memBest, tema, d)}` : `⭐ ${t.free}`}
                 </Btn>
               ) : anteriorOk ? (
                 <Btn small color={coins >= preco ? "#E84393" : "#8B93AD"} disabled={coins < preco}
@@ -3526,20 +3579,21 @@ function PinModal({ t, titulo, onOk, onCancelar, erro }) {
   );
 }
 
-/* O placar de uma partida em dupla — o mesmo na memória e no quiz, porque é a
-   mesma pergunta: quem fez quantos, e quanto os dois levaram. */
-function PlacarDupla({ t, eu, outro, pontos, vencedor, reward, rodape, aoRepetir, aoSair }) {
+/* O placar de uma partida em grupo — o mesmo na memória e no quiz, porque é a
+   mesma pergunta: quem fez quantos, e quanto todo mundo levou. */
+function Placar({ t, jogadores, pontos, vencedor, reward, rodape, aoRepetir, aoSair }) {
   return (
     <div className="narrow" style={{ paddingTop: 20 }}>
       <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
         <div style={{ fontSize: 54 }}>{vencedor == null ? "🤝" : "🏆"}</div>
         <div className="display" style={{ fontSize: 24, color: "#1B2A6B" }}>
-          {vencedor == null ? t.duoTie : t.duoWon.replace("{quem}", (vencedor === 0 ? eu : outro)?.name || "—")}
+          {vencedor == null ? t.duoTie : t.duoWon.replace("{quem}", jogadores[vencedor]?.name || "—")}
         </div>
 
-        <div style={{ display: "flex", gap: 10, margin: "16px 0" }}>
-          {[eu, outro].map((j, i) => (
-            <div key={i} style={{ flex: 1, background: "#EEF1FF", borderRadius: 16, padding: 12 }}>
+        <div style={{ display: "grid", gap: 10, margin: "16px 0",
+          gridTemplateColumns: `repeat(${jogadores.length > 3 ? 2 : jogadores.length},1fr)` }}>
+          {jogadores.map((j, i) => (
+            <div key={i} style={{ minWidth: 0, background: "#EEF1FF", borderRadius: 16, padding: 12 }}>
               <div style={{ display: "grid", placeItems: "center" }}><Rosto p={j} size={44} /></div>
               <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 12, marginTop: 5,
                 overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{j?.name || "—"}</div>
@@ -3552,7 +3606,7 @@ function PlacarDupla({ t, eu, outro, pontos, vencedor, reward, rodape, aoRepetir
 
         {rodape && <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 12 }}>{rodape}</div>}
 
-        {/* Os dois levam o mesmo, tenham ganhado ou perdido. */}
+        {/* Todos levam o mesmo, tenham ganhado ou perdido. */}
         <div className="display" style={{ fontSize: 18, color: reward ? "#F9A826" : "#8B93AD", marginBottom: 16 }}>
           {reward ? `🪙 ${reward} ${t.duoBoth}` : t.duoPaidToday}
         </div>
@@ -4499,7 +4553,7 @@ function Modal({ children, onClose }) {
 }
 
 /* ---------- Seleção de fases ---------- */
-function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao, dupla, pedirDupla, sairDaDupla }) {
+function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao, turma, pedirTurma, sairDaTurma }) {
   const quiz = quizDe(sel.cont);             // jogos fora do mapa-múndi
   const cont = quiz ? { color: quiz.cor } : ROUTE.find(r => r.id === sel.cont);
   const done = progress[sel.cont] || 0;
@@ -4626,17 +4680,19 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
           ⏱️ {t.record}: {tempoFmt(records[sel.cont][sel.stage])}
         </div>
       )}
-      {dupla ? (
+      {turma ? (
         <>
           <div className="card" style={{ padding: 10, marginBottom: 9, display: "flex", alignItems: "center", gap: 10 }}>
-            <Rosto p={dupla} size={32} />
+            <Caras turma={turma} size={32} />
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="display" style={{ color: "#1B2A6B", fontSize: 15 }}>{t.duoWith} {dupla.name}</div>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 15, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {t.duoWith} {turma.map(j => j.name).join(", ")}
+              </div>
               <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>{t.duoTakeTurns}</div>
             </div>
-            <Btn small color="#8B93AD" onClick={sairDaDupla} rotulo={t.a11yClose}>✕</Btn>
+            <Btn small color="#8B93AD" onClick={sairDaTurma} rotulo={t.a11yClose}>✕</Btn>
           </div>
-          <Btn full color="#00C2CB" disabled={!bandaAberta(band)} onClick={() => startRound(dupla)}>
+          <Btn full color="#00C2CB" disabled={!bandaAberta(band)} onClick={() => startRound(turma)}>
             👥 {t.stage} {sel.stage} · {t.levels[band]}
           </Btn>
         </>
@@ -4646,7 +4702,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
             ▶ {t.stage} {sel.stage} · {t.levels[band]} · {custoFase ? `${t.cost} 🪙${custoFase}` : `⭐ ${t.free}`}
           </Btn>
           <div style={{ height: 9 }} />
-          <Btn full color="rgba(255,255,255,.2)" onClick={pedirDupla}>👥 {t.duoPlay}</Btn>
+          <Btn full color="rgba(255,255,255,.2)" onClick={pedirTurma}>👥 {t.duoPlay}</Btn>
         </>
       )}
     </div>
@@ -4675,12 +4731,14 @@ const tempoDaPergunta = (round, q) => round.time == null ? null : round.time + f
 
 function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen, onQuit, voz }) {
   const q = round.qs[round.i];
-  /* Em duelo as perguntas se alternam: a de índice par é de quem convidou.
-     Entre uma e outra entra a tela de passar o celular — sem ela o segundo
-     jogador vê a resposta do primeiro e o duelo acaba antes de começar. */
+  /* Em grupo as perguntas giram: a primeira é de quem convidou, e daí em
+     diante passa para o lado. Entre uma e outra entra a tela de passar o
+     celular — sem ela o jogador seguinte vê a resposta do anterior e a
+     rodada acaba antes de começar. */
   const duo = round.duo;
-  const vez = duo ? round.i % 2 : 0;
-  const daVez = duo ? (vez === 0 ? { name: player.name, avatar: player.avatar } : duo) : null;
+  const jogadores = duo ? [{ name: player.name, avatar: player.avatar }, ...duo] : null;
+  const vez = duo ? round.i % jogadores.length : 0;
+  const daVez = jogadores?.[vez] || null;
   const [passando, setPassando] = useState(false);
   const tempoQ = tempoDaPergunta(round, q);
   const [left, setLeft] = useState(tempoQ);
@@ -4780,8 +4838,8 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
         <div className="display" style={{ fontSize: 22, color: "#1B2A6B", lineHeight: 1.2 }}>
           {t.duoPass.replace("{quem}", daVez?.name || "—")}
         </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: 14, margin: "14px 0" }}>
-          {[{ name: player.name }, duo].map((j, i) => (
+        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 14, margin: "14px 0" }}>
+          {jogadores.map((j, i) => (
             <div key={i} style={{ textAlign: "center", opacity: vez === i ? 1 : .5 }}>
               <div className="display" style={{ fontSize: 24, color: "#1B2A6B" }}>{round.pontos[i]}</div>
               <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 10 }}>{j?.name}</div>

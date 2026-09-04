@@ -56,7 +56,7 @@ não numa apresentação:
 
 | Pilar | O que significa no produto | Onde isso aparece no código |
 |---|---|---|
-| **A família no centro, com Cristo** | o app cria motivos para a família estar junta, e a fé é oferecida, nunca imposta | Momento em Família, Meu Caderno, dois jogadores no mesmo aparelho, presente semanal do responsável |
+| **A família no centro, com Cristo** | o app cria motivos para a família estar junta, e a fé é oferecida, nunca imposta | Momento em Família, Meu Caderno, até quatro jogadores no mesmo aparelho, presente semanal do responsável |
 | **Acesso para todos** | criança de qualquer classe social, em qualquer aparelho, com ou sem internet | 3,8 MB no total, PWA sem loja, 100% offline depois da primeira abertura, gratuito e sem compra interna |
 | **Privacidade sem asterisco** | não coletamos porque não queremos, não porque a lei exige | zero requisições a terceiros em execução, zero SDKs, tudo no armazenamento do próprio aparelho |
 | **Educação de verdade** | reconhecer alternativa é o degrau mais raso; o app tem que ir além | Abordagem Educacional por Princípios: Pesquisar, Raciocinar, Relacionar, **Registrar** |
@@ -182,7 +182,7 @@ aparelho aparece num cartão com idade, se já lê, e o que ela andou fazendo:
 
 | No cartão | O que mostra |
 |---|---|
-| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, páginas de caderno, partidas em dupla, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
+| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, páginas de caderno, partidas em grupo, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
 | ∑ No total | rodadas, estrelas, conquistas, dias seguidos e lumicoins de sempre |
 | 📔 Meu Caderno | as **três últimas páginas da semana**, com as palavras da criança |
 | 🎨 Pintar e Colorir | os **últimos cinco desenhos**, desenhados ali — não um número dizendo quantos |
@@ -426,38 +426,48 @@ Com isto o ciclo fecha: **Pesquisar** (a rodada) → **Raciocinar** (esta tela)
 → **Relacionar** e **Registrar** ([Meu Caderno](#meu-caderno), no fim da
 rodada).
 
-### Dois jogadores no mesmo aparelho
+### Até quatro jogadores no mesmo aparelho
 
-Um celular, duas crianças — ou uma criança e o pai. Sem segundo aparelho, sem
-internet, sem conta: **passando a vez**.
+Um celular e a família inteira à mesa — duas crianças, ou os dois filhos, o pai
+e a mãe. Sem segundo aparelho, sem internet, sem conta: **passando a vez**.
 
 Funciona em dois lugares:
 
 | Onde | Como é a vez |
 |---|---|
 | **Memória**, nos cinco temas | cada um vira duas cartas; **quem acerta o par joga de novo** — a regra do jogo de mesa |
-| **Qualquer quiz**, em qualquer fase aberta | as perguntas se alternam, e entre uma e outra entra a tela *"passe o celular para…"* |
+| **Qualquer quiz**, em qualquer fase aberta | as perguntas giram de um para o outro, e entre uma e outra entra a tela *"passe o celular para…"* |
 
-O parceiro sai da lista de perfis do aparelho, ou é um **convidado** — o primo
-que veio passar a tarde não precisa se cadastrar para jogar uma partida.
+Quem joga sai da lista de perfis do aparelho, e quem não tem perfil entra como
+**convidado** — o primo que veio passar a tarde não precisa se cadastrar para
+jogar uma partida. Cada convidado ganha uma cara diferente, porque com quatro
+na mesa o nome escrito não resolve para quem ainda não lê.
 
 **De quem é a vez fica grande na tela**, com o rosto e o nome de quem joga.
-Sem isso, jogo em dupla vira discussão. No quiz há ainda a tela de passagem, e
-ela não é enfeite: sem ela o segundo jogador vê a resposta do primeiro e o
-duelo acaba antes de começar. **O cronômetro para** enquanto o aparelho troca
+Sem isso, jogo junto vira discussão. No quiz há ainda a tela de passagem, e
+ela não é enfeite: sem ela o jogador seguinte vê a resposta do anterior e a
+rodada acaba antes de começar. **O cronômetro para** enquanto o aparelho troca
 de mão.
 
-**Em dupla é de graça, e paga os dois** — ganhando ou perdendo, 20 lumicoins na
-primeira partida do dia. O que queremos que aconteça de novo amanhã é o irmão
-chamar o irmão, não um vencer o outro. Depois disso a partida continua livre,
-só não paga de novo.
+**A rodada é cortada para caber igual em todo mundo.** Dez perguntas entre
+quatro dariam 3, 3, 2, 2 — e quem respondeu duas perderia de quem respondeu
+três sem ter errado nada. Então jogam-se oito, duas para cada.
 
-**O que a dupla não mexe:** fase, estrela, recorde e rodada. As perguntas foram
-divididas entre dois, e metade de uma rodada não vence fase nenhuma; recorde de
-um não se faz a quatro mãos. **Dicas não existem em duelo** — comprar a vitória
-sobre o irmão não é jogo.
+**Jogar junto é de graça, e paga todo mundo** — ganhando ou perdendo, 20
+lumicoins na primeira partida do dia, inclusive para quem não estava com o app
+aberto. O que queremos que aconteça de novo amanhã é o irmão chamar o irmão, e
+os dois chamarem a mãe; não um vencer o outro. Depois disso a partida continua
+livre, só não paga de novo.
 
-No cartão do responsável, a coluna 👥 conta as partidas em dupla da semana.
+**Empate no topo é empate**, com dois ou com quatro: ninguém ganha por ter
+chegado antes.
+
+**O que a partida em grupo não mexe:** fase, estrela, recorde e rodada. As
+perguntas foram divididas, e um pedaço de rodada não vence fase nenhuma;
+recorde de um não se faz a oito mãos. **Dicas não existem em grupo** — comprar
+a vitória sobre o irmão não é jogo.
+
+No cartão do responsável, a coluna 👥 conta as partidas em grupo da semana.
 
 ### Meu Caderno
 
