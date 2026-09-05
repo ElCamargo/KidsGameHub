@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **24**, em 7 áreas |
+| Jogos | **27**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 94 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 109 testes |
 | Licença | MIT |
 
 ---
@@ -132,7 +132,7 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **24 jogos em 7 áreas**.
+São **27 jogos em 7 áreas**.
 
 ### Jogos
 
@@ -148,6 +148,9 @@ São **24 jogos em 7 áreas**.
 | 🌍 Geografia | Quebra-cabeça do Mundo | monta a bandeira peça por peça, de 4 a 24 peças |
 | 🔢 Matemática | Contas e Números | soma a decimais, até 5º ano |
 | 🔢 Matemática | Quebra-cabeça dos Números | monta um cartaz de quantidades: conta as figuras, acha o número |
+| 🔢 Matemática | Tabuada | multiplicação e, nas faixas altas, divisão |
+| 🔢 Matemática | Que Horas São | ler o relógio, achar a hora e adiantar o ponteiro |
+| 🔢 Matemática | Dinheiro do Brasil | somar moedas e notas, e calcular o troco |
 | 🦁 Natureza | Memória dos Animais | 50 animais |
 | 🦁 Natureza | Quebra-cabeça dos Animais | monta um cartaz de bichos |
 | 🦁 Natureza | Quiz dos Animais | classes, habitat, características |
@@ -577,6 +580,43 @@ Nada disto pede biblioteca de arrastar-e-soltar: são Pointer Events e um
 `clipPath` de SVG por peça, que o navegador aplica na mesma imagem tanto na
 peça grande do tabuleiro quanto na pequena da bandejinha.
 
+### As contas que a escola cobra
+
+A Matemática tinha uma trilha só. Faltava justamente o que mais aparece em
+prova de 1º ao 5º ano:
+
+| Jogo | O que treina |
+|---|---|
+| **Tabuada** | ×2, ×5 e ×10 no Fácil; as que travam todo mundo — 6, 7, 8 — no Difícil; divisão do Mestre em diante |
+| **Que Horas São** | ler o relógio, achar o relógio da hora dita, e adiantar o ponteiro |
+| **Dinheiro do Brasil** | somar moedas e notas de verdade, e o troco nas faixas altas |
+
+**As alternativas erradas são plausíveis, e isso é regra testada.** Numa
+tabuada, elas são vizinhas do resultado; no dinheiro, erram por uma moeda **do
+tamanho da resposta** — oferecer R$ 10,60 numa conta que deu R$ 0,60 é
+alternativa que a criança elimina sem pensar, e pergunta que se elimina sem
+pensar não ensinou nada. Um teste roda mil sorteios por faixa e confere que
+toda conta bate.
+
+**O relógio é o emoji do próprio Unicode** — ele tem as 24 caras de hora cheia
+e meia hora, exatamente o que um 2º ano precisa ler. Desenhar um relógio em SVG
+daria o mesmo resultado e custaria mais código. Quarto de hora fica para
+quando a hora cheia estiver dominada.
+
+**O dinheiro é brasileiro de propósito**, com as moedas e notas que existem no
+bolso. Ensinar troco com uma moeda que não existe seria pior que não ensinar.
+
+### O responsável fica sabendo o que mudou
+
+Quem instala o app é o adulto, e ele não tem como saber que apareceu jogo novo:
+não há loja, não há notificação, não há e-mail. Na área dele agora tem
+**📣 O que mudou no app** — fechado por padrão, com um selo **NOVO** quando há
+coisa que este aparelho ainda não viu, e que some quando ele abre.
+
+A lista fala do que a **criança** ganhou, não do que o código mudou, e vem nos
+seis idiomas — com um teste conferindo que nenhum idioma tem um item a menos,
+que seria um pedaço da história que aquela família nunca leria.
+
 ### O app lembra o que a criança errou
 
 Até aqui o Lumus guardava estrela por fase e nada mais. A criança errava
@@ -978,7 +1018,7 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          a interface inteira: ~52 componentes, nenhum dado (6.370 linhas)
+  App.jsx          a interface inteira: ~53 componentes, nenhum dado (6.572 linhas)
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
@@ -988,6 +1028,7 @@ src/
   lib/som.js       o som de fundo: escala, ritmo e as notas geradas na hora
   lib/alfabetizacao.js  as regras do Monta a Palavra: bandeja, iscas e estrelas
   lib/revisao.js   a memória do erro: quando a pergunta volta, e quando sai da fila
+  lib/matematica.js  tabuada, dinheiro brasileiro e as horas do relógio
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -1006,7 +1047,8 @@ src/
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
     palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
-tests/             94 testes em node --test, sem framework nenhum
+    novidades.js         o que mudou a cada versão, nos 6 idiomas
+tests/             109 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas

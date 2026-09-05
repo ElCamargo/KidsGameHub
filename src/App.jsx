@@ -17,6 +17,9 @@ import { temSom, tocar as tocarSom, parar as pararSom } from "./lib/som.js";
 import { PALAVRAS, ALFABETO, DIGRAFOS_INICIAIS } from "./data/palavras.js";
 import { montarRodadaPalavras, estrelasDaPalavra, QUANTAS_PALAVRAS } from "./lib/alfabetizacao.js";
 import { guardarErro, acertouNaRevisao, errouNaRevisao, aRevisar, ondeEstaDevendo, chaveDaPergunta } from "./lib/revisao.js";
+import { NOVIDADES, ULTIMA_NOVIDADE } from "./data/novidades.js";
+import { contaDaTabuada, numerosParecidos, formatarReal, punhado, valoresParecidos,
+  relogiosDaFaixa, horaEscrita, daquiA, RELOGIOS } from "./lib/matematica.js";
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
 import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
@@ -107,6 +110,9 @@ const CATALOG = [
   { id: "math", icon: "🔢", color: "#F9A826", games: [
       { id: "count", icon: "🧮", color: "#F9A826", preco: 0, leitura: false, ready: true },
       { id: "mathPuzzle", icon: "🔟", color: "#00B894", preco: 150, leitura: false, ready: true },
+      { id: "tabuada", icon: "✖️", color: "#E84393", preco: 200, leitura: false, ready: true },
+      { id: "horas", icon: "🕐", color: "#6A5AE0", preco: 300, leitura: false, ready: true },
+      { id: "dinheiro", icon: "💰", color: "#00B894", preco: 400, leitura: false, ready: true },
   ]},
   { id: "nature", icon: "🦁", color: "#00C2CB", games: [
       { id: "animals", icon: "🐾", color: "#00C2CB", preco: 0, leitura: false, ready: true },
@@ -848,6 +854,14 @@ function AppInterno() {
      "quanto barulho este app faz aqui?", e precisa valer já na primeira tela,
      antes de qualquer perfil ser aberto. */
   const [som, setSom] = useState(true);
+  /* A última versão de novidades que o responsável já leu. No aparelho, e
+     não no perfil: o app é o mesmo para a casa inteira. */
+  const [novidadeVista, setNovidadeVista] = useState(ULTIMA_NOVIDADE);
+  const temNovidade = novidadeVista !== ULTIMA_NOVIDADE;
+  const marcarNovidadeLida = () => {
+    setNovidadeVista(ULTIMA_NOVIDADE);
+    try { window.storage.set("lumus:novidades", ULTIMA_NOVIDADE); } catch { }
+  };
   const trocarSom = () => setSom(v => {
     try { window.storage.set("lumus:som", v ? "0" : "1"); } catch { }
     return !v;
@@ -975,6 +989,12 @@ function AppInterno() {
         } catch { }
       }
       try { const sm = await window.storage.get("lumus:som"); setSom(sm?.value !== "0"); } catch { }
+      /* Quem nunca viu nada é quem acabou de instalar: para ele não há
+         novidade, há o app inteiro. Só marca como não lido quem já usava. */
+      try {
+        const nv = await window.storage.get("lumus:novidades");
+        setNovidadeVista(nv?.value || (list.length ? "" : ULTIMA_NOVIDADE));
+      } catch { setNovidadeVista(list.length ? "" : ULTIMA_NOVIDADE); }
       let chosen = null;
       try { const l = await window.storage.get("lumus:lang"); chosen = l?.value || null; } catch { }
       const want = chosen || deviceLang();
@@ -1949,7 +1969,7 @@ function AppInterno() {
             repetirBloqueado: coins < custoDoQuebra(pzlBest, pzl.tema, pzl.nivel),
             aoSair: () => setScreen("pzlLevels") }} />
         )}
-        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje }} />}
+        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }} />}
         {screen === "caderno" && <CadernoScreen {...{ t, lang, caderno, setScreen, voltar: voltaPara,
           novo: () => { abrirCaderno(perguntaDoRegistro(sementeDoTexto(diaISO())), ""); } }} />}
         {screen === "escrever" && rascunho && <EscreverScreen {...{ t, lang, rascunho,
@@ -1966,7 +1986,8 @@ function AppInterno() {
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
             const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
-              curiosidades: "curiosidades", sciAnimals: "ciencias", inicial: "inicial", rimas: "rimas" };
+              curiosidades: "curiosidades", sciAnimals: "ciencias", inicial: "inicial", rimas: "rimas",
+              tabuada: "tabuada", horas: "horas", dinheiro: "dinheiro" };
             if (g === "capitals") { setScreen("capMap"); return; }
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
             if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
@@ -3322,6 +3343,127 @@ function montarRodadaCapitais(stage, t, lang, cont) {
 const alvoDe = cont => (cont || "").startsWith("idiomas_") ? cont.slice(8) : null;
 const quizDe = cont => QUIZZES[cont] || (alvoDe(cont) ? QUIZZES.idiomas : (cont || "").startsWith("cap_") ? QUIZZES.capitais : null);
 
+/* ---------- Tabuada ----------
+   Fato básico, e é fato básico que trava criança de 3º ano na hora da conta
+   grande. As alternativas erradas são vizinhas na tabuada, e não números ao
+   acaso: alternativa absurda se elimina sem pensar, e aí a pergunta não
+   ensinou nada. */
+function montarRodadaTabuada(stage, t) {
+  const band = bandFor("tabuada", stage);
+  const qs = [];
+  let guarda = 0;
+  while (qs.length < qtdPerguntas(band) && guarda++ < 300) {
+    const c = contaDaTabuada(band);
+    if (qs.some(q => q.prompt === c.prompt)) continue;
+    const certo = String(c.resposta);
+    qs.push({
+      kind: "math", prompt: c.prompt, answer: certo,
+      options: shuffle([certo, ...numerosParecidos(c.resposta, 3).map(String)]),
+      porque: c.conta,
+    });
+  }
+  return { cont: "tabuada", diff: band, stage, qs, time: tempoDe("tabuada", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
+/* ---------- Dinheiro ----------
+   Real de verdade, com as moedas e notas que existem no bolso. É a conta mais
+   usada fora da escola e a que quase nenhum app ensina. Nas faixas altas vira
+   troco, que é subtração com um motivo. */
+function montarRodadaDinheiro(stage, t) {
+  const band = bandFor("dinheiro", stage);
+  const qs = [];
+  let guarda = 0;
+  const troco = band === "genius" || band === "mestre" || band === "lenda";
+  while (qs.length < qtdPerguntas(band) && guarda++ < 400) {
+    const { pecas, total } = punhado(band);
+    if (troco) {
+      // Paga com uma nota que dê para pagar, e sobra troco de verdade.
+      const nota = [500, 1000, 2000, 5000].find(v => v > total);
+      if (!nota) continue;
+      const resto = nota - total;
+      const certo = formatarReal(resto);
+      // Repetido é a CONTA inteira, não a nota: só existem quatro notas que
+      // servem de troco, e barrar por nota deixava a rodada com 4 perguntas.
+      const enunciado = `${formatarReal(nota)} − ${formatarReal(total)}`;
+      if (qs.some(q => q.prompt === enunciado)) continue;
+      qs.push({
+        kind: "texto", ask: t.askChange,
+        prompt: enunciado,
+        answer: certo,
+        options: shuffle([certo, ...valoresParecidos(resto, 3).map(formatarReal)]),
+        porque: t.whyChange.replace("{a}", formatarReal(nota)).replace("{b}", formatarReal(total)).replace("{c}", certo),
+      });
+      continue;
+    }
+    const mostra = pecas.map(formatarReal).join(" + ");
+    if (qs.some(q => q.prompt === mostra)) continue;
+    const certo = formatarReal(total);
+    qs.push({
+      kind: "math", prompt: mostra, answer: certo,
+      options: shuffle([certo, ...valoresParecidos(total, 3).map(formatarReal)]),
+      porque: t.whyMoney.replace("{a}", mostra).replace("{b}", certo),
+    });
+  }
+  return { cont: "dinheiro", diff: band, stage, qs, time: tempoDe("dinheiro", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
+/* ---------- Horas ----------
+   O relógio é o emoji do próprio Unicode, que tem as 24 caras de hora cheia e
+   meia hora — exatamente o que um 2º ano precisa ler. Desenhar um relógio em
+   SVG daria o mesmo e custaria mais.
+
+   Três perguntas diferentes com o mesmo material: ler o relógio, achar o
+   relógio da hora dita, e adiantar o ponteiro. */
+function montarRodadaHoras(stage, t) {
+  const band = bandFor("horas", stage);
+  const cabem = relogiosDaFaixa(band);
+  const qs = [];
+  let guarda = 0;
+  while (qs.length < qtdPerguntas(band) && guarda++ < 400) {
+    const alvo = cabem[Math.floor(Math.random() * cabem.length)];
+    const sorteio = band === "easy" || band === "medium" ? 0 : Math.floor(Math.random() * 3);
+
+    if (sorteio === 1) {                       // qual relógio marca esta hora
+      if (qs.some(q => q.prompt === t.askClock.replace("{h}", horaEscrita(alvo)))) continue;
+      const erradas = shuffle(RELOGIOS.filter(r => r.e !== alvo.e)).slice(0, 3);
+      qs.push({
+        kind: "emojiPick", prompt: t.askClock.replace("{h}", horaEscrita(alvo)),
+        answer: alvo.e, options: shuffle([alvo.e, ...erradas.map(r => r.e)]),
+        porque: t.whyTime.replace("{r}", alvo.e).replace("{h}", horaEscrita(alvo)),
+      });
+      continue;
+    }
+
+    if (sorteio === 2) {                       // daqui a quantas horas
+      const somar = 1 + Math.floor(Math.random() * 3);
+      const depois = daquiA(alvo, somar);
+      if (!depois) continue;
+      const certo = horaEscrita(depois);
+      if (qs.some(q => q.prompt === alvo.e && q.ask !== t.askTime)) continue;
+      const erradas = shuffle(RELOGIOS.filter(r => horaEscrita(r) !== certo)).slice(0, 3);
+      qs.push({
+        kind: "emojiAsk", prompt: alvo.e, ask: t.askLater.replace("{n}", somar),
+        answer: certo, options: shuffle([certo, ...erradas.map(horaEscrita)]),
+        porque: t.whyLater.replace("{a}", horaEscrita(alvo)).replace("{n}", somar).replace("{b}", certo),
+      });
+      continue;
+    }
+
+    const certo = horaEscrita(alvo);           // que horas são
+    if (qs.some(q => q.prompt === alvo.e)) continue;
+    const erradas = shuffle(RELOGIOS.filter(r => horaEscrita(r) !== certo)).slice(0, 3);
+    qs.push({
+      kind: "emojiAsk", prompt: alvo.e, ask: t.askTime,
+      answer: certo, options: shuffle([certo, ...erradas.map(horaEscrita)]),
+      porque: t.whyTime.replace("{r}", alvo.e).replace("{h}", certo),
+    });
+  }
+  return { cont: "horas", diff: band, stage, qs, time: tempoDe("horas", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
 /* ---------- Que letra começa ----------
    A figura é a pergunta; as alternativas são letras. Palavra que começa com
    dígrafo fica de fora: quem vê "chave" e ouve o som do X não deve procurar
@@ -3380,6 +3522,9 @@ function montarRodadaRima(stage, t) {
 
 const QUIZZES = {
   inicial: { icone: "🅰️", cor: "#00B894", nome: t => t.games.inicial, montar: (st, t) => montarRodadaInicial(st, t) },
+  tabuada: { icone: "✖️", cor: "#E84393", nome: t => t.games.tabuada, montar: (st, t) => montarRodadaTabuada(st, t) },
+  horas:   { icone: "🕐", cor: "#6A5AE0", nome: t => t.games.horas,   montar: (st, t) => montarRodadaHoras(st, t) },
+  dinheiro:{ icone: "💰", cor: "#00B894", nome: t => t.games.dinheiro, montar: (st, t) => montarRodadaDinheiro(st, t) },
   rimas:   { icone: "🎵", cor: "#9B59B6", nome: t => t.games.rimas,   montar: (st, t) => montarRodadaRima(st, t) },
   math:    { icone: "🔢", cor: "#F9A826", nome: t => t.games.count,      montar: (st, t, lang) => montarRodadaMath(st) },
   bichos:  { icone: "🦉", cor: "#00B894", nome: t => t.games.animalQuiz, montar: (st, t) => montarRodadaBichos(st, t) },
@@ -5257,7 +5402,59 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
   );
 }
 
-function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje }) {
+/* ---------- O que mudou no app ----------
+   Fechado por padrão para não empurrar changelog na cara de ninguém; com um
+   pontinho quando há coisa que este aparelho ainda não viu. Abriu, some o
+   pontinho — e some para sempre, não volta a cada abertura. */
+function Novidades({ t, lang, novo, aoAbrir }) {
+  const [aberto, setAberto] = useState(false);
+  const txt = n => n.t[lang] || n.t.en;
+  return (
+    <div className="card" style={{ padding: 0, marginBottom: 12, overflow: "hidden" }}>
+      <button onClick={() => { setAberto(a => !a); if (!aberto) aoAbrir(); }}
+        style={{ width: "100%", border: "none", background: "transparent", cursor: "pointer",
+          padding: 14, display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
+        <div style={{ fontSize: 26 }}>📣</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.news}</div>
+          <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 11 }}>
+            v{NOVIDADES[0].v} · {NOVIDADES[0].d}
+          </div>
+        </div>
+        {novo && (
+          <span style={{ background: "#E84393", color: "#fff", borderRadius: 999,
+            padding: "3px 9px", fontWeight: 900, fontSize: 10, letterSpacing: .5 }}>
+            {t.newsNew.toUpperCase()}
+          </span>
+        )}
+        <div style={{ color: "#8B93AD", fontWeight: 900 }}>{aberto ? "▲" : "▼"}</div>
+      </button>
+
+      {aberto && (
+        <div style={{ padding: "0 14px 14px" }}>
+          {NOVIDADES.map(nova => (
+            <div key={nova.v} style={{ borderTop: "1px solid #E4E8F5", paddingTop: 10, marginTop: 10 }}>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 14 }}>{txt(nova).titulo}</div>
+              <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 10, marginBottom: 6 }}>
+                v{nova.v} · {nova.d}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                {txt(nova).itens.map((item, k) => (
+                  <div key={k} style={{ display: "flex", gap: 7, alignItems: "flex-start" }}>
+                    <span style={{ color: "#00B894", fontWeight: 900, fontSize: 12, lineHeight: 1.5 }}>✦</span>
+                    <span style={{ color: "#3B4468", fontWeight: 700, fontSize: 12, lineHeight: 1.5 }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -5265,6 +5462,11 @@ function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momen
         <div className="display" style={{ color: "#fff", fontSize: 22, flex: 1 }}>👨‍👩‍👧 {t.family}</div>
       </div>
       <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 12, marginBottom: 12 }}>{t.familyHint}</div>
+
+      {/* O que mudou. Fica na área do responsável porque é ele quem instala
+          e quem nunca teria como saber que apareceu jogo novo: não há loja,
+          não há notificação, não há e-mail. */}
+      <Novidades {...{ t, lang, novo: temNovidade, aoAbrir: marcarNovidadeLida }} />
 
       <CartaoMomento {...{ t, lang, momento, setMomento, feitoHoje: momentoFeitoHoje, responsavel: true, abrir: () => setScreen("devocional") }} />
 
