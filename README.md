@@ -59,22 +59,67 @@ não numa apresentação:
 | **A família no centro, com Cristo** | o app cria motivos para a família estar junta, e a fé é oferecida, nunca imposta | Momento em Família, Meu Caderno, até quatro jogadores no mesmo aparelho, presente semanal do responsável |
 | **Acesso para todos** | criança de qualquer classe social, em qualquer aparelho, com ou sem internet | 3,8 MB no total, PWA sem loja, 100% offline depois da primeira abertura, gratuito e sem compra interna |
 | **Privacidade sem asterisco** | não coletamos porque não queremos, não porque a lei exige | zero requisições a terceiros em execução, zero SDKs, tudo no armazenamento do próprio aparelho |
-| **Educação de verdade** | reconhecer alternativa é o degrau mais raso; o app tem que ir além | Abordagem Educacional por Princípios: Pesquisar, Raciocinar, Relacionar, **Registrar** |
+| **Educação de verdade** | reconhecer alternativa é o degrau mais raso; o app tem que ir além | a Abordagem Educacional por Princípios, descrita logo abaixo |
 | **Respeito à criança** | nada de anúncio, vício, ranking público ou pressão para gastar | sem notificação, sem loja externa, e fase já vencida com 3 estrelas nunca cobra de novo |
+
+## A espinha pedagógica: a Abordagem Educacional por Princípios
+
+Este é o pilar que mais decide o que entra e o que não entra no Lumus, e por
+isso ele não cabe numa linha de tabela.
+
+Um app que mostra um estímulo e pede que a criança reconheça a resposta certa
+entre quatro está no **degrau mais raso** do aprendizado. É um bom quiz. Não é
+formação. A **AEP — Abordagem Educacional por Princípios**, do trabalho de Hall
+e Rosalie Slater, é o método que os filhos dos fundadores encontram na escola,
+e é o que o Lumus adota — por convicção, e por coerência: a criança não deveria
+achar em casa um jeito de aprender que contradiz o da escola.
+
+### Os 4 R, e onde cada um vive no app
+
+| Passo | O que é | Onde ele está |
+|---|---|---|
+| **Pesquisar** | buscar o fato, a origem, a definição | a rodada de perguntas, em todas as trilhas |
+| **Raciocinar** | entender o **porquê**, a causa por trás do fato | ao errar, o app não diz "errou": diz por que a resposta certa é aquela, e há guarda de build que impede pergunta sem porquê |
+| **Relacionar** | ligar o que se aprendeu à vida, a outras áreas e a um princípio | o Momento em Família, e a pergunta de fim de rodada que amarra o conteúdo a um dos 7 princípios |
+| **Registrar** | escrever ou desenhar o que ficou — o caderno como domínio pessoal do aprendizado | o **Meu Caderno**, com carimbos para quem ainda não escreve |
+
+O raciocínio de **causa e efeito** atravessa os quatro. É por isso que a tela do
+porquê existe mesmo custando ritmo de jogo: sem ela o app volta a ser quiz.
+
+### Os 7 princípios
+
+Soberania · Individualidade · Autogoverno · Caráter · Aliança (União) ·
+Semeadura e Colheita · Mordomia.
+
+São o vocabulário das reflexões do Meu Caderno e o ciclo dos 49 devocionais do
+Momento em Família — sete princípios, sete semanas.
+
+### A regra para o que vier depois
+
+Toda funcionalidade nova do Lumus **declara qual dos 4 R ela serve**, e nenhuma
+entra existindo só como exercício. Um jogo que só pergunta e corrige está no
+Pesquisar e para por aí; para entrar, precisa dizer onde estão o porquê, a
+ligação com a vida da criança e o registro dela.
+
+Isso vale para a etapa de alfabetização e reforço escolar que vem a seguir, e é
+a régua pela qual ela deve ser cobrada.
+
+Detalhes e o histórico da decisão em
+[docs/decisoes/0002](docs/decisoes/0002-aep-no-lumus.md).
 
 ## Em 30 segundos
 
 | | |
 |---|---|
-| Jogos | **15**, em 6 áreas |
+| Jogos | **21**, em 6 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
-| Tamanho total, com fontes e bandeiras | **3,8 MB** |
-| JavaScript comprimido | **254 KB**, em 3 pedaços |
+| Tamanho total, com fontes e bandeiras | **3,4 MB** |
+| JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 44 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 67 testes |
 | Licença | MIT |
 
 ---
@@ -82,7 +127,7 @@ não numa apresentação:
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **15 jogos em 6 áreas**.
+São **21 jogos em 6 áreas**.
 
 ### Jogos
 
@@ -916,6 +961,28 @@ justamente a que quebrou.
 O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2 e Nunito, via `@fontsource`) estão empacotadas. O service worker precarrega tudo na instalação, então depois da primeira abertura o jogo roda em modo avião.
 
 ## Roadmap
+
+### A próxima etapa: de hub de jogos a reforço escolar
+
+O Lumus faz bem o que se propôs em [v1.0.0](https://github.com/ElCamargo/KidsGameHub/releases/tag/v1.0.0).
+O que ele **não** faz é ensinar uma criança brasileira a ler a própria língua —
+e é justamente o conteúdo dos 4 aos 7 anos. Esta é a etapa em curso, e cada
+item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educacional-por-princípios) ele serve**.
+
+- [ ] **Testar a voz do aparelho com letras e sílabas** — decide o desenho de tudo que vem depois: o `speechSynthesis` lê o *nome* da letra ("bê"), não o *som* dela, e sílaba solta pode sair torta conforme a voz instalada
+- [ ] **Memória de erro e revisão espaçada** *(Raciocinar)* — hoje o app guarda estrelas por fase, não guarda **qual** pergunta a criança errou, e nunca a traz de volta. É o que faz o conteúdo que já existe render o dobro
+- [ ] **Área 📚 Ler e Escrever** *(Pesquisar → Registrar)* — som das letras, rimas, famílias silábicas, montar a palavra arrastando sílabas, ditado falado pelo Lumus. O motor de arrastar do quebra-cabeça serve inteiro
+- [ ] **Ficha do responsável dizendo o que o filho sabe** *(Relacionar)* — hoje ela conta quanto ele jogou; deveria dizer "sílabas simples ok, erra ss/ç, tabuada do 7 fraca". Sai de graça da memória de erro
+- [ ] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — hoje é uma trilha só; falta o que a escola cobra
+- [ ] **Trilha do ano escolar** *(Relacionar)* — o app se organiza por dificuldade e por moeda; a escola se organiza por ano. Conteúdo de escola não deve ser trancado por lumicoin
+- [ ] **Separar as telas de jogo em arquivos** — `src/App.jsx` tem 5.7 mil linhas e a alfabetização o levaria a 8 mil; revisita a [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md)
+
+**Onde decidimos não ir:** 6º ao 8º ano. Um menino de 13 anos não abre um app
+com mascote e lumicoins, e mudar a cara do Lumus para atendê-lo estragaria o
+que funciona para uma criança de cinco. O Lumus é dos 3 aos 10; atender os
+maiores seria outro app, reusando esta base.
+
+### Depende de outras pessoas
 
 - [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
 - [ ] Versículos e falas em francês, alemão e italiano, de edição em domínio público conferida
