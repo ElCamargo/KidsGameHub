@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 86 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 94 testes |
 | Licença | MIT |
 
 ---
@@ -577,6 +577,47 @@ Nada disto pede biblioteca de arrastar-e-soltar: são Pointer Events e um
 `clipPath` de SVG por peça, que o navegador aplica na mesma imagem tanto na
 peça grande do tabuleiro quanto na pequena da bandejinha.
 
+### O app lembra o que a criança errou
+
+Até aqui o Lumus guardava estrela por fase e nada mais. A criança errava
+"girafa é mamífero" na segunda, acertava por sorte na quinta, e ninguém
+aprendia nada. Agora **a pergunta errada volta**.
+
+| Acertou na volta | A pergunta volta em |
+|---|---|
+| 1ª vez | 1 dia |
+| 2ª | 3 dias |
+| 3ª | 7 dias |
+| 4ª | 21 dias — e depois **sai da fila**, aprendida |
+
+Errou de novo, volta ao começo. Espaçamento crescente é o que fixa a memória;
+revisar tudo todo dia cansa e ensina menos. E a pergunta **sai** quando é
+aprendida: insistir depois disso vira castigo.
+
+Na tela inicial aparece **🔁 Lembrar o que errei**, com quantas venceram hoje.
+**É de graça** — cobrar da criança para consertar o próprio erro seria o
+avesso do que este app quer ser — e paga 4 lumicoins por pergunta lembrada.
+Não mexe em fase, estrela nem recorde: consertar não é conquista nova, é a
+mesma conquista ficando de pé.
+
+**Guardamos a pergunta inteira, não um código dela.** As rodadas são montadas
+na hora, sorteando de bancos grandes; refazer exatamente aquela pergunta
+pediria que cada um dos dez montadores soubesse montar um item específico.
+Guardar o objeto custa uns 300 bytes, não mexe em montador nenhum, e a fila
+tem teto de 120 — cheia, sai quem está mais perto de ser aprendida.
+
+**E é isso que faz a ficha do responsável dizer o que interessa.** Antes ela
+contava quanto o filho jogou. Agora ela responde a pergunta que o pai
+realmente tem:
+
+> **ONDE ELE ESTÁ DEVENDO**
+> Bandeiras do Mundo · América do Sul — 3
+> Contas e Números — 2
+> Que Letra Começa — 2
+
+Não é lista de vergonha: é onde ajudar, e some sozinha quando a criança
+aprende.
+
 ### Ler e Escrever
 
 A área que faltava, e a razão de existir da próxima etapa: o Lumus tinha
@@ -937,7 +978,7 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          a interface inteira: ~51 componentes, nenhum dado (6.234 linhas)
+  App.jsx          a interface inteira: ~52 componentes, nenhum dado (6.370 linhas)
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
@@ -946,6 +987,7 @@ src/
   lib/quebracabeca.js  o quebra-cabeça: grade por nível, estrelas e o desenho do encaixe
   lib/som.js       o som de fundo: escala, ritmo e as notas geradas na hora
   lib/alfabetizacao.js  as regras do Monta a Palavra: bandeja, iscas e estrelas
+  lib/revisao.js   a memória do erro: quando a pergunta volta, e quando sai da fila
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -964,7 +1006,7 @@ src/
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
     palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
-tests/             86 testes em node --test, sem framework nenhum
+tests/             94 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1056,10 +1098,10 @@ e é justamente o conteúdo dos 4 aos 7 anos. Esta é a etapa em curso, e cada
 item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educacional-por-princípios) ele serve**.
 
 - [x] **Testar a voz do aparelho com letras e sílabas** — feito, e decidiu o resto: a voz do aparelho lê **frases e palavras muito bem**, diz o **nome** da letra e não o som, e **soletra sílaba solta**. Escrever com acento (`bá`) faz ela falar, mas só nas vogais a, e, o — `bí` e `bú` continuam soletrados. Conclusão e consequências na [ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md)
-- [ ] **Memória de erro e revisão espaçada** *(Raciocinar)* — hoje o app guarda estrelas por fase, não guarda **qual** pergunta a criança errou, e nunca a traz de volta. É o que faz o conteúdo que já existe render o dobro
+- [x] **Memória de erro e revisão espaçada** *(Raciocinar)* — feito: a pergunta errada volta em 1, 3, 7 e 21 dias e sai da fila quando é aprendida
 - [ ] **Área 📚 Ler e Escrever, primeira versão** *(Pesquisar → Registrar)* — montar a palavra arrastando sílabas, que letra começa, rimas e ditado. Todos usam **palavra inteira** falada pelo aparelho, que funciona bem — e por isso esta versão **não espera a gravação**. O motor de arrastar do quebra-cabeça serve inteiro
 - [ ] **Gravar os sons das letras e as famílias silábicas** — cerca de 130 áudios curtos (~400 KB), na voz do pai e da mãe. Desbloqueia a cartilha silábica, que a voz sintetizada não sustenta ([ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md))
-- [ ] **Ficha do responsável dizendo o que o filho sabe** *(Relacionar)* — hoje ela conta quanto ele jogou; deveria dizer "sílabas simples ok, erra ss/ç, tabuada do 7 fraca". Sai de graça da memória de erro
+- [x] **Ficha do responsável dizendo onde o filho está devendo** *(Relacionar)* — feito, e saiu de graça da memória de erro
 - [ ] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — hoje é uma trilha só; falta o que a escola cobra
 - [ ] **Trilha do ano escolar** *(Relacionar)* — o app se organiza por dificuldade e por moeda; a escola se organiza por ano. Conteúdo de escola não deve ser trancado por lumicoin
 - [ ] **Separar as telas de jogo em arquivos** — `src/App.jsx` tem 5.7 mil linhas e a alfabetização o levaria a 8 mil; revisita a [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md)
