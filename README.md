@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **21**, em 6 áreas |
+| Jogos | **24**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 72 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 86 testes |
 | Licença | MIT |
 
 ---
@@ -132,12 +132,15 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **21 jogos em 6 áreas**.
+São **24 jogos em 7 áreas**.
 
 ### Jogos
 
 | Área | Jogo | O que treina |
 |---|---|---|
+| 📚 Ler e Escrever | Monta a Palavra | ouve a palavra inteira e monta com as sílabas |
+| 📚 Ler e Escrever | Que Letra Começa | a figura e a letra inicial |
+| 📚 Ler e Escrever | Rimas | consciência fonológica: o que termina igual |
 | 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR **com a bandeira de cada um** → países por continente → estados dos EUA |
@@ -574,6 +577,47 @@ Nada disto pede biblioteca de arrastar-e-soltar: são Pointer Events e um
 `clipPath` de SVG por peça, que o navegador aplica na mesma imagem tanto na
 peça grande do tabuleiro quanto na pequena da bandejinha.
 
+### Ler e Escrever
+
+A área que faltava, e a razão de existir da próxima etapa: o Lumus tinha
+"Idiomas" — palavras em seis línguas — e **nada que ensinasse uma criança
+brasileira a ler a própria língua**, que é o conteúdo dos 4 aos 7 anos.
+
+| Jogo | Como é |
+|---|---|
+| **Monta a Palavra** | a figura aparece, a voz diz a palavra **inteira**, e a criança monta com as sílabas |
+| **Que Letra Começa** | a figura pergunta, as letras respondem |
+| **Rimas** | qual palavra termina igual — consciência fonológica, que vem antes de ler |
+
+**O app nunca fala a sílaba, e isso é decisão de ensino, não limitação.** A
+criança ouve *"bola"* e monta **BO** + **LA**: quem faz a separação é ela, e é
+essa a habilidade que se está ensinando. Se o app dissesse "bo" e "la", ela só
+casaria som com peça. ([ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md)
+conta como o teste de voz levou a isso.)
+
+**A conferência é sílaba a sílaba, não no fim.** Encaixou errado, a peça treme
+e volta na hora. Deixar montar a palavra toda para só então dizer "errado"
+ensina menos e frustra mais.
+
+**As sílabas foram separadas à mão**, uma a uma, e não por algoritmo. Separação
+silábica em português é regra cheia de exceção — dígrafo que não separa (ch,
+lh, nh), dígrafo que separa (rr, ss), encontro com l e r que fica junto, hiato
+que parte. Um algoritmo erra baixinho, e aqui um erro baixinho é uma criança
+aprendendo a separar errado. Um teste garante que as sílabas remontam a
+palavra, e outro que a bandeja nunca traz uma isca que também serviria.
+
+**As estrelas contam erro, não relógio.** Aprender a ler não é corrida, e
+cronômetro em quem está começando só atrapalha. Montar de novo depois das três
+estrelas é de graça, como no resto do app.
+
+### Toda rodada termina com uma palavra de incentivo
+
+Não "Fim da rodada" e um número. Uma frase, sorteada entre três para não
+cansar, e **também quando a criança foi mal** — aí ela nunca cobra, convida:
+*"Quase lá!"*, *"Bora de novo?"*, *"Cada vez melhor!"*. No Monta a Palavra o
+elogio aparece na hora em que a palavra fecha, que é o momento em que ela
+acabou de conseguir.
+
 ### O som do Lumus
 
 Duas coisas diferentes, e as duas se desligam num toque.
@@ -893,7 +937,7 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          a interface inteira: ~49 componentes, nenhum dado (5.902 linhas)
+  App.jsx          a interface inteira: ~51 componentes, nenhum dado (6.234 linhas)
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
@@ -901,6 +945,7 @@ src/
   lib/turma.js     jogar junto: quantos cabem, quem venceu, perguntas iguais para todos
   lib/quebracabeca.js  o quebra-cabeça: grade por nível, estrelas e o desenho do encaixe
   lib/som.js       o som de fundo: escala, ritmo e as notas geradas na hora
+  lib/alfabetizacao.js  as regras do Monta a Palavra: bandeja, iscas e estrelas
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -918,7 +963,8 @@ src/
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
-tests/             72 testes em node --test, sem framework nenhum
+    palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
+tests/             86 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
