@@ -19,6 +19,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { transform } from "esbuild";
+import { ANOS, conteudoDoAno, faixaDaBanda, faseDeEntrada } from "../src/lib/escola.js";
 
 const EXPORTA = [
   "buildRound", "poolFor", "montarRodadaMath", "montarRodadaBichos",
@@ -26,7 +27,7 @@ const EXPORTA = [
   "montarRodadaCapitais", "montarRodadaCuriosidades", "montarRodadaCiencias",
   "montarRodadaInicial", "montarRodadaRima",
   "montarRodadaTabuada", "montarRodadaHoras", "montarRodadaDinheiro",
-  "DIFFS", "T", "ROUTE", "CAP_REGIOES", "totalDe", "bandFor", "escadaDe", "explicacaoDe",
+  "DIFFS", "T", "ROUTE", "CAP_REGIOES", "CATALOG", "totalDe", "bandFor", "escadaDe", "explicacaoDe",
 ];
 
 async function carregarApp() {
@@ -124,6 +125,32 @@ for (const [cont, montar] of outros) {
 for (const alvo of ["en", "es", "fr"]) {
   for (const { faixa, stage } of fasesDeCadaFaixa(app, `idiomas_${alvo}`))
     conferirRodada(`idiomas_${alvo} ${faixa} f${stage}`, app.montarRodadaIdioma(stage, t, alvo));
+}
+
+/* ---------- a trilha do ano escolar ----------
+   Ela é a única porta que abre faixa e dispensa moeda, e aponta para trilhas
+   por NOME. Um id trocado aqui manda a criança para uma tela vazia, e nada
+   no app reclama — só esta conferência. */
+const JOGOS = new Set(app.CATALOG.flatMap(c => c.games.map(g => g.id)));
+for (const ano of ANOS) {
+  const linha = [];
+  for (const item of conteudoDoAno(ano)) {
+    const onde = `escola/${ano}/${item.jogo}`;
+    if (!JOGOS.has(item.jogo)) aviso(`${onde}: não existe jogo com esse id no CATALOG`);
+    if (!t.games[item.jogo]) aviso(`${onde}: sem nome em t.games — o botão sairia vazio`);
+    if (item.tela) { linha.push(`${item.jogo}·tela`); continue; }
+    const { plan, total } = app.escadaDe(item.cont);
+    if (!faixaDaBanda(plan, item.banda)) {
+      aviso(`${onde}: a trilha "${item.cont}" não tem a faixa ${item.banda}`);
+      continue;
+    }
+    const fase = faseDeEntrada(plan, item.banda, 0);
+    if (app.bandFor(item.cont, fase) !== item.banda)
+      aviso(`${onde}: a fase ${fase} é ${app.bandFor(item.cont, fase)}, não ${item.banda}`);
+    if (fase < 1 || fase > total) aviso(`${onde}: fase ${fase} fora da escada de ${total}`);
+    linha.push(`${item.cont}·${item.banda[0]}${fase}`);
+  }
+  resumo.push(`🎒 ${ano.padEnd(13)} ${linha.join(" ")}`);
 }
 
 console.log("");

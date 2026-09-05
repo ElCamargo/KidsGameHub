@@ -25,6 +25,7 @@ import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
 import { MAX_JOGADORES, vencedorDe, perguntasParaTodos } from "./lib/turma.js";
 import { GRADES, pecasDe, estrelasDo, totalDePecas, buracoMaisPerto, SALIENCIA, sortearBordas, caminhoDaPeca } from "./lib/quebracabeca.js";
+import { ANOS, IDADE_DO_ANO, conteudoDoAno, anoPorIdade, faseDeEntrada } from "./lib/escola.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -143,6 +144,7 @@ const TODOS_JOGOS = CATALOG.flatMap(c => c.games);
    preço quando aparece trancado. */
 const PRECO_PADRAO = 150;
 const precoDe = g => g.preco || PRECO_PADRAO;
+const jogoDe = id => TODOS_JOGOS.find(g => g.id === id);
 
 /* O que já nasce aberto depende de quem está jogando: quem lê começa pelos
    jogos grátis de sempre; quem ainda não lê começa pelos que se joga
@@ -810,6 +812,12 @@ function AppInterno() {
   const [gerados, setGerados] = useState([]);
   const [jogosAbertos, setJogosAbertos] = useState(JOGOS_GRATIS);
   const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
+  /* O ano de escola deste perfil. Fica no save do filho, não no aparelho:
+     dois irmãos no mesmo celular estão em anos diferentes. */
+  const [ano, setAno] = useState(null);
+  /* Se o Monta a Palavra foi aberto pela trilha do ano escolar. Ele não é
+     trilha de fases, então não dá para marcar isso no sel como as outras. */
+  const [porEscola, setPorEscola] = useState(false);
   const [destinoIdioma, setDestinoIdioma] = useState("quiz"); // quiz ou memória
   const [editando, setEditando] = useState(false);            // criando ou editando ficha
 
@@ -918,7 +926,7 @@ function AppInterno() {
 
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
-    stars: {}, records: {}, memBest: {}, pzlBest: {}, palBest: {}, revisao: [], gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
+    stars: {}, records: {}, memBest: {}, pzlBest: {}, palBest: {}, revisao: [], gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [], ano: null,
     presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "", voz: null,
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
@@ -950,6 +958,7 @@ function AppInterno() {
     setPalBest(d.palBest || {});
     setRevisao(Array.isArray(d.revisao) ? d.revisao : []);
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
+    setAno(d.ano || null);
     setGerados(d.gerados || []);
     setJogosAbertos([...new Set([...jogosGratisPara(ehLeitor(perfil)), ...(d.jogosAbertos || [])])]);
     setSecoes(d.secoes || []);
@@ -1227,8 +1236,8 @@ function AppInterno() {
   }
 
   /* ----- monta a palavra ----- */
-  function comecarPalavras(nivel) {
-    const custo = custoDaPalavra(palBest, nivel);
+  function comecarPalavras(nivel, gratis = false) {
+    const custo = gratis ? 0 : custoDaPalavra(palBest, nivel);
     if (coins < custo) { setToast(t.notEnough); return; }
     const palavras = montarRodadaPalavras(PALAVRAS, nivel);
     if (!palavras.length) { setToast("🔡"); return; }
@@ -1553,7 +1562,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1565,7 +1574,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano]);
 
   /* A lista de vozes chega vazia na primeira pergunta em quase todo
      navegador, e só depois o aparelho avisa que carregou. */
@@ -1667,8 +1676,10 @@ function AppInterno() {
      que a criança já dominou só a empurra para longe de repetir. As outras
      continuam custando — é o que dá sentido às lumicoins. */
   function startRound(comTurma = null) {
-    // Em grupo é de graça, como a memória, e pelo mesmo motivo.
-    const custo = comTurma?.length ? 0 : custoDaFase(stars, sel.cont, sel.stage);
+    /* Em grupo é de graça, como a memória, e pelo mesmo motivo. Pela trilha
+       do ano escolar também: dever de escola não se paga com lumicoin. */
+    const custo = comTurma?.length || bandFor(sel.cont, sel.stage) === sel.escola
+      ? 0 : custoDaFase(stars, sel.cont, sel.stage);
     if (coins < custo) { setToast(t.notEnough); return; }
     if (custo) setCoins(c => c - custo);
     const quiz = quizDe(sel.cont);
@@ -1946,7 +1957,7 @@ function AppInterno() {
             repetirBloqueado: coins < custoDaMemoria(memBest, mem.tema, mem.nivel),
             aoSair: () => setScreen("memLevels") }} />
         )}
-        {screen === "palLevels" && <PalavraLevels {...{ t, coins, palBest, setScreen, comecar: comecarPalavras, temSecao, comprarSecao }} />}
+        {screen === "palLevels" && <PalavraLevels {...{ t, coins, palBest, setScreen, comecar: comecarPalavras, temSecao, comprarSecao, escola: porEscola }} />}
         {screen === "pal" && pal && <PalavraGame {...{ t, lang, palavras: pal.palavras, voz: voz && vozOk,
           onFinish: fimPalavras, onQuit: () => setScreen("palLevels") }} />}
         {screen === "palResult" && pal && (
@@ -1981,7 +1992,7 @@ function AppInterno() {
           voz, setVoz, vozOk, som, trocarSom, somOk: temSom() }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, lang, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
-          quantasRevisar: paraRevisar.length, revisar: comecarRevisao,
+          quantasRevisar: paraRevisar.length, revisar: comecarRevisao, ano,
           momento, setMomento, momentoFeitoHoje, voz: voz && vozOk,
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
@@ -1991,7 +2002,7 @@ function AppInterno() {
             if (g === "capitals") { setScreen("capMap"); return; }
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
             if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
-            if (g === "montar") { setScreen("palLevels"); return; }
+            if (g === "montar") { setPorEscola(false); setScreen("palLevels"); return; }
             if (PZL_TEMAS[g]) { setPzlTema(PZL_TEMAS[g]); setScreen("pzlLevels"); return; }
             if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
             if (quizzes[g]) {
@@ -2000,6 +2011,19 @@ function AppInterno() {
               setScreen("stages"); return;
             }
             setScreen("map"); if (!stats.rounds) setTutorial(true);
+          } }} />}
+        {screen === "escola" && <EscolaScreen {...{ t, progress, setScreen,
+          ano: ano || anoPorIdade(player.idade),
+          escolherAno: setAno,
+          /* Entra pela faixa que o ano cobra, mas continua de onde a criança
+             parou se ela já estiver dentro dela. O sel.escola é o que faz a
+             faixa abrir e a fase não custar — e some sozinho quando qualquer
+             outra tela monta um sel novo. */
+          abrirItem: (item) => {
+            if (item.tela) { setPorEscola(true); setScreen(item.tela); return; }
+            const stage = faseDeEntrada(escadaDe(item.cont).plan, item.banda, progress[item.cont] || 0);
+            setSel({ cont: item.cont, stage, escola: item.banda });
+            setScreen("stages");
           } }} />}
         {screen === "map" && <MapScreen {...{ t, lang, player, coins, nextRefill, unlocked, progress, unlockContinent, setSel, setScreen, stats, tutorial, setTutorial }} />}
         {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao,
@@ -4679,11 +4703,11 @@ function PalavraGame({ t, lang, palavras, voz, onFinish, onQuit }) {
    ponytail: terceira cópia da tela de níveis (memória, quebra-cabeça e esta).
    Vale unificar numa só quando entrar a quarta — hoje as três diferem no que
    mostram no meio, e unificar cedo custaria mais do que a duplicação. */
-function PalavraLevels({ t, coins, palBest, setScreen, comecar, temSecao, comprarSecao }) {
+function PalavraLevels({ t, coins, palBest, setScreen, comecar, temSecao, comprarSecao, escola }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(escola ? "escola" : "home")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🔡 {t.games.montar}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
@@ -4695,7 +4719,7 @@ function PalavraLevels({ t, coins, palBest, setScreen, comecar, temSecao, compra
           const preco = PAL_PRECO[d];
           const aberto = !preco || temSecao(chave);
           const anteriorOk = di === 0 || !PAL_PRECO[DIFFS[di - 1]] || temSecao(`p:${DIFFS[di - 1]}`);
-          const custo = custoDaPalavra(palBest, d);
+          const custo = escola ? 0 : custoDaPalavra(palBest, d);
           return (
             <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12, opacity: aberto || anteriorOk ? 1 : .45 }}>
               <div style={{ width: 52, height: 52, borderRadius: 16, background: aberto ? BAND_COLOR[d] : "#B9C0CC", display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 15 }}>
@@ -4713,7 +4737,7 @@ function PalavraLevels({ t, coins, palBest, setScreen, comecar, temSecao, compra
                 </div>
               </div>
               {aberto ? (
-                <Btn small color={BAND_COLOR[d]} disabled={coins < custo} onClick={() => comecar(d)}>
+                <Btn small color={BAND_COLOR[d]} disabled={coins < custo} onClick={() => comecar(d, escola)}>
                   {custo ? `🪙${custo}` : `⭐ ${t.free}`}
                 </Btn>
               ) : anteriorOk ? (
@@ -5212,6 +5236,9 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
             {perfil.idade ? `${perfil.idade} ${t.years} · ` : ""}
             {ehLeitor(perfil) ? t.reads : t.readsNot}
           </div>
+          {save?.ano && (
+            <div style={{ color: "#00875A", fontWeight: 900, fontSize: 11 }}>🎒 {nomeDoAno(save.ano, t)}</div>
+          )}
         </div>
       </div>
 
@@ -5723,7 +5750,69 @@ function LangGame({ t, lang, escolher, setScreen }) {
 }
 
 /* ---------- Home do hub ---------- */
-function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz, quantasRevisar, revisar }) {
+/* ---------- A trilha do ano escolar ----------
+   O app se organiza por dificuldade; a escola, por ano. Esta tela é a ponte:
+   escolhido o ano, ela mostra as poucas coisas que a escola cobra NELE, já na
+   faixa certa e sem cobrar lumicoin. É a única porta do app que abre faixa de
+   graça, e é de propósito: a criança que mais precisa de reforço é justamente
+   a que não tem tempo de jogo para juntar moeda. */
+const nomeDoAno = (a, t) => a === "pre" ? t.schoolPre : t.schoolYear.replace("{n}", ANOS.indexOf(a));
+
+function EscolaScreen({ t, ano, escolherAno, abrirItem, progress, setScreen }) {
+  const atual = ano || "a1";
+  return (
+    <div className="narrow">
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🎒 {t.school}</div>
+      </div>
+
+      {/* Seis anos não cabem numa fileira de celular: três por linha em 375px. */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
+        {ANOS.map(a => (
+          <button key={a} onClick={() => escolherAno(a)} className="chunky"
+            style={{ flex: "1 1 30%", padding: "8px 4px", fontSize: 12, lineHeight: 1.2,
+              background: a === atual ? "#00B894" : "rgba(255,255,255,.22)" }}>
+            <div>{nomeDoAno(a, t)}</div>
+            <div style={{ fontSize: 10, opacity: .85 }}>{t.schoolAge.replace("{n}", IDADE_DO_ANO[a])}</div>
+          </button>
+        ))}
+      </div>
+
+      <div className="display" style={{ color: "#C9D2FF", fontSize: 15, marginBottom: 8 }}>{t.schoolHint}</div>
+
+      <div className="lista">
+        {conteudoDoAno(atual).map(item => {
+          const g = jogoDe(item.jogo) || {};
+          const feitas = progress[item.cont] || 0;
+          return (
+            <button key={item.jogo} onClick={() => abrirItem(item)} className="card"
+              style={{ border: "none", width: "100%", textAlign: "left", cursor: "pointer",
+                padding: 13, display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ width: 48, height: 48, borderRadius: 16, background: g.color || "#4C6FFF",
+                display: "grid", placeItems: "center", fontSize: 24 }}>{g.icon}</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.games[item.jogo]}</div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
+                  {item.banda ? t.levels[item.banda] + " · ⭐ " + feitas + "/" + totalDe(item.cont) : t.play}
+                </div>
+              </div>
+              <div style={{ fontSize: 20, color: "#8B93AD" }}>▶</div>
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-end", marginTop: 14 }}>
+        <Mundi size={56} />
+        <div className="card" style={{ padding: "10px 12px", flex: 1, borderBottomLeftRadius: 6,
+          color: "#00875A", fontWeight: 900, fontSize: 13 }}>{t.schoolFree}</div>
+      </div>
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz, quantasRevisar, revisar, ano }) {
   return (
     <div>
       <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill}
@@ -5749,6 +5838,22 @@ function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickG
           </div>
         </button>
       )}
+
+      {/* A porta da escola. Vem antes dos jogos porque é o que o pai abre
+          quando a professora mandou bilhete — e o que a criança abre quando
+          tem prova. */}
+      <button onClick={() => setScreen("escola")} className="card pop"
+        style={{ border: "none", width: "100%", textAlign: "left", cursor: "pointer",
+          padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ fontSize: 34 }}>🎒</div>
+        <div style={{ flex: 1 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.school}</div>
+          <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>
+            {ano ? nomeDoAno(ano, t) : t.schoolPick}
+          </div>
+        </div>
+        <div style={{ fontSize: 20, color: "#8B93AD" }}>▶</div>
+      </button>
 
       {podeResgatar && (
         <div className="card pop" style={{ padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
@@ -5917,12 +6022,17 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
   const cont = quiz ? { color: quiz.cor } : ROUTE.find(r => r.id === sel.cont);
   const done = progress[sel.cont] || 0;
   const band = bandFor(sel.cont, sel.stage);
+  /* A faixa que o ano escolar da criança cobra entra aberta, e as fases dela
+     também — quem está no 4º ano não vai vencer trinta fases de tabuada fácil
+     antes de chegar no 6, 7 e 8 que a professora cobrou esta semana. O resto
+     da escada continua como sempre: se comprando, se vencendo. */
+  const bandaDaEscola = sel.escola || null;
   const totalFases = totalDe(sel.cont);
   /* Trilha de 100 fases não cabe num tabuleiro só: 20 linhas de botões
      empurram o "Jogar" para fora da tela. Página de 20, sempre 5 colunas,
      e a página abre junto com a fase — a de número 21 só existe quando a 20
      estiver vencida. */
-  const custoFase = custoDaFase(stars, sel.cont, sel.stage);
+  const custoFase = bandFor(sel.cont, sel.stage) === bandaDaEscola ? 0 : custoDaFase(stars, sel.cont, sel.stage);
   const POR_PAGINA = 20;
   const paginas = Math.ceil(totalFases / POR_PAGINA);
   const [pag, setPag] = useState(Math.min(paginas - 1, Math.floor((sel.stage - 1) / POR_PAGINA)));
@@ -5930,7 +6040,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
   const fasesDaPagina = Array.from({ length: Math.min(POR_PAGINA, totalFases - p0) }, (_, i) => p0 + i + 1);
   const paginaAberta = i => done >= i * POR_PAGINA;
   const chaveBanda = b => `b:${sel.cont}:${b}`;
-  const bandaAberta = b => !BAND_PRECO[b] || temSecao(chaveBanda(b));
+  const bandaAberta = b => b === bandaDaEscola || !BAND_PRECO[b] || temSecao(chaveBanda(b));
   const bandaAnterior = b => DIFFS[DIFFS.indexOf(b) - 1];
   const podeComprar = b => {
     const ant = bandaAnterior(b);
@@ -5939,7 +6049,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
   return (
     <div className="narrow">
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(sel.cont.startsWith("cap_") ? "capMap" : quiz ? "home" : "map")} rotulo={t.a11yBack}>←</Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen(bandaDaEscola ? "escola" : sel.cont.startsWith("cap_") ? "capMap" : quiz ? "home" : "map")} rotulo={t.a11yBack}>←</Btn>
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{quiz
             ? `${quiz.icone} ${quiz.nome(t)}${alvoDe(sel.cont) ? ` · ${LANG_CATALOG[alvoDe(sel.cont)]}` : ""}${
                 sel.cont.startsWith("cap_")
@@ -5948,6 +6058,13 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
             : t.continents[sel.cont]}</div>
         <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
       </div>
+
+      {bandaDaEscola && (
+        <div className="card" style={{ padding: "9px 12px", marginBottom: 10, display: "flex", alignItems: "center", gap: 9 }}>
+          <span style={{ fontSize: 20 }}>🎒</span>
+          <span style={{ color: "#00875A", fontWeight: 900, fontSize: 12, lineHeight: 1.3 }}>{t.schoolFree}</span>
+        </div>
+      )}
 
       {/* legenda das faixas de dificuldade */}
       {/* Seis faixas não cabem numa fileira de celular: deixo quebrar, dá três
@@ -5969,7 +6086,7 @@ function Stages({ t, lang, sel, setSel, progress, coins, startRound, setScreen, 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8 }}>
           {fasesDaPagina.map(n => {
             const b0 = bandFor(sel.cont, n);
-            const open = n <= done + 1 && bandaAberta(b0);
+            const open = (n <= done + 1 || b0 === bandaDaEscola) && bandaAberta(b0);
             const cleared = n <= done;
             const b = b0;
             const st = stars?.[sel.cont]?.[n] || 0;

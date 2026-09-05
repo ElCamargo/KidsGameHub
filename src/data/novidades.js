@@ -21,6 +21,7 @@ export const NOVIDADES = [
       pt: {
         titulo: "Ler, contar e lembrar",
         itens: [
+          "Trilha do ano escolar: escolha o ano e jogue o que a escola cobra, de graça",
           "Área nova: Ler e Escrever, com Monta a Palavra, Que Letra Começa e Rimas",
           "Matemática ganhou Tabuada, Que Horas São e Dinheiro do Brasil",
           "O app agora lembra o que a criança errou e traz de volta em 1, 3, 7 e 21 dias",
@@ -32,6 +33,7 @@ export const NOVIDADES = [
       en: {
         titulo: "Reading, counting and remembering",
         itens: [
+          "School year track: pick the grade and play what school asks for, free",
           "New area: Reading and Writing, with Build the Word, Which Letter Starts It and Rhymes",
           "Math gained Times Tables, Telling Time and Brazilian Money",
           "The app now remembers what your child got wrong and brings it back in 1, 3, 7 and 21 days",
@@ -43,6 +45,7 @@ export const NOVIDADES = [
       es: {
         titulo: "Leer, contar y recordar",
         itens: [
+          "Ruta del año escolar: elige el grado y juega lo que la escuela pide, gratis",
           "Área nueva: Leer y Escribir, con Arma la Palabra, Con Qué Letra Empieza y Rimas",
           "Matemáticas ganó Tablas de Multiplicar, Qué Hora Es y Dinero de Brasil",
           "La app ahora recuerda lo que el niño falló y lo trae de vuelta en 1, 3, 7 y 21 días",
@@ -54,6 +57,7 @@ export const NOVIDADES = [
       fr: {
         titulo: "Lire, compter et se souvenir",
         itens: [
+          "Parcours de l'année scolaire : choisis ton année et joue ce que l'école demande, gratuitement",
           "Nouvelle zone : Lire et Écrire, avec Construis le Mot, Quelle Lettre Commence et Rimes",
           "Les maths gagnent Tables de Multiplication, Quelle Heure Est-il et Argent du Brésil",
           "L'appli retient ce que l'enfant a raté et le ramène après 1, 3, 7 et 21 jours",
@@ -65,6 +69,7 @@ export const NOVIDADES = [
       de: {
         titulo: "Lesen, rechnen und behalten",
         itens: [
+          "Schuljahr-Pfad: Klasse wählen und spielen, was die Schule verlangt — gratis",
           "Neuer Bereich: Lesen und Schreiben, mit Bau das Wort, Welcher Buchstabe Beginnt und Reime",
           "Mathe bekam Einmaleins, Wie Spät Ist Es und Brasilianisches Geld",
           "Die App merkt sich Fehler und bringt sie nach 1, 3, 7 und 21 Tagen zurück",
@@ -76,6 +81,7 @@ export const NOVIDADES = [
       it: {
         titulo: "Leggere, contare e ricordare",
         itens: [
+          "Percorso dell'anno scolastico: scegli la classe e gioca quello che la scuola chiede, gratis",
           "Area nuova: Leggere e Scrivere, con Costruisci la Parola, Con Che Lettera Inizia e Rime",
           "Matematica ha guadagnato Tabelline, Che Ore Sono e Denaro del Brasile",
           "L'app ora ricorda gli errori e li riporta dopo 1, 3, 7 e 21 giorni",

@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 109 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 116 testes |
 | Licença | MIT |
 
 ---
@@ -606,6 +606,44 @@ quando a hora cheia estiver dominada.
 **O dinheiro é brasileiro de propósito**, com as moedas e notas que existem no
 bolso. Ensinar troco com uma moeda que não existe seria pior que não ensinar.
 
+### A escola pede por ano; o app entregava por dificuldade
+
+O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
+se organiza por **ano**. Uma criança do 4º ano que abria a Tabuada caía no
+Fácil — ×2, ×5 e ×10, que ela já sabe — e teria de vencer trinta fases, ou
+pagar moeda, para chegar no 6, 7 e 8 que a professora cobrou esta semana.
+
+Agora a tela inicial tem **🎒 O meu ano na escola**. Escolhido o ano, aparecem
+as poucas coisas que a escola cobra nele, **já na faixa certa**:
+
+| Ano | O que abre |
+|---|---|
+| **Antes do 1º** | Monta a Palavra, Que Letra Começa, Contas, Cores |
+| **1º** | alfabetização, contagem e a hora cheia |
+| **2º** | rimas, tabuada do 2, 5 e 10, meia hora, moedas |
+| **3º** | o resto da tabuada, notas, ciências |
+| **4º** | 6, 7 e 8, troco, estados do Brasil |
+| **5º** | divisão, troco de nota alta, o mundo além do Brasil |
+
+O ano é sugerido pela idade do perfil e fica **no save do filho**, não no
+aparelho: dois irmãos no mesmo celular estão em anos diferentes. A ficha do
+responsável passou a dizer em que ano cada um está.
+
+**Esta é a única porta do app que abre faixa de graça**, e é de propósito: a
+criança que mais precisa de reforço é justamente a que não tem tempo de jogo
+para juntar lumicoin. Entrando por aqui, a faixa daquele ano abre, as fases
+dela abrem, e a rodada não custa nada — **o resto da escada continua como
+sempre**, se comprando ou se vencendo. Quem entra no 4º ano recebe as dez
+fases do Difícil de tabuada; não recebe o Gênio nem o Lenda.
+
+O progresso é o mesmo dos outros caminhos: estrela ganha pela escola conta na
+trilha, e fase vencida pela escola fica vencida.
+
+**A tabela aponta trilhas por nome, e nome errado manda a criança para uma
+tela vazia sem que nada reclame.** Por isso o guarda de build abre o catálogo
+de verdade do app e confere, item por item, que o jogo existe, que a trilha
+tem aquela faixa, e que a fase de entrada cai mesmo dentro dela.
+
 ### O responsável fica sabendo o que mudou
 
 Quem instala o app é o adulto, e ele não tem como saber que apareceu jogo novo:
@@ -1029,6 +1067,7 @@ src/
   lib/alfabetizacao.js  as regras do Monta a Palavra: bandeja, iscas e estrelas
   lib/revisao.js   a memória do erro: quando a pergunta volta, e quando sai da fila
   lib/matematica.js  tabuada, dinheiro brasileiro e as horas do relógio
+  lib/escola.js      que trilha e que faixa cada ano da escola cobra
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -1048,7 +1087,7 @@ src/
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
     palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
     novidades.js         o que mudou a cada versão, nos 6 idiomas
-tests/             109 testes em node --test, sem framework nenhum
+tests/             116 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1141,11 +1180,11 @@ item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educa
 
 - [x] **Testar a voz do aparelho com letras e sílabas** — feito, e decidiu o resto: a voz do aparelho lê **frases e palavras muito bem**, diz o **nome** da letra e não o som, e **soletra sílaba solta**. Escrever com acento (`bá`) faz ela falar, mas só nas vogais a, e, o — `bí` e `bú` continuam soletrados. Conclusão e consequências na [ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md)
 - [x] **Memória de erro e revisão espaçada** *(Raciocinar)* — feito: a pergunta errada volta em 1, 3, 7 e 21 dias e sai da fila quando é aprendida
-- [ ] **Área 📚 Ler e Escrever, primeira versão** *(Pesquisar → Registrar)* — montar a palavra arrastando sílabas, que letra começa, rimas e ditado. Todos usam **palavra inteira** falada pelo aparelho, que funciona bem — e por isso esta versão **não espera a gravação**. O motor de arrastar do quebra-cabeça serve inteiro
+- [x] **Área 📚 Ler e Escrever, primeira versão** *(Pesquisar → Registrar)* — feita: Monta a Palavra, Que Letra Começa e Rimas, todos com a **palavra inteira** falada pelo aparelho — e por isso sem esperar a gravação. O motor de arrastar do quebra-cabeça serviu inteiro. O ditado fica para depois da gravação
 - [ ] **Gravar os sons das letras e as famílias silábicas** — cerca de 130 áudios curtos (~400 KB), na voz do pai e da mãe. Desbloqueia a cartilha silábica, que a voz sintetizada não sustenta ([ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md))
 - [x] **Ficha do responsável dizendo onde o filho está devendo** *(Relacionar)* — feito, e saiu de graça da memória de erro
-- [ ] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — hoje é uma trilha só; falta o que a escola cobra
-- [ ] **Trilha do ano escolar** *(Relacionar)* — o app se organiza por dificuldade e por moeda; a escola se organiza por ano. Conteúdo de escola não deve ser trancado por lumicoin
+- [x] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — feito: três trilhas novas, com divisão nas faixas altas e troco no dinheiro
+- [x] **Trilha do ano escolar** *(Relacionar)* — feito: escolhido o ano, o app abre a faixa que a escola cobra e não cobra lumicoin por ela
 - [ ] **Separar as telas de jogo em arquivos** — `src/App.jsx` tem 5.7 mil linhas e a alfabetização o levaria a 8 mil; revisita a [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md)
 
 **Onde decidimos não ir:** 6º ao 8º ano. Um menino de 13 anos não abre um app
