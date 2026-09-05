@@ -27,3 +27,7 @@ body {
 input { -webkit-user-select: text; user-select: text; }
 
 button:focus-visible { outline: 4px solid #F9A826; outline-offset: 2px; }
+
+/* Carrossel da abertura: a barra de rolagem estragaria o cartão, e o dedo
+   não precisa dela. */
+.semBarra::-webkit-scrollbar { display: none; }
