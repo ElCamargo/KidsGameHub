@@ -91,30 +91,34 @@ const CATALOG = [
   { id: "geo", icon: "🌍", color: "#4C6FFF", games: [
       { id: "flags", icon: "🚩", color: "#00B894", preco: 0, leitura: true, ready: true },
       { id: "memory", icon: "🧠", color: "#4C6FFF", preco: 150, leitura: false, ready: true },
+      { id: "puzzle", icon: "🧩", color: "#F9A826", preco: 200, leitura: false, ready: true },
       { id: "capitals", icon: "🏛️", color: "#6A5AE0", preco: 500, leitura: true, ready: true },
       { id: "curiosidades", icon: "🗺️", color: "#00C2CB", preco: 800, leitura: true, ready: true },
-      { id: "puzzle", icon: "🧩", color: "#F9A826", preco: 200, leitura: false, ready: true },
   ]},
   { id: "math", icon: "🔢", color: "#F9A826", games: [
       { id: "count", icon: "🧮", color: "#F9A826", preco: 0, leitura: false, ready: true },
+      { id: "mathPuzzle", icon: "🔟", color: "#00B894", preco: 150, leitura: false, ready: true },
   ]},
   { id: "nature", icon: "🦁", color: "#00C2CB", games: [
       { id: "animals", icon: "🐾", color: "#00C2CB", preco: 0, leitura: false, ready: true },
+      { id: "animalPuzzle", icon: "🦓", color: "#F9A826", preco: 200, leitura: false, ready: true },
       { id: "animalQuiz", icon: "🦉", color: "#00B894", preco: 300, leitura: true, vozBasta: true, ready: true },
       { id: "sciAnimals", icon: "🔬", color: "#6A5AE0", preco: 600, leitura: true, ready: true },
   ]},
   { id: "art", icon: "🎨", color: "#E84393", games: [
       { id: "color", icon: "🖍️", color: "#E84393", preco: 0, leitura: false, ready: true },
       { id: "colors", icon: "🌈", color: "#F9A826", preco: 200, leitura: true, vozBasta: true, ready: true },
+      { id: "artPuzzle", icon: "🖼️", color: "#00C2CB", preco: 350, leitura: false, ready: true },
       { id: "artMem", icon: "🧩", color: "#9B59B6", preco: 500, leitura: false, ready: true },
-      { id: "artPuzzle", icon: "🖼️", color: "#00C2CB", preco: 400, leitura: false, ready: true },
   ]},
   { id: "eng", icon: "🔤", color: "#4C6FFF", games: [
       { id: "words", icon: "🔤", color: "#4C6FFF", preco: 0, leitura: true, ready: true },
+      { id: "wordPuzzle", icon: "🔠", color: "#00C2CB", preco: 250, leitura: true, ready: true },
       { id: "wordMem", icon: "🃏", color: "#6A5AE0", preco: 350, leitura: true, ready: true },
   ]},
   { id: "faith", icon: "✝️", color: "#8D6E3A", games: [
       { id: "bible", icon: "✝️", color: "#8D6E3A", preco: 0, leitura: true, ready: true },
+      { id: "biblePuzzle", icon: "🕯️", color: "#F9A826", preco: 250, leitura: false, ready: true },
       { id: "bibleMem", icon: "🕊️", color: "#00C2CB", preco: 350, leitura: false, ready: true },
   ]},
 ];
@@ -163,6 +167,11 @@ const PRECO_GERAR = 100;   // 9 desenhos novos no jogo de pintar
 const BAND_PRECO = { easy: 0, medium: 200, hard: 250, genius: 300, mestre: 400, lenda: 500 };
 const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200, mestre: 400, lenda: 700 };   // ~3 a 5 rodadas boas cada
 const PZL_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre: 400, lenda: 600 };   // sobe com o número de peças
+/* Um motor, seis entradas — como a memória. O que muda é só de onde vem a
+   imagem: arquivo de bandeira, desenho pintado, ou cartaz de figuras. */
+const PZL_TEMAS = { puzzle: "flags", artPuzzle: "art", animalPuzzle: "animals", biblePuzzle: "bible", wordPuzzle: "words", mathPuzzle: "math" };
+const PZL_ICONE = { flags: "🧩", art: "🖼️", animals: "🦓", bible: "🕯️", words: "🔠", math: "🔟" };
+const PZL_JOGO = { flags: "puzzle", art: "artPuzzle", animals: "animalPuzzle", bible: "biblePuzzle", words: "wordPuzzle", math: "mathPuzzle" };
 const CAP_PRECO  = {                                                    // regiões das capitais
   cap_br: 0, cap_sa: 100, cap_na: 150, cap_eu: 250,
   cap_af: 350, cap_as: 450, cap_oc: 550, cap_us: 700,
@@ -1063,25 +1072,28 @@ function AppInterno() {
   /* ----- quebra-cabeça -----
      A imagem sai do que a criança já tem: bandeira dos continentes que ela
      abriu, ou desenho que ela mesma pintou. Nada baixado, nada de fora. */
-  function fonteDoQuebra(tema) {
+  function fonteDoQuebra(tema, nivel) {
     if (tema === "flags") {
       const codes = [...new Set(unlocked.flatMap(c => Object.keys(DATA[c])))];
       if (!codes.length) return null;
       return { tipo: "flag", code: shuffle(codes)[0], prop: 4 / 3 };
     }
-    /* Arte: primeiro o que ela pintou. Se ainda não pintou nada, um desenho
-       colorido por nós — quebra-cabeça branco não tem como ser montado. */
-    const salvo = gallery.length ? gallery[Math.floor(Math.random() * gallery.length)] : null;
-    const art = salvo ? acharArte(salvo.id) : DESENHOS[Math.floor(Math.random() * DESENHOS.length)];
-    if (!art) return null;
-    const [, , vw, vh] = art.vb.split(" ").map(Number);
-    return { tipo: "arte", art, fills: salvo ? salvo.fills : coresDeFabrica(art), prop: vw / vh };
+    if (tema === "art") {
+      /* Primeiro o que ela pintou. Se ainda não pintou nada, um desenho
+         colorido por nós — quebra-cabeça branco não tem como ser montado. */
+      const salvo = gallery.length ? gallery[Math.floor(Math.random() * gallery.length)] : null;
+      const art = salvo ? acharArte(salvo.id) : DESENHOS[Math.floor(Math.random() * DESENHOS.length)];
+      if (!art) return null;
+      const [, , vw, vh] = art.vb.split(" ").map(Number);
+      return { tipo: "arte", art, fills: salvo ? salvo.fills : coresDeFabrica(art), prop: vw / vh };
+    }
+    return cartazDe(tema, nivel, lang);
   }
 
   function comecarQuebra(nivel, tema = pzlTema) {
     const custo = custoDoQuebra(pzlBest, tema, nivel);
     if (coins < custo) { setToast(t.notEnough); return; }
-    const fonte = fonteDoQuebra(tema);
+    const fonte = fonteDoQuebra(tema, nivel);
     if (!fonte) { setToast("🧩"); return; }
     if (custo) setCoins(c => c - custo);
     // A ordem da bandejinha é sorteada uma vez, aqui: se fosse sorteada na
@@ -1788,8 +1800,7 @@ function AppInterno() {
             aoSair: () => setScreen("memLevels") }} />
         )}
         {screen === "pzlLevels" && <PuzzleLevels {...{ t, coins, pzlBest, setScreen, comecar: comecarQuebra, tema: pzlTema,
-          titulo: pzlTema === "flags" ? t.games.puzzle : t.games.artPuzzle,
-          icone: pzlTema === "flags" ? "🧩" : "🖼️", temSecao, comprarSecao }} />}
+          titulo: t.games[PZL_JOGO[pzlTema]], icone: PZL_ICONE[pzlTema], temSecao, comprarSecao }} />}
         {screen === "pzl" && pzl && <PuzzleGame {...{ t, nivel: pzl.nivel, fonte: pzl.fonte, ordem: pzl.ordem, bordas: pzl.bordas,
           onFinish: fimQuebra, onQuit: () => setScreen("pzlLevels") }} />}
         {screen === "pzlResult" && pzl && (
@@ -1819,7 +1830,7 @@ function AppInterno() {
             if (g === "capitals") { setScreen("capMap"); return; }
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
             if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
-            if (g === "puzzle" || g === "artPuzzle") { setPzlTema(g === "puzzle" ? "flags" : "art"); setScreen("pzlLevels"); return; }
+            if (PZL_TEMAS[g]) { setPzlTema(PZL_TEMAS[g]); setScreen("pzlLevels"); return; }
             if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
             if (quizzes[g]) {
               const k = quizzes[g];
@@ -3723,12 +3734,99 @@ const CORES_AUTO = PALETA.filter(c => c !== "#FFFFFF");
 const coresDeFabrica = art =>
   Object.fromEntries(art.areas.map((_, i) => [i, CORES_AUTO[(i * 7 + art.areas.length) % CORES_AUTO.length]]));
 
-/* A imagem inteira, do tamanho que mandarem. Bandeira é arquivo, arte é SVG,
-   e as duas esticam para o retângulo do tabuleiro sem tarja branca. */
+/* ---------- o cartaz de figuras ----------
+   Uma figura só, esticada no tabuleiro, não dá quebra-cabeça: em 24 peças
+   vira mancha, e as peças do fundo ficam todas iguais. Então o tema de
+   figuras vira um cartaz quadriculado — uma figura em cada quadrado, cada
+   quadrado de uma cor —, e ele cresce junto com o nível.
+
+   O quadriculado do cartaz NUNCA bate com o do corte: são contas diferentes
+   de propósito, para a peça não cair certinha em cima de uma figura só. */
+const CORES_CARTAZ = ["#FFE0B2", "#C8E6C9", "#B3E5FC", "#F8BBD0", "#D1C4E9", "#FFF9C4", "#B2DFDB", "#FFCCBC"];
+
+/* Coisas de contar, para o cartaz de Matemática. Todas fáceis de reconhecer
+   em tamanho pequeno — é para contar, não para adivinhar o que é. */
+const DE_CONTAR = ["🍎", "⭐", "⚽", "🐟", "🍌", "🌻", "🚗", "🎈", "🍓", "🐞"];
+
+function cartazDe(tema, nivel, lang) {
+  const { cols, rows } = GRADES[nivel];
+  // Uma casa a menos que o corte, em cada sentido: garante o desencontro.
+  const ec = Math.max(1, cols - 1), er = Math.max(1, rows - 1);
+  const quantas = ec * er;
+
+  /* Sorteia sem repetir enquanto der; passando disso, repete — o que importa
+     é o cartaz estar cheio, e figura repetida em quadrado de outra cor
+     continua sendo peça diferente. */
+  const tirar = lista => {
+    const baralho = shuffle([...new Set(lista)]);
+    return Array.from({ length: quantas }, (_, i) => baralho[i % baralho.length]);
+  };
+
+  let celulas;
+  if (tema === "animals") celulas = tirar(ANIMAIS).map(e => ({ emoji: e }));
+  else if (tema === "bible") celulas = tirar(BIBLIA_EMOJI).map(e => ({ emoji: e }));
+  else if (tema === "words")
+    celulas = shuffle(VOCAB).slice(0, quantas).map(v => ({ emoji: v.e, legenda: v.w[lang] || v.w.en }));
+  else {
+    // Matemática: tantas figuras quanto o número embaixo. Contar é o jogo.
+    celulas = Array.from({ length: quantas }, (_, i) => {
+      const quantos = 1 + Math.floor(Math.random() * 9);
+      return { emoji: DE_CONTAR[i % DE_CONTAR.length], repeticoes: quantos, legenda: String(quantos) };
+    });
+  }
+  // Cor em diagonal: quadrado nenhum fica do lado de outro da mesma cor.
+  celulas = celulas.map((c, i) => ({
+    ...c, cor: CORES_CARTAZ[(i + Math.floor(i / ec)) % CORES_CARTAZ.length],
+  }));
+  // Se faltou vocabulário para encher o cartaz, o cartaz encolhe com ele.
+  return { tipo: "cartaz", ec, er, celulas, prop: ec / er };
+}
+
+/* Um quadrado do cartaz: o fundo, a figura (ou várias, quando é de contar) e
+   a legenda embaixo, quando tem. */
+function QuadroDoCartaz({ c, x, y, L }) {
+  const quantos = c.repeticoes || 1;
+  const mc = Math.ceil(Math.sqrt(quantos)), mr = Math.ceil(quantos / mc);
+  const alturaFig = c.legenda ? L * 0.66 : L;
+  const passo = Math.min(alturaFig / mr, L / mc) * 0.94;
+  const x0 = x + (L - passo * mc) / 2, y0 = (c.legenda ? y : y) + (alturaFig - passo * mr) / 2;
+  return (
+    <g>
+      <rect x={x} y={y} width={L} height={L} fill={c.cor} />
+      {Array.from({ length: quantos }, (_, i) => (
+        <text key={i} x={x0 + (i % mc) * passo + passo / 2} y={y0 + Math.floor(i / mc) * passo + passo / 2}
+          fontSize={passo * 0.8} textAnchor="middle" dominantBaseline="central">{c.emoji}</text>
+      ))}
+      {/* A letra encolhe com o tamanho da palavra: "borboleta" no corpo de
+          "lua" invadiria os quadrados do lado, e as duas ficariam ilegíveis.
+          1.55 é a largura média de uma letra desta fonte. */}
+      {c.legenda && (
+        <text x={x + L / 2} y={y + L * 0.85} textAnchor="middle" dominantBaseline="central"
+          fontSize={Math.min(L * 0.24, L * 1.55 / String(c.legenda).length)}
+          fontWeight="900" fill="#1B2A6B">{c.legenda}</text>
+      )}
+    </g>
+  );
+}
+
+/* A imagem inteira, do tamanho que mandarem. Bandeira é arquivo, arte e
+   cartaz são SVG, e as três esticam para o retângulo do tabuleiro sem tarja
+   branca. */
 function ImagemDoQuebra({ fonte }) {
   if (fonte.tipo === "flag")
     return <img src={flagUrl(fonte.code)} alt="" draggable={false}
       style={{ width: "100%", height: "100%", objectFit: "fill", display: "block" }} />;
+  if (fonte.tipo === "cartaz") {
+    const L = 100;
+    return (
+      <svg viewBox={`0 0 ${fonte.ec * L} ${fonte.er * L}`} preserveAspectRatio="none" aria-hidden="true"
+        style={{ width: "100%", height: "100%", display: "block" }}>
+        {fonte.celulas.map((c, i) => (
+          <QuadroDoCartaz key={i} c={c} L={L} x={(i % fonte.ec) * L} y={Math.floor(i / fonte.ec) * L} />
+        ))}
+      </svg>
+    );
+  }
   /* O branco por baixo não é enfeite: sem ele o desenho fica transparente, e
      na bandejinha a peça vira um risco solto no fundo roxo, sem forma que a
      criança consiga pegar com o olho. */
