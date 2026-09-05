@@ -16,6 +16,7 @@ import { iniciarVozes, temVoz, falar, parar as pararVoz, falando, textoDaPergunt
 import { temSom, tocar as tocarSom, parar as pararSom } from "./lib/som.js";
 import { PALAVRAS, ALFABETO, DIGRAFOS_INICIAIS } from "./data/palavras.js";
 import { montarRodadaPalavras, estrelasDaPalavra, QUANTAS_PALAVRAS } from "./lib/alfabetizacao.js";
+import { guardarErro, acertouNaRevisao, errouNaRevisao, aRevisar, ondeEstaDevendo, chaveDaPergunta } from "./lib/revisao.js";
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
 import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
@@ -271,6 +272,9 @@ const ECON = {
   hint1: 8, hint2: 20, hint3: 80,
   reward: { 1: 25, 2: 45, 3: 65 },  // por estrela, +5 extra se não usar dica
   memReward: { 1: 10, 2: 25, 3: 50 },
+  /* Cada erro consertado na revisão paga pouco, e não pode ser fábrica de
+     moeda: a pergunta sai da fila quando é aprendida. */
+  revisaoReward: 4,
   /* O responsável ganha 100 lumicoins por semana para dar de presente a
      quem quiser. Não é para ele gastar: é o motivo de ele abrir o app,
      olhar como os filhos estão indo e escolher quem premiar. O dinheiro
@@ -794,6 +798,9 @@ function AppInterno() {
      aprender a ler não é corrida. */
   const [palBest, setPalBest] = useState({});
   const [pal, setPal] = useState(null);
+  /* A memória do erro: as perguntas que a criança errou, para voltarem em 1,
+     3, 7 e 21 dias. É o que faz o conteúdo que já existe render o dobro. */
+  const [revisao, setRevisao] = useState([]);
   const [gerados, setGerados] = useState([]);
   const [jogosAbertos, setJogosAbertos] = useState(JOGOS_GRATIS);
   const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
@@ -897,7 +904,7 @@ function AppInterno() {
 
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
-    stars: {}, records: {}, memBest: {}, pzlBest: {}, palBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
+    stars: {}, records: {}, memBest: {}, pzlBest: {}, palBest: {}, revisao: [], gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
     presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "", voz: null,
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
@@ -927,6 +934,7 @@ function AppInterno() {
     setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(migrarMemBest(d.memBest, DIFFS));
     setPzlBest(d.pzlBest || {});
     setPalBest(d.palBest || {});
+    setRevisao(Array.isArray(d.revisao) ? d.revisao : []);
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
     setGerados(d.gerados || []);
     setJogosAbertos([...new Set([...jogosGratisPara(ehLeitor(perfil)), ...(d.jogosAbertos || [])])]);
@@ -1156,6 +1164,46 @@ function AppInterno() {
     registrarSemana({ quebras: 1, estrelas: st, lumicoins: reward });
     setPzl(q => ({ ...q, done: true, seg, st, reward, recorde }));
     setScreen("pzlResult");
+  }
+
+  /* ----- revisar os erros -----
+     De graça, sempre: cobrar da criança para ela consertar o que errou seria
+     o avesso do que este app quer ser. */
+  const paraRevisar = aRevisar(revisao, diaISO(), 10);
+
+  function comecarRevisao() {
+    if (!paraRevisar.length) return;
+    setRound({
+      cont: "revisao", diff: "medium", stage: 0, time: null, t0: Date.now(),
+      qs: paraRevisar.map(x => x.q), chaves: paraRevisar.map(x => x.chave),
+      i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, bestStreak: 0,
+      flash: 0, islandRight: 0, subRight: 0, errou: [],
+    });
+    setScreen("game");
+  }
+
+  /* Fim da revisão: não mexe em fase, estrela nem recorde — é conserto, não
+     conquista. O que ela mexe é no calendário de cada pergunta. */
+  function fimRevisao(r) {
+    const hoje = diaISO();
+    let lista = revisao;
+    let aprendidas = 0;
+    r.chaves.forEach((chave, k) => {
+      const errouEsta = (r.errou || []).some(q => q === r.qs[k]);
+      if (errouEsta) { lista = errouNaRevisao(lista, chave, hoje); return; }
+      const passo = acertouNaRevisao(lista, chave, hoje);
+      lista = passo.lista;
+      if (passo.aprendida) aprendidas++;
+    });
+    setRevisao(lista);
+    const premio = r.right * ECON.revisaoReward;
+    if (premio) {
+      setCoins(c => Math.min(ECON.cap, c + premio));
+      setStats(x => ({ ...x, earned: x.earned + premio, revisadas: (x.revisadas || 0) + r.right }));
+      registrarSemana({ lumicoins: premio, revisadas: r.right });
+    }
+    setRound({ ...r, pct: Math.round((r.right / r.qs.length) * 100), st: 0, reward: premio, aprendidas });
+    setScreen("revisaoResult");
   }
 
   /* ----- monta a palavra ----- */
@@ -1485,7 +1533,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1497,7 +1545,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
 
   /* A lista de vozes chega vazia na primeira pergunta em quase todo
      navegador, e só depois o aparelho avisa que carregou. */
@@ -1631,6 +1679,14 @@ function AppInterno() {
 
   function finishRound(r) {
     if (r.duo) { fimDuelo(r); return; }
+    if (r.cont === "revisao") { fimRevisao(r); return; }
+    /* O que ela errou entra na fila de revisão. É aqui, e não na tela do
+       jogo, porque só o save do perfil pode guardar. */
+    if (r.errou?.length) {
+      let lista = revisao;
+      for (const q of r.errou) lista = guardarErro(lista, r.cont, q, diaISO());
+      setRevisao(lista);
+    }
     const pct = Math.round((r.right / r.qs.length) * 100);
     // As estrelas contam ERROS, não porcentagem: numa rodada de 5 perguntas
     // a régua de porcentagem pula de 80% para 100% e as 2 estrelas somem.
@@ -1905,6 +1961,7 @@ function AppInterno() {
           voz, setVoz, vozOk, som, trocarSom, somOk: temSom() }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, lang, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
+          quantasRevisar: paraRevisar.length, revisar: comecarRevisao,
           momento, setMomento, momentoFeitoHoje, voz: voz && vozOk,
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
@@ -1929,6 +1986,9 @@ function AppInterno() {
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen,
           voz: voz && vozOk, fracaoTempo,
           onQuit: () => { setRound(null); setScreen("stages"); } }} />}
+        {screen === "revisaoResult" && round && (
+          <PlacarDaRevisao {...{ t, round, aoSair: () => setScreen("home") }} />
+        )}
         {screen === "result" && round?.duo && (
           <Placar {...{ t, jogadores: [{ name: player.name, avatar: player.avatar }, ...round.duo],
             pontos: round.pontos, vencedor: round.vencedor, reward: round.reward,
@@ -4597,6 +4657,31 @@ function elogio(t, st) {
   return frases[Math.floor(Math.random() * frases.length)];
 }
 
+/* O fim de uma revisão. Sem estrela e sem fase: consertar o que se errou não
+   é conquista nova, é a mesma conquista ficando de pé. O que se conta é
+   quantas voltaram certas — e quantas saíram da fila para sempre. */
+function PlacarDaRevisao({ t, round, aoSair }) {
+  const [frase] = useState(() => elogio(t, round.right === round.qs.length ? 3 : round.right ? 1 : 0));
+  return (
+    <div className="narrow" style={{ paddingTop: 20 }}>
+      <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
+        <div style={{ fontSize: 54 }}>🔁</div>
+        <div className="display" style={{ fontSize: 26, color: "#1B2A6B" }}>{frase}</div>
+        <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, margin: "10px 0 4px" }}>
+          {t.reviewDone.replace("{n}", `${round.right}/${round.qs.length}`)}
+        </div>
+        {!!round.aprendidas && (
+          <div style={{ color: "#00B894", fontWeight: 900, fontSize: 13, marginBottom: 4 }}>
+            🎓 {t.reviewLearned.replace("{n}", round.aprendidas)}
+          </div>
+        )}
+        <div className="display" style={{ fontSize: 22, color: "#F9A826", margin: "10px 0 16px" }}>🪙 {round.reward}</div>
+        <Btn full color="#8B93AD" onClick={aoSair} rotulo={t.a11yBack}>←</Btn>
+      </div>
+    </div>
+  );
+}
+
 /* O fim de uma partida contra o relógio. Memória e quebra-cabeça acabam com a
    mesma pergunta — quantas estrelas, em quanto tempo, quanto rendeu —, então
    acabam na mesma tela. */
@@ -5071,6 +5156,34 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
         </div>
       )}
 
+      {/* Onde o filho está devendo. Sai de graça da fila de revisão, e é a
+          resposta à pergunta que o responsável realmente tem — não "quanto ele
+          jogou", mas "no que ele precisa de mim". Não é lista de vergonha: é
+          onde ajudar, e some sozinha quando a criança aprende. */}
+      {(() => {
+        const devendo = ondeEstaDevendo(save?.revisao);
+        if (!devendo.length) return null;
+        return (
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, letterSpacing: .5, marginBottom: 6 }}>
+              {t.owing.toUpperCase()}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+              {devendo.map(x => (
+                <div key={x.cont} style={{ display: "flex", alignItems: "center", gap: 8,
+                  background: "#FFF4E0", borderRadius: 10, padding: "7px 10px" }}>
+                  <div style={{ flex: 1, color: "#6B4E00", fontWeight: 800, fontSize: 12,
+                    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {nomeDaTrilha(x.cont, t)}
+                  </div>
+                  <div className="display" style={{ color: "#B07000", fontSize: 15 }}>{x.vezes}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
+
       {!!(save?.gallery?.length) && (
         <div style={{ marginBottom: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
@@ -5408,12 +5521,32 @@ function LangGame({ t, lang, escolher, setScreen }) {
 }
 
 /* ---------- Home do hub ---------- */
-function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz }) {
+function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz, quantasRevisar, revisar }) {
   return (
     <div>
       <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill}
         onAvatar={() => setScreen("player")} onSwitch={() => setScreen("profiles")} quantos={profiles?.length || 1}
         podeResgatar={podeResgatar} resgatar={resgatar} />
+
+      {/* O que ela errou, de volta. Fica antes dos jogos porque é a coisa que
+          mais ensina no app — e é de graça: cobrar da criança para consertar
+          o próprio erro seria o avesso do que este app quer ser. */}
+      {!!quantasRevisar && (
+        <button onClick={revisar} className="card pop"
+          style={{ border: "none", width: "100%", textAlign: "left", cursor: "pointer",
+            padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ fontSize: 34 }}>🔁</div>
+          <div style={{ flex: 1 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.reviewTitle}</div>
+            <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>
+              {t.reviewHint.replace("{n}", quantasRevisar)}
+            </div>
+          </div>
+          <div style={{ background: "#00B894", color: "#fff", borderRadius: 999, padding: "6px 13px", fontWeight: 900 }}>
+            {quantasRevisar}
+          </div>
+        </button>
+      )}
 
       {podeResgatar && (
         <div className="card pop" style={{ padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
@@ -5825,6 +5958,9 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
         ...(duo ? { pontos: round.pontos.map((v, k) => v + (ok && k === vez ? 1 : 0)) } : null),
         i: round.i + 1,
         right: round.right + (ok ? 1 : 0),
+        // A pergunta errada viaja junto com a rodada até o fim, onde o save
+        // a guarda para voltar daqui a um dia.
+        errou: ok ? (round.errou || []) : [...(round.errou || []), q],
         flash: round.flash + (fast ? 1 : 0),
         islandRight: round.islandRight + (ok && q.flag && !q.sub && ISLANDS.has(q.flag.toUpperCase()) ? 1 : 0),
         subRight: round.subRight + (ok && q.sub ? 1 : 0),
