@@ -94,7 +94,9 @@ São **15 jogos em 6 áreas**.
 | 🌍 Geografia | Curiosidades do Mundo | 235 lugares reais: em que país, cidade, mar ou continente |
 | 🌍 Geografia | Quebra-cabeça do Mundo | monta a bandeira peça por peça, de 4 a 24 peças |
 | 🔢 Matemática | Contas e Números | soma a decimais, até 5º ano |
+| 🔢 Matemática | Quebra-cabeça dos Números | monta um cartaz de quantidades: conta as figuras, acha o número |
 | 🦁 Natureza | Memória dos Animais | 50 animais |
+| 🦁 Natureza | Quebra-cabeça dos Animais | monta um cartaz de bichos |
 | 🦁 Natureza | Quiz dos Animais | classes, habitat, características |
 | 🦁 Natureza | Curiosidades dos Animais | 400 perguntas de 94 animais: grupo, dieta, casa, nascimento |
 | 🎨 Arte | Pintar e Colorir | 58 desenhos + gerador infinito |
@@ -103,8 +105,10 @@ São **15 jogos em 6 áreas**.
 | 🎨 Arte | Quebra-cabeça de Arte | monta **o desenho que a própria criança pintou** |
 | 🔤 Idiomas | Palavras do Mundo | 45 palavras em 6 idiomas, escolhe qual aprender |
 | 🔤 Idiomas | Memória de Palavras | casa figura com a palavra no idioma escolhido |
+| 🔤 Idiomas | Quebra-cabeça de Palavras | monta um cartaz de figura e palavra, no idioma do app |
 | ✝️ Fé e Bíblia | Quiz da Bíblia | 2000+ perguntas por idioma, em 100 fases |
 | ✝️ Fé e Bíblia | Memória da Bíblia | símbolos bíblicos |
+| ✝️ Fé e Bíblia | Quebra-cabeça da Bíblia | monta um cartaz de símbolos bíblicos |
 
 O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe o país entre quatro opções.
 
@@ -474,7 +478,10 @@ No cartão do responsável, a coluna 👥 conta as partidas em grupo da semana.
 ### Quebra-cabeça
 
 Arrastar e soltar, sem uma palavra na tela. É o jogo mais completo do hub para
-quem ainda não lê — e por isso nasce aberto para as crianças pequenas.
+quem ainda não lê — e por isso nasce aberto para as crianças pequenas, **um em
+cada uma das seis áreas**, sempre no começo da fila da área: deixá-lo no fim
+significaria a criança pequena ter que comprar os jogos de leitura antes de
+chegar no dela.
 
 | Nível | Fácil | Médio | Difícil | Gênio | Mestre | Lenda |
 |---|---|---|---|---|---|---|
@@ -485,6 +492,14 @@ entre os continentes que ela abriu. No de Arte, **um desenho que ela mesma
 pintou** — e é isso que nenhum app de loja consegue fazer, porque nenhum deles
 tem o desenho dela. Enquanto ela não pintou nada, o desenho vem colorido por
 nós: quebra-cabeça branco não tem como ser montado.
+
+Nas outras quatro áreas a imagem é um **cartaz quadriculado**, uma figura em
+cada quadrado, cada quadrado de uma cor: bichos, símbolos bíblicos, figura com
+a palavra no idioma do app, ou quantidades para contar com o número embaixo.
+Uma figura só, esticada no tabuleiro, não daria quebra-cabeça — em 24 pedaços
+vira mancha, e as peças do fundo ficam todas iguais. O cartaz cresce com o
+nível, e **nunca no mesmo passo do corte**: são contas diferentes de propósito,
+para a peça não cair certinha em cima de uma figura só.
 
 **As peças têm encaixe de verdade**, com dente e buraco, sorteados a cada
 partida. Não é enfeite: numa bandeira de duas cores, seis peças quadradas
@@ -794,7 +809,7 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          a interface inteira: ~45 componentes, nenhum dado (5.631 linhas)
+  App.jsx          a interface inteira: ~47 componentes, nenhum dado (5.729 linhas)
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
