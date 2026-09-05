@@ -1009,9 +1009,10 @@ O que ele **não** faz é ensinar uma criança brasileira a ler a própria líng
 e é justamente o conteúdo dos 4 aos 7 anos. Esta é a etapa em curso, e cada
 item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educacional-por-princípios) ele serve**.
 
-- [ ] **Testar a voz do aparelho com letras e sílabas** — decide o desenho de tudo que vem depois: o `speechSynthesis` lê o *nome* da letra ("bê"), não o *som* dela, e sílaba solta pode sair torta conforme a voz instalada
+- [x] **Testar a voz do aparelho com letras e sílabas** — feito, e decidiu o resto: a voz do aparelho lê **frases e palavras muito bem**, diz o **nome** da letra e não o som, e **soletra sílaba solta**. Escrever com acento (`bá`) faz ela falar, mas só nas vogais a, e, o — `bí` e `bú` continuam soletrados. Conclusão e consequências na [ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md)
 - [ ] **Memória de erro e revisão espaçada** *(Raciocinar)* — hoje o app guarda estrelas por fase, não guarda **qual** pergunta a criança errou, e nunca a traz de volta. É o que faz o conteúdo que já existe render o dobro
-- [ ] **Área 📚 Ler e Escrever** *(Pesquisar → Registrar)* — som das letras, rimas, famílias silábicas, montar a palavra arrastando sílabas, ditado falado pelo Lumus. O motor de arrastar do quebra-cabeça serve inteiro
+- [ ] **Área 📚 Ler e Escrever, primeira versão** *(Pesquisar → Registrar)* — montar a palavra arrastando sílabas, que letra começa, rimas e ditado. Todos usam **palavra inteira** falada pelo aparelho, que funciona bem — e por isso esta versão **não espera a gravação**. O motor de arrastar do quebra-cabeça serve inteiro
+- [ ] **Gravar os sons das letras e as famílias silábicas** — cerca de 130 áudios curtos (~400 KB), na voz do pai e da mãe. Desbloqueia a cartilha silábica, que a voz sintetizada não sustenta ([ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md))
 - [ ] **Ficha do responsável dizendo o que o filho sabe** *(Relacionar)* — hoje ela conta quanto ele jogou; deveria dizer "sílabas simples ok, erra ss/ç, tabuada do 7 fraca". Sai de graça da memória de erro
 - [ ] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — hoje é uma trilha só; falta o que a escola cobra
 - [ ] **Trilha do ano escolar** *(Relacionar)* — o app se organiza por dificuldade e por moeda; a escola se organiza por ano. Conteúdo de escola não deve ser trancado por lumicoin
