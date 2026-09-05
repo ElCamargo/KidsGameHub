@@ -17,6 +17,7 @@ import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib
 import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
 import { MAX_JOGADORES, vencedorDe, perguntasParaTodos } from "./lib/turma.js";
+import { GRADES, pecasDe, estrelasDo, totalDePecas, buracoMaisPerto, SALIENCIA, sortearBordas, caminhoDaPeca } from "./lib/quebracabeca.js";
 
 /* ============================================================
    LUMUS — Kids Game Hub
@@ -92,6 +93,7 @@ const CATALOG = [
       { id: "memory", icon: "🧠", color: "#4C6FFF", preco: 150, leitura: false, ready: true },
       { id: "capitals", icon: "🏛️", color: "#6A5AE0", preco: 500, leitura: true, ready: true },
       { id: "curiosidades", icon: "🗺️", color: "#00C2CB", preco: 800, leitura: true, ready: true },
+      { id: "puzzle", icon: "🧩", color: "#F9A826", preco: 200, leitura: false, ready: true },
   ]},
   { id: "math", icon: "🔢", color: "#F9A826", games: [
       { id: "count", icon: "🧮", color: "#F9A826", preco: 0, leitura: false, ready: true },
@@ -105,6 +107,7 @@ const CATALOG = [
       { id: "color", icon: "🖍️", color: "#E84393", preco: 0, leitura: false, ready: true },
       { id: "colors", icon: "🌈", color: "#F9A826", preco: 200, leitura: true, vozBasta: true, ready: true },
       { id: "artMem", icon: "🧩", color: "#9B59B6", preco: 500, leitura: false, ready: true },
+      { id: "artPuzzle", icon: "🖼️", color: "#00C2CB", preco: 400, leitura: false, ready: true },
   ]},
   { id: "eng", icon: "🔤", color: "#4C6FFF", games: [
       { id: "words", icon: "🔤", color: "#4C6FFF", preco: 0, leitura: true, ready: true },
@@ -159,6 +162,7 @@ const PRECO_GERAR = 100;   // 9 desenhos novos no jogo de pintar
      Difícil 3 fases × 55          = 165  →  Gênio  custa 300 (exige repetir)   */
 const BAND_PRECO = { easy: 0, medium: 200, hard: 250, genius: 300, mestre: 400, lenda: 500 };
 const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200, mestre: 400, lenda: 700 };   // ~3 a 5 rodadas boas cada
+const PZL_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre: 400, lenda: 600 };   // sobe com o número de peças
 const CAP_PRECO  = {                                                    // regiões das capitais
   cap_br: 0, cap_sa: 100, cap_na: 150, cap_eu: 250,
   cap_af: 350, cap_as: 450, cap_oc: 550, cap_us: 700,
@@ -331,6 +335,7 @@ const CONQ_CATS = [
   { id: "lang",   icon: "🔤", pt: "Idiomas",    en: "Languages",  es: "Idiomas" },
   { id: "bible",  icon: "✝️", pt: "Bíblia",     en: "Bible",      es: "Biblia" },
   { id: "mem",    icon: "🧠", pt: "Memória",    en: "Memory",     es: "Memoria" },
+  { id: "pzl",    icon: "🧩", pt: "Quebra-cabeça", en: "Puzzle",  es: "Rompecabezas" },
   { id: "habit",  icon: "📅", pt: "Dedicação",  en: "Dedication", es: "Constancia" },
 ];
 
@@ -412,6 +417,11 @@ const ACHIEVEMENTS = [
   { id: "mem1", cat: "mem", n: 1, icon: "🃏", pt: "Primeira memória", en: "First memory game", es: "Primera memoria", test: s => s.memRounds >= 1 },
   { id: "mem3s", cat: "mem", n: 2, icon: "🧩", pt: "3 estrelas na memória", en: "3 stars in memory", es: "3 estrellas en memoria", test: s => s.mem3 >= 1 },
   { id: "memPerf", cat: "mem", n: 3, icon: "🎴", pt: "Memória sem errar par", en: "Memory with no wasted move", es: "Memoria sin fallar", test: s => s.memPerfect >= 1 },
+
+  /* --- quebra-cabeça --- */
+  { id: "pzl1", cat: "pzl", n: 1, icon: "🧩", pt: "Primeiro quebra-cabeça", en: "First puzzle", es: "Primer rompecabezas", test: s => (s.pzlRounds || 0) >= 1 },
+  { id: "pzl3s", cat: "pzl", n: 2, icon: "🏆", pt: "3 estrelas num quebra-cabeça", en: "3 stars in a puzzle", es: "3 estrellas en un rompecabezas", test: s => (s.pzl3 || 0) >= 1 },
+  { id: "pzl20", cat: "pzl", n: 3, icon: "🖼️", pt: "20 quebra-cabeças", en: "20 puzzles", es: "20 rompecabezas", test: s => (s.pzlRounds || 0) >= 20 },
 
   /* --- dedicação --- */
   { id: "day3", cat: "habit", n: 1, icon: "📅", pt: "3 dias seguidos jogando", en: "3 days in a row", es: "3 días seguidos", test: s => s.dayStreak >= 3 },
@@ -735,12 +745,13 @@ function AppInterno() {
   const [stars, setStars] = useState({});     // {continente: {fase: 1..3}}
   const [records, setRecords] = useState({}); // {continente: {fase: segundos}}
   const [memBest, setMemBest] = useState({}); // {nivel: {stars, time}}
+  const [pzlBest, setPzlBest] = useState({}); // {tema:nivel: {stars, time}}
   const [stats, setStats] = useState({
     rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
     noHintRounds: 0, geniusCleared: 0, continents: 1,
     flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
     contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0, pzlRounds: 0, pzl3: 0,
   });
   const [seenAch, setSeenAch] = useState([]);
   const [toast, setToast] = useState(null);
@@ -756,6 +767,11 @@ function AppInterno() {
   const [colorDay, setColorDay] = useState({ dia: "", moedas: 0 });
   const [pintando, setPintando] = useState(null);
   const [memTema, setMemTema] = useState("flags");
+  /* Quebra-cabeça: o tema escolhido no hub ("flags" ou "art") e a partida
+     que está de pé. A imagem vai dentro da partida — bandeira sorteada ou
+     desenho que a criança pintou —, e não é sorteada de novo a cada quadro. */
+  const [pzlTema, setPzlTema] = useState("flags");
+  const [pzl, setPzl] = useState(null);
   const [gerados, setGerados] = useState([]);
   const [jogosAbertos, setJogosAbertos] = useState(JOGOS_GRATIS);
   const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
@@ -847,14 +863,14 @@ function AppInterno() {
 
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
-    stars: {}, records: {}, memBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
+    stars: {}, records: {}, memBest: {}, pzlBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
     presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "", voz: null,
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
       flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
       contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0,
+      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0, pzlRounds: 0, pzl3: 0,
     },
   });
 
@@ -875,6 +891,7 @@ function AppInterno() {
     setProgress(oldFmt ? {} : (d.progress || {}));
     setOwned(d.owned || []); setStats(d.stats); setSeenAch(d.seenAch || []);
     setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(migrarMemBest(d.memBest, DIFFS));
+    setPzlBest(d.pzlBest || {});
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
     setGerados(d.gerados || []);
     setJogosAbertos([...new Set([...jogosGratisPara(ehLeitor(perfil)), ...(d.jogosAbertos || [])])]);
@@ -1026,8 +1043,8 @@ function AppInterno() {
       ...b,
       [chave]: { stars: Math.max(antes?.stars || 0, st), time: recorde ? seg : antes.time },
     }));
-    const today = new Date().toISOString().slice(0, 10);
-    const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+    const today = diaISO();
+    const yest = diaISO(new Date(Date.now() - 864e5));
     setStats(x => ({
       ...x,
       earned: x.earned + reward,
@@ -1041,6 +1058,65 @@ function AppInterno() {
     registrarSemana({ memorias: 1, estrelas: st, lumicoins: reward });
     setMem(m => ({ ...m, done: true, seg, jogadas, st, reward, recorde }));
     setScreen("memResult");
+  }
+
+  /* ----- quebra-cabeça -----
+     A imagem sai do que a criança já tem: bandeira dos continentes que ela
+     abriu, ou desenho que ela mesma pintou. Nada baixado, nada de fora. */
+  function fonteDoQuebra(tema) {
+    if (tema === "flags") {
+      const codes = [...new Set(unlocked.flatMap(c => Object.keys(DATA[c])))];
+      if (!codes.length) return null;
+      return { tipo: "flag", code: shuffle(codes)[0], prop: 4 / 3 };
+    }
+    /* Arte: primeiro o que ela pintou. Se ainda não pintou nada, um desenho
+       colorido por nós — quebra-cabeça branco não tem como ser montado. */
+    const salvo = gallery.length ? gallery[Math.floor(Math.random() * gallery.length)] : null;
+    const art = salvo ? acharArte(salvo.id) : DESENHOS[Math.floor(Math.random() * DESENHOS.length)];
+    if (!art) return null;
+    const [, , vw, vh] = art.vb.split(" ").map(Number);
+    return { tipo: "arte", art, fills: salvo ? salvo.fills : coresDeFabrica(art), prop: vw / vh };
+  }
+
+  function comecarQuebra(nivel, tema = pzlTema) {
+    const custo = custoDoQuebra(pzlBest, tema, nivel);
+    if (coins < custo) { setToast(t.notEnough); return; }
+    const fonte = fonteDoQuebra(tema);
+    if (!fonte) { setToast("🧩"); return; }
+    if (custo) setCoins(c => c - custo);
+    // A ordem da bandejinha é sorteada uma vez, aqui: se fosse sorteada na
+    // tela, as peças dançariam de lugar a cada encaixe.
+    // As bordas de encaixe também são sorteadas aqui: se fossem sorteadas na
+    // tela, a peça mudaria de formato a cada quadro.
+    setPzl({ nivel, tema, fonte, bordas: sortearBordas(nivel), ordem: shuffle(pecasDe(nivel).map(x => x.i)) });
+    setScreen("pzl");
+  }
+
+  function fimQuebra(seg) {
+    const st = estrelasDo(pzl.nivel, seg);
+    const reward = st ? ECON.memReward[st] : 0;
+    setCoins(c => Math.min(ECON.cap, c + reward));
+    const chave = `${pzl.tema}:${pzl.nivel}`;
+    const antes = pzlBest[chave];
+    const recorde = !antes || seg < antes.time;
+    setPzlBest(b => ({
+      ...b,
+      [chave]: { stars: Math.max(antes?.stars || 0, st), time: recorde ? seg : antes.time },
+    }));
+    const today = diaISO();
+    const yest = diaISO(new Date(Date.now() - 864e5));
+    setStats(x => ({
+      ...x,
+      earned: x.earned + reward,
+      pzlRounds: (x.pzlRounds || 0) + 1,
+      pzl3: (x.pzl3 || 0) + (st === 3 ? 1 : 0),
+      maxCoins: Math.max(x.maxCoins, Math.min(ECON.cap, coins + reward)),
+      dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
+      lastDay: today,
+    }));
+    registrarSemana({ quebras: 1, estrelas: st, lumicoins: reward });
+    setPzl(q => ({ ...q, done: true, seg, st, reward, recorde }));
+    setScreen("pzlResult");
   }
 
   /* ----- colorir ----- */
@@ -1332,7 +1408,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1344,7 +1420,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
 
   /* A lista de vozes chega vazia na primeira pergunta em quase todo
      navegador, e só depois o aparelho avisa que carregou. */
@@ -1482,8 +1558,8 @@ function AppInterno() {
     let reward = ECON.reward[st] || 0;
     if (r.hintsUsed === 0 && st > 0) reward += 5;
     setCoins(c => Math.min(ECON.cap, c + reward));
-    const today = new Date().toISOString().slice(0, 10);
-    const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+    const today = diaISO();
+    const yest = diaISO(new Date(Date.now() - 864e5));
     const clearedAll = st > 0 && r.stage === totalDe(r.cont);
     setStats(s => ({
       ...s,
@@ -1705,23 +1781,23 @@ function AppInterno() {
             aoSair: () => setScreen("memLevels") }} />
         )}
         {screen === "memResult" && mem && !mem.duo && (
-          <div style={{ paddingTop: 20 }}>
-            <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
-              <div style={{ fontSize: 54 }}>{mem.st === 3 ? "🏆" : mem.st ? "🎉" : "💪"}</div>
-              <div className="display" style={{ fontSize: 26, color: "#1B2A6B" }}>{t.roundOver}</div>
-              <div style={{ display: "flex", justifyContent: "center", gap: 4, margin: "10px 0 6px" }}>
-                {[1, 2, 3].map(i => <span key={i} style={{ fontSize: 34, opacity: mem.st >= i ? 1 : .2 }}>⭐</span>)}
-              </div>
-              <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 14 }}>
-                ⏱️ {tempoFmt(mem.seg)} · {t.moves}: {mem.jogadas}{mem.recorde ? ` · 🏆 ${t.newRecord}` : ""}
-              </div>
-              <div className="display" style={{ fontSize: 22, color: "#F9A826", marginBottom: 16 }}>🪙 {mem.reward}</div>
-              <div style={{ display: "grid", gap: 9 }}>
-                <Btn full color="#4C6FFF" onClick={() => comecarMemoria(mem.nivel, mem.tema)} disabled={coins < custoDaMemoria(memBest, mem.tema, mem.nivel)}>{t.again}</Btn>
-                <Btn full color="#8B93AD" onClick={() => setScreen("memLevels")} rotulo={t.a11yBack}>←</Btn>
-              </div>
-            </div>
-          </div>
+          <PlacarDeTempo {...{ t, st: mem.st, reward: mem.reward, recorde: mem.recorde,
+            linha: `⏱️ ${tempoFmt(mem.seg)} · ${t.moves}: ${mem.jogadas}`,
+            aoRepetir: () => comecarMemoria(mem.nivel, mem.tema),
+            repetirBloqueado: coins < custoDaMemoria(memBest, mem.tema, mem.nivel),
+            aoSair: () => setScreen("memLevels") }} />
+        )}
+        {screen === "pzlLevels" && <PuzzleLevels {...{ t, coins, pzlBest, setScreen, comecar: comecarQuebra, tema: pzlTema,
+          titulo: pzlTema === "flags" ? t.games.puzzle : t.games.artPuzzle,
+          icone: pzlTema === "flags" ? "🧩" : "🖼️", temSecao, comprarSecao }} />}
+        {screen === "pzl" && pzl && <PuzzleGame {...{ t, nivel: pzl.nivel, fonte: pzl.fonte, ordem: pzl.ordem, bordas: pzl.bordas,
+          onFinish: fimQuebra, onQuit: () => setScreen("pzlLevels") }} />}
+        {screen === "pzlResult" && pzl && (
+          <PlacarDeTempo {...{ t, st: pzl.st, reward: pzl.reward, recorde: pzl.recorde,
+            linha: `⏱️ ${tempoFmt(pzl.seg)} · ${t.pieces}: ${totalDePecas(pzl.nivel)}`,
+            aoRepetir: () => comecarQuebra(pzl.nivel, pzl.tema),
+            repetirBloqueado: coins < custoDoQuebra(pzlBest, pzl.tema, pzl.nivel),
+            aoSair: () => setScreen("pzlLevels") }} />
         )}
         {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje }} />}
         {screen === "caderno" && <CadernoScreen {...{ t, lang, caderno, setScreen, voltar: voltaPara,
@@ -1743,6 +1819,7 @@ function AppInterno() {
             if (g === "capitals") { setScreen("capMap"); return; }
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
             if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
+            if (g === "puzzle" || g === "artPuzzle") { setPzlTema(g === "puzzle" ? "flags" : "art"); setScreen("pzlLevels"); return; }
             if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
             if (quizzes[g]) {
               const k = quizzes[g];
@@ -2158,7 +2235,7 @@ function diaCurto(iso, lang) {
   catch { return iso; }
 }
 
-const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0 };
+const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, quebras: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0 };
 
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
@@ -2171,6 +2248,10 @@ const custoDaFase = (stars, cont, stage) =>
 /* Na memória a "fase" é o próprio nível, e o recorde guarda as estrelas. */
 const custoDaMemoria = (memBest, tema, nivel) =>
   (memBest?.[`${tema}:${nivel}`]?.stars || 0) >= 3 ? 0 : CUSTO_FAIXA[nivel];
+/* No quebra-cabeça a regra é a mesma: montado com as três estrelas, monta de
+   novo de graça. Repetir a imagem que já se domina é treino, não conquista. */
+const custoDoQuebra = (pzlBest, tema, nivel) =>
+  (pzlBest?.[`${tema}:${nivel}`]?.stars || 0) >= 3 ? 0 : CUSTO_FAIXA[nivel];
 
 const memEstrelas = (nivel, seg) => {
   const [um, dois, tres] = MEM_LEVELS[nivel].estrelas;
@@ -3625,6 +3706,353 @@ function Placar({ t, jogadores, pontos, vencedor, reward, rodape, aoRepetir, aoS
   );
 }
 
+/* ---------- Quebra-cabeça ----------
+   Arrastar com Pointer Events: o mesmo código serve dedo e mouse, e é por
+   isso que não entrou nenhuma biblioteca de arrastar-e-soltar no projeto.
+
+   Duas formas de jogar, porque dedo de criança de quatro anos erra o alvo:
+   arrastar a peça até o lugar, ou tocar na peça e depois tocar no lugar. A
+   segunda salva quem ainda não tem firmeza na mão — e é a única que funciona
+   para quem navega por teclado ou toque assistido. */
+
+const CORES_AUTO = PALETA.filter(c => c !== "#FFFFFF");
+
+/* Desenho que ninguém pintou é branco, e peça branca é igual a peça branca.
+   Então pintamos por conta — sempre igual para o mesmo desenho, para a
+   imagem não mudar no meio da partida. */
+const coresDeFabrica = art =>
+  Object.fromEntries(art.areas.map((_, i) => [i, CORES_AUTO[(i * 7 + art.areas.length) % CORES_AUTO.length]]));
+
+/* A imagem inteira, do tamanho que mandarem. Bandeira é arquivo, arte é SVG,
+   e as duas esticam para o retângulo do tabuleiro sem tarja branca. */
+function ImagemDoQuebra({ fonte }) {
+  if (fonte.tipo === "flag")
+    return <img src={flagUrl(fonte.code)} alt="" draggable={false}
+      style={{ width: "100%", height: "100%", objectFit: "fill", display: "block" }} />;
+  /* O branco por baixo não é enfeite: sem ele o desenho fica transparente, e
+     na bandejinha a peça vira um risco solto no fundo roxo, sem forma que a
+     criança consiga pegar com o olho. */
+  return (
+    <div style={{ width: "100%", height: "100%", background: "#fff" }}>
+      <svg viewBox={fonte.art.vb} preserveAspectRatio="none" aria-hidden="true"
+        style={{ width: "100%", height: "100%", display: "block" }}>
+        {fonte.art.areas.map((a, i) => <Peca key={i} a={a} fill={fonte.fills?.[i]} />)}
+      </svg>
+    </div>
+  );
+}
+
+/* Uma peça é uma janela recortada: dentro dela mora a imagem inteira, do
+   tamanho do tabuleiro, deslocada para aparecer só o pedaço daquela peça — e
+   o clipPath corta esse pedaço no formato do encaixe. Ninguém corta imagem
+   nenhuma no build: quem corta é o navegador, e serve arquivo e SVG igual.
+
+   A caixa da peça é maior que a célula, porque o dente sai para fora dela. */
+function PecaDoQuebra({ fonte, p, cols, rows, style }) {
+  const s = SALIENCIA, k = 1 + 2 * s;
+  /* overflow além do clipPath: o recorte é só pintura, e sem ele a imagem
+     inteira que mora dentro da peça continua empurrando a rolagem da página
+     para o lado. */
+  return (
+    <div style={{ ...style, overflow: "hidden", clipPath: `url(#pzl${p.i})` }}>
+      <div style={{
+        position: "absolute",
+        width: `${cols / k * 100}%`, height: `${rows / k * 100}%`,
+        left: `${-(p.col - s) / k * 100}%`, top: `${-(p.row - s) / k * 100}%`,
+      }}>
+        <ImagemDoQuebra fonte={fonte} />
+      </div>
+    </div>
+  );
+}
+
+function PuzzleGame({ t, nivel, fonte, ordem, bordas, onFinish, onQuit }) {
+  const { cols, rows } = GRADES[nivel];
+  const total = totalDePecas(nivel);
+  const pecas = pecasDe(nivel);
+  const sal = SALIENCIA, k = 1 + 2 * sal;
+  /* Onde a peça encaixada se desenha no tabuleiro: a célula dela, alargada
+     para os dois lados, porque os dentes avançam sobre as vizinhas. */
+  const noTabuleiro = x => ({
+    position: "absolute",
+    left: `${(x.col - sal) * 100 / cols}%`, top: `${(x.row - sal) * 100 / rows}%`,
+    width: `${k * 100 / cols}%`, height: `${k * 100 / rows}%`,
+  });
+  const [postas, setPostas] = useState([]);
+  const [seg, setSeg] = useState(0);
+  const [escolhida, setEscolhida] = useState(null);   // peça tocada, esperando o lugar
+  const [arrasto, setArrasto] = useState(null);
+  const [errou, setErrou] = useState(null);
+  const tabuleiro = useRef(null);
+
+  useEffect(() => {
+    const id = setInterval(() => setSeg(x => x + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    // Um respiro antes do placar: a criança montou, ela quer ver montado.
+    if (postas.length === total) {
+      const id = setTimeout(() => onFinish(seg), 900);
+      return () => clearTimeout(id);
+    }
+  }, [postas]);
+
+  /* Os lugares não se mexem, então medir na hora de soltar basta — e poupa
+     guardar uma referência de tela para cada peça. */
+  function lugares() {
+    const r = tabuleiro.current?.getBoundingClientRect();
+    if (!r) return [];
+    const w = r.width / cols, h = r.height / rows;
+    return pecas.map(x => ({ i: x.i, x: r.left + x.col * w, y: r.top + x.row * h, w, h }));
+  }
+
+  function recusar(i) {
+    setErrou(i);
+    setTimeout(() => setErrou(null), 450);
+  }
+
+  function encaixar(i, x, y) {
+    const ls = lugares();
+    if (!ls.length) return;
+    // Tolerância larga: soltou perto, gruda. Dedo de cinco anos erra alvo.
+    const l = buracoMaisPerto(x, y, ls, Math.max(ls[0].w, ls[0].h) * 0.9);
+    if (l && l.i === i) { setPostas(ps => [...ps, i]); setEscolhida(null); }
+    else recusar(i);
+  }
+
+  /* Tocar no lugar: para quem escolheu a peça em vez de arrastar. */
+  function tocarLugar(iLugar) {
+    if (escolhida == null) return;
+    if (escolhida === iLugar) { setPostas(ps => [...ps, escolhida]); setEscolhida(null); }
+    else recusar(escolhida);
+  }
+
+  const propPeca = fonte.prop * rows / cols;                       // largura/altura de UMA peça
+  const altBandeja = total > 16 ? 46 : total > 9 ? 56 : 66;        // peça pequena ainda é dedo
+  const faltam = ordem.filter(i => !postas.includes(i));
+
+  return (
+    <div className="narrow">
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={onQuit} rotulo={t.a11yBack}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{t.levels[nivel]}</div>
+        <div style={{ background: "rgba(255,255,255,.18)", color: "#fff", borderRadius: 999, padding: "6px 14px", fontWeight: 900 }}>
+          ⏱️ {tempoFmt(seg)}
+        </div>
+      </div>
+
+      <div ref={tabuleiro} className="card" style={{
+        position: "relative", width: "100%", aspectRatio: String(fonte.prop),
+        padding: 0, overflow: "hidden", touchAction: "none", marginBottom: 12,
+      }}>
+        {/* O fantasma: a imagem inteira, bem apagada, por baixo. É o que faz
+            uma criança de quatro anos saber para onde vai a peça. Sem ele o
+            quebra-cabeça vira tentativa e erro, que não ensina nada. */}
+        <div style={{ position: "absolute", inset: 0, opacity: .16 }} aria-hidden="true">
+          <ImagemDoQuebra fonte={fonte} />
+        </div>
+        {/* As encaixadas primeiro, soltas do alvo de toque: elas passam por
+            cima da célula das vizinhas, e o alvo de toque não pode passar. */}
+        {postas.map(i => (
+          <PecaDoQuebra key={i} fonte={fonte} p={pecas[i]} cols={cols} rows={rows} style={noTabuleiro(pecas[i])} />
+        ))}
+        {/* Os cortes desenhados por cima do fantasma. Sem eles a criança vê
+            uma mancha e não sabe qual peça está procurando; com eles, ela
+            compara a forma que está na mão com o buraco que está na tela —
+            que é como se monta quebra-cabeça de madeira desde sempre.
+
+            O buraco vazio fica mais forte que a peça já encaixada: o que
+            interessa é o que ainda falta. */}
+        <svg viewBox={`0 0 ${cols} ${rows}`} preserveAspectRatio="none" aria-hidden="true"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
+          {pecas.map(x => {
+            const vazio = !postas.includes(x.i);
+            return (
+              <svg key={x.i} x={x.col - sal} y={x.row - sal} width={k} height={k}
+                viewBox="0 0 1 1" preserveAspectRatio="none">
+                <path d={caminhoDaPeca(nivel, x.i, bordas)} fill="none" vectorEffect="non-scaling-stroke"
+                  stroke={vazio ? `rgba(27,42,107,${escolhida != null ? .7 : .5})` : "rgba(255,255,255,.55)"}
+                  strokeWidth={vazio ? 2 : 1} strokeLinejoin="round" />
+              </svg>
+            );
+          })}
+        </svg>
+        {/* Os alvos de toque, invisíveis: quem desenha o buraco é o contorno. */}
+        {pecas.filter(x => !postas.includes(x.i)).map(x => (
+          <button key={x.i} onClick={() => tocarLugar(x.i)} aria-label={`${t.pieces} ${x.i + 1}`}
+            style={{
+              position: "absolute", padding: 0, border: "none", background: "transparent",
+              left: `${x.col * 100 / cols}%`, top: `${x.row * 100 / rows}%`,
+              width: `${100 / cols}%`, height: `${100 / rows}%`,
+              cursor: escolhida != null ? "pointer" : "default",
+            }} />
+        ))}
+      </div>
+
+      {/* A bandejinha, embaralhada uma vez só */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 7, justifyContent: "center", minHeight: altBandeja }}>
+        {faltam.map(i => (
+          <div key={i} role="button" tabIndex={0} aria-label={`${t.pieces} ${i + 1}`}
+            className={errou === i ? "shake" : ""}
+            onPointerDown={e => {
+              e.currentTarget.setPointerCapture(e.pointerId);
+              const r = e.currentTarget.getBoundingClientRect();
+              setArrasto({
+                i, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY,
+                dx: e.clientX - r.left, dy: e.clientY - r.top, w: r.width, h: r.height, moveu: false,
+              });
+            }}
+            onPointerMove={e => setArrasto(a => a && a.i === i
+              ? { ...a, x: e.clientX, y: e.clientY, moveu: a.moveu || Math.hypot(e.clientX - a.x0, e.clientY - a.y0) > 8 }
+              : a)}
+            onPointerUp={e => {
+              const a = arrasto;
+              setArrasto(null);
+              if (!a || a.i !== i) return;
+              // Arrastou: encaixa onde soltou. Só tocou: escolhe, e o próximo
+              // toque vai no lugar — as duas formas levam ao mesmo lugar.
+              if (a.moveu) encaixar(i, e.clientX, e.clientY);
+              else setEscolhida(v => v === i ? null : i);
+            }}
+            onPointerCancel={() => setArrasto(null)}
+            onKeyDown={e => {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setEscolhida(v => v === i ? null : i); }
+            }}
+            style={{
+              position: "relative", width: altBandeja * propPeca * k, height: altBandeja * k,
+              touchAction: "none", cursor: "grab",
+              /* A sombra tem que seguir o formato da peça, e não a caixa dela:
+                 box-shadow desenharia um retângulo em volta dos dentes. */
+              filter: escolhida === i
+                ? "drop-shadow(0 0 2px #F9A826) drop-shadow(0 0 5px #F9A826)"
+                : "drop-shadow(0 3px 4px rgba(20,25,60,.35))",
+              opacity: arrasto?.i === i && arrasto.moveu ? .25 : 1,
+            }}>
+            <PecaDoQuebra fonte={fonte} p={pecas[i]} cols={cols} rows={rows}
+              style={{ position: "absolute", inset: 0 }} />
+          </div>
+        ))}
+      </div>
+
+      {/* Os recortes. Um clipPath por peça, em coordenadas da própria caixa,
+          para o mesmo desenho servir a peça grande do tabuleiro e a pequena
+          da bandejinha sem ser refeito. */}
+      <svg width="0" height="0" aria-hidden="true" style={{ position: "absolute" }}>
+        <defs>
+          {pecas.map(x => (
+            <clipPath key={x.i} id={`pzl${x.i}`} clipPathUnits="objectBoundingBox">
+              <path d={caminhoDaPeca(nivel, x.i, bordas)} />
+            </clipPath>
+          ))}
+        </defs>
+      </svg>
+
+      {/* A peça que está no dedo, seguindo o dedo */}
+      {arrasto?.moveu && (
+        <div style={{
+          position: "fixed", left: arrasto.x - arrasto.dx, top: arrasto.y - arrasto.dy,
+          width: arrasto.w, height: arrasto.h, pointerEvents: "none", zIndex: 90,
+          transform: "scale(1.15)", filter: "drop-shadow(0 8px 10px rgba(20,25,60,.45))",
+        }}>
+          <PecaDoQuebra fonte={fonte} p={pecas[arrasto.i]} cols={cols} rows={rows}
+            style={{ position: "absolute", inset: 0 }} />
+        </div>
+      )}
+
+      <div style={{ textAlign: "center", color: "#C9D2FF", fontWeight: 800, fontSize: 12, marginTop: 12 }}>
+        {t.pieces}: {postas.length}/{total}
+      </div>
+      <div style={{ textAlign: "center", color: "#A7B3EA", fontWeight: 700, fontSize: 11, marginTop: 6, lineHeight: 1.6 }}>
+        {t.puzzleHow}
+      </div>
+      <div style={{ height: 16 }} />
+    </div>
+  );
+}
+
+/* ---------- Escolha de nível do quebra-cabeça ---------- */
+function PuzzleLevels({ t, coins, pzlBest, setScreen, comecar, tema, titulo, icone, temSecao, comprarSecao }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{icone} {titulo}</div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
+      </div>
+
+      <div className="lista">
+        {DIFFS.map((d, di) => {
+          const g = GRADES[d];
+          const b = pzlBest[`${tema}:${d}`];
+          const chave = `q:${tema}:${d}`;
+          const preco = PZL_PRECO[d];
+          const aberto = !preco || temSecao(chave);
+          const anteriorOk = di === 0 || !PZL_PRECO[DIFFS[di - 1]] || temSecao(`q:${tema}:${DIFFS[di - 1]}`);
+          return (
+            <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12, opacity: aberto || anteriorOk ? 1 : .45 }}>
+              <div style={{ width: 52, height: 52, borderRadius: 16, background: aberto ? BAND_COLOR[d] : "#B9C0CC", display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 13 }}>
+                {aberto ? `${g.cols * g.rows}` : "🔒"}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div className="display" style={{ color: "#1B2A6B", fontSize: 18 }}>{t.levels[d]}</div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
+                  {aberto ? (
+                    <>
+                      {[1, 2, 3].map(i2 => <span key={i2} style={{ opacity: (b?.stars || 0) >= i2 ? 1 : .25 }}>★</span>)}
+                      {b?.time != null && ` · ⏱️ ${tempoFmt(b.time)}`}
+                      {` · ${g.cols}×${g.rows} ${t.pieces.toLowerCase()}`}
+                    </>
+                  ) : anteriorOk ? `${t.unlockFor} 🪙${preco}` : t.needPrev}
+                </div>
+              </div>
+              {aberto ? (
+                <Btn small color={BAND_COLOR[d]}
+                  disabled={coins < custoDoQuebra(pzlBest, tema, d)}
+                  onClick={() => comecar(d, tema)}>
+                  {custoDoQuebra(pzlBest, tema, d) ? `🪙${custoDoQuebra(pzlBest, tema, d)}` : `⭐ ${t.free}`}
+                </Btn>
+              ) : anteriorOk ? (
+                <Btn small color={coins >= preco ? "#E84393" : "#8B93AD"} disabled={coins < preco}
+                  onClick={() => comprarSecao(chave, preco)}>🔓 🪙{preco}</Btn>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, textAlign: "center", lineHeight: 1.7 }}>
+        ⭐ {t.memStarsHint}
+      </div>
+      <div style={{ height: 16 }} />
+    </div>
+  );
+}
+
+/* O fim de uma partida contra o relógio. Memória e quebra-cabeça acabam com a
+   mesma pergunta — quantas estrelas, em quanto tempo, quanto rendeu —, então
+   acabam na mesma tela. */
+function PlacarDeTempo({ t, st, reward, recorde, linha, aoRepetir, repetirBloqueado, aoSair }) {
+  return (
+    <div style={{ paddingTop: 20 }}>
+      <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
+        <div style={{ fontSize: 54 }}>{st === 3 ? "🏆" : st ? "🎉" : "💪"}</div>
+        <div className="display" style={{ fontSize: 26, color: "#1B2A6B" }}>{t.roundOver}</div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 4, margin: "10px 0 6px" }}>
+          {[1, 2, 3].map(i => <span key={i} style={{ fontSize: 34, opacity: st >= i ? 1 : .2 }}>⭐</span>)}
+        </div>
+        <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 14 }}>
+          {linha}{recorde ? ` · 🏆 ${t.newRecord}` : ""}
+        </div>
+        <div className="display" style={{ fontSize: 22, color: "#F9A826", marginBottom: 16 }}>🪙 {reward}</div>
+        <div style={{ display: "grid", gap: 9 }}>
+          <Btn full color="#4C6FFF" onClick={aoRepetir} disabled={repetirBloqueado}>{t.again}</Btn>
+          <Btn full color="#8B93AD" onClick={aoSair} rotulo={t.a11yBack}>←</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Meu Caderno ----------
    Registrar, o 4º R. A criança escreve o que ficou — e quem ainda não escreve
    toca carimbos. Os dois valem: o caderno não pode ser só de quem já lê.
@@ -4004,8 +4432,9 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
         ) : (
           <div style={{ display: "flex" }}>
             {[["🎮", semana.rodadas], ["🎯", semana.certas], ["⭐", semana.estrelas],
-              ["🎨", semana.desenhos], ["🧠", semana.memorias], ["📔", semana.registros],
-              ["👥", semana.duplas], ["🕊️", semana.momentos], ["🪙", semana.lumicoins]].map(([ic, v]) => (
+              ["🎨", semana.desenhos], ["🧠", semana.memorias], ["🧩", semana.quebras],
+              ["📔", semana.registros], ["👥", semana.duplas], ["🕊️", semana.momentos],
+              ["🪙", semana.lumicoins]].map(([ic, v]) => (
               <div key={ic} style={{ flex: 1, textAlign: "center" }}>
                 <div style={{ fontSize: 14 }}>{ic}</div>
                 <div className="display" style={{ fontSize: String(v).length > 3 ? 13 : 15, color: "#1B2A6B" }}>{v}</div>

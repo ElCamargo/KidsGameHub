@@ -92,6 +92,7 @@ São **15 jogos em 6 áreas**.
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR **com a bandeira de cada um** → países por continente → estados dos EUA |
 | 🌍 Geografia | Curiosidades do Mundo | 235 lugares reais: em que país, cidade, mar ou continente |
+| 🌍 Geografia | Quebra-cabeça do Mundo | monta a bandeira peça por peça, de 4 a 24 peças |
 | 🔢 Matemática | Contas e Números | soma a decimais, até 5º ano |
 | 🦁 Natureza | Memória dos Animais | 50 animais |
 | 🦁 Natureza | Quiz dos Animais | classes, habitat, características |
@@ -99,6 +100,7 @@ São **15 jogos em 6 áreas**.
 | 🎨 Arte | Pintar e Colorir | 58 desenhos + gerador infinito |
 | 🎨 Arte | Cores e Formas | cor, forma e as duas juntas |
 | 🎨 Arte | Memória das Formas | 27 combinações |
+| 🎨 Arte | Quebra-cabeça de Arte | monta **o desenho que a própria criança pintou** |
 | 🔤 Idiomas | Palavras do Mundo | 45 palavras em 6 idiomas, escolhe qual aprender |
 | 🔤 Idiomas | Memória de Palavras | casa figura com a palavra no idioma escolhido |
 | ✝️ Fé e Bíblia | Quiz da Bíblia | 2000+ perguntas por idioma, em 100 fases |
@@ -469,6 +471,44 @@ a vitória sobre o irmão não é jogo.
 
 No cartão do responsável, a coluna 👥 conta as partidas em grupo da semana.
 
+### Quebra-cabeça
+
+Arrastar e soltar, sem uma palavra na tela. É o jogo mais completo do hub para
+quem ainda não lê — e por isso nasce aberto para as crianças pequenas.
+
+| Nível | Fácil | Médio | Difícil | Gênio | Mestre | Lenda |
+|---|---|---|---|---|---|---|
+| **peças** | 4 | 6 | 9 | 12 | 16 | 24 |
+
+**A imagem sai do que a criança já tem.** No de Geografia, uma bandeira sorteada
+entre os continentes que ela abriu. No de Arte, **um desenho que ela mesma
+pintou** — e é isso que nenhum app de loja consegue fazer, porque nenhum deles
+tem o desenho dela. Enquanto ela não pintou nada, o desenho vem colorido por
+nós: quebra-cabeça branco não tem como ser montado.
+
+**As peças têm encaixe de verdade**, com dente e buraco, sorteados a cada
+partida. Não é enfeite: numa bandeira de duas cores, seis peças quadradas
+ficariam idênticas e a criança acertaria por sorte. Com o encaixe, a **forma**
+já diz onde a peça vai — e é a primeira leitura que ela aprende a fazer, antes
+da letra. O corte de duas peças vizinhas é um só, e há teste garantindo que o
+que sai de uma é exatamente o buraco da outra.
+
+**O tabuleiro mostra o desenho apagado e os cortes por cima**, para ela comparar
+a forma que está na mão com o buraco que está na tela — como se faz num
+quebra-cabeça de madeira desde sempre.
+
+**Duas formas de jogar**, porque dedo de criança de quatro anos erra o alvo:
+arrastar a peça até o lugar, ou tocar na peça e depois tocar no lugar. A
+segunda é a única que funciona por teclado e por toque assistido. Soltou perto,
+gruda. Errou, a peça treme e volta — sem punição, sem perder nada.
+
+Estrelas pelo tempo, recorde por imagem e nível, e montar de novo depois das
+três estrelas é de graça. A ficha do responsável conta as partidas na coluna 🧩.
+
+Nada disto pede biblioteca de arrastar-e-soltar: são Pointer Events e um
+`clipPath` de SVG por peça, que o navegador aplica na mesma imagem tanto na
+peça grande do tabuleiro quanto na pequena da bandejinha.
+
 ### Meu Caderno
 
 O **4º R** da Abordagem Educacional por Princípios: *Registrar*.
@@ -754,11 +794,13 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          a interface inteira: ~40 componentes, nenhum dado (4.882 linhas)
+  App.jsx          a interface inteira: ~45 componentes, nenhum dado (5.631 linhas)
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
   lib/transferir.js  salvar e restaurar o progresso por arquivo, sem conta
+  lib/turma.js     jogar junto: quantos cabem, quem venceu, perguntas iguais para todos
+  lib/quebracabeca.js  o quebra-cabeça: grade por nível, estrelas e o desenho do encaixe
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -776,7 +818,7 @@ src/
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
-tests/             44 testes em node --test, sem framework nenhum
+tests/             67 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
