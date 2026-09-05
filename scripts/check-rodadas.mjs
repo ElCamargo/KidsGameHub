@@ -24,6 +24,7 @@ const EXPORTA = [
   "buildRound", "poolFor", "montarRodadaMath", "montarRodadaBichos",
   "montarRodadaIdioma", "montarRodadaArte", "montarRodadaBiblia",
   "montarRodadaCapitais", "montarRodadaCuriosidades", "montarRodadaCiencias",
+  "montarRodadaInicial", "montarRodadaRima",
   "DIFFS", "T", "ROUTE", "CAP_REGIOES", "totalDe", "bandFor", "escadaDe", "explicacaoDe",
 ];
 
@@ -105,6 +106,8 @@ const outros = [
   ["bible", st => app.montarRodadaBiblia(st, "pt")],
   ["curiosidades", st => app.montarRodadaCuriosidades(st, t, "pt")],
   ["ciencias", st => app.montarRodadaCiencias(st, t, "pt")],
+  ["inicial", st => app.montarRodadaInicial(st, t)],
+  ["rimas", st => app.montarRodadaRima(st, t)],
 ];
 for (const [cont, montar] of outros) {
   const tamanhos = [];

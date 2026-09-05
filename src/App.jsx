@@ -14,6 +14,8 @@ import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES, CAP_F
 import { PALETA, DESENHOS } from "./data/desenhos.js";
 import { iniciarVozes, temVoz, falar, parar as pararVoz, falando, textoDaPergunta, juntar } from "./lib/voz.js";
 import { temSom, tocar as tocarSom, parar as pararSom } from "./lib/som.js";
+import { PALAVRAS, ALFABETO, DIGRAFOS_INICIAIS } from "./data/palavras.js";
+import { montarRodadaPalavras, estrelasDaPalavra, QUANTAS_PALAVRAS } from "./lib/alfabetizacao.js";
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
 import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
@@ -89,6 +91,11 @@ function deviceLang() {
 
    É esse campo que decide o que nasce aberto para cada jogador. */
 const CATALOG = [
+  { id: "letras", icon: "📚", color: "#FF7043", games: [
+      { id: "montar", icon: "🔡", color: "#4C6FFF", preco: 0, leitura: false, ready: true },
+      { id: "inicial", icon: "🅰️", color: "#00B894", preco: 150, leitura: false, vozBasta: true, ready: true },
+      { id: "rimas", icon: "🎵", color: "#9B59B6", preco: 250, leitura: true, vozBasta: true, ready: true },
+  ]},
   { id: "geo", icon: "🌍", color: "#4C6FFF", games: [
       { id: "flags", icon: "🚩", color: "#00B894", preco: 0, leitura: true, ready: true },
       { id: "memory", icon: "🧠", color: "#4C6FFF", preco: 150, leitura: false, ready: true },
@@ -168,6 +175,7 @@ const PRECO_GERAR = 100;   // 9 desenhos novos no jogo de pintar
 const BAND_PRECO = { easy: 0, medium: 200, hard: 250, genius: 300, mestre: 400, lenda: 500 };
 const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200, mestre: 400, lenda: 700 };   // ~3 a 5 rodadas boas cada
 const PZL_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre: 400, lenda: 600 };   // sobe com o número de peças
+const PAL_PRECO  = { easy: 0, medium: 80, hard: 120, genius: 200, mestre: 300, lenda: 450 };    // mais barato: é o chão do resto
 /* Um motor, seis entradas — como a memória. O que muda é só de onde vem a
    imagem: arquivo de bandeira, desenho pintado, ou cartaz de figuras. */
 const PZL_TEMAS = { puzzle: "flags", artPuzzle: "art", animalPuzzle: "animals", biblePuzzle: "bible", wordPuzzle: "words", mathPuzzle: "math" };
@@ -761,7 +769,7 @@ function AppInterno() {
     noHintRounds: 0, geniusCleared: 0, continents: 1,
     flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
     contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0, pzlRounds: 0, pzl3: 0,
+      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0, pzlRounds: 0, pzl3: 0, palavrasFeitas: 0, pal3: 0,
   });
   const [seenAch, setSeenAch] = useState([]);
   const [toast, setToast] = useState(null);
@@ -782,6 +790,10 @@ function AppInterno() {
      desenho que a criança pintou —, e não é sorteada de novo a cada quadro. */
   const [pzlTema, setPzlTema] = useState("flags");
   const [pzl, setPzl] = useState(null);
+  /* Monta a palavra: o recorde é por nível, e mede ERRO e não relógio —
+     aprender a ler não é corrida. */
+  const [palBest, setPalBest] = useState({});
+  const [pal, setPal] = useState(null);
   const [gerados, setGerados] = useState([]);
   const [jogosAbertos, setJogosAbertos] = useState(JOGOS_GRATIS);
   const [secoes, setSecoes] = useState([]); // níveis e regiões já comprados
@@ -885,14 +897,14 @@ function AppInterno() {
 
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
-    stars: {}, records: {}, memBest: {}, pzlBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
+    stars: {}, records: {}, memBest: {}, pzlBest: {}, palBest: {}, gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [],
     presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "", voz: null,
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
       noHintRounds: 0, geniusCleared: 0, continents: 1,
       flash: 0, perfectNoHint: 0, lastStagePerfect: 0, islandRight: 0, subRight: 0,
       contDone: 0, dayStreak: 1, lastDay: "", maxCoins: ECON.start,
-      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0, pzlRounds: 0, pzl3: 0,
+      stars: 0, momentos: 0, registros: 0, duplas: 0, memRounds: 0, memPerfect: 0, mem3: 0, colorDone: 0, mathRight: 0, mathStage: 0, bichoRight: 0, engRight: 0, bibRight: 0, capRight: 0, pzlRounds: 0, pzl3: 0, palavrasFeitas: 0, pal3: 0,
     },
   });
 
@@ -914,6 +926,7 @@ function AppInterno() {
     setOwned(d.owned || []); setStats(d.stats); setSeenAch(d.seenAch || []);
     setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(migrarMemBest(d.memBest, DIFFS));
     setPzlBest(d.pzlBest || {});
+    setPalBest(d.palBest || {});
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
     setGerados(d.gerados || []);
     setJogosAbertos([...new Set([...jogosGratisPara(ehLeitor(perfil)), ...(d.jogosAbertos || [])])]);
@@ -1143,6 +1156,44 @@ function AppInterno() {
     registrarSemana({ quebras: 1, estrelas: st, lumicoins: reward });
     setPzl(q => ({ ...q, done: true, seg, st, reward, recorde }));
     setScreen("pzlResult");
+  }
+
+  /* ----- monta a palavra ----- */
+  function comecarPalavras(nivel) {
+    const custo = custoDaPalavra(palBest, nivel);
+    if (coins < custo) { setToast(t.notEnough); return; }
+    const palavras = montarRodadaPalavras(PALAVRAS, nivel);
+    if (!palavras.length) { setToast("🔡"); return; }
+    if (custo) setCoins(c => c - custo);
+    setPal({ nivel, palavras });
+    setScreen("pal");
+  }
+
+  function fimPalavras(erros) {
+    const quantas = pal.palavras.length;
+    const st = estrelasDaPalavra(erros, quantas);
+    const reward = st ? ECON.reward[st] : 0;
+    setCoins(c => Math.min(ECON.cap, c + reward));
+    const antes = palBest[pal.nivel];
+    const recorde = !antes || erros < antes.erros;
+    setPalBest(b => ({
+      ...b,
+      [pal.nivel]: { stars: Math.max(antes?.stars || 0, st), erros: recorde ? erros : antes.erros },
+    }));
+    const today = diaISO();
+    const yest = diaISO(new Date(Date.now() - 864e5));
+    setStats(x => ({
+      ...x,
+      earned: x.earned + reward,
+      palavrasFeitas: (x.palavrasFeitas || 0) + quantas,
+      pal3: (x.pal3 || 0) + (st === 3 ? 1 : 0),
+      maxCoins: Math.max(x.maxCoins, Math.min(ECON.cap, coins + reward)),
+      dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
+      lastDay: today,
+    }));
+    registrarSemana({ palavras: quantas, estrelas: st, lumicoins: reward });
+    setPal(x => ({ ...x, done: true, erros, st, reward, recorde }));
+    setScreen("palResult");
   }
 
   /* ----- colorir ----- */
@@ -1434,7 +1485,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -1446,7 +1497,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz]);
 
   /* A lista de vozes chega vazia na primeira pergunta em quase todo
      navegador, e só depois o aparelho avisa que carregou. */
@@ -1819,6 +1870,18 @@ function AppInterno() {
             repetirBloqueado: coins < custoDaMemoria(memBest, mem.tema, mem.nivel),
             aoSair: () => setScreen("memLevels") }} />
         )}
+        {screen === "palLevels" && <PalavraLevels {...{ t, coins, palBest, setScreen, comecar: comecarPalavras, temSecao, comprarSecao }} />}
+        {screen === "pal" && pal && <PalavraGame {...{ t, lang, palavras: pal.palavras, voz: voz && vozOk,
+          onFinish: fimPalavras, onQuit: () => setScreen("palLevels") }} />}
+        {screen === "palResult" && pal && (
+          <PlacarDeTempo {...{ t, st: pal.st, reward: pal.reward, recorde: pal.recorde,
+            /* Erro conta com o ❌ e não com palavra: "Jogadas" aqui seria mentira,
+               e sem erro nenhum a linha nem menciona — não se cobra o acerto. */
+            linha: `${t.words2}: ${pal.palavras.length}${pal.erros ? ` · ❌ ${pal.erros}` : ""}`,
+            aoRepetir: () => comecarPalavras(pal.nivel),
+            repetirBloqueado: coins < custoDaPalavra(palBest, pal.nivel),
+            aoSair: () => setScreen("palLevels") }} />
+        )}
         {screen === "pzlLevels" && <PuzzleLevels {...{ t, coins, pzlBest, setScreen, comecar: comecarQuebra, tema: pzlTema,
           titulo: t.games[PZL_JOGO[pzlTema]], icone: PZL_ICONE[pzlTema], temSecao, comprarSecao }} />}
         {screen === "pzl" && pzl && <PuzzleGame {...{ t, nivel: pzl.nivel, fonte: pzl.fonte, ordem: pzl.ordem, bordas: pzl.bordas,
@@ -1846,10 +1909,11 @@ function AppInterno() {
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
             const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
-              curiosidades: "curiosidades", sciAnimals: "ciencias" };
+              curiosidades: "curiosidades", sciAnimals: "ciencias", inicial: "inicial", rimas: "rimas" };
             if (g === "capitals") { setScreen("capMap"); return; }
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
             if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
+            if (g === "montar") { setScreen("palLevels"); return; }
             if (PZL_TEMAS[g]) { setPzlTema(PZL_TEMAS[g]); setScreen("pzlLevels"); return; }
             if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
             if (quizzes[g]) {
@@ -2302,7 +2366,7 @@ function diaCurto(iso, lang) {
   catch { return iso; }
 }
 
-const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, quebras: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0 };
+const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, quebras: 0, palavras: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0 };
 
 /* Quanto custa jogar uma fase.
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
@@ -2319,6 +2383,11 @@ const custoDaMemoria = (memBest, tema, nivel) =>
    novo de graça. Repetir a imagem que já se domina é treino, não conquista. */
 const custoDoQuebra = (pzlBest, tema, nivel) =>
   (pzlBest?.[`${tema}:${nivel}`]?.stars || 0) >= 3 ? 0 : CUSTO_FAIXA[nivel];
+/* Montar palavra custa METADE. Quem está aprendendo a ler é justamente quem
+   ainda não tem lumicoin nenhuma para gastar — cobrar caro aqui seria trancar
+   a porta de entrada. */
+const custoDaPalavra = (palBest, nivel) =>
+  (palBest?.[nivel]?.stars || 0) >= 3 ? 0 : Math.round(CUSTO_FAIXA[nivel] / 2);
 
 const memEstrelas = (nivel, seg) => {
   const [um, dois, tres] = MEM_LEVELS[nivel].estrelas;
@@ -3193,7 +3262,65 @@ function montarRodadaCapitais(stage, t, lang, cont) {
 const alvoDe = cont => (cont || "").startsWith("idiomas_") ? cont.slice(8) : null;
 const quizDe = cont => QUIZZES[cont] || (alvoDe(cont) ? QUIZZES.idiomas : (cont || "").startsWith("cap_") ? QUIZZES.capitais : null);
 
+/* ---------- Que letra começa ----------
+   A figura é a pergunta; as alternativas são letras. Palavra que começa com
+   dígrafo fica de fora: quem vê "chave" e ouve o som do X não deve procurar
+   o C — isso se ensina depois, e não por adivinhação. */
+function montarRodadaInicial(stage, t) {
+  const band = bandFor("inicial", stage);
+  const qCount = qtdPerguntas(band);
+  const cabem = PALAVRAS.filter(p =>
+    !DIGRAFOS_INICIAIS.some(d => p.s[0].toLowerCase().startsWith(d)));
+  const qs = [];
+  let guarda = 0;
+  while (qs.length < qCount && guarda++ < 300) {
+    const alvo = cabem[Math.floor(Math.random() * cabem.length)];
+    if (!alvo || qs.some(q => q.prompt === alvo.e)) continue;
+    const certa = alvo.w[0].toLowerCase();
+    const outras = shuffle(ALFABETO.filter(l => l !== certa)).slice(0, 3);
+    qs.push({
+      kind: "emojiAsk", prompt: alvo.e, ask: t.askLetter,
+      answer: certa.toUpperCase(),
+      options: shuffle([certa, ...outras]).map(l => l.toUpperCase()),
+      porque: t.whyLetter.replace("{p}", alvo.w).replace("{l}", certa.toUpperCase()),
+    });
+  }
+  return { cont: "inicial", diff: band, stage, qs, time: tempoDe("inicial", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
+/* ---------- Rimas ----------
+   Ouvir que "gato" e "pato" terminam igual é consciência fonológica pura, e
+   vem antes de ler. A figura pergunta, as palavras respondem — e a voz do
+   Lumus lê as alternativas para quem ainda não lê. */
+function montarRodadaRima(stage, t) {
+  const band = bandFor("rimas", stage);
+  const qCount = qtdPerguntas(band);
+  const comRima = PALAVRAS.filter(p => p.r);
+  const qs = [];
+  let guarda = 0;
+  while (qs.length < qCount && guarda++ < 300) {
+    const alvo = comRima[Math.floor(Math.random() * comRima.length)];
+    if (!alvo || qs.some(q => q.prompt === alvo.e)) continue;
+    const parceiras = comRima.filter(p => p.r === alvo.r && p.w !== alvo.w);
+    if (!parceiras.length) continue;
+    const certa = shuffle(parceiras)[0];
+    // As erradas não podem rimar com o alvo, senão há duas respostas certas.
+    const erradas = shuffle(PALAVRAS.filter(p => p.r !== alvo.r && p.w !== alvo.w)).slice(0, 3);
+    if (erradas.length < 3) continue;
+    qs.push({
+      kind: "emojiAsk", prompt: alvo.e, ask: t.askRhyme,
+      answer: certa.w, options: shuffle([certa.w, ...erradas.map(p => p.w)]),
+      porque: t.whyRhyme.replace("{a}", certa.w).replace("{b}", alvo.w),
+    });
+  }
+  return { cont: "rimas", diff: band, stage, qs, time: tempoDe("rimas", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
 const QUIZZES = {
+  inicial: { icone: "🅰️", cor: "#00B894", nome: t => t.games.inicial, montar: (st, t) => montarRodadaInicial(st, t) },
+  rimas:   { icone: "🎵", cor: "#9B59B6", nome: t => t.games.rimas,   montar: (st, t) => montarRodadaRima(st, t) },
   math:    { icone: "🔢", cor: "#F9A826", nome: t => t.games.count,      montar: (st, t, lang) => montarRodadaMath(st) },
   bichos:  { icone: "🦉", cor: "#00B894", nome: t => t.games.animalQuiz, montar: (st, t) => montarRodadaBichos(st, t) },
   idiomas: { icone: "🔤", cor: "#4C6FFF", nome: t => t.games.words,      montar: (st, t, lang, cont) => montarRodadaIdioma(st, t, alvoDe(cont)) },
@@ -4213,6 +4340,193 @@ function PuzzleGame({ t, nivel, fonte, ordem, bordas, onFinish, onQuit }) {
   );
 }
 
+/* ---------- Monta a palavra ----------
+   A figura aparece, a voz diz a palavra INTEIRA, e a criança monta com as
+   sílabas. O app nunca fala a sílaba: quem separa "bola" em BO e LA é ela, e
+   é essa separação que se está ensinando (ver docs/decisoes/0004).
+
+   A conferência é peça a peça, e não no fim: encaixou a sílaba errada, ela
+   treme e volta na hora. Deixar montar a palavra toda para só então dizer
+   "errado" ensina menos e frustra mais. */
+function PalavraGame({ t, lang, palavras, voz, onFinish, onQuit }) {
+  const [i, setI] = useState(0);
+  const [postas, setPostas] = useState([]);   // índices das peças, na ordem em que entraram
+  const [erros, setErros] = useState(0);
+  const [errou, setErrou] = useState(null);
+  const [pronta, setPronta] = useState(false);
+  /* O elogio da palavra montada. Sorteado a cada palavra, e não uma vez por
+     rodada: é o momento em que a criança acabou de conseguir. */
+  const [bravo, setBravo] = useState("");
+  const fala = useFala(lang);
+  const p = palavras[i];
+
+  /* Palavra nova: bandeja limpa, e o Lumus diz qual é. */
+  useEffect(() => {
+    setPostas([]); setPronta(false); setErrou(null); setBravo("");
+    if (!voz) return;
+    const x = setTimeout(() => fala.dizer(palavras[i].w), 320);
+    return () => { clearTimeout(x); fala.calar(); };
+  }, [i, voz]);
+
+  /* Montou: um respiro para ver a palavra inteira antes de virar a página. */
+  useEffect(() => {
+    if (!pronta) return;
+    const x = setTimeout(() => {
+      if (i + 1 >= palavras.length) onFinish(erros);
+      else setI(k => k + 1);
+    }, 1200);
+    return () => clearTimeout(x);
+  }, [pronta]);
+
+  function tocarPeca(k) {
+    if (pronta || postas.includes(k)) return;
+    if (p.pecas[k] === p.s[postas.length]) {
+      const novas = [...postas, k];
+      setPostas(novas);
+      if (novas.length === p.s.length) {
+        setPronta(true);
+        setBravo(Object.values(t.elogios.certo)[Math.floor(Math.random() * 3)]);
+      }
+      return;
+    }
+    setErros(e => e + 1);
+    setErrou(k);
+    setTimeout(() => setErrou(null), 450);
+  }
+
+  const largura = Math.max(58, Math.min(84, Math.round(300 / p.s.length)));
+
+  return (
+    <div className="narrow">
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={onQuit} rotulo={t.a11yBack}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 18, flex: 1 }}>{t.buildWord}</div>
+        <div style={{ background: "rgba(255,255,255,.18)", color: "#fff", borderRadius: 999, padding: "6px 14px", fontWeight: 900 }}>
+          {i + 1}/{palavras.length}
+        </div>
+      </div>
+
+      <div className="card" style={{ padding: 18, marginBottom: 14, textAlign: "center" }}>
+        <div style={{ fontSize: 76, lineHeight: 1 }}>{p.e}</div>
+        {voz && (
+          <div style={{ marginTop: 6 }}>
+            <button onClick={() => fala.alternar(p.w)} className="chunky"
+              aria-label={fala.lendo ? t.voiceStop : t.listenWord} aria-pressed={fala.lendo}
+              style={{ background: "#EEF1FF", color: "#1B2A6B", padding: "6px 14px", fontSize: 15 }}>
+              {fala.lendo ? "⏹️" : "🔊"}
+            </button>
+          </div>
+        )}
+
+        {/* O "isso!" da palavra montada, no lugar onde o olho já está. */}
+        <div className="display" style={{ height: 22, marginTop: 8, fontSize: 18, color: "#00B894" }}>
+          {bravo}
+        </div>
+
+        {/* Os lugares da palavra. Vazio mostra o traço, que é como a criança
+            vê numa folha de caderno. */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 6, flexWrap: "wrap", marginTop: 14 }}>
+          {p.s.map((silaba, k) => {
+            const cheio = k < postas.length;
+            return (
+              <div key={k} className={pronta ? "pop" : ""} style={{
+                minWidth: largura, height: 58, borderRadius: 14, display: "grid", placeItems: "center",
+                background: cheio ? (pronta ? "#00B894" : "#4C6FFF") : "#EEF1FF",
+                border: cheio ? "none" : "3px dashed #C3CBEA",
+                color: cheio ? "#fff" : "#B9C0CC", padding: "0 8px",
+                fontFamily: "inherit", fontWeight: 900, fontSize: 24,
+              }}>
+                <span className="display">{cheio ? silaba : "—"}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* A bandeja. Peça já usada some, para não sobrar dúvida do que falta. */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+        {p.pecas.map((silaba, k) => postas.includes(k) ? null : (
+          <button key={k} onClick={() => tocarPeca(k)} className={`chunky ${errou === k ? "shake" : ""}`}
+            style={{
+              minWidth: largura, height: 58, borderRadius: 14, padding: "0 10px",
+              background: errou === k ? "#E74C3C" : "#fff", color: "#1B2A6B",
+              fontFamily: "inherit", fontWeight: 900, fontSize: 24,
+            }}>
+            <span className="display">{silaba}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Tirar a última: errar de dedo não pode custar uma vida. */}
+      {!!postas.length && !pronta && (
+        <div style={{ marginTop: 14 }}>
+          <Btn full small color="rgba(255,255,255,.2)" onClick={() => setPostas(x => x.slice(0, -1))}>
+            ↺
+          </Btn>
+        </div>
+      )}
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+
+/* ---------- Escolha de nível do Monta a palavra ----------
+   ponytail: terceira cópia da tela de níveis (memória, quebra-cabeça e esta).
+   Vale unificar numa só quando entrar a quarta — hoje as três diferem no que
+   mostram no meio, e unificar cedo custaria mais do que a duplicação. */
+function PalavraLevels({ t, coins, palBest, setScreen, comecar, temSecao, comprarSecao }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🔡 {t.games.montar}</div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
+      </div>
+
+      <div className="lista">
+        {DIFFS.map((d, di) => {
+          const b = palBest[d];
+          const chave = `p:${d}`;
+          const preco = PAL_PRECO[d];
+          const aberto = !preco || temSecao(chave);
+          const anteriorOk = di === 0 || !PAL_PRECO[DIFFS[di - 1]] || temSecao(`p:${DIFFS[di - 1]}`);
+          const custo = custoDaPalavra(palBest, d);
+          return (
+            <div key={d} className="card" style={{ padding: 14, display: "flex", alignItems: "center", gap: 12, opacity: aberto || anteriorOk ? 1 : .45 }}>
+              <div style={{ width: 52, height: 52, borderRadius: 16, background: aberto ? BAND_COLOR[d] : "#B9C0CC", display: "grid", placeItems: "center", color: "#fff", fontWeight: 900, fontSize: 15 }}>
+                {aberto ? QUANTAS_PALAVRAS[d] : "🔒"}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div className="display" style={{ color: "#1B2A6B", fontSize: 18 }}>{t.levels[d]}</div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#6C7695" }}>
+                  {aberto ? (
+                    <>
+                      {[1, 2, 3].map(i2 => <span key={i2} style={{ opacity: (b?.stars || 0) >= i2 ? 1 : .25 }}>★</span>)}
+                      {` · ${QUANTAS_PALAVRAS[d]} ${t.words2.toLowerCase()}`}
+                    </>
+                  ) : anteriorOk ? `${t.unlockFor} 🪙${preco}` : t.needPrev}
+                </div>
+              </div>
+              {aberto ? (
+                <Btn small color={BAND_COLOR[d]} disabled={coins < custo} onClick={() => comecar(d)}>
+                  {custo ? `🪙${custo}` : `⭐ ${t.free}`}
+                </Btn>
+              ) : anteriorOk ? (
+                <Btn small color={coins >= preco ? "#E84393" : "#8B93AD"} disabled={coins < preco}
+                  onClick={() => comprarSecao(chave, preco)}>🔓 🪙{preco}</Btn>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ color: "#A7B3EA", fontSize: 11, fontWeight: 700, marginTop: 14, textAlign: "center", lineHeight: 1.7 }}>
+        🔡 {t.buildWord}
+      </div>
+      <div style={{ height: 16 }} />
+    </div>
+  );
+}
+
 /* ---------- Escolha de nível do quebra-cabeça ---------- */
 function PuzzleLevels({ t, coins, pzlBest, setScreen, comecar, tema, titulo, icone, temSecao, comprarSecao }) {
   return (
@@ -4270,15 +4584,31 @@ function PuzzleLevels({ t, coins, pzlBest, setScreen, comecar, tema, titulo, ico
   );
 }
 
+/* ---------- o elogio ----------
+   Criança que termina uma rodada precisa ouvir que foi bem — inclusive, e
+   principalmente, quando foi mal. Por isso a faixa de zero estrela também tem
+   frase, e ela nunca cobra: convida a jogar de novo.
+
+   Sorteada entre três porque a mesma frase toda vez para de ser ouvida na
+   terceira rodada, e aí vira só um texto na tela. */
+function elogio(t, st) {
+  const grupo = st >= 3 ? t.elogios.tudo : st > 0 ? t.elogios.bem : t.elogios.vamos;
+  const frases = Object.values(grupo);
+  return frases[Math.floor(Math.random() * frases.length)];
+}
+
 /* O fim de uma partida contra o relógio. Memória e quebra-cabeça acabam com a
    mesma pergunta — quantas estrelas, em quanto tempo, quanto rendeu —, então
    acabam na mesma tela. */
 function PlacarDeTempo({ t, st, reward, recorde, linha, aoRepetir, repetirBloqueado, aoSair }) {
+  // Sorteado uma vez: se fosse no corpo, trocaria a cada redesenho da tela.
+  const [frase] = useState(() => elogio(t, st));
   return (
     <div style={{ paddingTop: 20 }}>
       <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
         <div style={{ fontSize: 54 }}>{st === 3 ? "🏆" : st ? "🎉" : "💪"}</div>
-        <div className="display" style={{ fontSize: 26, color: "#1B2A6B" }}>{t.roundOver}</div>
+        <div className="display" style={{ fontSize: 26, color: "#1B2A6B" }}>{frase}</div>
+        <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 12, marginTop: 2 }}>{t.roundOver}</div>
         <div style={{ display: "flex", justifyContent: "center", gap: 4, margin: "10px 0 6px" }}>
           {[1, 2, 3].map(i => <span key={i} style={{ fontSize: 34, opacity: st >= i ? 1 : .2 }}>⭐</span>)}
         </div>
@@ -5736,11 +6066,13 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
 /* ---------- Resultado ---------- */
 function Result({ t, round, player, setScreen, setSel, sel, startRound, coins, escrever }) {
   const perfect = round.pct === 100;
+  const [frase] = useState(() => elogio(t, round.st));
   return (
     <div className="narrow" style={{ paddingTop: 20 }}>
       <div className="card pop" style={{ padding: 22, textAlign: "center" }}>
         <div style={{ fontSize: 54 }}>{perfect ? "🏆" : round.st > 0 ? "🎉" : "💪"}</div>
-        <div className="display" style={{ fontSize: 28, color: "#1B2A6B" }}>{perfect ? t.perfect : t.roundOver}</div>
+        <div className="display" style={{ fontSize: 28, color: "#1B2A6B" }}>{perfect ? t.perfect : frase}</div>
+        <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 12, marginTop: 2 }}>{t.roundOver}</div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 18, margin: "16px 0" }}>
           <div><div style={{ fontSize: 12, color: "#6C7695", fontWeight: 800 }}>{t.accuracy}</div>
