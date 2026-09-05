@@ -75,9 +75,19 @@ export function parar() {
   try { window.speechSynthesis?.cancel?.(); } catch { }
 }
 
+/* Se há voz saindo agora. O botão de alto-falante precisa saber disto para
+   virar um botão de calar no meio da leitura. */
+export function falando() {
+  try { return !!(window.speechSynthesis?.speaking || window.speechSynthesis?.pending); }
+  catch { return false; }
+}
+
 /* Fala, sempre cortando o que estava falando: duas frases sobrepostas não se
-   entendem, e a criança já mudou de pergunta. */
-export function falar(texto, { lang = "pt", tom = "lumus" } = {}) {
+   entendem, e a criança já mudou de pergunta.
+
+   `aoTerminar` avisa quem chamou que a fala acabou — sozinha, cortada ou com
+   erro. Sem isso o botão ficaria mostrando "parar" depois do fim da frase. */
+export function falar(texto, { lang = "pt", tom = "lumus", aoTerminar } = {}) {
   if (!disponivel() || !texto) return false;
   const voz = vozDe(lang);
   if (!voz) return false;
@@ -89,6 +99,10 @@ export function falar(texto, { lang = "pt", tom = "lumus" } = {}) {
     const { pitch, rate } = TONS[tom] || TONS.lumus;
     u.pitch = pitch;
     u.rate = rate;
+    if (aoTerminar) {
+      u.onend = aoTerminar;
+      u.onerror = aoTerminar;
+    }
     window.speechSynthesis.speak(u);
     return true;
   } catch { return false; }

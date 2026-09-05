@@ -36,6 +36,11 @@ foi construído. O **Momento em Família** (um devocional curto por dia, para se
 lido junto) e o **Meu Caderno** (onde a criança registra o que aprendeu) são o
 coração do projeto, não um extra.
 
+Isso não fica escondido no repositório: a **tela de abrir o app** mostra a
+missão, a visão e os valores num carrossel embaixo dos jogadores — porque quem
+abre o app é criança querendo jogar, mas quem instala é adulto, e ele merece
+saber em dois toques o que este app é e o que ele nunca vai fazer.
+
 **E é escolha da família.** No primeiro acesso, só o responsável vê o convite:
 *"sua família quer isso no Lumus?"*. Quem diz não tem um app de jogos
 educativos completo, sem uma única menção a fé. Esconder o que somos seria
@@ -119,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 67 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 72 testes |
 | Licença | MIT |
 
 ---
@@ -569,6 +574,40 @@ Nada disto pede biblioteca de arrastar-e-soltar: são Pointer Events e um
 `clipPath` de SVG por peça, que o navegador aplica na mesma imagem tanto na
 peça grande do tabuleiro quanto na pequena da bandejinha.
 
+### O som do Lumus
+
+Duas coisas diferentes, e as duas se desligam num toque.
+
+**A voz** lê a pergunta em voz alta, com as vozes já instaladas no aparelho —
+nada é baixado. O alto-falante **também cala**: tocar nele no meio da leitura
+para a fala, e tocar de novo lê outra vez. Quem tocou de novo queria silêncio,
+não a mesma frase por cima da que estava saindo.
+
+**O som de fundo** é uma musiquinha bem baixa que acompanha o app desde a tela
+de escolher jogador. Não é arquivo de áudio: as notas nascem na hora, no Web
+Audio, o que custa **zero byte** no pacote — trilha sonora gravada pesaria
+megabytes, e o app inteiro tem que caber num celular de entrada.
+
+Três decisões que a fazem não incomodar:
+
+- **a escala é pentatônica**, onde não existe intervalo que soe errado. Numa
+  escala comum, uma sequência sorteada cedo ou tarde acerta um meio-tom e sai
+  uma nota torta no meio da fase, com criança do lado;
+- **o passo acompanha o relógio da pergunta** e só acelera de verdade no fim —
+  numa fase de 19 segundos, o intervalo entre as notas vai de 907 a 723 ms.
+  Acelerar desde o começo deixaria a criança apressada a rodada inteira, e
+  pressa é o contrário do que queremos;
+- **ela se cala enquanto o Lumus fala**, e nas telas do Momento em Família e do
+  Meu Caderno — que são para ler junto e para pensar, não para correr.
+
+O interruptor fica em dois lugares: na **tela de escolher jogador**, ao lado do
+idioma, e na ficha do jogador. Ele mora no aparelho, e não no perfil: é a
+resposta a uma pergunta da casa — quanto barulho este app faz aqui.
+
+*Nota de navegador:* nenhum navegador deixa um site fazer som antes do primeiro
+toque da pessoa. A música entra no primeiro toque, que na prática é a criança
+escolhendo o perfil.
+
 ### Meu Caderno
 
 O **4º R** da Abordagem Educacional por Princípios: *Registrar*.
@@ -854,13 +893,14 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          a interface inteira: ~47 componentes, nenhum dado (5.729 linhas)
+  App.jsx          a interface inteira: ~49 componentes, nenhum dado (5.902 linhas)
   main.jsx         ponto de entrada
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
   lib/transferir.js  salvar e restaurar o progresso por arquivo, sem conta
   lib/turma.js     jogar junto: quantos cabem, quem venceu, perguntas iguais para todos
   lib/quebracabeca.js  o quebra-cabeça: grade por nível, estrelas e o desenho do encaixe
+  lib/som.js       o som de fundo: escala, ritmo e as notas geradas na hora
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -878,7 +918,7 @@ src/
     versos.js            o versículo do dia, de Salmos e Provérbios
     devocional.js        os 7 princípios e os 49 devocionais do Momento em Família
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
-tests/             67 testes em node --test, sem framework nenhum
+tests/             72 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas

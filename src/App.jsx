@@ -12,7 +12,8 @@ import { CARIMBOS, carimboPorId, perguntaDoRegistro, semente as sementeDoTexto }
 import { T, LANG_CATALOG, PACKS } from "./data/textos.js";
 import { DATA, SUBFLAGS, BR_ESTADOS, US_ESTADOS, CAPITAIS, CAP_PT, CAP_ES, CAP_FR, CAP_DE, CAP_IT } from "./data/geografia.js";
 import { PALETA, DESENHOS } from "./data/desenhos.js";
-import { iniciarVozes, temVoz, falar, parar as pararVoz, textoDaPergunta, juntar } from "./lib/voz.js";
+import { iniciarVozes, temVoz, falar, parar as pararVoz, falando, textoDaPergunta, juntar } from "./lib/voz.js";
+import { temSom, tocar as tocarSom, parar as pararSom } from "./lib/som.js";
 import { montarCopia, lerCopia, nomeDoArquivo, baixar, TAMANHO_MAX } from "./lib/transferir.js";
 import { partirChaveMemoria, migrarMemBest } from "./lib/memoria.js";
 import { BANDEIRAS_PNG } from "./data/bandeiras-png.js";
@@ -820,6 +821,18 @@ function AppInterno() {
      nem o botão, nem o interruptor: prometer voz e não falar é pior. */
   const [voz, setVoz] = useState(false);
   const [vozOk, setVozOk] = useState(false);
+  /* O som de fundo nasce ligado: baixo, e a um toque de ser desligado — na
+     tela de escolher jogador e na ficha do jogador. Silencioso por padrão
+     seria uma função que ninguém descobre.
+
+     Mora no APARELHO, e não no perfil: é a resposta a uma pergunta da casa,
+     "quanto barulho este app faz aqui?", e precisa valer já na primeira tela,
+     antes de qualquer perfil ser aberto. */
+  const [som, setSom] = useState(true);
+  const trocarSom = () => setSom(v => {
+    try { window.storage.set("lumus:som", v ? "0" : "1"); } catch { }
+    return !v;
+  });
   /* A pergunta que está sendo respondida agora, e para onde voltar depois. */
   const [rascunho, setRascunho] = useState(null);
 
@@ -940,6 +953,7 @@ function AppInterno() {
           }
         } catch { }
       }
+      try { const sm = await window.storage.get("lumus:som"); setSom(sm?.value !== "0"); } catch { }
       let chosen = null;
       try { const l = await window.storage.get("lumus:lang"); chosen = l?.value || null; } catch { }
       const want = chosen || deviceLang();
@@ -1445,6 +1459,11 @@ function AppInterno() {
 
   /* Trocou de tela, a voz cala. Sem isto o versículo continua sendo lido
      enquanto a criança já está no meio de uma partida. */
+  /* O relógio da pergunta, escrito lá de dentro do jogo e lido aqui pela
+     música. Referência para não redesenhar o app a cada segundo. */
+  const fracaoTempo = useRef(null);
+  useSomDeFundo(som && !TELAS_SEM_SOM.has(screen), fracaoTempo);
+
   useEffect(() => { pararVoz(); }, [screen]);
   useEffect(() => pararVoz, []);
 
@@ -1758,6 +1777,7 @@ function AppInterno() {
             else setScreen("home");
           } }} />}
         {screen === "profiles" && <Profiles {...{ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha,
+          som, trocarSom, somOk: temSom(),
           salvarCopia, restaurarCopia }} />}
         {screen === "gallery" && <Gallery {...{ t, gallery, setScreen, gerados, gerarMais, coins,
           abrirDesenho: (art, fills) => { setPintando({ art, fills }); setScreen("color"); } }} />}
@@ -1819,7 +1839,7 @@ function AppInterno() {
           voz: voz && vozOk,
           voltar: player.papel === "pai" ? "familia" : "home" }} />}
         {screen === "player" && <PlayerCard {...{ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar,
-          voz, setVoz, vozOk }} />}
+          voz, setVoz, vozOk, som, trocarSom, somOk: temSom() }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, lang, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
           momento, setMomento, momentoFeitoHoje, voz: voz && vozOk,
@@ -1843,7 +1863,7 @@ function AppInterno() {
         {screen === "stages" && <Stages {...{ t, lang, sel, setSel, progress, coins, startRound, setScreen, player, stars, records, temSecao, comprarSecao,
           turma, pedirTurma: () => setEscolhendoTurma(true), sairDaTurma: () => setTurma(null) }} />}
         {screen === "game" && round && <Game {...{ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen,
-          voz: voz && vozOk,
+          voz: voz && vozOk, fracaoTempo,
           onQuit: () => { setRound(null); setScreen("stages"); } }} />}
         {screen === "result" && round?.duo && (
           <Placar {...{ t, jogadores: [{ name: player.name, avatar: player.avatar }, ...round.duo],
@@ -2227,6 +2247,42 @@ function intervaloDaSemana(chave, lang) {
 const SEMANAS_GUARDADAS = 12;
 /* Dia local em "AAAA-MM-DD". toISOString não serve: em UTC-3 ele já vira o dia
    seguinte às 21h, e o devocional feito à noite contaria como o de amanhã. */
+/* ---------- falar e calar com o mesmo botão ----------
+   Tocar no alto-falante no meio da leitura tem que CALAR. Quem tocou de novo
+   quer silêncio — não a mesma frase por cima da que já estava saindo. */
+function useFala(lang) {
+  const [lendo, setLendo] = useState(false);
+  const dizer = (texto, opcoes) => {
+    setLendo(true);
+    if (!falar(texto, { lang, ...opcoes, aoTerminar: () => setLendo(false) })) setLendo(false);
+  };
+  const calar = () => { pararVoz(); setLendo(false); };
+  useEffect(() => calar, []);
+  return { lendo, dizer, calar, alternar: (texto, opcoes) => lendo ? calar() : dizer(texto, opcoes) };
+}
+
+/* ---------- telas em que o som se cala ----------
+   Não é o app inteiro: o devocional é para a família ler junto em voz alta, e
+   o caderno é o único lugar do app onde a criança pensa sem ser cronometrada.
+   Música por cima dos dois seria estorvo. */
+const TELAS_SEM_SOM = new Set(["devocional", "caderno", "escrever", "familia"]);
+
+/* ---------- o som de fundo ----------
+   Um só para o app inteiro, ligado desde a tela de escolher jogador. `fracao`
+   é uma referência viva para o quanto sobra do tempo da pergunta, lida a cada
+   nota — se fosse valor fixo, a música não aceleraria no fim da pergunta.
+
+   Vale lembrar por que o som não começa sozinho na abertura: navegador
+   nenhum deixa um site fazer barulho antes do primeiro toque da pessoa. Ele
+   entra no primeiro toque, que na prática é a criança escolhendo o perfil. */
+function useSomDeFundo(ligado, fracao) {
+  useEffect(() => {
+    if (!ligado) return;
+    tocarSom({ fracao: () => (fracao ? fracao.current : null), calado: falando });
+    return pararSom;
+  }, [ligado, fracao]);
+}
+
 const diaISO = (d = new Date()) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
@@ -3453,7 +3509,83 @@ function Gallery({ t, gallery, setScreen, abrirDesenho, gerados, gerarMais, coin
 }
 
 /* ---------- Quem vai jogar ---------- */
-function Profiles({ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha, salvarCopia, restaurarCopia }) {
+/* ---------- Missão, visão e valores, na primeira tela ----------
+   Vai embaixo e num carrossel porque quem abre o app é criança querendo
+   jogar — mas quem instala é adulto, e ele merece saber, em dois toques e
+   sem sair da tela, o que este app é e o que ele nunca vai fazer.
+
+   Cinco cartões, um de cada vez: cinco parágrafos empilhados ninguém lê. */
+const SOBRE = [
+  { id: "missao", icone: "🎯" },
+  { id: "visao", icone: "🔭" },
+  { id: "familia", icone: "✝️" },
+  { id: "educacao", icone: "📚" },
+  { id: "respeito", icone: "🛡️" },
+];
+
+function SobreCarrossel({ t }) {
+  const trilho = useRef(null);
+  const [atual, setAtual] = useState(0);
+  const [parado, setParado] = useState(false);
+
+  const irPara = k => {
+    setParado(true);
+    trilho.current?.scrollTo({ left: k * trilho.current.clientWidth, behavior: "smooth" });
+  };
+
+  /* Anda sozinho devagar, e para de vez quando alguém encosta: texto que
+     troca embaixo do dedo de quem está lendo é falta de educação. */
+  useEffect(() => {
+    if (parado) return;
+    let quieto = false;
+    try { quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { }
+    if (quieto) return;
+    const id = setInterval(() => {
+      const el = trilho.current;
+      if (!el || !el.clientWidth) return;
+      const prox = (Math.round(el.scrollLeft / el.clientWidth) + 1) % SOBRE.length;
+      el.scrollTo({ left: prox * el.clientWidth, behavior: "smooth" });
+    }, 7000);
+    return () => clearInterval(id);
+  }, [parado]);
+
+  return (
+    <div style={{ marginTop: 22 }}>
+      <div ref={trilho} className="semBarra"
+        onPointerDown={() => setParado(true)}
+        onScroll={e => {
+          const el = e.currentTarget;
+          if (el.clientWidth) setAtual(Math.round(el.scrollLeft / el.clientWidth));
+        }}
+        style={{ display: "flex", overflowX: "auto", scrollSnapType: "x mandatory", scrollbarWidth: "none" }}>
+        {SOBRE.map(c => (
+          <div key={c.id} style={{ flex: "0 0 100%", scrollSnapAlign: "center", padding: "0 3px" }}>
+            <div style={{ background: "rgba(255,255,255,.12)", borderRadius: 16, padding: "14px 16px", height: "100%" }}>
+              <div style={{ fontSize: 21, lineHeight: 1 }}>{c.icone}</div>
+              <div className="display" style={{ color: "#fff", fontSize: 16, marginTop: 5 }}>{t.sobre[c.id].t}</div>
+              <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 12, lineHeight: 1.65, marginTop: 4 }}>
+                {t.sobre[c.id].d}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 10 }}>
+        {SOBRE.map((c, k) => (
+          <button key={c.id} onClick={() => irPara(k)} aria-label={t.sobre[c.id].t}
+            aria-current={k === atual ? "true" : undefined}
+            style={{
+              width: k === atual ? 20 : 8, height: 8, borderRadius: 4, padding: 0, border: "none",
+              background: k === atual ? "#fff" : "rgba(255,255,255,.35)",
+              cursor: "pointer", transition: "width .2s",
+            }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Profiles({ t, profiles, openProfile, newProfile, editProfile, deleteProfile, resetProfile, setScreen, comSenha, salvarCopia, restaurarCopia, som, trocarSom, somOk }) {
   const [editing, setEditing] = useState(false);
   const [ask, setAsk] = useState(null);
   const [zerar, setZerar] = useState(null);
@@ -3462,6 +3594,10 @@ function Profiles({ t, profiles, openProfile, newProfile, editProfile, deletePro
   return (
     <div style={{ paddingTop: 24 }}>
       <div style={{ textAlign: "center", marginBottom: 18 }}>
+        {/* O Mundi é o rosto do app: quem abre reconhece antes de ler. */}
+        <div style={{ display: "grid", placeItems: "center", marginBottom: 6 }}>
+          <Mundi size={72} />
+        </div>
         <div className="display" style={{ color: "#fff", fontSize: 40, lineHeight: 1 }}>LUMUS</div>
         <div className="display" style={{ color: "#C9D2FF", fontSize: 18, marginTop: 6 }}>{t.players}</div>
       </div>
@@ -3509,6 +3645,12 @@ function Profiles({ t, profiles, openProfile, newProfile, editProfile, deletePro
       <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
         <Btn full small color="rgba(255,255,255,.2)" onClick={() => setEditing(e => !e)}>{editing ? "✓" : "✏️"}</Btn>
         <Btn full small color="rgba(255,255,255,.2)" onClick={() => setScreen("lang")}>🌐 {t.language}</Btn>
+        {/* O som fica aqui, e não escondido numa configuração: quem quer
+            silêncio quer agora, e antes de abrir qualquer perfil. */}
+        {somOk && (
+          <Btn full small color="rgba(255,255,255,.2)" onClick={trocarSom}
+            rotulo={som ? t.soundOff : t.soundOn}>{som ? "🎵" : "🔕"}</Btn>
+        )}
       </div>
 
       {/* Restaurar fica no modo de edição, junto do resto que só o adulto
@@ -3547,6 +3689,8 @@ function Profiles({ t, profiles, openProfile, newProfile, editProfile, deletePro
           </div>
         </Modal>
       )}
+
+      <SobreCarrossel t={t} />
 
       <div style={{ textAlign: "center", marginTop: 22, color: "#8E9CE0", fontSize: 11, fontWeight: 700, lineHeight: 1.6 }}>
         {t.parentsInfo}<br />
@@ -4312,6 +4456,7 @@ function CadernoScreen({ t, lang, caderno, setScreen, novo, voltar }) {
    Não existe resposta certa aqui, e é de propósito. O resto do app mede
    acerto; este pedaço mede presença. */
 function DevocionalScreen({ t, lang, momento, marcarMomento, feitoHoje, setScreen, voltar, voz }) {
+  const fala = useFala(lang);
   const { principio, dia } = devocionalDoDia();
   const txt = o => o[lang] || o.en;
   return (
@@ -4341,9 +4486,11 @@ function DevocionalScreen({ t, lang, momento, marcarMomento, feitoHoje, setScree
           <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 12, flex: 1 }}>{txt(dia.ref)}</div>
           {/* Outro tom: grave e pausado. Aqui não é o mascote falando. */}
           {voz && (
-            <button onClick={() => falar(juntar([txt(dia.v), txt(dia.ref)]), { lang, tom: "palavra" })}
-              aria-label={t.voiceRead} className="chunky"
-              style={{ background: "#EEF1FF", color: "#1B2A6B", padding: "6px 12px", fontSize: 15 }}>🔊</button>
+            <button onClick={() => fala.alternar(juntar([txt(dia.v), txt(dia.ref)]), { tom: "palavra" })}
+              aria-label={fala.lendo ? t.voiceStop : t.voiceRead} aria-pressed={fala.lendo} className="chunky"
+              style={{ background: "#EEF1FF", color: "#1B2A6B", padding: "6px 12px", fontSize: 15 }}>
+              {fala.lendo ? "⏹️" : "🔊"}
+            </button>
           )}
         </div>
       </div>
@@ -4713,7 +4860,7 @@ function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momen
 }
 
 /* ---------- Perfil do jogador ---------- */
-function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar, voz, setVoz, vozOk }) {
+function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch, setScreen, abrir, podeResgatar, resgatar, voz, setVoz, vozOk, som, trocarSom, somOk }) {
   const verso = versoDoDia(lang);
   const Num = ({ icon, n, label }) => (
     <div style={{ textAlign: "center", flex: 1 }}>
@@ -4821,6 +4968,21 @@ function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, seenAch
           </div>
           <Btn small color={voz ? "#00B894" : "#8B93AD"} onClick={() => setVoz(v => !v)}>
             {voz ? t.voiceOn : t.voiceOff}
+          </Btn>
+        </div>
+      )}
+
+      {/* O som de fundo fica do lado do da voz porque é a mesma pergunta para
+          quem cuida: quanto barulho este app faz na minha casa. */}
+      {somOk && (
+        <div className="card" style={{ padding: 12, marginBottom: 10, display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ fontSize: 26 }}>{som ? "🎵" : "🔕"}</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 16 }}>{t.sound}</div>
+            <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, lineHeight: 1.4 }}>{t.soundHint}</div>
+          </div>
+          <Btn small color={som ? "#00B894" : "#8B93AD"} onClick={trocarSom}>
+            {som ? t.soundOn : t.soundOff}
           </Btn>
         </div>
       )}
@@ -5261,7 +5423,7 @@ function folgaLeitura(q) {
 }
 const tempoDaPergunta = (round, q) => round.time == null ? null : round.time + folgaLeitura(q);
 
-function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen, onQuit, voz }) {
+function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, setScreen, onQuit, voz, fracaoTempo }) {
   const q = round.qs[round.i];
   /* Em grupo as perguntas giram: a primeira é de quem convidou, e daí em
      diante passa para o lado. Entre uma e outra entra a tela de passar o
@@ -5292,12 +5454,20 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
   /* Lê a pergunta em voz alta. Quem não lê depende disto para jogar; por isso
      é automático, e não um botão que a criança de quatro anos teria que
      descobrir sozinha. Em duelo fica quieto: o outro jogador ouviria. */
-  const lerPergunta = () => falar(textoDaPergunta(round.qs[round.i], t), { lang });
+  const fala = useFala(lang);
+  const lerPergunta = () => fala.dizer(textoDaPergunta(round.qs[round.i], t));
   useEffect(() => {
     if (!voz || duo || passando) return;
     const x = setTimeout(lerPergunta, 260);   // deixa a tela desenhar primeiro
-    return () => { clearTimeout(x); pararVoz(); };
+    return () => { clearTimeout(x); fala.calar(); };
   }, [voz, duo, passando, round.i]);
+
+  /* A música do app acompanha o relógio desta pergunta: quanto menos tempo
+     sobra, mais miúdo o passo. Escrevemos numa referência que veio de cima,
+     porque a nota seguinte é agendada fora do React e precisa do valor de
+     agora — e porque quem toca é o app, não esta tela. */
+  if (fracaoTempo) fracaoTempo.current = tempoQ == null || left == null ? null : left / tempoQ;
+  useEffect(() => () => { if (fracaoTempo) fracaoTempo.current = null; }, [fracaoTempo]);
 
   /* O porquê do erro também é lido: é a parte que mais vale ouvir. */
   useEffect(() => {
@@ -5395,8 +5565,11 @@ function Game({ t, lang, round, setRound, coins, setCoins, finishRound, player, 
           ))}
         </div>
         {voz && !duo && (
-          <button onClick={lerPergunta} aria-label={t.voiceRepeat} className="chunky"
-            style={{ background: "rgba(255,255,255,.18)", padding: "6px 10px", fontSize: 15 }}>🔊</button>
+          <button onClick={() => fala.alternar(textoDaPergunta(round.qs[round.i], t))}
+            aria-label={fala.lendo ? t.voiceStop : t.voiceRepeat} aria-pressed={fala.lendo} className="chunky"
+            style={{ background: "rgba(255,255,255,.18)", padding: "6px 10px", fontSize: 15 }}>
+            {fala.lendo ? "⏹️" : "🔊"}
+          </button>
         )}
         {duo ? (
           <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
