@@ -644,6 +644,37 @@ tela vazia sem que nada reclame.** Por isso o guarda de build abre o catálogo
 de verdade do app e confere, item por item, que o jogo existe, que a trilha
 tem aquela faixa, e que a fase de entrada cai mesmo dentro dela.
 
+### Uma tela, um arquivo
+
+O `src/App.jsx` chegou a **6.689 linhas** e a [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md)
+já tinha escrito quando isso mudaria: não por tamanho, mas quando doesse. Doeu
+em dois lugares ao mesmo tempo — o hot-reload reprocessando o app inteiro a
+cada vírgula, e as **guardas de build lendo o código como texto**, procurando
+`const BAND_COLOR = {` e contando chaves.
+
+Agora são treze arquivos, e o `App.jsx` ficou com **1.378 linhas**: só o
+estado do jogador, a gravação no aparelho e qual tela aparece.
+
+**Nenhuma linha de lógica foi reescrita** — os blocos saíram recortados e
+colados. O que mudou foram os `import`. E a separação foi feita por um
+script, não à mão, porque JavaScript não reclama de um nome que falta até a
+hora de executar aquela linha: o script procura, em cada arquivo, todo nome do
+App antigo que aparece ali e não é declarado, e gera o import. Aí o Vite
+confere se o módulo realmente exporta aquilo.
+
+O script achou duas coisas que a mão não acharia: um **ciclo** entre a tela do
+hub e a da família (as duas queriam o nome do ano escolar, que foi parar em
+`lib/escola.js`, de onde as duas deviam tê-lo pegado), e um **import
+sombreado** por uma constante local de mesmo nome. Depois disso, cada tela do
+app foi aberta no navegador, uma a uma — que é onde um import faltando
+apareceria.
+
+De brinde, as guardas pararam de ler código como texto: a `check-faixas`
+**importa** os mapas de verdade e a `check-rodadas` importa as rodadas
+direto, sem esbuild e sem arquivo temporário gravado dentro de `src/`.
+
+Os detalhes estão na [ADR 0005](docs/decisoes/0005-as-telas-em-arquivos.md).
+
 ### O responsável fica sabendo o que mudou
 
 Quem instala o app é o adulto, e ele não tem como saber que apareceu jogo novo:
@@ -901,16 +932,19 @@ funções e mais nada.
 
 | | Tamanho | O que é |
 |---|---|---|
-| `src/App.jsx` | 4.882 linhas | a interface inteira: ~40 componentes, e nenhuma linha de conteúdo |
-| `src/data/*.js` | 4.269 linhas | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 44 testes | conteúdo, idiomas, geografia, desenhos, voz, transferência |
+| `src/App.jsx` | 1.378 linhas | o miolo: estado do jogador, gravação e qual tela aparece |
+| `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
+| `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
+| `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
+| `tests/*.test.mjs` | 116 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
 [`biblia-pessoas.js`](src/data/biblia-pessoas.js) e um tradutor consegue revisar
-[`textos.js`](src/data/textos.js) **sem abrir uma linha de React**. Por que a
-interface continua num arquivo só, e sob que condições isso muda, está escrito
-em [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md).
+[`textos.js`](src/data/textos.js) **sem abrir uma linha de React**. Por que os
+dados saíram primeiro está na [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md);
+por que as telas saíram depois, e como sem reescrever lógica, está na
+[ADR 0005](docs/decisoes/0005-as-telas-em-arquivos.md).
 
 ### O portão de qualidade
 
@@ -1056,8 +1090,21 @@ O ícone aparece junto dos outros apps e abre em tela cheia, sem barra de navega
 
 ```
 src/
-  App.jsx          a interface inteira: ~53 componentes, nenhum dado (6.572 linhas)
+  App.jsx          o miolo: estado do jogador, gravação e qual tela aparece (1.378 linhas)
   main.jsx         ponto de entrada
+  telas/           uma tela por assunto — ver a ADR 0005
+    base.jsx           avatar, botão, moeda, topo, mascote, e os hooks de voz e som
+    hub.jsx            escolher jogo, ano escolar, mapa, capitais e fase
+    jogo.jsx           a rodada de perguntas e os placares
+    familia.jsx        a área do responsável, o caderno e o Momento em Família
+    inicio.jsx         quem vai jogar, o cadastro e a senha
+    quebracabeca.jsx   o quebra-cabeça
+    desenho.jsx        desenhar, pintar e a galeria
+    memoria.jsx        o jogo da memória
+    palavra.jsx        Monta a Palavra
+    loja.jsx           a loja e as conquistas
+  lib/catalogo.js  catálogo de jogos, escada de fases, preços, economia e conquistas
+  lib/rodadas.js   como cada rodada é sorteada, trilha por trilha
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
   lib/voz.js       a voz do Lumus: só vozes locais, dois tons
   lib/transferir.js  salvar e restaurar o progresso por arquivo, sem conta
@@ -1185,7 +1232,7 @@ item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educa
 - [x] **Ficha do responsável dizendo onde o filho está devendo** *(Relacionar)* — feito, e saiu de graça da memória de erro
 - [x] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — feito: três trilhas novas, com divisão nas faixas altas e troco no dinheiro
 - [x] **Trilha do ano escolar** *(Relacionar)* — feito: escolhido o ano, o app abre a faixa que a escola cobra e não cobra lumicoin por ela
-- [ ] **Separar as telas de jogo em arquivos** — `src/App.jsx` tem 5.7 mil linhas e a alfabetização o levaria a 8 mil; revisita a [ADR 0003](docs/decisoes/0003-um-arquivo-para-a-interface.md)
+- [x] **Separar as telas de jogo em arquivos** — feito: o `App.jsx` foi de 6.689 para 1.378 linhas, em treze arquivos, sem reescrever lógica ([ADR 0005](docs/decisoes/0005-as-telas-em-arquivos.md))
 
 **Onde decidimos não ir:** 6º ao 8º ano. Um menino de 13 anos não abre um app
 com mascote e lumicoins, e mudar a cara do Lumus para atendê-lo estragaria o

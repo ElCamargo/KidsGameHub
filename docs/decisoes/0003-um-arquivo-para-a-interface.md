@@ -1,7 +1,7 @@
 # 0003 — Dados em arquivos separados, interface num arquivo só
 
 - **Data:** setembro de 2026
-- **Situação:** aceita
+- **Situação:** parcialmente substituída pela [0005](0005-as-telas-em-arquivos.md) — a parte dos DADOS continua valendo; a interface foi separada em setembro de 2026, quando o terceiro sinal previsto aqui apareceu
 - **Decide:** ElCamargo Soluções em TI LTDA
 
 ## O contexto

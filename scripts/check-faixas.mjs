@@ -13,8 +13,12 @@
 import fs from "node:fs";
 import { CURIOSIDADE_NIVEL } from "../src/data/curiosidades.js";
 import { CIENCIA_NIVEL } from "../src/data/ciencias.js";
+import { T } from "../src/data/textos.js";
+import { BAND_COLOR, BAND_PRECO, CUSTO_FAIXA, DIFFS, FAIXA_TEMPO, MEM_LEVELS, MEM_PRECO, PERGUNTAS_RODADA } from "../src/lib/catalogo.js";
+import { FAIXA_POOL, PERGUNTAS_BICHO, VOCAB_NIVEL } from "../src/lib/rodadas.js";
 
-/* Lê um objeto literal do App.jsx pelo começo da declaração, contando chaves. */
+/* Lê um objeto literal de um arquivo pelo começo da declaração, contando
+   chaves. Sobrou para o BIBLIA_NIVEL, que não é exportado. */
 function bloco(txt, inicio) {
   const i = txt.indexOf(inicio);
   if (i < 0) return null;
@@ -34,29 +38,26 @@ const chavesDe = obj => {
 };
 
 export function conferirFaixas(aviso) {
-  const app = fs.readFileSync("src/App.jsx", "utf8");
   const bibliaJs = fs.readFileSync("src/data/biblia.js", "utf8");
 
-  const lista = app.match(/const DIFFS = \[([^\]]*)\]/);
-  if (!lista) { aviso("não consegui ler DIFFS de src/App.jsx"); return []; }
-  const faixas = lista[1].split(",").map(x => x.trim().replace(/"/g, "")).filter(Boolean);
+  const faixas = DIFFS;
   if (faixas.length < 4) aviso(`DIFFS tem só ${faixas.length} faixas — algo se perdeu`);
 
   const mapas = {
     CURIOSIDADE_NIVEL,
     CIENCIA_NIVEL,
     BIBLIA_NIVEL: bloco(bibliaJs, "const BIBLIA_NIVEL = {"),
-    PERGUNTAS_BICHO: bloco(app, "const PERGUNTAS_BICHO = {"),
-    VOCAB_NIVEL: bloco(app, "const VOCAB_NIVEL = {"),
-    PERGUNTAS_RODADA: bloco(app, "const PERGUNTAS_RODADA = {"),
-    CUSTO_FAIXA: bloco(app, "const CUSTO_FAIXA = {"),
-    BAND_PRECO: bloco(app, "const BAND_PRECO = {"),
-    BAND_COLOR: bloco(app, "const BAND_COLOR = {"),
-    MEM_LEVELS: bloco(app, "const MEM_LEVELS = {"),
-    MEM_PRECO: bloco(app, "const MEM_PRECO  = {"),
+    PERGUNTAS_BICHO,
+    VOCAB_NIVEL,
+    PERGUNTAS_RODADA,
+    CUSTO_FAIXA,
+    BAND_PRECO,
+    BAND_COLOR,
+    MEM_LEVELS,
+    MEM_PRECO,
     /* Faltar aqui não deixa a rodada vazia: deixa a faixa nova sorteando do
        mesmo pool do Gênio, sem ninguém perceber que ela não ficou mais difícil. */
-    FAIXA_POOL: bloco(app, "const FAIXA_POOL = {"),
+    FAIXA_POOL,
   };
 
   for (const [nome, mapa] of Object.entries(mapas)) {
@@ -66,16 +67,13 @@ export function conferirFaixas(aviso) {
   }
 
   /* O Fácil não tem cronômetro de propósito: é a única ausência legítima. */
-  const tempo = bloco(app, "const FAIXA_TEMPO = {");
-  if (tempo) {
-    const faltam = faixas.filter(f => f !== "easy" && !chavesDe(tempo).includes(f));
-    if (faltam.length) aviso(`FAIXA_TEMPO: sem a faixa ${faltam.join(", ")}`);
-  } else aviso("não achei FAIXA_TEMPO");
+  const faltamTempo = faixas.filter(f => f !== "easy" && !chavesDe(FAIXA_TEMPO).includes(f));
+  if (faltamTempo.length) aviso(`FAIXA_TEMPO: sem a faixa ${faltamTempo.join(", ")}`);
 
   /* Cada faixa tem que existir no dicionário dos seis idiomas. */
-  for (const m of app.matchAll(/levels: \{([^}]*)\}/g)) {
-    const faltam = faixas.filter(f => !chavesDe(m[1]).includes(f));
-    if (faltam.length) aviso(`t.levels: um idioma está sem ${faltam.join(", ")}`);
+  for (const [code, textos] of Object.entries(T)) {
+    const faltam = faixas.filter(f => !chavesDe(textos.levels).includes(f));
+    if (faltam.length) aviso(`t.levels: ${code} está sem ${faltam.join(", ")}`);
   }
 
   return faixas;
