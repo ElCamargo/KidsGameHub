@@ -12,6 +12,7 @@ import { AGUAS, CURIOSIDADES, CURIOSIDADE_NIVEL } from "../data/curiosidades.js"
 import { BR_ESTADOS, CAPITAIS, CAP_DE, CAP_ES, CAP_FR, CAP_IT, CAP_PT, DATA, SUBFLAGS, US_ESTADOS } from "../data/geografia.js";
 import { ALFABETO, DIGRAFOS_INICIAIS, PALAVRAS } from "../data/palavras.js";
 import { LEITURAS, NIVEIS_DA_LEITURA } from "../data/leitura.js";
+import { ORTOGRAFIA, NIVEIS_DA_ORTOGRAFIA } from "../data/ortografia.js";
 import { palavrasDaFaixa } from "./alfabetizacao.js";
 import { ISCAS, MODO_DA_FAIXA, silabaCobrada } from "./silabas.js";
 import { ARMADILHA_DA_FAIXA, gruposDeSom, mesmaLetraOutroSom, somInicial, somIrmao } from "./sons.js";
@@ -1046,6 +1047,33 @@ export function montarRodadaLeitura(stage, t) {
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
+/* ---------- Ortografia ----------
+   O caderno leva vermelho aqui: ç ou ss, s ou z, g ou j, m antes de p e b.
+
+   A palavra NUNCA aparece escrita errado. O exercício clássico mostra
+   "casa / caza / caça / cassa" e manda escolher — e a criança passa metade
+   do tempo olhando grafia errada, que é o que ela copia depois. Aqui aparece
+   a palavra com uma lacuna e as alternativas são só os pedaços.
+
+   A voz diz a palavra, mas ela não aparece escrita: se aparecesse, bastava
+   copiar. E as alternativas ficam caladas — "esse-esse, cê-cedilha" não
+   ajuda ninguém a decidir. */
+export function montarRodadaOrtografia(stage, t) {
+  const band = bandFor("ortografia", stage);
+  const qCount = qtdPerguntas(band);
+  const niveis = NIVEIS_DA_ORTOGRAFIA[band] || NIVEIS_DA_ORTOGRAFIA.easy;
+  const cabem = shuffle(ORTOGRAFIA.filter(x => niveis.includes(x.n)));
+  return {
+    cont: "ortografia", diff: band, stage, time: tempoDe("ortografia", stage), t0: Date.now(),
+    qs: cabem.slice(0, qCount).map(x => ({
+      kind: "ortografia", figura: x.e, antes: x.a, depois: x.d,
+      fala: x.w, calaOpcoes: true, ask: t.askSpell,
+      answer: x.c, options: shuffle(x.o), porque: x.r,
+    })),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0,
+  };
+}
+
 /* ---------- Rimas ----------
    Ouvir que "gato" e "pato" terminam igual é consciência fonológica pura, e
    vem antes de ler. A figura pergunta, as palavras respondem — e a voz do
@@ -1081,6 +1109,7 @@ const QUIZZES = {
   silabas: { icone: "🆎", cor: "#FF7043", nome: t => t.games.silabas, montar: (st, t) => montarRodadaSilaba(st, t) },
   aliteracao: { icone: "👂", cor: "#00C2CB", nome: t => t.games.aliteracao, montar: (st, t) => montarRodadaAliteracao(st, t) },
   leitura: { icone: "📖", cor: "#8D6E3A", nome: t => t.games.leitura, montar: (st, t) => montarRodadaLeitura(st, t) },
+  ortografia: { icone: "📝", cor: "#E84393", nome: t => t.games.ortografia, montar: (st, t) => montarRodadaOrtografia(st, t) },
   tabuada: { icone: "✖️", cor: "#E84393", nome: t => t.games.tabuada, montar: (st, t) => montarRodadaTabuada(st, t) },
   horas:   { icone: "🕐", cor: "#6A5AE0", nome: t => t.games.horas,   montar: (st, t) => montarRodadaHoras(st, t) },
   dinheiro:{ icone: "💰", cor: "#00B894", nome: t => t.games.dinheiro, montar: (st, t) => montarRodadaDinheiro(st, t) },

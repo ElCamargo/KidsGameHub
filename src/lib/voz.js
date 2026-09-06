@@ -118,6 +118,9 @@ export function textoDaPergunta(q, t) {
      que ainda não lê ouviria a pergunta sobre um texto que ninguém leu. */
   if (q.texto) partes.push(q.texto);
   if (q.ask) partes.push(q.ask);
+  /* A palavra do ditado ortográfico: a voz diz, a tela não mostra — se
+     mostrasse, bastava copiar. */
+  if (q.fala) partes.push(q.fala);
   else if (q.prompt && q.kind !== "emojiAsk") partes.push(q.prompt);
   else if (q.flag) partes.push(t?.whichCountry || "");
   // Emoji não se fala: o leitor de voz lê "rosto sorridente" e atrapalha.

@@ -231,7 +231,16 @@ export function Game({ t, lang, round, setRound, coins, setCoins, finishRound, p
         <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 8 }}>
           {q.kind === "leitura" ? "" : q.kind === "math" ? t.howMuch : q.kind === "emojiAsk" ? q.ask : q.ask ? q.ask : ["emojiPick", "texto"].includes(q.kind) ? q.prompt : q.sub ? t.whichRegion : t.whichCountry}
         </div>
-        {q.kind === "leitura" ? (
+        {q.kind === "ortografia" ? (
+          /* A figura diz QUAL palavra é — "ca__a" pode virar casa e pode
+             virar caça, e sem ela a pergunta teria duas respostas. */
+          <div className={picked && picked !== q.answer ? "shake" : ""}>
+            <div style={{ fontSize: 44, lineHeight: 1 }}>{q.figura}</div>
+            <div className="display" style={{ fontSize: 34, color: "#1B2A6B", marginTop: 10, letterSpacing: 1 }}>
+              {q.antes}<span style={{ color: "#E84393" }}>__</span>{q.depois}
+            </div>
+          </div>
+        ) : q.kind === "leitura" ? (
           /* Texto alinhado à esquerda e com entrelinha larga: é assim que se
              lê. Centralizado, como o resto do app, a criança perde a linha. */
           <div className={picked && picked !== q.answer ? "shake" : ""}>

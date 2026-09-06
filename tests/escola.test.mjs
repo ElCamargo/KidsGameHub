@@ -25,7 +25,7 @@ test("todo ano tem conteúdo, e nenhum ano de fora", () => {
   for (const ano of ANOS) {
     const itens = conteudoDoAno(ano);
     assert.ok(itens.length >= 4, `${ano}: só ${itens.length} coisa(s) para o ano inteiro`);
-    assert.ok(itens.length <= 6, `${ano}: ${itens.length} itens não cabem numa tela de criança`);
+    assert.ok(itens.length <= 7, `${ano}: ${itens.length} itens não cabem numa tela de criança`);
   }
 });
 

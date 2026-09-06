@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **31**, em 7 áreas |
+| Jogos | **32**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 151 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 159 testes |
 | Licença | MIT |
 
 ---
@@ -132,7 +132,7 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **31 jogos em 7 áreas**.
+São **32 jogos em 7 áreas**.
 
 ### Jogos
 
@@ -145,6 +145,7 @@ São **31 jogos em 7 áreas**.
 | 📚 Ler e Escrever | Família Silábica | ouve a palavra e acha a sílaba escrita que a abre |
 | 📚 Ler e Escrever | Ditado do Lumus | ouve a palavra e escreve letra por letra |
 | 📚 Ler e Escrever | Leitura do Lumus | lê (ou ouve) um texto e responde sobre ele |
+| 📚 Ler e Escrever | Como Se Escreve | ouve a palavra e completa a lacuna: ç ou ss, s ou z |
 | 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR **com a bandeira de cada um** → países por continente → estados dos EUA |
@@ -709,6 +710,31 @@ texto, a pergunta está errada — não a criança. Um teste confere que a respo
 de toda pergunta **literal** aparece mesmo no texto: ele já pegou duas em que
 eu tinha escrito "molhava" onde o texto dizia "molhou".
 
+### Ortografia: a palavra nunca aparece escrita errado
+
+É onde o caderno leva vermelho — ç ou ss, s ou z, g ou j, m antes de p e b, r
+ou rr, x ou ch. São **64 palavras** em quatro degraus.
+
+O exercício clássico de prova mostra *casa / caza / caça / cassa* e manda
+escolher. **Aqui não.** A criança passaria metade do tempo olhando grafia
+errada, que é o que ela copia depois. No Lumus aparece a palavra com uma
+**lacuna** e as alternativas são só os pedaços:
+
+> **Como se escreve?** 👂 `ore__a` → `l` `ch` `nh` `lh`
+
+**A figura não é enfeite: é ela que diz qual palavra é.** `ca__a` vira *casa*
+e vira *caça* — as duas existem. Sem 🏠 a pergunta teria duas respostas certas
+e a criança seria reprovada por acertar. Um teste exige figura em todas as 64.
+
+**A voz diz a palavra; a tela não a mostra.** Se mostrasse, bastava copiar. E
+as alternativas ficam caladas — "esse-esse, cê-cedilha" não ajuda ninguém a
+decidir.
+
+**Onde não há regra, a explicação admite.** *bruxa* é com X e *mochila* é com
+CH porque sim; inventar uma regra ali seria pior do que dizer "esta se
+decora". Um teste confere que as regras cobrem os temas que a escola cobra —
+e que pelo menos uma palavra é apresentada como decoreba mesmo.
+
 ### A escola pede por ano; o app entregava por dificuldade
 
 O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
@@ -724,8 +750,8 @@ as poucas coisas que a escola cobra nele, **já na faixa certa**:
 | **Antes do 1º** | Começa Igual, Monta a Palavra, Que Letra Começa, Contas, Cores |
 | **1º** | alfabetização, família silábica, contagem e a hora cheia |
 | **2º** | ditado, rimas, tabuada do 2, 5 e 10, meia hora, moedas |
-| **3º** | o resto da tabuada, notas, **interpretação de texto**, ciências |
-| **4º** | 6, 7 e 8, troco, textos mais longos, estados do Brasil |
+| **3º** | o resto da tabuada, notas, **interpretação de texto**, ortografia, ciências |
+| **4º** | 6, 7 e 8, troco, textos mais longos, ortografia, estados do Brasil |
 | **5º** | divisão, troco de nota alta, o mundo além do Brasil |
 
 O ano é sugerido pela idade do perfil e fica **no save do filho**, não no
@@ -1039,7 +1065,7 @@ funções e mais nada.
 | `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
 | `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
 | `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 151 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
+| `tests/*.test.mjs` | 159 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -1240,7 +1266,8 @@ src/
     palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
     novidades.js         o que mudou a cada versão, nos 6 idiomas
     leitura.js           20 textos e 70 perguntas de interpretação, em 4 degraus
-tests/             151 testes em node --test, sem framework nenhum
+    ortografia.js        64 palavras com lacuna: ç ou ss, s ou z, m antes de p e b
+tests/             159 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1352,7 +1379,7 @@ Com a alfabetização fechada, o que falta é o que a escola cobra em prova.
 Ordem decidida com o pai, do que mais pesa para o que menos pesa.
 
 - [x] **Interpretação de texto** *(Pesquisar → Raciocinar)* — feito: 20 textos, 70 perguntas, com inferência e vocabulário, sem cronômetro e com a voz lendo o texto inteiro
-- [ ] **Ortografia** *(Registrar)* — ç ou ss, s ou z, g ou j, m antes de p e b. É onde o caderno leva vermelho, e é regra fechada
+- [x] **Ortografia** *(Registrar)* — feito: 64 palavras com lacuna, e a palavra nunca aparece escrita errado
 - [ ] **Armar a conta e situação-problema** *(Raciocinar)* — o app tem conta mental; falta a conta armada com reserva e o problema em texto, que é como a prova pergunta
 
 ### Depende de outras pessoas
