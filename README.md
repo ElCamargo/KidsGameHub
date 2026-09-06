@@ -1553,7 +1553,7 @@ revisar uma tabela é um fim de semana; revisar milhares de perguntas ninguém f
 - [ ] Revisão pastoral do banco bíblico e do devocional — os documentos já existem (`npm run doc-revisao`), falta a pessoa
 - [ ] Revisão de professora nos bancos da escola e do mundo — mesma coisa: o documento existe, falta quem leia
 - [ ] Versículos e falas em francês, alemão e italiano, de edição em domínio público conferida
-- [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
+- [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md)) — o passo a passo pela conta CNPJ está em [docs/play-store.md](docs/play-store.md); trava no D-U-N-S da empresa e na decisão de domínio
 - [ ] Devocionais em francês, alemão e italiano (o versículo pede edição em domínio público conferida)
 
 ## Privacidade
