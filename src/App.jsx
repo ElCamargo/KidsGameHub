@@ -3,10 +3,10 @@ import { perguntaDoRegistro, semente as sementeDoTexto } from "./data/caderno.js
 import { DESENHOS } from "./data/desenhos.js";
 import { DATA } from "./data/geografia.js";
 import { ULTIMA_NOVIDADE } from "./data/novidades.js";
-import { PALAVRAS } from "./data/palavras.js";
+import { ALFABETO, PALAVRAS } from "./data/palavras.js";
 import { LANG_CATALOG, T } from "./data/textos.js";
-import { estrelasDaPalavra, montarRodadaPalavras } from "./lib/alfabetizacao.js";
-import { ACHIEVEMENTS, CATALOG, DIFFS, ECON, JOGOS_GRATIS, JOGOS_POR_VOZ, MEM_LEVELS, PRECO_GERAR, PZL_ICONE, PZL_JOGO, PZL_TEMAS, ROUTE, SEMANAS_GUARDADAS, SEMANA_VAZIA, TELAS_SEM_SOM, bandFor, custoDaFase, custoDaMemoria, custoDaPalavra, custoDoQuebra, deviceLang, diaISO, ehIOS, ehLeitor, escadaDe, jaInstalado, jogosGratisPara, loadLang, memEstrelas, precoDe, premioDe, semanaAtual, shuffle, tempoFmt, totalDe } from "./lib/catalogo.js";
+import { QUANTAS_DITADO, QUANTAS_PALAVRAS, estrelasDaPalavra, montarRodadaDitado, montarRodadaPalavras } from "./lib/alfabetizacao.js";
+import { DIT_PRECO, PAL_PRECO, ACHIEVEMENTS, CATALOG, DIFFS, ECON, JOGOS_GRATIS, JOGOS_POR_VOZ, MEM_LEVELS, PRECO_GERAR, PZL_ICONE, PZL_JOGO, PZL_TEMAS, ROUTE, SEMANAS_GUARDADAS, SEMANA_VAZIA, TELAS_SEM_SOM, bandFor, custoDaFase, custoDaMemoria, custoDaPalavra, custoDoQuebra, deviceLang, diaISO, ehIOS, ehLeitor, escadaDe, jaInstalado, jogosGratisPara, loadLang, memEstrelas, precoDe, premioDe, semanaAtual, shuffle, tempoFmt, totalDe } from "./lib/catalogo.js";
 import { anoPorIdade, faseDeEntrada } from "./lib/escola.js";
 import { migrarMemBest } from "./lib/memoria.js";
 import { estrelasDo, pecasDe, sortearBordas, totalDePecas } from "./lib/quebracabeca.js";
@@ -126,6 +126,7 @@ function AppInterno() {
   /* Monta a palavra: o recorde é por nível, e mede ERRO e não relógio —
      aprender a ler não é corrida. */
   const [palBest, setPalBest] = useState({});
+  const [ditBest, setDitBest] = useState({});
   const [pal, setPal] = useState(null);
   /* A memória do erro: as perguntas que a criança errou, para voltarem em 1,
      3, 7 e 21 dias. É o que faz o conteúdo que já existe render o dobro. */
@@ -247,7 +248,7 @@ function AppInterno() {
 
   const blankSave = () => ({
     coins: ECON.start, lastRefill: Date.now(), unlocked: ["sa"], progress: {}, owned: [], seenAch: [],
-    stars: {}, records: {}, memBest: {}, pzlBest: {}, palBest: {}, revisao: [], gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [], ano: null,
+    stars: {}, records: {}, memBest: {}, pzlBest: {}, palBest: {}, ditBest: {}, revisao: [], gallery: [], colorDay: { dia: "", moedas: 0 }, gerados: [], jogosAbertos: JOGOS_GRATIS, secoes: [], ano: null,
     presente: { semana: semanaAtual(), restante: ECON.presenteSemanal }, semanas: {}, presenteRecebido: null, caderno: [], duplaDia: "", voz: null,
     stats: {
       rounds: 0, perfect: 0, bestStreak: 0, streak: 0, earned: 0, correct: 0,
@@ -277,6 +278,7 @@ function AppInterno() {
     setStars(d.stars || {}); setRecords(d.records || {}); setMemBest(migrarMemBest(d.memBest, DIFFS));
     setPzlBest(d.pzlBest || {});
     setPalBest(d.palBest || {});
+    setDitBest(d.ditBest || {});
     setRevisao(Array.isArray(d.revisao) ? d.revisao : []);
     setGallery(d.gallery || []); setColorDay(d.colorDay || { dia: "", moedas: 0 });
     setAno(d.ano || null);
@@ -557,13 +559,34 @@ function AppInterno() {
   }
 
   /* ----- monta a palavra ----- */
-  function comecarPalavras(nivel, gratis = false) {
-    const custo = gratis ? 0 : custoDaPalavra(palBest, nivel);
+
+  /* Montar e ditar são o mesmo motor com peças diferentes: sílabas de um
+     lado, letras do outro. Só a tabela abaixo muda entre os dois — daí não
+     haver uma segunda tela de níveis nem um segundo fluxo de rodada. */
+  const MODOS_PALAVRA = {
+    montar: {
+      jogo: "montar", icone: "🔡", prefixo: "p", precos: PAL_PRECO,
+      quantas: QUANTAS_PALAVRAS, best: palBest, setBest: setPalBest,
+      tela: "palLevels", dica: t.buildWord,
+      monta: nivel => montarRodadaPalavras(PALAVRAS, nivel),
+    },
+    ditado: {
+      jogo: "ditado", icone: "✍️", prefixo: "d", precos: DIT_PRECO,
+      quantas: QUANTAS_DITADO, best: ditBest, setBest: setDitBest,
+      tela: "ditLevels", dica: t.dictationHint,
+      monta: nivel => montarRodadaDitado(PALAVRAS, ALFABETO, nivel),
+    },
+  };
+  const modoDaPalavra = () => MODOS_PALAVRA[pal?.modo || "montar"];
+
+  function comecarPalavras(nivel, gratis = false, modo = "montar") {
+    const m = MODOS_PALAVRA[modo];
+    const custo = gratis ? 0 : custoDaPalavra(m.best, nivel);
     if (coins < custo) { setToast(t.notEnough); return; }
-    const palavras = montarRodadaPalavras(PALAVRAS, nivel);
-    if (!palavras.length) { setToast("🔡"); return; }
+    const palavras = m.monta(nivel);
+    if (!palavras.length) { setToast(m.icone); return; }
     if (custo) setCoins(c => c - custo);
-    setPal({ nivel, palavras });
+    setPal({ modo, nivel, palavras });
     setScreen("pal");
   }
 
@@ -572,9 +595,10 @@ function AppInterno() {
     const st = estrelasDaPalavra(erros, quantas);
     const reward = st ? ECON.reward[st] : 0;
     setCoins(c => Math.min(ECON.cap, c + reward));
-    const antes = palBest[pal.nivel];
+    const m = modoDaPalavra();
+    const antes = m.best[pal.nivel];
     const recorde = !antes || erros < antes.erros;
-    setPalBest(b => ({
+    m.setBest(b => ({
       ...b,
       [pal.nivel]: { stars: Math.max(antes?.stars || 0, st), erros: recorde ? erros : antes.erros },
     }));
@@ -883,7 +907,7 @@ function AppInterno() {
   /* grava o jogador ativo a cada mudança */
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
-    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano };
+    const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, ditBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano };
     try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
@@ -895,7 +919,7 @@ function AppInterno() {
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
-  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano]);
+  }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, ditBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano]);
 
   /* A lista de vozes chega vazia na primeira pergunta em quase todo
      navegador, e só depois o aparelho avisa que carregou. */
@@ -1278,17 +1302,24 @@ function AppInterno() {
             repetirBloqueado: coins < custoDaMemoria(memBest, mem.tema, mem.nivel),
             aoSair: () => setScreen("memLevels") }} />
         )}
-        {screen === "palLevels" && <PalavraLevels {...{ t, coins, palBest, setScreen, comecar: comecarPalavras, temSecao, comprarSecao, escola: porEscola }} />}
+        {(screen === "palLevels" || screen === "ditLevels") && (() => {
+          const m = MODOS_PALAVRA[screen === "ditLevels" ? "ditado" : "montar"];
+          return <PalavraLevels {...{ t, coins, setScreen, temSecao, comprarSecao, escola: porEscola,
+            best: m.best, jogo: m.jogo, icone: m.icone, prefixo: m.prefixo, precos: m.precos,
+            quantas: m.quantas, dica: m.dica,
+            comecar: (nivel, gratis) => comecarPalavras(nivel, gratis, m.jogo === "ditado" ? "ditado" : "montar") }} />;
+        })()}
         {screen === "pal" && pal && <PalavraGame {...{ t, lang, palavras: pal.palavras, voz: voz && vozOk,
-          onFinish: fimPalavras, onQuit: () => setScreen("palLevels") }} />}
+          titulo: t.games[modoDaPalavra().jogo],
+          onFinish: fimPalavras, onQuit: () => setScreen(modoDaPalavra().tela) }} />}
         {screen === "palResult" && pal && (
           <PlacarDeTempo {...{ t, st: pal.st, reward: pal.reward, recorde: pal.recorde,
             /* Erro conta com o ❌ e não com palavra: "Jogadas" aqui seria mentira,
                e sem erro nenhum a linha nem menciona — não se cobra o acerto. */
             linha: `${t.words2}: ${pal.palavras.length}${pal.erros ? ` · ❌ ${pal.erros}` : ""}`,
-            aoRepetir: () => comecarPalavras(pal.nivel),
-            repetirBloqueado: coins < custoDaPalavra(palBest, pal.nivel),
-            aoSair: () => setScreen("palLevels") }} />
+            aoRepetir: () => comecarPalavras(pal.nivel, false, pal.modo),
+            repetirBloqueado: coins < custoDaPalavra(modoDaPalavra().best, pal.nivel),
+            aoSair: () => setScreen(modoDaPalavra().tela) }} />
         )}
         {screen === "pzlLevels" && <PuzzleLevels {...{ t, coins, pzlBest, setScreen, comecar: comecarQuebra, tema: pzlTema,
           titulo: t.games[PZL_JOGO[pzlTema]], icone: PZL_ICONE[pzlTema], temSecao, comprarSecao }} />}
@@ -1325,6 +1356,7 @@ function AppInterno() {
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
             if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
             if (g === "montar") { setPorEscola(false); setScreen("palLevels"); return; }
+            if (g === "ditado") { setPorEscola(false); setScreen("ditLevels"); return; }
             if (PZL_TEMAS[g]) { setPzlTema(PZL_TEMAS[g]); setScreen("pzlLevels"); return; }
             if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
             if (quizzes[g]) {

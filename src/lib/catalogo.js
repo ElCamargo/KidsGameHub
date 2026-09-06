@@ -80,6 +80,7 @@ export const CATALOG = [
       { id: "inicial", icon: "🅰️", color: "#00B894", preco: 150, leitura: false, vozBasta: true, ready: true },
       { id: "rimas", icon: "🎵", color: "#9B59B6", preco: 250, leitura: true, vozBasta: true, ready: true },
       { id: "silabas", icon: "🆎", color: "#FF7043", preco: 350, leitura: false, vozBasta: true, ready: true },
+      { id: "ditado", icon: "✍️", color: "#6A5AE0", preco: 450, leitura: false, vozBasta: true, ready: true },
   ]},
   { id: "geo", icon: "🌍", color: "#4C6FFF", games: [
       { id: "flags", icon: "🚩", color: "#00B894", preco: 0, leitura: true, ready: true },
@@ -178,6 +179,7 @@ export const MEM_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 200, mestre
 export const PZL_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre: 400, lenda: 600 };   // sobe com o número de peças
 
 export const PAL_PRECO  = { easy: 0, medium: 80, hard: 120, genius: 200, mestre: 300, lenda: 450 };    // mais barato: é o chão do resto
+export const DIT_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre: 350, lenda: 500 };   // vem depois do montar, custa um pouco mais
 
 /* Um motor, seis entradas — como a memória. O que muda é só de onde vem a
    imagem: arquivo de bandeira, desenho pintado, ou cartaz de figuras. */
