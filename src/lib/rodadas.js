@@ -13,6 +13,7 @@ import { BR_ESTADOS, CAPITAIS, CAP_DE, CAP_ES, CAP_FR, CAP_IT, CAP_PT, DATA, SUB
 import { ALFABETO, DIGRAFOS_INICIAIS, PALAVRAS } from "../data/palavras.js";
 import { palavrasDaFaixa } from "./alfabetizacao.js";
 import { ISCAS, MODO_DA_FAIXA, silabaCobrada } from "./silabas.js";
+import { ARMADILHA_DA_FAIXA, gruposDeSom, mesmaLetraOutroSom, somInicial, somIrmao } from "./sons.js";
 import { LANG_CATALOG, T } from "../data/textos.js";
 import { bandFor, countryName, qtdPerguntas, shuffle, tempoDe } from "./catalogo.js";
 import { RELOGIOS, contaDaTabuada, daquiA, formatarReal, horaEscrita, numerosParecidos, punhado, relogiosDaFaixa, valoresParecidos } from "./matematica.js";
@@ -952,6 +953,61 @@ export function montarRodadaSilaba(stage, t) {
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
+/* ---------- Começa igual ----------
+   Consciência FONÊMICA: ouvir que "bola" e "bebê" começam com o mesmo som,
+   antes de saber que aquilo se escreve com B. É a habilidade que o "som da
+   letra" gravado ia ensinar — e que não precisa de gravação nenhuma, porque
+   o app só diz palavras inteiras (ver docs/decisoes/0004 e 0006).
+
+   E ela não precisaria mesmo: metade das consoantes NÃO TEM som isolado.
+   O /b/ existe só no instante em que a boca abre para a vogal — ninguém diz
+   /b/ puro, nem gravando. O que se ensina é a comparação, e é ela que está
+   aqui.
+
+   Agrupa por SOM e não por letra: "casa" e "queijo" começam igual, "casa" e
+   "cebola" não (ver src/lib/sons.js). */
+export function montarRodadaAliteracao(stage, t) {
+  const band = bandFor("aliteracao", stage);
+  const qCount = qtdPerguntas(band);
+  const modo = ARMADILHA_DA_FAIXA[band] || "nenhuma";
+  const grupos = [...gruposDeSom(PALAVRAS).values()].filter(g => g.length >= 2);
+  const qs = [];
+  let guarda = 0;
+  while (qs.length < qCount && guarda++ < 400) {
+    const grupo = grupos[Math.floor(Math.random() * grupos.length)];
+    const [alvo, certa] = shuffle(grupo).slice(0, 2);
+    if (!alvo || !certa || qs.some(q => q.prompt === alvo.e)) continue;
+    const som = somInicial(alvo.w);
+    /* Toda isca tem que começar com som DIFERENTE do alvo, senão a pergunta
+       teria duas respostas certas. */
+    const fora = PALAVRAS.filter(p => somInicial(p.w) !== som);
+    const iscas = [];
+    if (modo !== "nenhuma") {
+      const irmao = somIrmao(som);
+      const doIrmao = shuffle(fora.filter(p => somInicial(p.w) === irmao))[0];
+      if (doIrmao) iscas.push(doIrmao);
+    }
+    if (modo === "letra") {
+      const trapaca = shuffle(fora.filter(p => mesmaLetraOutroSom(p.w, alvo.w) && !iscas.includes(p)))[0];
+      if (trapaca) iscas.push(trapaca);
+    }
+    for (const p of shuffle(fora)) {
+      if (iscas.length >= 3) break;
+      if (!iscas.includes(p)) iscas.push(p);
+    }
+    if (iscas.length < 3) continue;
+    qs.push({
+      kind: "emojiAsk", prompt: alvo.e,
+      ask: t.askAlit.replace("{p}", alvo.w),
+      answer: certa.w,
+      options: shuffle([certa.w, ...iscas.map(p => p.w)]),
+      porque: t.whyAlit.replace("{a}", certa.w).replace("{b}", alvo.w),
+    });
+  }
+  return { cont: "aliteracao", diff: band, stage, qs, time: tempoDe("aliteracao", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
 /* ---------- Rimas ----------
    Ouvir que "gato" e "pato" terminam igual é consciência fonológica pura, e
    vem antes de ler. A figura pergunta, as palavras respondem — e a voz do
@@ -985,6 +1041,7 @@ export function montarRodadaRima(stage, t) {
 const QUIZZES = {
   inicial: { icone: "🅰️", cor: "#00B894", nome: t => t.games.inicial, montar: (st, t) => montarRodadaInicial(st, t) },
   silabas: { icone: "🆎", cor: "#FF7043", nome: t => t.games.silabas, montar: (st, t) => montarRodadaSilaba(st, t) },
+  aliteracao: { icone: "👂", cor: "#00C2CB", nome: t => t.games.aliteracao, montar: (st, t) => montarRodadaAliteracao(st, t) },
   tabuada: { icone: "✖️", cor: "#E84393", nome: t => t.games.tabuada, montar: (st, t) => montarRodadaTabuada(st, t) },
   horas:   { icone: "🕐", cor: "#6A5AE0", nome: t => t.games.horas,   montar: (st, t) => montarRodadaHoras(st, t) },
   dinheiro:{ icone: "💰", cor: "#00B894", nome: t => t.games.dinheiro, montar: (st, t) => montarRodadaDinheiro(st, t) },
