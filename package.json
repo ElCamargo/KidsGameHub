@@ -22,7 +22,9 @@
     "check-rodadas": "node scripts/check-rodadas.mjs",
     "test": "node --test",
     "check-faixas": "node scripts/check-faixas.mjs",
-    "doc-biblia": "node scripts/doc-biblia.mjs"
+    "doc-biblia": "node scripts/doc-biblia.mjs",
+    "doc-bancos": "node scripts/doc-bancos.mjs",
+    "doc-revisao": "npm run doc-biblia && npm run doc-bancos"
   },
   "dependencies": {
     "@fontsource/baloo-2": "^5.1.0",

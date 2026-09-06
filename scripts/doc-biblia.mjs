@@ -19,39 +19,13 @@
  *
  * Rodar: npm run doc-biblia
  */
-import fs from "node:fs";
-import { execSync } from "node:child_process";
+import { pt, cod, secao, pagina } from "./lib/doc-revisao.mjs";
 import { LIVROS, AUTORES, GRUPOS_BIBLIA, LISTAS_BIBLIA } from "../src/data/biblia-livros.js";
 import { PERSONAGENS, PARENTESCO, MAES, PAPEIS } from "../src/data/biblia-pessoas.js";
 import { LUGARES, MILAGRES, PARABOLAS } from "../src/data/biblia-lugares.js";
 import { VERSICULOS, CITACOES, NUMEROS, FATOS } from "../src/data/biblia-fatos.js";
 
-const pt = x => (x && typeof x === "object" ? x.pt : x) ?? "";
-const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-/* O código é a POSIÇÃO na tabela, e não o campo `n` dela: `n` é o grau de
-   dificuldade (vai de 1 a 4) e se repete às dezenas. Cada linha traz também o
-   nome, então o código serve para apontar rápido e o nome desfaz qualquer
-   dúvida. */
-const cod = (p, i) => `${p}-${String(i).padStart(3, "0")}`;
-
-/* Uma seção: o que a tabela vira, e a tabela. */
-function secao({ id, titulo, quantos, vira, colunas, linhas, nota }) {
-  return `
-<section id="${id}">
-  <h2>${esc(titulo)} <span class="conta">${quantos} ${quantos === 1 ? "linha" : "linhas"}</span></h2>
-  <p class="vira"><strong>O que isto vira no app:</strong> ${vira}</p>
-  ${nota ? `<p class="nota">${nota}</p>` : ""}
-  <table>
-    <thead><tr><th class="cod">Código</th>${colunas.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead>
-    <tbody>
-      ${linhas.map(([c, ...cels]) => `<tr><td class="cod">${c}</td>${cels.map(v => `<td>${esc(v)}</td>`).join("")}</tr>`).join("\n      ")}
-    </tbody>
-  </table>
-</section>`;
-}
-
 const secoes = [];
-
 /* ---------- os 66 livros ---------- */
 secoes.push(secao({
   id: "livros", titulo: "Os 66 livros", quantos: LIVROS.length,
@@ -155,67 +129,12 @@ const total = [LIVROS, PERSONAGENS, PARENTESCO, MAES, LUGARES, MILAGRES, PARABOL
   VERSICULOS, CITACOES, NUMEROS, FATOS].reduce((s, a) => s + a.length, 0)
   + Object.values(LISTAS_BIBLIA).reduce((s, l) => s + l.itens.length, 0);
 
-let versao = "";
-try {
-  const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-  const tag = execSync("git describe --tags --always", { encoding: "utf8" }).trim();
-  versao = tag.startsWith("v" + pkg.version) ? tag : `v${pkg.version} · ${tag}`;
-} catch { versao = "versão não identificada"; }
-
-const hoje = new Date().toISOString().slice(0, 10);
-
-const html = `<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lumus — revisão do banco bíblico</title>
-<style>
-  :root { color-scheme: light; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: #FAF9F6; color: #1B2A6B;
-    font-family: Georgia, "Times New Roman", serif; line-height: 1.65; }
-  .folha { max-width: 940px; margin: 0 auto; padding: 32px 22px 80px; }
-  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 4px; }
-  .sub { color: #6C7695; font-size: 15px; margin: 0 0 26px; }
-  h2 { font-size: 21px; margin: 38px 0 6px; padding-top: 14px; border-top: 3px solid #1B2A6B; }
-  .conta { float: right; font-size: 13px; font-weight: normal; color: #6C7695;
-    font-family: ui-monospace, Consolas, monospace; padding-top: 8px; }
-  .vira { margin: 0 0 10px; font-size: 14px; color: #3C4A7A; }
-  .nota { margin: 0 0 12px; font-size: 14px; background: #FFF4D6; border-left: 4px solid #F9A826;
-    padding: 9px 12px; }
-  .caixa { background: #EEF1FF; border: 2px solid #C3CBEA; border-radius: 10px;
-    padding: 16px 18px; margin: 0 0 26px; }
-  .caixa h3 { margin: 0 0 8px; font-size: 17px; }
-  .caixa ol { margin: 0; padding-left: 20px; }
-  .caixa li { margin-bottom: 6px; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px;
-    font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
-  th { text-align: left; background: #1B2A6B; color: #fff; padding: 7px 9px; font-weight: 700; }
-  td { padding: 6px 9px; border-bottom: 1px solid #E0E4F0; vertical-align: top; }
-  tbody tr:nth-child(even) { background: #F2F4FB; }
-  .cod { font-family: ui-monospace, Consolas, monospace; font-size: 12px;
-    color: #6C7695; white-space: nowrap; width: 1%; }
-  nav { font-size: 14px; margin: 0 0 8px; }
-  nav a { color: #4C6FFF; margin-right: 14px; white-space: nowrap; display: inline-block; }
-  footer { margin-top: 48px; padding-top: 14px; border-top: 2px solid #C3CBEA;
-    font-size: 13px; color: #6C7695; }
-  @media print {
-    body { background: #fff; }
-    .folha { max-width: none; padding: 0; }
-    h2 { break-after: avoid; }
-    tr { break-inside: avoid; }
-    nav { display: none; }
-  }
-</style>
-</head>
-<body>
-<div class="folha">
-
-<h1>Lumus — revisão do banco bíblico</h1>
-<p class="sub">${total} fatos · ${versao} · gerado em ${hoje}</p>
-
-<div class="caixa">
+pagina({
+  arquivo: "docs/revisao-biblia.html",
+  titulo: "Lumus — revisão do banco bíblico",
+  vindoDe: "src/data/biblia-*.js (npm run doc-biblia)",
+  total, secoes,
+  caixa: `<div class="caixa">
   <h3>O que é isto, e o que se espera de quem lê</h3>
   <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
   e sem coleta de dados, dado de graça a famílias. Uma das áreas é a Bíblia.</p>
@@ -242,32 +161,8 @@ const html = `<!doctype html>
   <span class="cod">PES-014</span>…). Basta escrever o código e o que está errado —
   numa mensagem, num papel, do jeito que for mais fácil. Não é preciso abrir nada
   de programação.</p>
-</div>
-
-<nav>${secoes.map(s => {
-  const id = s.match(/id="([^"]+)"/)[1];
-  const titulo = s.match(/<h2>([^<]*)/)[1].trim();
-  return `<a href="#${id}">${esc(titulo)}</a>`;
-}).join("")}</nav>
-
-${secoes.join("\n")}
-
-<footer>
-  <p><strong>Lumus — Kids Game Hub</strong> · ElCamargo Soluções em TI LTDA · Blumenau, SC<br>
-  Gerado por <code>npm run doc-biblia</code> a partir de <code>src/data/biblia-*.js</code>.
-  Os códigos seguem a ordem das tabelas: acrescentar uma linha no meio desloca
-  as seguintes, então vale marcar tudo neste mesmo documento e só depois gerar
-  o próximo. Cada linha traz o nome ao lado do código, que desfaz qualquer dúvida.</p>
-  <p>Os textos em francês, alemão e italiano ainda não existem para os versículos e
+</div>`,
+  rodape: `<p>Os textos em francês, alemão e italiano ainda não existem para os versículos e
   as falas — está no roadmap, e depende de uma edição em domínio público conferida
-  para cada língua. Não é erro do banco.</p>
-</footer>
-
-</div>
-</body>
-</html>
-`;
-
-fs.mkdirSync("docs", { recursive: true });
-fs.writeFileSync("docs/revisao-biblia.html", html);
-console.log(`\n✓ docs/revisao-biblia.html — ${total} fatos em ${secoes.length} seções\n`);
+  para cada língua. Não é erro do banco.</p>`,
+});
