@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **34**, em 7 áreas |
+| Jogos | **36**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 175 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 185 testes |
 | Licença | MIT |
 
 ---
@@ -132,7 +132,7 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **34 jogos em 7 áreas**.
+São **36 jogos em 7 áreas**.
 
 ### Jogos
 
@@ -149,6 +149,7 @@ São **34 jogos em 7 áreas**.
 | 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR **com a bandeira de cada um** → países por continente → estados dos EUA |
+| 🌍 Geografia | O Brasil | as 5 regiões, os 27 estados, símbolos e biomas |
 | 🌍 Geografia | Curiosidades do Mundo | 235 lugares reais: em que país, cidade, mar ou continente |
 | 🌍 Geografia | Quebra-cabeça do Mundo | monta a bandeira peça por peça, de 4 a 24 peças |
 | 🔢 Matemática | Contas e Números | soma a decimais, até 5º ano |
@@ -162,6 +163,7 @@ São **34 jogos em 7 áreas**.
 | 🦁 Natureza | Quebra-cabeça dos Animais | monta um cartaz de bichos |
 | 🦁 Natureza | Quiz dos Animais | classes, habitat, características |
 | 🦁 Natureza | Curiosidades dos Animais | 400 perguntas de 94 animais: grupo, dieta, casa, nascimento |
+| 🦁 Natureza | Corpo e Natureza | corpo humano, plantas, água, sentidos, materiais e higiene |
 | 🎨 Arte | Pintar e Colorir | 58 desenhos + gerador infinito |
 | 🎨 Arte | Cores e Formas | cor, forma e as duas juntas |
 | 🎨 Arte | Memória das Formas | 27 combinações |
@@ -774,6 +776,38 @@ A escada é a reserva, e o teste garante isso: no Fácil **nenhuma** conta tem
 vai-um, e do Médio em diante **todas** têm. Faixa que sorteia ora com, ora sem,
 não é degrau — é sorteio.
 
+### Ciências além dos bichos, e o Brasil antes do mundo
+
+Duas áreas do app estavam tortas em relação à escola.
+
+**🧪 Corpo e Natureza.** A área de Ciências era inteira sobre animais. A escola
+de 1º ao 5º ano cobra na mesma medida o **corpo humano**, as **plantas**, a
+**água** e os **materiais** — e a **higiene**, que não é prova, é vida. São 47
+perguntas escritas à mão em seis temas.
+
+Diferente do banco dos animais, aqui a pergunta **não sai de molde**: não há um
+fato por trás que sirva para todas. O que uma planta precisa não se deduz do
+que um coração faz.
+
+**🇧🇷 O Brasil.** O app nasceu olhando o mundo — 176 bandeiras, capitais de
+sete regiões. A escola brasileira faz o caminho contrário: começa pela rua,
+pelo município, pelo estado, e só depois chega no mundo. **Faltava o começo.**
+
+Metade das perguntas se **gera** da tabela dos 27 estados — em que região fica
+cada um —, e a outra metade é fato escrito à mão: símbolos, biomas, o rio, a
+capital do país. **As capitais ficam de fora de propósito:** já são um jogo
+inteiro, e repetir seria duas trilhas ensinando a mesma coisa.
+
+**A pergunta de região mostra sempre o mapa.** Eu tinha dado um emoji a cada
+região — 🌵 para o Nordeste, 🧉 para o Sul — e o teste flagrou o problema num
+lugar que eu não previ: a pergunta *"em que região se toma chimarrão?"* trazia
+justamente o 🧉. Figura típica responde a pergunta antes de a criança pensar.
+O emoji da região não era usado em lugar nenhum, e saiu.
+
+**Uma correção que veio junto:** a chave da revisão espaçada usava só a figura
+quando havia uma. Duas perguntas de ciências com o mesmo 🦴 viravam **a mesma**
+na fila, e uma se perdia. Agora a chave junta figura e enunciado.
+
 ### A escola pede por ano; o app entregava por dificuldade
 
 O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
@@ -787,11 +821,11 @@ as poucas coisas que a escola cobra nele, **já na faixa certa**:
 | Ano | O que abre |
 |---|---|
 | **Antes do 1º** | Começa Igual, Monta a Palavra, Que Letra Começa, Contas, Cores |
-| **1º** | alfabetização, família silábica, contagem e a hora cheia |
+| **1º** | alfabetização, família silábica, contagem, a hora cheia e o corpo humano |
 | **2º** | ditado, conta armada, rimas, tabuada do 2, 5 e 10, meia hora, moedas |
 | **3º** | o resto da tabuada, notas, **interpretação de texto**, ortografia, situação-problema, ciências |
 | **4º** | 6, 7 e 8, troco, textos mais longos, ortografia, estados do Brasil |
-| **5º** | divisão, troco de nota alta, o mundo além do Brasil |
+| **5º** | divisão, troco de nota alta, as regiões do Brasil, o mundo |
 
 O ano é sugerido pela idade do perfil e fica **no save do filho**, não no
 aparelho: dois irmãos no mesmo celular estão em anos diferentes. A ficha do
@@ -1104,7 +1138,7 @@ funções e mais nada.
 | `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
 | `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
 | `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 175 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
+| `tests/*.test.mjs` | 185 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -1309,7 +1343,9 @@ src/
     novidades.js         o que mudou a cada versão, nos 6 idiomas
     leitura.js           20 textos e 70 perguntas de interpretação, em 4 degraus
     ortografia.js        64 palavras com lacuna: ç ou ss, s ou z, m antes de p e b
-tests/             175 testes em node --test, sem framework nenhum
+    ciencias-mundo.js    47 perguntas de corpo, plantas, água, sentidos e materiais
+    brasil.js            os 27 estados com região, e os fatos que a prova cobra
+tests/             185 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1423,6 +1459,8 @@ Ordem decidida com o pai, do que mais pesa para o que menos pesa.
 - [x] **Interpretação de texto** *(Pesquisar → Raciocinar)* — feito: 20 textos, 70 perguntas, com inferência e vocabulário, sem cronômetro e com a voz lendo o texto inteiro
 - [x] **Ortografia** *(Registrar)* — feito: 64 palavras com lacuna, e a palavra nunca aparece escrita errado
 - [x] **Armar a conta e situação-problema** *(Raciocinar)* — feito: o problema em texto, com as iscas que são os erros de verdade, e a conta armada com vai-um e empresta-um
+- [x] **Ciências além dos bichos** *(Pesquisar)* — feito: corpo humano, plantas, água, sentidos, materiais e higiene
+- [x] **O Brasil antes do mundo** *(Relacionar)* — feito: as 5 regiões, os 27 estados, símbolos e biomas
 
 ### Depende de outras pessoas
 

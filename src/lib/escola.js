@@ -48,6 +48,7 @@ export const CONTEUDO = {
     { jogo: "rimas", cont: "rimas", banda: "easy" },
     { jogo: "count", cont: "math", banda: "easy" },
     { jogo: "horas", cont: "horas", banda: "easy" },
+    { jogo: "corpo", cont: "corpo", banda: "easy" },
   ],
   /* 2º ano: entra a tabuada fácil (2, 5 e 10, as que se contam nos dedos),
      a meia hora e o dinheiro em moedas. */
@@ -90,6 +91,7 @@ export const CONTEUDO = {
     { jogo: "count", cont: "math", banda: "mestre" },
     { jogo: "sciAnimals", cont: "ciencias", banda: "hard" },
     { jogo: "capitals", cont: "cap_br", banda: "medium" },
+    { jogo: "brasil", cont: "brasil", banda: "hard" },
     { jogo: "curiosidades", cont: "curiosidades", banda: "easy" },
   ],
 };

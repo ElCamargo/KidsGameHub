@@ -21,6 +21,7 @@ export const NOVIDADES = [
       pt: {
         titulo: "Ler, contar e lembrar",
         itens: [
+          "Mais dois: Corpo e Natureza (corpo, plantas, água) e O Brasil (regiões e estados)",
           "Dois jogos novos: Problema do Dia e Arma a Conta, com vai-um e empresta-um",
           "Jogo novo: Como Se Escreve — ç ou ss, s ou z, m antes de p e b",
           "Jogo novo: Leitura do Lumus — o app lê um texto e faz perguntas sobre ele",
@@ -39,6 +40,7 @@ export const NOVIDADES = [
       en: {
         titulo: "Reading, counting and remembering",
         itens: [
+          "Two more: Body and Nature (body, plants, water) and Brazil (regions and states)",
           "Two new games: Word Problem and Stack the Sum, with carrying and borrowing",
           "New game: How Do You Spell It — fill the gap in the word you hear",
           "New game: Lumus Reading — the app reads a text and asks questions about it",
@@ -57,6 +59,7 @@ export const NOVIDADES = [
       es: {
         titulo: "Leer, contar y recordar",
         itens: [
+          "Dos más: Cuerpo y Naturaleza (cuerpo, plantas, agua) y Brasil (regiones y estados)",
           "Dos juegos nuevos: Problema del Día y Arma la Cuenta, con llevadas y préstamos",
           "Juego nuevo: Cómo Se Escribe — completa el hueco de la palabra que escuchas",
           "Juego nuevo: Lectura de Lumus — la app lee un texto y hace preguntas sobre él",
@@ -75,6 +78,7 @@ export const NOVIDADES = [
       fr: {
         titulo: "Lire, compter et se souvenir",
         itens: [
+          "Deux de plus : Corps et Nature (corps, plantes, eau) et Le Brésil (régions et états)",
           "Deux nouveaux jeux : Problème du Jour et Pose l'Opération, avec retenues",
           "Nouveau jeu : Comment Ça S'écrit — complète le trou du mot que tu entends",
           "Nouveau jeu : Lecture de Lumus — l'appli lit un texte et pose des questions dessus",
@@ -93,6 +97,7 @@ export const NOVIDADES = [
       de: {
         titulo: "Lesen, rechnen und behalten",
         itens: [
+          "Zwei weitere: Körper und Natur (Körper, Pflanzen, Wasser) und Brasilien (Regionen)",
           "Zwei neue Spiele: Sachaufgabe und Schriftlich Rechnen, mit Übertrag",
           "Neues Spiel: Wie Schreibt Man Das — füll die Lücke im gehörten Wort",
           "Neues Spiel: Lumus-Lesen — die App liest einen Text vor und stellt Fragen dazu",
@@ -111,6 +116,7 @@ export const NOVIDADES = [
       it: {
         titulo: "Leggere, contare e ricordare",
         itens: [
+          "Altri due: Corpo e Natura (corpo, piante, acqua) e Il Brasile (regioni e stati)",
           "Due giochi nuovi: Problema del Giorno e Incolonna il Conto, con il riporto",
           "Gioco nuovo: Come Si Scrive — completa lo spazio della parola che ascolti",
           "Gioco nuovo: Lettura di Lumus — l'app legge un testo e fa domande su di esso",

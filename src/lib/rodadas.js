@@ -14,6 +14,8 @@ import { ALFABETO, DIGRAFOS_INICIAIS, PALAVRAS } from "../data/palavras.js";
 import { LEITURAS, NIVEIS_DA_LEITURA } from "../data/leitura.js";
 import { ORTOGRAFIA, NIVEIS_DA_ORTOGRAFIA } from "../data/ortografia.js";
 import { montarProblema } from "./problemas.js";
+import { CIENCIAS_MUNDO, NIVEIS_DA_CIENCIA } from "../data/ciencias-mundo.js";
+import { ESTADOS, FATOS, NIVEIS_DO_BRASIL, REGIOES } from "../data/brasil.js";
 import { palavrasDaFaixa } from "./alfabetizacao.js";
 import { ISCAS, MODO_DA_FAIXA, silabaCobrada } from "./silabas.js";
 import { ARMADILHA_DA_FAIXA, gruposDeSom, mesmaLetraOutroSom, somInicial, somIrmao } from "./sons.js";
@@ -1102,6 +1104,64 @@ export function montarRodadaProblema(stage, t) {
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
 }
 
+/* ---------- Corpo e Natureza ----------
+   A área de Ciências do app era inteira sobre bichos. A escola de 1º ao 5º
+   ano cobra na mesma medida o corpo humano, as plantas, a água e os
+   materiais — e a higiene, que não é prova, é vida.
+
+   Diferente do banco dos animais, a pergunta é escrita à mão: não há um fato
+   por trás que sirva de molde para todas. O que uma planta precisa não se
+   deduz do que um coração faz. */
+export function montarRodadaCorpo(stage, t) {
+  const band = bandFor("corpo", stage);
+  const niveis = NIVEIS_DA_CIENCIA[band] || NIVEIS_DA_CIENCIA.easy;
+  const cabem = shuffle(CIENCIAS_MUNDO.filter(x => niveis.includes(x.n)));
+  return {
+    cont: "corpo", diff: band, stage, time: tempoDe("corpo", stage), t0: Date.now(),
+    qs: cabem.slice(0, qtdPerguntas(band)).map(x => ({
+      kind: "emojiAsk", prompt: x.e, ask: x.q,
+      answer: x.a, options: shuffle(x.o), porque: x.porque,
+    })),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0,
+  };
+}
+
+
+/* ---------- O Brasil ----------
+   O app nasceu olhando o mundo. A escola brasileira faz o contrário: começa
+   pela rua, pelo município, pelo estado, e só depois chega no mundo. Faltava
+   o começo.
+
+   Metade das perguntas se GERA da tabela dos 27 estados — em que região fica
+   cada um —, e a outra metade é fato escrito à mão: símbolos, biomas, o rio.
+   As capitais ficam de fora de propósito: já são um jogo inteiro.
+
+   A figura das perguntas de região é sempre o mapa, e nunca o emoji da
+   região: 🌵 no enunciado entregaria "Nordeste" antes de a criança pensar. */
+export function montarRodadaBrasil(stage, t) {
+  const band = bandFor("brasil", stage);
+  const niveis = NIVEIS_DO_BRASIL[band] || NIVEIS_DO_BRASIL.easy;
+  const nomes = Object.values(REGIOES).map(r => r.nome);
+  const deRegiao = ESTADOS.filter(e => niveis.includes(e.n)).map(e => {
+    const certa = REGIOES[e.r].nome;
+    const fora = shuffle(nomes.filter(n => n !== certa)).slice(0, 3);
+    return {
+      kind: "emojiAsk", prompt: "🗺️", ask: t.askRegiao.replace("{p}", e.w),
+      answer: certa, options: shuffle([certa, ...fora]),
+      porque: t.whyRegiao.replace("{p}", e.w).replace("{r}", certa),
+    };
+  });
+  const deFato = FATOS.filter(f => niveis.includes(f.n)).map(f => ({
+    kind: "emojiAsk", prompt: f.e, ask: f.q,
+    answer: f.a, options: shuffle(f.o), porque: f.porque,
+  }));
+  return {
+    cont: "brasil", diff: band, stage, time: tempoDe("brasil", stage), t0: Date.now(),
+    qs: shuffle([...deRegiao, ...deFato]).slice(0, qtdPerguntas(band)),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0,
+  };
+}
+
 /* ---------- Rimas ----------
    Ouvir que "gato" e "pato" terminam igual é consciência fonológica pura, e
    vem antes de ler. A figura pergunta, as palavras respondem — e a voz do
@@ -1139,6 +1199,8 @@ const QUIZZES = {
   leitura: { icone: "📖", cor: "#8D6E3A", nome: t => t.games.leitura, montar: (st, t) => montarRodadaLeitura(st, t) },
   ortografia: { icone: "📝", cor: "#E84393", nome: t => t.games.ortografia, montar: (st, t) => montarRodadaOrtografia(st, t) },
   problema: { icone: "🧩", cor: "#F9A826", nome: t => t.games.problema, montar: (st, t) => montarRodadaProblema(st, t) },
+  corpo: { icone: "🧪", cor: "#00C2CB", nome: t => t.games.corpo, montar: (st, t) => montarRodadaCorpo(st, t) },
+  brasil: { icone: "🇧🇷", cor: "#00B894", nome: t => t.games.brasil, montar: (st, t) => montarRodadaBrasil(st, t) },
   tabuada: { icone: "✖️", cor: "#E84393", nome: t => t.games.tabuada, montar: (st, t) => montarRodadaTabuada(st, t) },
   horas:   { icone: "🕐", cor: "#6A5AE0", nome: t => t.games.horas,   montar: (st, t) => montarRodadaHoras(st, t) },
   dinheiro:{ icone: "💰", cor: "#00B894", nome: t => t.games.dinheiro, montar: (st, t) => montarRodadaDinheiro(st, t) },
