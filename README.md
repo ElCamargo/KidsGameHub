@@ -1286,7 +1286,25 @@ npm test
 
 ## Publicando o site
 
-O deploy é automático. Todo push na branch `main` dispara o workflow em `.github/workflows/deploy.yml`, que compila e publica.
+**O que está no ar é a última TAG, não a última alteração.** Criar uma tag
+`v*` dispara o `.github/workflows/deploy.yml`, que compila e publica:
+
+```bash
+git tag -a v1.2.0 -m "o que mudou"
+git push origin v1.2.0
+```
+
+Antes era todo push na `main`, e isso é ruim justamente quando as crianças
+estão usando: uma alteração no meio de um teste chegava ao celular sem ninguém
+decidir que era hora. Agora a `main` é onde se trabalha, e a tag é a decisão
+de publicar.
+
+**Para voltar a uma versão antiga**, ou republicar sem criar tag nova: Actions
+→ Deploy → *Run workflow* → escolha a tag em *Use workflow from*. O Pages serve
+uma versão só, então publicar a antiga substitui a atual.
+
+O portão de qualidade (`ci.yml`) continua rodando em todo push e todo PR, para
+nada quebrado chegar a virar tag.
 
 Antes do primeiro deploy, no GitHub: **Settings → Pages → Source → GitHub Actions**.
 
@@ -1377,7 +1395,7 @@ scripts/
 flags-extra/       as 42 bandeiras baixadas à mão, com FONTES.md ao lado
 .github/workflows/
   ci.yml             guardas, testes e build em toda alteração
-  deploy.yml         publica no GitHub Pages
+  deploy.yml         publica no GitHub Pages — só quando nasce uma tag v*
 public/            ícones do app
 vite.config.js     build, PWA e a divisão do pacote em três pedaços
 ```

@@ -1,10 +1,24 @@
-# KidsGameHub — publicação automática no GitHub Pages
+# KidsGameHub — publicação no GitHub Pages
 # ElCamargo Soluções em TI LTDA
+#
+# PUBLICA POR TAG, e não por push na main.
+#
+# Antes, todo push na main ia direto para o celular das crianças. Isso é ruim
+# justamente quando elas estão usando: uma alteração no meio de um teste chega
+# sem ninguém decidir que era hora. Agora a main é onde se trabalha, e o que
+# está no ar só muda quando alguém cria uma tag de versão.
+#
+# Para publicar: crie a tag (git tag -a v1.2.0 && git push origin v1.2.0).
+# Para voltar a uma versão antiga, ou republicar sem tag nova: rode este
+# workflow à mão pelo Actions, escolhendo a tag em "Use workflow from".
+#
+# O portão de qualidade (ci.yml) continua rodando em todo push e todo PR, para
+# nada quebrado chegar a virar tag.
 name: Deploy
 
 on:
   push:
-    branches: [main]
+    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
