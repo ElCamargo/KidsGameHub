@@ -43,6 +43,7 @@ export const CONTEUDO = {
   a1: [
     { jogo: "montar", tela: "palLevels" },
     { jogo: "inicial", cont: "inicial", banda: "easy" },
+    { jogo: "silabas", cont: "silabas", banda: "easy" },
     { jogo: "rimas", cont: "rimas", banda: "easy" },
     { jogo: "count", cont: "math", banda: "easy" },
     { jogo: "horas", cont: "horas", banda: "easy" },

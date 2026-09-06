@@ -1,7 +1,7 @@
 # 0004 — A voz da alfabetização: sintetizada ou gravada
 
 - **Data:** setembro de 2026
-- **Situação:** aceita
+- **Situação:** aceita — as medições continuam valendo; a família silábica saiu sem esperar a gravação pela [0006](0006-a-familia-silabica-sem-dizer-silaba.md)
 - **Decide:** ElCamargo Soluções em TI LTDA
 
 ## O contexto

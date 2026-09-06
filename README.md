@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **27**, em 7 áreas |
+| Jogos | **28**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 116 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 124 testes |
 | Licença | MIT |
 
 ---
@@ -132,7 +132,7 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **27 jogos em 7 áreas**.
+São **28 jogos em 7 áreas**.
 
 ### Jogos
 
@@ -141,6 +141,7 @@ São **27 jogos em 7 áreas**.
 | 📚 Ler e Escrever | Monta a Palavra | ouve a palavra inteira e monta com as sílabas |
 | 📚 Ler e Escrever | Que Letra Começa | a figura e a letra inicial |
 | 📚 Ler e Escrever | Rimas | consciência fonológica: o que termina igual |
+| 📚 Ler e Escrever | Família Silábica | ouve a palavra e acha a sílaba escrita que a abre |
 | 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR **com a bandeira de cada um** → países por continente → estados dos EUA |
@@ -606,6 +607,51 @@ quando a hora cheia estiver dominada.
 **O dinheiro é brasileiro de propósito**, com as moedas e notas que existem no
 bolso. Ensinar troco com uma moeda que não existe seria pior que não ensinar.
 
+### A família silábica, sem o app dizer sílaba
+
+A [ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md) mediu e concluiu: a
+voz do aparelho **não diz sílaba solta** — escreve-se `ba`, ela soletra
+"bê-á". A saída de lá era gravar 130 áudios na voz do pai e da mãe, e a
+família silábica ficou parada esperando uma sessão de gravação.
+
+Tentamos primeiro **decidir por máquina** qual grafia enganaria a engine —
+60 candidatos gerados em WAV, três métodos de análise. **Os três reprovaram
+nos próprios controles:** o cronômetro não separa soletrar de falar (130 ms
+contra 120 ms), o contador de vogais achou **uma** em `bola`, e a comparação
+de forma de onda disse que `bola` parece mais `pá` do que `casa`. Fica
+registrado: sem ouvido humano, não sabemos medir isso.
+
+E o truque não serviria de fundação de qualquer jeito. Se uma grafia funciona
+na Microsoft Maria, ela não diz nada sobre o TTS do tablet da criança —
+**cartilha cuja correção depende da engine instalada é sorteio**.
+
+**A saída foi parar de pedir a sílaba.** A cartilha de papel nunca ensinou
+"BA" no vácuo: ensinou **"BA de bala"**. Então:
+
+> 🐸 **Com que sílaba começa sapo?** → `SE` `SA` `SI` `SU`
+
+A voz lê só a pergunta — uma palavra inteira dentro de uma frase, que é
+exatamente o que o teste da 0004 mediu funcionar (8 palavras em 8). As sílabas
+ficam **escritas**, em caixa alta como na cartilha, e ninguém as pronuncia a
+não ser a criança. Isso custou **uma linha** na voz: a pergunta carrega
+`calaOpcoes` e o leitor pula as alternativas — senão ele leria
+"esse-é, esse-á, esse-i" e ensinaria o contrário do jogo.
+
+**A família se gera, não se cadastra:** trocar a vogal da sílaba dá
+ba-be-bi-bo-bu, e `sol` dá sal-sel-sil-sol-sul. Só a palavra da pergunta
+precisa existir, e o banco já tem 104 com figura. Não foi preciso escrever
+nenhuma palavra nova — foi preciso escrever a regra do que é sílaba regular,
+porque trocar a vogal de `ção` produziria coisa que não é sílaba de língua
+nenhuma. Um teste percorre as 18 famílias × 5 vogais e confere.
+
+A rodada endurece mudando **o que a criança tem que ouvir**: no Fácil as
+erradas são da mesma família (`DA DE DI DO`) e o que se escuta é a vogal; no
+Médio são da mesma vogal (`LI NI ZI GI`) e o que se escuta é a consoante; do
+Gênio em diante a sílaba cobrada é a do **fim** da palavra, que é a mais
+difícil de isolar de ouvido.
+
+Detalhes e o que ficou de fora na [ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md).
+
 ### A escola pede por ano; o app entregava por dificuldade
 
 O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
@@ -619,7 +665,7 @@ as poucas coisas que a escola cobra nele, **já na faixa certa**:
 | Ano | O que abre |
 |---|---|
 | **Antes do 1º** | Monta a Palavra, Que Letra Começa, Contas, Cores |
-| **1º** | alfabetização, contagem e a hora cheia |
+| **1º** | alfabetização, família silábica, contagem e a hora cheia |
 | **2º** | rimas, tabuada do 2, 5 e 10, meia hora, moedas |
 | **3º** | o resto da tabuada, notas, ciências |
 | **4º** | 6, 7 e 8, troco, estados do Brasil |
@@ -936,7 +982,7 @@ funções e mais nada.
 | `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
 | `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
 | `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 116 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
+| `tests/*.test.mjs` | 124 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -1115,6 +1161,7 @@ src/
   lib/revisao.js   a memória do erro: quando a pergunta volta, e quando sai da fila
   lib/matematica.js  tabuada, dinheiro brasileiro e as horas do relógio
   lib/escola.js      que trilha e que faixa cada ano da escola cobra
+  lib/silabas.js     a família silábica: o que é sílaba, e como ela se gera
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -1134,7 +1181,7 @@ src/
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
     palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
     novidades.js         o que mudou a cada versão, nos 6 idiomas
-tests/             116 testes em node --test, sem framework nenhum
+tests/             124 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1228,7 +1275,8 @@ item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educa
 - [x] **Testar a voz do aparelho com letras e sílabas** — feito, e decidiu o resto: a voz do aparelho lê **frases e palavras muito bem**, diz o **nome** da letra e não o som, e **soletra sílaba solta**. Escrever com acento (`bá`) faz ela falar, mas só nas vogais a, e, o — `bí` e `bú` continuam soletrados. Conclusão e consequências na [ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md)
 - [x] **Memória de erro e revisão espaçada** *(Raciocinar)* — feito: a pergunta errada volta em 1, 3, 7 e 21 dias e sai da fila quando é aprendida
 - [x] **Área 📚 Ler e Escrever, primeira versão** *(Pesquisar → Registrar)* — feita: Monta a Palavra, Que Letra Começa e Rimas, todos com a **palavra inteira** falada pelo aparelho — e por isso sem esperar a gravação. O motor de arrastar do quebra-cabeça serviu inteiro. O ditado fica para depois da gravação
-- [ ] **Gravar os sons das letras e as famílias silábicas** — cerca de 130 áudios curtos (~400 KB), na voz do pai e da mãe. Desbloqueia a cartilha silábica, que a voz sintetizada não sustenta ([ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md))
+- [x] **Famílias silábicas** *(Pesquisar)* — feito **sem gravação**: o app diz a palavra e a criança acha a sílaba escrita ([ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md))
+- [ ] **Gravar o SOM das letras** — o /b/, e não o nome "bê". É o único caso em que só áudio gravado resolve; encolheu de ~130 áudios para as letras ([ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md))
 - [x] **Ficha do responsável dizendo onde o filho está devendo** *(Relacionar)* — feito, e saiu de graça da memória de erro
 - [x] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — feito: três trilhas novas, com divisão nas faixas altas e troco no dinheiro
 - [x] **Trilha do ano escolar** *(Relacionar)* — feito: escolhido o ano, o app abre a faixa que a escola cobra e não cobra lumicoin por ela

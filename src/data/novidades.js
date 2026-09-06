@@ -21,6 +21,7 @@ export const NOVIDADES = [
       pt: {
         titulo: "Ler, contar e lembrar",
         itens: [
+          "Jogo novo: Família Silábica — ouça a palavra e ache a sílaba que a começa",
           "Trilha do ano escolar: escolha o ano e jogue o que a escola cobra, de graça",
           "Área nova: Ler e Escrever, com Monta a Palavra, Que Letra Começa e Rimas",
           "Matemática ganhou Tabuada, Que Horas São e Dinheiro do Brasil",
@@ -33,6 +34,7 @@ export const NOVIDADES = [
       en: {
         titulo: "Reading, counting and remembering",
         itens: [
+          "New game: Syllable Family — hear the word and find the syllable it starts with",
           "School year track: pick the grade and play what school asks for, free",
           "New area: Reading and Writing, with Build the Word, Which Letter Starts It and Rhymes",
           "Math gained Times Tables, Telling Time and Brazilian Money",
@@ -45,6 +47,7 @@ export const NOVIDADES = [
       es: {
         titulo: "Leer, contar y recordar",
         itens: [
+          "Juego nuevo: Familia Silábica — escucha la palabra y encuentra la sílaba que la empieza",
           "Ruta del año escolar: elige el grado y juega lo que la escuela pide, gratis",
           "Área nueva: Leer y Escribir, con Arma la Palabra, Con Qué Letra Empieza y Rimas",
           "Matemáticas ganó Tablas de Multiplicar, Qué Hora Es y Dinero de Brasil",
@@ -57,6 +60,7 @@ export const NOVIDADES = [
       fr: {
         titulo: "Lire, compter et se souvenir",
         itens: [
+          "Nouveau jeu : Famille de Syllabes — écoute le mot et trouve la syllabe qui le commence",
           "Parcours de l'année scolaire : choisis ton année et joue ce que l'école demande, gratuitement",
           "Nouvelle zone : Lire et Écrire, avec Construis le Mot, Quelle Lettre Commence et Rimes",
           "Les maths gagnent Tables de Multiplication, Quelle Heure Est-il et Argent du Brésil",
@@ -69,6 +73,7 @@ export const NOVIDADES = [
       de: {
         titulo: "Lesen, rechnen und behalten",
         itens: [
+          "Neues Spiel: Silbenfamilie — hör das Wort und finde die Silbe, mit der es beginnt",
           "Schuljahr-Pfad: Klasse wählen und spielen, was die Schule verlangt — gratis",
           "Neuer Bereich: Lesen und Schreiben, mit Bau das Wort, Welcher Buchstabe Beginnt und Reime",
           "Mathe bekam Einmaleins, Wie Spät Ist Es und Brasilianisches Geld",
@@ -81,6 +86,7 @@ export const NOVIDADES = [
       it: {
         titulo: "Leggere, contare e ricordare",
         itens: [
+          "Gioco nuovo: Famiglia di Sillabe — ascolta la parola e trova la sillaba che la inizia",
           "Percorso dell'anno scolastico: scegli la classe e gioca quello che la scuola chiede, gratis",
           "Area nuova: Leggere e Scrivere, con Costruisci la Parola, Con Che Lettera Inizia e Rime",
           "Matematica ha guadagnato Tabelline, Che Ore Sono e Denaro del Brasile",

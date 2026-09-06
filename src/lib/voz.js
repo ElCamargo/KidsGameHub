@@ -119,7 +119,10 @@ export function textoDaPergunta(q, t) {
   else if (q.flag) partes.push(t?.whichCountry || "");
   // Emoji não se fala: o leitor de voz lê "rosto sorridente" e atrapalha.
   const legivel = o => typeof o === "string" && /[\p{L}\p{N}]/u.test(o);
-  const alts = (q.options || []).filter(legivel);
+  /* Há pergunta em que ler as alternativas ESTRAGA a pergunta: quando elas
+     são sílabas, a engine soletra "bê-á" onde deveria dizer "ba" — e ensina
+     o contrário do que o jogo quer (ver docs/decisoes/0004). */
+  const alts = q.calaOpcoes ? [] : (q.options || []).filter(legivel);
   if (alts.length) partes.push(alts.join(", "));
   return juntar(partes);
 }
