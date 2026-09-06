@@ -31,7 +31,7 @@ export const LIMITE = 120;
    armazenamento do celular. Duas perguntas que colidam dividem a mesma vaga
    de revisão, o que é inofensivo: as duas voltam. */
 export function chaveDaPergunta(cont, q) {
-  const base = q?.flag || q?.prompt || q?.ask || String(q?.answer ?? "");
+  const base = q?.flag || q?.prompt || q?.fala || q?.ask || String(q?.answer ?? "");
   return `${cont}:${String(base).slice(0, 60)}`;
 }
 

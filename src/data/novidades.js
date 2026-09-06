@@ -21,6 +21,7 @@ export const NOVIDADES = [
       pt: {
         titulo: "Ler, contar e lembrar",
         itens: [
+          "Jogo novo: Como Se Escreve — ç ou ss, s ou z, m antes de p e b",
           "Jogo novo: Leitura do Lumus — o app lê um texto e faz perguntas sobre ele",
           "Jogo novo: Começa Igual — ouça as palavras e ache a que começa com o mesmo som",
           "Jogo novo: Ditado do Lumus — ouça a palavra e escreva letra por letra",
@@ -37,6 +38,7 @@ export const NOVIDADES = [
       en: {
         titulo: "Reading, counting and remembering",
         itens: [
+          "New game: How Do You Spell It — fill the gap in the word you hear",
           "New game: Lumus Reading — the app reads a text and asks questions about it",
           "New game: Same Start — hear the words and find the one starting with the same sound",
           "New game: Lumus Dictation — hear the word and spell it letter by letter",
@@ -53,6 +55,7 @@ export const NOVIDADES = [
       es: {
         titulo: "Leer, contar y recordar",
         itens: [
+          "Juego nuevo: Cómo Se Escribe — completa el hueco de la palabra que escuchas",
           "Juego nuevo: Lectura de Lumus — la app lee un texto y hace preguntas sobre él",
           "Juego nuevo: Empieza Igual — escucha las palabras y encuentra la del mismo sonido inicial",
           "Juego nuevo: Dictado de Lumus — escucha la palabra y escríbela letra por letra",
@@ -69,6 +72,7 @@ export const NOVIDADES = [
       fr: {
         titulo: "Lire, compter et se souvenir",
         itens: [
+          "Nouveau jeu : Comment Ça S'écrit — complète le trou du mot que tu entends",
           "Nouveau jeu : Lecture de Lumus — l'appli lit un texte et pose des questions dessus",
           "Nouveau jeu : Même Début — écoute les mots et trouve celui qui commence par le même son",
           "Nouveau jeu : Dictée de Lumus — écoute le mot et écris-le lettre par lettre",
@@ -85,6 +89,7 @@ export const NOVIDADES = [
       de: {
         titulo: "Lesen, rechnen und behalten",
         itens: [
+          "Neues Spiel: Wie Schreibt Man Das — füll die Lücke im gehörten Wort",
           "Neues Spiel: Lumus-Lesen — die App liest einen Text vor und stellt Fragen dazu",
           "Neues Spiel: Gleicher Anfang — hör die Wörter und finde das mit dem gleichen Anlaut",
           "Neues Spiel: Lumus-Diktat — hör das Wort und schreib es Buchstabe für Buchstabe",
@@ -101,6 +106,7 @@ export const NOVIDADES = [
       it: {
         titulo: "Leggere, contare e ricordare",
         itens: [
+          "Gioco nuovo: Come Si Scrive — completa lo spazio della parola che ascolti",
           "Gioco nuovo: Lettura di Lumus — l'app legge un testo e fa domande su di esso",
           "Gioco nuovo: Stesso Inizio — ascolta le parole e trova quella con lo stesso suono iniziale",
           "Gioco nuovo: Dettato di Lumus — ascolta la parola e scrivila lettera per lettera",
