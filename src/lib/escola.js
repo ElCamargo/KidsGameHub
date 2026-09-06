@@ -53,6 +53,7 @@ export const CONTEUDO = {
      a meia hora e o dinheiro em moedas. */
   a2: [
     { jogo: "ditado", tela: "ditLevels" },
+    { jogo: "conta", tela: "cntLevels" },
     { jogo: "rimas", cont: "rimas", banda: "medium" },
     { jogo: "count", cont: "math", banda: "medium" },
     { jogo: "tabuada", cont: "tabuada", banda: "easy" },
@@ -63,11 +64,11 @@ export const CONTEUDO = {
      ciências. */
   a3: [
     { jogo: "tabuada", cont: "tabuada", banda: "medium" },
-    { jogo: "count", cont: "math", banda: "hard" },
     { jogo: "dinheiro", cont: "dinheiro", banda: "medium" },
     { jogo: "horas", cont: "horas", banda: "hard" },
     { jogo: "leitura", cont: "leitura", banda: "easy" },
     { jogo: "ortografia", cont: "ortografia", banda: "easy" },
+    { jogo: "problema", cont: "problema", banda: "easy" },
     { jogo: "sciAnimals", cont: "ciencias", banda: "easy" },
   ],
   /* 4º ano: as tabuadas que travam todo mundo — 6, 7, 8 —, o troco, e a
@@ -75,9 +76,9 @@ export const CONTEUDO = {
   a4: [
     { jogo: "tabuada", cont: "tabuada", banda: "hard" },
     { jogo: "dinheiro", cont: "dinheiro", banda: "hard" },
-    { jogo: "count", cont: "math", banda: "genius" },
     { jogo: "leitura", cont: "leitura", banda: "medium" },
     { jogo: "ortografia", cont: "ortografia", banda: "medium" },
+    { jogo: "problema", cont: "problema", banda: "medium" },
     { jogo: "sciAnimals", cont: "ciencias", banda: "medium" },
     { jogo: "capitals", cont: "cap_br", banda: "easy" },
   ],

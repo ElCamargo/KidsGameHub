@@ -98,6 +98,8 @@ export const CATALOG = [
       { id: "tabuada", icon: "✖️", color: "#E84393", preco: 200, leitura: false, ready: true },
       { id: "horas", icon: "🕐", color: "#6A5AE0", preco: 300, leitura: false, ready: true },
       { id: "dinheiro", icon: "💰", color: "#00B894", preco: 400, leitura: false, ready: true },
+      { id: "problema", icon: "🧩", color: "#F9A826", preco: 500, leitura: true, vozBasta: true, ready: true },
+      { id: "conta", icon: "➕", color: "#4C6FFF", preco: 550, leitura: false, ready: true },
   ]},
   { id: "nature", icon: "🦁", color: "#00C2CB", games: [
       { id: "animals", icon: "🐾", color: "#00C2CB", preco: 0, leitura: false, ready: true },
@@ -183,6 +185,7 @@ export const PZL_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre
 
 export const PAL_PRECO  = { easy: 0, medium: 80, hard: 120, genius: 200, mestre: 300, lenda: 450 };    // mais barato: é o chão do resto
 export const DIT_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre: 350, lenda: 500 };   // vem depois do montar, custa um pouco mais
+export const CNT_PRECO  = { easy: 0, medium: 100, hard: 150, genius: 250, mestre: 350, lenda: 500 };   // a conta armada, na mesma régua do ditado
 
 /* Um motor, seis entradas — como a memória. O que muda é só de onde vem a
    imagem: arquivo de bandeira, desenho pintado, ou cartaz de figuras. */

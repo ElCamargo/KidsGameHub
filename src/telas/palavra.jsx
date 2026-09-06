@@ -164,7 +164,7 @@ export function PalavraGame({ t, lang, palavras, voz, onFinish, onQuit, titulo }
    O que muda entre montar e ditar: o nome, o ícone, o preço de cada faixa, a
    chave da compra e quantas palavras a rodada tem. */
 export function PalavraLevels({ t, coins, best, setScreen, comecar, temSecao, comprarSecao, escola,
-  jogo = "montar", icone = "🔡", precos = PAL_PRECO, prefixo = "p", quantas = QUANTAS_PALAVRAS, dica }) {
+  jogo = "montar", icone = "🔡", precos = PAL_PRECO, prefixo = "p", quantas = QUANTAS_PALAVRAS, dica, unidade }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
@@ -192,7 +192,7 @@ export function PalavraLevels({ t, coins, best, setScreen, comecar, temSecao, co
                   {aberto ? (
                     <>
                       {[1, 2, 3].map(i2 => <span key={i2} style={{ opacity: (b?.stars || 0) >= i2 ? 1 : .25 }}>★</span>)}
-                      {` · ${quantas[d]} ${t.words2.toLowerCase()}`}
+                      {` · ${quantas[d]} ${(unidade || t.words2).toLowerCase()}`}
                     </>
                   ) : anteriorOk ? `${t.unlockFor} 🪙${preco}` : t.needPrev}
                 </div>

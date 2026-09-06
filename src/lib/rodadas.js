@@ -13,6 +13,7 @@ import { BR_ESTADOS, CAPITAIS, CAP_DE, CAP_ES, CAP_FR, CAP_IT, CAP_PT, DATA, SUB
 import { ALFABETO, DIGRAFOS_INICIAIS, PALAVRAS } from "../data/palavras.js";
 import { LEITURAS, NIVEIS_DA_LEITURA } from "../data/leitura.js";
 import { ORTOGRAFIA, NIVEIS_DA_ORTOGRAFIA } from "../data/ortografia.js";
+import { montarProblema } from "./problemas.js";
 import { palavrasDaFaixa } from "./alfabetizacao.js";
 import { ISCAS, MODO_DA_FAIXA, silabaCobrada } from "./silabas.js";
 import { ARMADILHA_DA_FAIXA, gruposDeSom, mesmaLetraOutroSom, somInicial, somIrmao } from "./sons.js";
@@ -1074,6 +1075,33 @@ export function montarRodadaOrtografia(stage, t) {
   };
 }
 
+/* ---------- Situação-problema ----------
+   A prova não pergunta "quanto é 8 − 3": conta uma história e espera que a
+   criança descubra que ali cabe uma subtração. Esse pulo é o que reprova, e
+   o app só treinava a conta.
+
+   Reusa a tela da leitura — texto em cima, pergunta embaixo — porque é
+   exatamente a mesma coisa: um enunciado para interpretar. O que muda é que
+   a resposta é um número. */
+export function montarRodadaProblema(stage, t) {
+  const band = bandFor("problema", stage);
+  const qCount = qtdPerguntas(band);
+  const qs = [];
+  let guarda = 0;
+  while (qs.length < qCount && guarda++ < 400) {
+    const p = montarProblema(band);
+    if (qs.some(q => q.texto === p.texto)) continue;
+    qs.push({
+      kind: "leitura", figura: p.figura, texto: p.texto, ask: p.pergunta,
+      answer: String(p.resposta),
+      options: shuffle([p.resposta, ...p.erradas]).map(String),
+      porque: p.conta,
+    });
+  }
+  return { cont: "problema", diff: band, stage, qs, time: tempoDe("problema", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
 /* ---------- Rimas ----------
    Ouvir que "gato" e "pato" terminam igual é consciência fonológica pura, e
    vem antes de ler. A figura pergunta, as palavras respondem — e a voz do
@@ -1110,6 +1138,7 @@ const QUIZZES = {
   aliteracao: { icone: "👂", cor: "#00C2CB", nome: t => t.games.aliteracao, montar: (st, t) => montarRodadaAliteracao(st, t) },
   leitura: { icone: "📖", cor: "#8D6E3A", nome: t => t.games.leitura, montar: (st, t) => montarRodadaLeitura(st, t) },
   ortografia: { icone: "📝", cor: "#E84393", nome: t => t.games.ortografia, montar: (st, t) => montarRodadaOrtografia(st, t) },
+  problema: { icone: "🧩", cor: "#F9A826", nome: t => t.games.problema, montar: (st, t) => montarRodadaProblema(st, t) },
   tabuada: { icone: "✖️", cor: "#E84393", nome: t => t.games.tabuada, montar: (st, t) => montarRodadaTabuada(st, t) },
   horas:   { icone: "🕐", cor: "#6A5AE0", nome: t => t.games.horas,   montar: (st, t) => montarRodadaHoras(st, t) },
   dinheiro:{ icone: "💰", cor: "#00B894", nome: t => t.games.dinheiro, montar: (st, t) => montarRodadaDinheiro(st, t) },
