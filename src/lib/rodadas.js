@@ -11,6 +11,8 @@ import { CASAS, CIENCIA_NIVEL, DIETAS, GRUPOS, NASCE, perguntasCiencia } from ".
 import { AGUAS, CURIOSIDADES, CURIOSIDADE_NIVEL } from "../data/curiosidades.js";
 import { BR_ESTADOS, CAPITAIS, CAP_DE, CAP_ES, CAP_FR, CAP_IT, CAP_PT, DATA, SUBFLAGS, US_ESTADOS } from "../data/geografia.js";
 import { ALFABETO, DIGRAFOS_INICIAIS, PALAVRAS } from "../data/palavras.js";
+import { palavrasDaFaixa } from "./alfabetizacao.js";
+import { ISCAS, MODO_DA_FAIXA, silabaCobrada } from "./silabas.js";
 import { LANG_CATALOG, T } from "../data/textos.js";
 import { bandFor, countryName, qtdPerguntas, shuffle, tempoDe } from "./catalogo.js";
 import { RELOGIOS, contaDaTabuada, daquiA, formatarReal, horaEscrita, numerosParecidos, punhado, relogiosDaFaixa, valoresParecidos } from "./matematica.js";
@@ -911,6 +913,45 @@ export function montarRodadaInicial(stage, t) {
 }
 
 
+/* ---------- Família silábica ----------
+   O app NUNCA diz a sílaba: ele diz a palavra inteira, dentro da pergunta, e
+   as sílabas ficam escritas nas alternativas. É a cartilha de papel — "BA de
+   bala" — e é a saída para a voz do aparelho não saber dizer sílaba solta
+   (ver docs/decisoes/0004 e 0006).
+
+   Por isso a pergunta vem com `calaOpcoes`: se a voz lesse as alternativas,
+   ela soletraria "bê-á" e ensinaria justamente o errado. */
+export function montarRodadaSilaba(stage, t) {
+  const band = bandFor("silabas", stage);
+  const qCount = qtdPerguntas(band);
+  const modo = MODO_DA_FAIXA[band] || MODO_DA_FAIXA.easy;
+  const cabem = palavrasDaFaixa(PALAVRAS, band);
+  const qs = [];
+  let guarda = 0;
+  while (qs.length < qCount && guarda++ < 400) {
+    const alvo = cabem[Math.floor(Math.random() * cabem.length)];
+    if (!alvo) continue;
+    const cobrada = silabaCobrada(alvo, modo.onde);
+    if (!cobrada) continue;
+    if (qs.some(q => q.prompt === alvo.e && q.answer === cobrada.silaba)) continue;
+    const fora = ISCAS[modo.iscas](cobrada.silaba, 3);
+    if (fora.length < 3) continue;
+    const ask = (cobrada.noFim ? t.askSylEnd : t.askSylStart).replace("{p}", alvo.w);
+    const porque = (cobrada.noFim ? t.whySylEnd : t.whySylStart)
+      .replace("{p}", alvo.w).replace("{s}", cobrada.silaba.toUpperCase());
+    /* Em CAIXA ALTA, como na cartilha: é a letra que a criança de 1º ano
+       reconhece primeiro. A voz não lê isto — lê só a pergunta. */
+    qs.push({
+      kind: "emojiAsk", prompt: alvo.e, ask, calaOpcoes: true,
+      answer: cobrada.silaba.toUpperCase(),
+      options: shuffle([cobrada.silaba, ...fora]).map(x => x.toUpperCase()),
+      porque,
+    });
+  }
+  return { cont: "silabas", diff: band, stage, qs, time: tempoDe("silabas", stage), t0: Date.now(),
+    i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0 };
+}
+
 /* ---------- Rimas ----------
    Ouvir que "gato" e "pato" terminam igual é consciência fonológica pura, e
    vem antes de ler. A figura pergunta, as palavras respondem — e a voz do
@@ -943,6 +984,7 @@ export function montarRodadaRima(stage, t) {
 
 const QUIZZES = {
   inicial: { icone: "🅰️", cor: "#00B894", nome: t => t.games.inicial, montar: (st, t) => montarRodadaInicial(st, t) },
+  silabas: { icone: "🆎", cor: "#FF7043", nome: t => t.games.silabas, montar: (st, t) => montarRodadaSilaba(st, t) },
   tabuada: { icone: "✖️", cor: "#E84393", nome: t => t.games.tabuada, montar: (st, t) => montarRodadaTabuada(st, t) },
   horas:   { icone: "🕐", cor: "#6A5AE0", nome: t => t.games.horas,   montar: (st, t) => montarRodadaHoras(st, t) },
   dinheiro:{ icone: "💰", cor: "#00B894", nome: t => t.games.dinheiro, montar: (st, t) => montarRodadaDinheiro(st, t) },
