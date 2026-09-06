@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumus — revisão do banco bíblico</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #FAF9F6; color: #1B2A6B;
+    font-family: Georgia, "Times New Roman", serif; line-height: 1.65; }
+  .folha { max-width: 940px; margin: 0 auto; padding: 32px 22px 80px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 4px; }
+  .sub { color: #6C7695; font-size: 15px; margin: 0 0 26px; }
+  h2 { font-size: 21px; margin: 38px 0 6px; padding-top: 14px; border-top: 3px solid #1B2A6B; }
+  .conta { float: right; font-size: 13px; font-weight: normal; color: #6C7695;
+    font-family: ui-monospace, Consolas, monospace; padding-top: 8px; }
+  .vira { margin: 0 0 10px; font-size: 14px; color: #3C4A7A; }
+  .nota { margin: 0 0 12px; font-size: 14px; background: #FFF4D6; border-left: 4px solid #F9A826;
+    padding: 9px 12px; }
+  .caixa { background: #EEF1FF; border: 2px solid #C3CBEA; border-radius: 10px;
+    padding: 16px 18px; margin: 0 0 26px; }
+  .caixa h3 { margin: 0 0 8px; font-size: 17px; }
+  .caixa ol { margin: 0; padding-left: 20px; }
+  .caixa li { margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px;
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  th { text-align: left; background: #1B2A6B; color: #fff; padding: 7px 9px; font-weight: 700; }
+  td { padding: 6px 9px; border-bottom: 1px solid #E0E4F0; vertical-align: top; }
+  tbody tr:nth-child(even) { background: #F2F4FB; }
+  .cod { font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    color: #6C7695; white-space: nowrap; width: 1%; }
+  nav { font-size: 14px; margin: 0 0 8px; }
+  nav a { color: #4C6FFF; margin-right: 14px; white-space: nowrap; display: inline-block; }
+  footer { margin-top: 48px; padding-top: 14px; border-top: 2px solid #C3CBEA;
+    font-size: 13px; color: #6C7695; }
+  @media print {
+    body { background: #fff; }
+    .folha { max-width: none; padding: 0; }
+    h2 { break-after: avoid; }
+    tr { break-inside: avoid; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<h1>Lumus — revisão do banco bíblico</h1>
+<p class="sub">770 fatos · v1.1.0-2-g76979a6 · gerado em 2026-09-06</p>
+
+<div class="caixa">
+  <h3>O que é isto, e o que se espera de quem lê</h3>
+  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  e sem coleta de dados, dado de graça a famílias. Uma das áreas é a Bíblia.</p>
+
+  <p><strong>As perguntas do app não são escritas uma a uma: elas são geradas a partir
+  das tabelas abaixo.</strong> Um capítulo errado em Gênesis vira quatro perguntas
+  erradas de uma vez. Por isso pedimos a revisão dos <em>fatos</em>, e não das
+  perguntas: são 770 linhas em vez de mais de duas mil perguntas.</p>
+
+  <h3>O que procurar</h3>
+  <ol>
+    <li><strong>Está certo?</strong> Número de capítulos, autoria tradicional, quem era pai de quem,
+      em que livro está a história, em que Evangelho está o milagre.</li>
+    <li><strong>Dá para defender outra resposta?</strong> Pergunta com duas respostas certas é
+      pergunta errada — e a criança é reprovada por acertar.</li>
+    <li><strong>Está dito de um jeito que uma criança de 6 a 10 anos entende</strong>, sem assustar
+      e sem simplificar a ponto de ficar errado.</li>
+    <li><strong>O ensino das parábolas</strong> (seção Parábolas) é o que a criança leva para casa.
+      É a parte que mais pede olho pastoral.</li>
+  </ol>
+
+  <h3>Como marcar</h3>
+  <p style="margin-bottom:0">Cada linha tem um código à esquerda (<span class="cod">LIV-001</span>,
+  <span class="cod">PES-014</span>…). Basta escrever o código e o que está errado —
+  numa mensagem, num papel, do jeito que for mais fácil. Não é preciso abrir nada
+  de programação.</p>
+</div>
+
+<nav><a href="#livros">Os 66 livros</a><a href="#pessoas">Personagens</a><a href="#pais">Pais e filhos</a><a href="#maes">Mães e filhos</a><a href="#lugares">Lugares</a><a href="#milagres">Milagres de Jesus</a><a href="#parabolas">Parábolas</a><a href="#versiculos">Versículos</a><a href="#citacoes">Quem disse</a><a href="#numeros">Números</a><a href="#fatos">Fatos avulsos</a><a href="#lista-mandamentos">Lista: Qual é o nº mandamento</a><a href="#lista-pragas">Lista: Qual foi a nª praga do Egito</a><a href="#lista-criacao">Lista: O que Deus criou no nº dia</a></nav>
+
+
+<section id="livros">
+  <h2>Os 66 livros <span class="conta">66 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> seis perguntas por livro — quantos capítulos tem, qual livro tem tantos capítulos, a que grupo pertence, qual vem antes, qual vem depois e de quem é a autoria tradicional.</p>
+  <p class="nota">A autoria é a <strong>tradicional</strong>, e a pergunta diz isso com essas palavras. Onde a autoria é discutida (Hebreus, por exemplo), é a atribuição tradicional que está na tabela — se preferir outra, é só apontar.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Livro</th><th>Testamento</th><th>Grupo</th><th>Capítulos</th><th>Autoria tradicional</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">LIV-001</td><td>Gênesis</td><td>Antigo</td><td>Lei (Pentateuco)</td><td>50</td><td>Moisés</td></tr>
+      <tr><td class="cod">LIV-002</td><td>Êxodo</td><td>Antigo</td><td>Lei (Pentateuco)</td><td>40</td><td>Moisés</td></tr>
+      <tr><td class="cod">LIV-003</td><td>Levítico</td><td>Antigo</td><td>Lei (Pentateuco)</td><td>27</td><td>Moisés</td></tr>
+      <tr><td class="cod">LIV-004</td><td>Números</td><td>Antigo</td><td>Lei (Pentateuco)</td><td>36</td><td>Moisés</td></tr>
+      <tr><td class="cod">LIV-005</td><td>Deuteronômio</td><td>Antigo</td><td>Lei (Pentateuco)</td><td>34</td><td>Moisés</td></tr>
+      <tr><td class="cod">LIV-006</td><td>Josué</td><td>Antigo</td><td>Históricos</td><td>24</td><td>Josué</td></tr>
+      <tr><td class="cod">LIV-007</td><td>Juízes</td><td>Antigo</td><td>Históricos</td><td>21</td><td>—</td></tr>
+      <tr><td class="cod">LIV-008</td><td>Rute</td><td>Antigo</td><td>Históricos</td><td>4</td><td>—</td></tr>
+      <tr><td class="cod">LIV-009</td><td>1 Samuel</td><td>Antigo</td><td>Históricos</td><td>31</td><td>—</td></tr>
+      <tr><td class="cod">LIV-010</td><td>2 Samuel</td><td>Antigo</td><td>Históricos</td><td>24</td><td>—</td></tr>
+      <tr><td class="cod">LIV-011</td><td>1 Reis</td><td>Antigo</td><td>Históricos</td><td>22</td><td>—</td></tr>
+      <tr><td class="cod">LIV-012</td><td>2 Reis</td><td>Antigo</td><td>Históricos</td><td>25</td><td>—</td></tr>
+      <tr><td class="cod">LIV-013</td><td>1 Crônicas</td><td>Antigo</td><td>Históricos</td><td>29</td><td>—</td></tr>
+      <tr><td class="cod">LIV-014</td><td>2 Crônicas</td><td>Antigo</td><td>Históricos</td><td>36</td><td>—</td></tr>
+      <tr><td class="cod">LIV-015</td><td>Esdras</td><td>Antigo</td><td>Históricos</td><td>10</td><td>Esdras</td></tr>
+      <tr><td class="cod">LIV-016</td><td>Neemias</td><td>Antigo</td><td>Históricos</td><td>13</td><td>Neemias</td></tr>
+      <tr><td class="cod">LIV-017</td><td>Ester</td><td>Antigo</td><td>Históricos</td><td>10</td><td>—</td></tr>
+      <tr><td class="cod">LIV-018</td><td>Jó</td><td>Antigo</td><td>Poéticos</td><td>42</td><td>—</td></tr>
+      <tr><td class="cod">LIV-019</td><td>Salmos</td><td>Antigo</td><td>Poéticos</td><td>150</td><td>Davi</td></tr>
+      <tr><td class="cod">LIV-020</td><td>Provérbios</td><td>Antigo</td><td>Poéticos</td><td>31</td><td>Salomão</td></tr>
+      <tr><td class="cod">LIV-021</td><td>Eclesiastes</td><td>Antigo</td><td>Poéticos</td><td>12</td><td>Salomão</td></tr>
+      <tr><td class="cod">LIV-022</td><td>Cânticos</td><td>Antigo</td><td>Poéticos</td><td>8</td><td>Salomão</td></tr>
+      <tr><td class="cod">LIV-023</td><td>Isaías</td><td>Antigo</td><td>Profetas Maiores</td><td>66</td><td>Isaías</td></tr>
+      <tr><td class="cod">LIV-024</td><td>Jeremias</td><td>Antigo</td><td>Profetas Maiores</td><td>52</td><td>Jeremias</td></tr>
+      <tr><td class="cod">LIV-025</td><td>Lamentações</td><td>Antigo</td><td>Profetas Maiores</td><td>5</td><td>Jeremias</td></tr>
+      <tr><td class="cod">LIV-026</td><td>Ezequiel</td><td>Antigo</td><td>Profetas Maiores</td><td>48</td><td>Ezequiel</td></tr>
+      <tr><td class="cod">LIV-027</td><td>Daniel</td><td>Antigo</td><td>Profetas Maiores</td><td>12</td><td>Daniel</td></tr>
+      <tr><td class="cod">LIV-028</td><td>Oseias</td><td>Antigo</td><td>Profetas Menores</td><td>14</td><td>Oseias</td></tr>
+      <tr><td class="cod">LIV-029</td><td>Joel</td><td>Antigo</td><td>Profetas Menores</td><td>3</td><td>Joel</td></tr>
+      <tr><td class="cod">LIV-030</td><td>Amós</td><td>Antigo</td><td>Profetas Menores</td><td>9</td><td>Amós</td></tr>
+      <tr><td class="cod">LIV-031</td><td>Obadias</td><td>Antigo</td><td>Profetas Menores</td><td>1</td><td>Obadias</td></tr>
+      <tr><td class="cod">LIV-032</td><td>Jonas</td><td>Antigo</td><td>Profetas Menores</td><td>4</td><td>Jonas</td></tr>
+      <tr><td class="cod">LIV-033</td><td>Miqueias</td><td>Antigo</td><td>Profetas Menores</td><td>7</td><td>Miqueias</td></tr>
+      <tr><td class="cod">LIV-034</td><td>Naum</td><td>Antigo</td><td>Profetas Menores</td><td>3</td><td>Naum</td></tr>
+      <tr><td class="cod">LIV-035</td><td>Habacuque</td><td>Antigo</td><td>Profetas Menores</td><td>3</td><td>Habacuque</td></tr>
+      <tr><td class="cod">LIV-036</td><td>Sofonias</td><td>Antigo</td><td>Profetas Menores</td><td>3</td><td>Sofonias</td></tr>
+      <tr><td class="cod">LIV-037</td><td>Ageu</td><td>Antigo</td><td>Profetas Menores</td><td>2</td><td>Ageu</td></tr>
+      <tr><td class="cod">LIV-038</td><td>Zacarias</td><td>Antigo</td><td>Profetas Menores</td><td>14</td><td>Zacarias</td></tr>
+      <tr><td class="cod">LIV-039</td><td>Malaquias</td><td>Antigo</td><td>Profetas Menores</td><td>4</td><td>Malaquias</td></tr>
+      <tr><td class="cod">LIV-040</td><td>Mateus</td><td>Novo</td><td>Evangelhos</td><td>28</td><td>Mateus</td></tr>
+      <tr><td class="cod">LIV-041</td><td>Marcos</td><td>Novo</td><td>Evangelhos</td><td>16</td><td>Marcos</td></tr>
+      <tr><td class="cod">LIV-042</td><td>Lucas</td><td>Novo</td><td>Evangelhos</td><td>24</td><td>Lucas</td></tr>
+      <tr><td class="cod">LIV-043</td><td>João</td><td>Novo</td><td>Evangelhos</td><td>21</td><td>João</td></tr>
+      <tr><td class="cod">LIV-044</td><td>Atos</td><td>Novo</td><td>História da Igreja</td><td>28</td><td>Lucas</td></tr>
+      <tr><td class="cod">LIV-045</td><td>Romanos</td><td>Novo</td><td>Cartas de Paulo</td><td>16</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-046</td><td>1 Coríntios</td><td>Novo</td><td>Cartas de Paulo</td><td>16</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-047</td><td>2 Coríntios</td><td>Novo</td><td>Cartas de Paulo</td><td>13</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-048</td><td>Gálatas</td><td>Novo</td><td>Cartas de Paulo</td><td>6</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-049</td><td>Efésios</td><td>Novo</td><td>Cartas de Paulo</td><td>6</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-050</td><td>Filipenses</td><td>Novo</td><td>Cartas de Paulo</td><td>4</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-051</td><td>Colossenses</td><td>Novo</td><td>Cartas de Paulo</td><td>4</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-052</td><td>1 Tessalonicenses</td><td>Novo</td><td>Cartas de Paulo</td><td>5</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-053</td><td>2 Tessalonicenses</td><td>Novo</td><td>Cartas de Paulo</td><td>3</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-054</td><td>1 Timóteo</td><td>Novo</td><td>Cartas de Paulo</td><td>6</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-055</td><td>2 Timóteo</td><td>Novo</td><td>Cartas de Paulo</td><td>4</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-056</td><td>Tito</td><td>Novo</td><td>Cartas de Paulo</td><td>3</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-057</td><td>Filemom</td><td>Novo</td><td>Cartas de Paulo</td><td>1</td><td>Paulo</td></tr>
+      <tr><td class="cod">LIV-058</td><td>Hebreus</td><td>Novo</td><td>Cartas Gerais</td><td>13</td><td>—</td></tr>
+      <tr><td class="cod">LIV-059</td><td>Tiago</td><td>Novo</td><td>Cartas Gerais</td><td>5</td><td>Tiago</td></tr>
+      <tr><td class="cod">LIV-060</td><td>1 Pedro</td><td>Novo</td><td>Cartas Gerais</td><td>5</td><td>Pedro</td></tr>
+      <tr><td class="cod">LIV-061</td><td>2 Pedro</td><td>Novo</td><td>Cartas Gerais</td><td>3</td><td>Pedro</td></tr>
+      <tr><td class="cod">LIV-062</td><td>1 João</td><td>Novo</td><td>Cartas Gerais</td><td>5</td><td>João</td></tr>
+      <tr><td class="cod">LIV-063</td><td>2 João</td><td>Novo</td><td>Cartas Gerais</td><td>1</td><td>João</td></tr>
+      <tr><td class="cod">LIV-064</td><td>3 João</td><td>Novo</td><td>Cartas Gerais</td><td>1</td><td>João</td></tr>
+      <tr><td class="cod">LIV-065</td><td>Judas</td><td>Novo</td><td>Cartas Gerais</td><td>1</td><td>Judas, irmão de Tiago</td></tr>
+      <tr><td class="cod">LIV-066</td><td>Apocalipse</td><td>Novo</td><td>Profecia</td><td>22</td><td>João</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="pessoas">
+  <h2>Personagens <span class="conta">201 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> quatro perguntas por personagem — quem fez tal coisa, o que a pessoa fez, em que livro está a história dela e que papel ela teve.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Nome</th><th>O que fez</th><th>Papel</th><th>Livro</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">PES-001</td><td>Adão</td><td>foi o primeiro homem criado por Deus</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-002</td><td>Eva</td><td>foi a primeira mulher criada por Deus</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-003</td><td>Caim</td><td>matou o próprio irmão no campo</td><td>Inimigo do povo</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-004</td><td>Abel</td><td>ofereceu a Deus o melhor do seu rebanho</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-005</td><td>Sete</td><td>nasceu depois de Abel e continuou a família de Adão</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-006</td><td>Noé</td><td>construiu a arca por ordem de Deus</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-007</td><td>Sem</td><td>foi um dos três filhos de Noé que entraram na arca</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-008</td><td>Matusalém</td><td>viveu 969 anos, a vida mais longa da Bíblia</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-009</td><td>Enoque</td><td>andou com Deus e não viu a morte</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-010</td><td>Abraão</td><td>deixou sua terra confiando na promessa de Deus</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-011</td><td>Sara</td><td>teve um filho na velhice, como Deus prometeu</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-012</td><td>Isaque</td><td>foi o filho da promessa feita a Abraão</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-013</td><td>Ismael</td><td>foi o filho de Abraão com Agar</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-014</td><td>Rebeca</td><td>deu água aos camelos e virou esposa de Isaque</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-015</td><td>Jacó</td><td>sonhou com uma escada que ligava a terra ao céu</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-016</td><td>Esaú</td><td>vendeu seu direito de primogênito por um prato de comida</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-017</td><td>Raquel</td><td>foi a esposa amada de Jacó e mãe de José</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-018</td><td>Lia</td><td>foi a primeira esposa de Jacó</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-019</td><td>José</td><td>ganhou uma túnica colorida e depois governou o Egito</td><td>Líder do povo</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-020</td><td>Ló</td><td>saiu de Sodoma antes da cidade ser destruída</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-021</td><td>Labão</td><td>fez Jacó trabalhar catorze anos por suas filhas</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-022</td><td>Melquisedeque</td><td>era rei de Salém e abençoou Abraão</td><td>Sacerdote</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-023</td><td>Agar</td><td>foi socorrida por Deus no deserto com seu filho</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-024</td><td>Judá</td><td>foi o filho de Jacó de cuja tribo veio Jesus</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-025</td><td>Benjamim</td><td>foi o filho mais novo de Jacó</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-026</td><td>Moisés</td><td>guiou o povo pelo Mar Vermelho aberto</td><td>Líder do povo</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-027</td><td>Arão</td><td>foi o irmão mais velho de Moisés e o primeiro sacerdote</td><td>Sacerdote</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-028</td><td>Miriã</td><td>cantou e tocou pandeiro depois da travessia do mar</td><td>Profeta</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-029</td><td>Faraó</td><td>endureceu o coração e não deixou o povo sair</td><td>Inimigo do povo</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-030</td><td>Jetro</td><td>era sogro de Moisés e o ensinou a dividir o trabalho</td><td>Sacerdote</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-031</td><td>Zípora</td><td>foi a esposa de Moisés, filha de um sacerdote de Midiã</td><td>Patriarca</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-032</td><td>Bezalel</td><td>recebeu de Deus habilidade para construir o Tabernáculo</td><td>Líder do povo</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-033</td><td>Calebe</td><td>trouxe um bom relato da terra prometida com Josué</td><td>Líder do povo</td><td>Números</td></tr>
+      <tr><td class="cod">PES-034</td><td>Balaão</td><td>foi repreendido pela própria jumenta</td><td>Profeta</td><td>Números</td></tr>
+      <tr><td class="cod">PES-035</td><td>Corá</td><td>se rebelou contra Moisés no deserto</td><td>Inimigo do povo</td><td>Números</td></tr>
+      <tr><td class="cod">PES-036</td><td>Josué</td><td>derrubou os muros de Jericó</td><td>Líder do povo</td><td>Josué</td></tr>
+      <tr><td class="cod">PES-037</td><td>Raabe</td><td>escondeu os espiões e pendurou um cordão vermelho</td><td>Líder do povo</td><td>Josué</td></tr>
+      <tr><td class="cod">PES-038</td><td>Gideão</td><td>venceu com trezentos homens, trombetas e tochas</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-039</td><td>Sansão</td><td>tinha força enorme por causa do voto e dos cabelos</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-040</td><td>Débora</td><td>julgava Israel debaixo de uma palmeira</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-041</td><td>Dalila</td><td>descobriu o segredo da força de Sansão</td><td>Inimigo do povo</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-042</td><td>Baraque</td><td>só foi à batalha se Débora fosse junto</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-043</td><td>Jefté</td><td>fez um voto apressado antes da batalha</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-044</td><td>Eúde</td><td>era canhoto e livrou Israel de Moabe</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-045</td><td>Rute</td><td>disse à sogra: o teu povo será o meu povo</td><td>Líder do povo</td><td>Rute</td></tr>
+      <tr><td class="cod">PES-046</td><td>Noemi</td><td>voltou a Belém viúva, acompanhada da nora</td><td>Líder do povo</td><td>Rute</td></tr>
+      <tr><td class="cod">PES-047</td><td>Boaz</td><td>deixou Rute recolher espigas no seu campo e a resgatou</td><td>Líder do povo</td><td>Rute</td></tr>
+      <tr><td class="cod">PES-048</td><td>Samuel</td><td>ouviu a voz de Deus ainda menino, no templo</td><td>Profeta</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-049</td><td>Ana</td><td>orou chorando e prometeu o filho ao Senhor</td><td>Líder do povo</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-050</td><td>Eli</td><td>era o sacerdote que criou Samuel no templo</td><td>Sacerdote</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-051</td><td>Saul</td><td>foi o primeiro rei de Israel</td><td>Rei</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-052</td><td>Davi</td><td>derrubou o gigante Golias com uma funda</td><td>Rei</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-053</td><td>Golias</td><td>era o gigante filisteu que desafiava Israel</td><td>Inimigo do povo</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-054</td><td>Jônatas</td><td>foi o amigo fiel de Davi, filho de Saul</td><td>Líder do povo</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-055</td><td>Salomão</td><td>pediu sabedoria a Deus e construiu o Templo</td><td>Rei</td><td>1 Reis</td></tr>
+      <tr><td class="cod">PES-056</td><td>Elias</td><td>subiu ao céu num carro de fogo</td><td>Profeta</td><td>1 Reis</td></tr>
+      <tr><td class="cod">PES-057</td><td>Eliseu</td><td>recebeu porção dobrada do espírito de Elias</td><td>Profeta</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-058</td><td>Acabe</td><td>foi o rei que serviu a Baal por influência da esposa</td><td>Rei</td><td>1 Reis</td></tr>
+      <tr><td class="cod">PES-059</td><td>Jezabel</td><td>perseguiu os profetas do Senhor</td><td>Rainha</td><td>1 Reis</td></tr>
+      <tr><td class="cod">PES-060</td><td>Ezequias</td><td>orou e teve quinze anos a mais de vida</td><td>Rei</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-061</td><td>Josias</td><td>virou rei com oito anos e restaurou a Lei</td><td>Rei</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-062</td><td>Roboão</td><td>perdeu dez tribos por não ouvir os anciãos</td><td>Rei</td><td>1 Reis</td></tr>
+      <tr><td class="cod">PES-063</td><td>Jeroboão</td><td>tornou-se o primeiro rei do reino do norte</td><td>Rei</td><td>1 Reis</td></tr>
+      <tr><td class="cod">PES-064</td><td>Josafá</td><td>mandou cantores na frente do exército</td><td>Rei</td><td>2 Crônicas</td></tr>
+      <tr><td class="cod">PES-065</td><td>Uzias</td><td>reinou bem até se encher de orgulho</td><td>Rei</td><td>2 Crônicas</td></tr>
+      <tr><td class="cod">PES-066</td><td>Nabucodonosor</td><td>sonhou com uma estátua de vários metais</td><td>Rei</td><td>Daniel</td></tr>
+      <tr><td class="cod">PES-067</td><td>Ciro</td><td>deixou os judeus voltarem para reconstruir o Templo</td><td>Rei</td><td>Esdras</td></tr>
+      <tr><td class="cod">PES-068</td><td>Isaías</td><td>viu o Senhor num trono alto e sublime</td><td>Profeta</td><td>Isaías</td></tr>
+      <tr><td class="cod">PES-069</td><td>Jeremias</td><td>foi chamado por Deus ainda muito jovem</td><td>Profeta</td><td>Jeremias</td></tr>
+      <tr><td class="cod">PES-070</td><td>Ezequiel</td><td>viu um vale cheio de ossos secos ganharem vida</td><td>Profeta</td><td>Ezequiel</td></tr>
+      <tr><td class="cod">PES-071</td><td>Daniel</td><td>passou a noite na cova dos leões sem ser ferido</td><td>Profeta</td><td>Daniel</td></tr>
+      <tr><td class="cod">PES-072</td><td>Jonas</td><td>foi engolido por um grande peixe</td><td>Profeta</td><td>Jonas</td></tr>
+      <tr><td class="cod">PES-073</td><td>Oseias</td><td>mostrou o amor fiel de Deus pelo seu povo</td><td>Profeta</td><td>Oseias</td></tr>
+      <tr><td class="cod">PES-074</td><td>Amós</td><td>era pastor e cuidador de sicômoros antes de profetizar</td><td>Profeta</td><td>Amós</td></tr>
+      <tr><td class="cod">PES-075</td><td>Habacuque</td><td>perguntou a Deus por que o mal parecia vencer</td><td>Profeta</td><td>Habacuque</td></tr>
+      <tr><td class="cod">PES-076</td><td>Ageu</td><td>animou o povo a reconstruir o Templo</td><td>Profeta</td><td>Ageu</td></tr>
+      <tr><td class="cod">PES-077</td><td>Malaquias</td><td>escreveu o último livro do Antigo Testamento</td><td>Profeta</td><td>Malaquias</td></tr>
+      <tr><td class="cod">PES-078</td><td>Natã</td><td>contou a Davi a parábola da ovelhinha</td><td>Profeta</td><td>2 Samuel</td></tr>
+      <tr><td class="cod">PES-079</td><td>Sadraque</td><td>saiu ileso da fornalha com dois amigos</td><td>Líder do povo</td><td>Daniel</td></tr>
+      <tr><td class="cod">PES-080</td><td>Ester</td><td>arriscou a vida diante do rei para salvar seu povo</td><td>Rainha</td><td>Ester</td></tr>
+      <tr><td class="cod">PES-081</td><td>Mardoqueu</td><td>criou Ester e descobriu um plano contra o rei</td><td>Líder do povo</td><td>Ester</td></tr>
+      <tr><td class="cod">PES-082</td><td>Hamã</td><td>planejou destruir os judeus e caiu na própria armadilha</td><td>Inimigo do povo</td><td>Ester</td></tr>
+      <tr><td class="cod">PES-083</td><td>Neemias</td><td>reconstruiu os muros de Jerusalém em 52 dias</td><td>Líder do povo</td><td>Neemias</td></tr>
+      <tr><td class="cod">PES-084</td><td>Esdras</td><td>leu a Lei em voz alta diante de todo o povo</td><td>Sacerdote</td><td>Neemias</td></tr>
+      <tr><td class="cod">PES-085</td><td>Jó</td><td>perdeu tudo e mesmo assim não amaldiçoou a Deus</td><td>Líder do povo</td><td>Jó</td></tr>
+      <tr><td class="cod">PES-086</td><td>Maria</td><td>recebeu do anjo a notícia de que seria mãe de Jesus</td><td>Líder do povo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-087</td><td>José</td><td>era carpinteiro e cuidou de Jesus como pai na terra</td><td>Líder do povo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-088</td><td>Gabriel</td><td>anunciou a Maria o nascimento de Jesus</td><td>Anjo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-089</td><td>João Batista</td><td>batizou Jesus no rio Jordão</td><td>Profeta</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-090</td><td>Isabel</td><td>foi a mãe de João Batista e prima de Maria</td><td>Líder do povo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-091</td><td>Zacarias</td><td>ficou mudo até o nascimento do filho</td><td>Sacerdote</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-092</td><td>Simeão</td><td>esperou no templo para ver o Salvador antes de morrer</td><td>Líder do povo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-093</td><td>Ana, a profetisa</td><td>reconheceu o menino Jesus no templo</td><td>Profeta</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-094</td><td>Herodes</td><td>mandou procurar o menino Jesus para matá-lo</td><td>Inimigo do povo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-095</td><td>Pedro</td><td>andou sobre as águas e depois negou Jesus três vezes</td><td>Apóstolo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-096</td><td>André</td><td>era irmão de Pedro e o levou a Jesus</td><td>Apóstolo</td><td>João</td></tr>
+      <tr><td class="cod">PES-097</td><td>Tiago</td><td>era irmão de João e pescava com o pai Zebedeu</td><td>Apóstolo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-098</td><td>João</td><td>era o discípulo a quem Jesus amava e escreveu o Apocalipse</td><td>Apóstolo</td><td>João</td></tr>
+      <tr><td class="cod">PES-099</td><td>Tomé</td><td>só creu depois de ver as marcas dos pregos</td><td>Apóstolo</td><td>João</td></tr>
+      <tr><td class="cod">PES-100</td><td>Mateus</td><td>era cobrador de impostos e deixou tudo para seguir Jesus</td><td>Apóstolo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-101</td><td>Judas Iscariotes</td><td>traiu Jesus por trinta moedas de prata</td><td>Inimigo do povo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-102</td><td>Filipe</td><td>chamou Natanael dizendo: vem e vê</td><td>Apóstolo</td><td>João</td></tr>
+      <tr><td class="cod">PES-103</td><td>Bartolomeu</td><td>também é chamado de Natanael nos Evangelhos</td><td>Apóstolo</td><td>João</td></tr>
+      <tr><td class="cod">PES-104</td><td>Simão, o zelote</td><td>era chamado de zelote entre os doze</td><td>Apóstolo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-105</td><td>Matias</td><td>foi escolhido para ocupar o lugar de Judas</td><td>Apóstolo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-106</td><td>Marta</td><td>cuidava da casa enquanto a irmã ouvia Jesus</td><td>Discípulo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-107</td><td>Maria de Betânia</td><td>sentou aos pés de Jesus para ouvi-lo</td><td>Discípulo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-108</td><td>Lázaro</td><td>foi ressuscitado por Jesus depois de quatro dias</td><td>Discípulo</td><td>João</td></tr>
+      <tr><td class="cod">PES-109</td><td>Maria Madalena</td><td>foi a primeira a ver Jesus ressuscitado</td><td>Discípulo</td><td>João</td></tr>
+      <tr><td class="cod">PES-110</td><td>Zaqueu</td><td>subiu numa árvore para conseguir ver Jesus</td><td>Discípulo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-111</td><td>Nicodemos</td><td>procurou Jesus de noite para conversar</td><td>Discípulo</td><td>João</td></tr>
+      <tr><td class="cod">PES-112</td><td>Pilatos</td><td>lavou as mãos diante da multidão</td><td>Inimigo do povo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-113</td><td>Barrabás</td><td>foi solto no lugar de Jesus</td><td>Inimigo do povo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-114</td><td>José de Arimateia</td><td>cedeu seu túmulo novo para sepultar Jesus</td><td>Discípulo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-115</td><td>Simão Cireneu</td><td>ajudou Jesus a carregar a cruz</td><td>Discípulo</td><td>Marcos</td></tr>
+      <tr><td class="cod">PES-116</td><td>Paulo</td><td>encontrou Jesus numa luz forte a caminho de Damasco</td><td>Apóstolo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-117</td><td>Estêvão</td><td>foi o primeiro mártir da Igreja</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-118</td><td>Barnabé</td><td>era chamado filho da consolação e viajou com Paulo</td><td>Apóstolo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-119</td><td>Timóteo</td><td>era jovem e recebeu duas cartas de Paulo</td><td>Discípulo</td><td>1 Timóteo</td></tr>
+      <tr><td class="cod">PES-120</td><td>Lucas</td><td>era médico e escreveu um Evangelho e Atos</td><td>Discípulo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-121</td><td>Silas</td><td>cantou hinos na prisão junto com Paulo</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-122</td><td>Lídia</td><td>vendia púrpura e abriu sua casa para a Igreja</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-123</td><td>Áquila</td><td>fazia tendas e trabalhou ao lado de Paulo</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-124</td><td>Priscila</td><td>ensinou o caminho de Deus com mais exatidão a Apolo</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-125</td><td>Cornélio</td><td>foi o centurião que recebeu o Evangelho em sua casa</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-126</td><td>Dorcas</td><td>fazia roupas para as viúvas e foi ressuscitada por Pedro</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-127</td><td>Apolo</td><td>era eloquente e conhecia bem as Escrituras</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-128</td><td>Onésimo</td><td>era o escravo por quem Paulo escreveu a Filemom</td><td>Discípulo</td><td>Filemom</td></tr>
+      <tr><td class="cod">PES-129</td><td>Tito</td><td>foi deixado em Creta para organizar as igrejas</td><td>Discípulo</td><td>Tito</td></tr>
+      <tr><td class="cod">PES-130</td><td>Ananias de Damasco</td><td>orou por Paulo e ele voltou a enxergar</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-131</td><td>Filipe, o evangelista</td><td>explicou as Escrituras a um etíope numa carruagem</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-132</td><td>Jabal</td><td>foi o pai dos que moram em tendas e criam gado</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-133</td><td>Jubal</td><td>foi o pai dos que tocam harpa e flauta</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-134</td><td>Nimrode</td><td>foi chamado de valente caçador diante do Senhor</td><td>Líder do povo</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-135</td><td>Potifar</td><td>comprou José no Egito e o pôs sobre sua casa</td><td>Líder do povo</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-136</td><td>Efraim</td><td>recebeu a bênção da mão direita de Jacó, sendo o mais novo</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-137</td><td>Manassés, filho de José</td><td>era o filho mais velho de José no Egito</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-138</td><td>Diná</td><td>era a filha de Jacó e Lia</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-139</td><td>Rúben</td><td>convenceu os irmãos a não matarem José</td><td>Patriarca</td><td>Gênesis</td></tr>
+      <tr><td class="cod">PES-140</td><td>Joquebede</td><td>escondeu o bebê Moisés numa cesta no rio</td><td>Líder do povo</td><td>Êxodo</td></tr>
+      <tr><td class="cod">PES-141</td><td>Josué, o espia</td><td>foi um dos dois espias que confiaram na promessa</td><td>Líder do povo</td><td>Números</td></tr>
+      <tr><td class="cod">PES-142</td><td>Eleazar</td><td>sucedeu Arão como sumo sacerdote</td><td>Sacerdote</td><td>Números</td></tr>
+      <tr><td class="cod">PES-143</td><td>Fineias</td><td>recebeu a aliança de paz por seu zelo</td><td>Sacerdote</td><td>Números</td></tr>
+      <tr><td class="cod">PES-144</td><td>Acã</td><td>escondeu o que era proibido depois da queda de Jericó</td><td>Inimigo do povo</td><td>Josué</td></tr>
+      <tr><td class="cod">PES-145</td><td>Otniel</td><td>foi o primeiro juiz de Israel</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-146</td><td>Sísera</td><td>era o comandante inimigo derrotado no tempo de Débora</td><td>Inimigo do povo</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-147</td><td>Jael</td><td>recebeu Sísera em sua tenda e acabou com a batalha</td><td>Líder do povo</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-148</td><td>Gideão, o pequeno</td><td>se dizia o menor da família mais fraca de Manassés</td><td>Juiz de Israel</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-149</td><td>Abimeleque</td><td>quis se tornar rei matando os próprios irmãos</td><td>Inimigo do povo</td><td>Juízes</td></tr>
+      <tr><td class="cod">PES-150</td><td>Orfa</td><td>voltou para o seu povo em vez de seguir Noemi</td><td>Líder do povo</td><td>Rute</td></tr>
+      <tr><td class="cod">PES-151</td><td>Abigail</td><td>levou provisões a Davi e evitou um derramamento de sangue</td><td>Líder do povo</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-152</td><td>Nabal</td><td>recusou ajudar Davi e o seu nome quer dizer tolo</td><td>Inimigo do povo</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-153</td><td>Aquis</td><td>era o rei de Gate onde Davi se refugiou</td><td>Rei</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">PES-154</td><td>Joabe</td><td>comandou o exército de Davi por muitos anos</td><td>Líder do povo</td><td>2 Samuel</td></tr>
+      <tr><td class="cod">PES-155</td><td>Mefibosete</td><td>era coxo dos pés e comeu à mesa do rei Davi</td><td>Líder do povo</td><td>2 Samuel</td></tr>
+      <tr><td class="cod">PES-156</td><td>Bate-Seba</td><td>tornou-se esposa de Davi e mãe de Salomão</td><td>Rainha</td><td>2 Samuel</td></tr>
+      <tr><td class="cod">PES-157</td><td>Absalão</td><td>ficou preso pelos cabelos numa árvore</td><td>Inimigo do povo</td><td>2 Samuel</td></tr>
+      <tr><td class="cod">PES-158</td><td>Rainha de Sabá</td><td>veio de longe testar a sabedoria de Salomão</td><td>Rainha</td><td>1 Reis</td></tr>
+      <tr><td class="cod">PES-159</td><td>Naamã</td><td>mergulhou sete vezes no Jordão e ficou curado</td><td>Líder do povo</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-160</td><td>Geazi</td><td>era o servo de Eliseu que cobiçou o presente de Naamã</td><td>Inimigo do povo</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-161</td><td>Joás, o menino rei</td><td>foi escondido no templo e coroado aos sete anos</td><td>Rei</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-162</td><td>Ataliá</td><td>tomou o trono de Judá pela força</td><td>Rainha</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-163</td><td>Hulda</td><td>foi a profetisa consultada sobre o livro da Lei encontrado</td><td>Profeta</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-164</td><td>Senaqueribe</td><td>cercou Jerusalém no tempo de Ezequias</td><td>Inimigo do povo</td><td>2 Reis</td></tr>
+      <tr><td class="cod">PES-165</td><td>Zorobabel</td><td>liderou o recomeço da construção do Templo</td><td>Líder do povo</td><td>Esdras</td></tr>
+      <tr><td class="cod">PES-166</td><td>Vasti</td><td>foi a rainha destituída antes de Ester</td><td>Rainha</td><td>Ester</td></tr>
+      <tr><td class="cod">PES-167</td><td>Belsazar</td><td>viu uma mão escrever na parede durante o banquete</td><td>Rei</td><td>Daniel</td></tr>
+      <tr><td class="cod">PES-168</td><td>Dario</td><td>assinou o decreto que levou Daniel à cova dos leões</td><td>Rei</td><td>Daniel</td></tr>
+      <tr><td class="cod">PES-169</td><td>Mesaque</td><td>recusou adorar a estátua de ouro do rei</td><td>Líder do povo</td><td>Daniel</td></tr>
+      <tr><td class="cod">PES-170</td><td>Abede-Nego</td><td>entrou na fornalha e saiu sem queimadura</td><td>Líder do povo</td><td>Daniel</td></tr>
+      <tr><td class="cod">PES-171</td><td>Gomer</td><td>foi a esposa de Oseias, sinal do amor fiel de Deus</td><td>Líder do povo</td><td>Oseias</td></tr>
+      <tr><td class="cod">PES-172</td><td>Tiago, irmão do Senhor</td><td>liderou a igreja de Jerusalém e escreveu uma carta</td><td>Líder do povo</td><td>Tiago</td></tr>
+      <tr><td class="cod">PES-173</td><td>Tiago, filho de Alfeu</td><td>está na lista dos doze e é chamado o menor</td><td>Apóstolo</td><td>Marcos</td></tr>
+      <tr><td class="cod">PES-174</td><td>Tadeu</td><td>aparece entre os doze também com o nome de Judas de Tiago</td><td>Apóstolo</td><td>Marcos</td></tr>
+      <tr><td class="cod">PES-175</td><td>Salomé</td><td>estava entre as mulheres que foram ao túmulo de manhã</td><td>Discípulo</td><td>Marcos</td></tr>
+      <tr><td class="cod">PES-176</td><td>Joana</td><td>ajudava a sustentar Jesus e os discípulos com seus bens</td><td>Discípulo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-177</td><td>Cleopas</td><td>reconheceu Jesus no partir do pão a caminho de Emaús</td><td>Discípulo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-178</td><td>A mulher samaritana</td><td>conversou com Jesus junto ao poço e chamou a cidade inteira</td><td>Discípulo</td><td>João</td></tr>
+      <tr><td class="cod">PES-179</td><td>Caifás</td><td>era o sumo sacerdote no ano em que Jesus foi julgado</td><td>Inimigo do povo</td><td>João</td></tr>
+      <tr><td class="cod">PES-180</td><td>Anás</td><td>foi o primeiro a interrogar Jesus naquela noite</td><td>Inimigo do povo</td><td>João</td></tr>
+      <tr><td class="cod">PES-181</td><td>Gamaliel</td><td>aconselhou o conselho a deixar os apóstolos em paz</td><td>Líder do povo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-182</td><td>Ananias e Safira</td><td>mentiram sobre o valor da venda do campo</td><td>Inimigo do povo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-183</td><td>Simão, o mágico</td><td>quis comprar o dom de Deus com dinheiro</td><td>Inimigo do povo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-184</td><td>Rode</td><td>de tanta alegria deixou Pedro esperando no portão</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-185</td><td>João Marcos</td><td>voltou atrás numa viagem e depois foi útil a Paulo</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-186</td><td>Eutico</td><td>caiu da janela durante a pregação longa de Paulo</td><td>Discípulo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-187</td><td>Félix</td><td>era o governador que ouviu Paulo e adiou a decisão</td><td>Inimigo do povo</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-188</td><td>Agripa</td><td>disse a Paulo: por pouco me persuades a ser cristão</td><td>Rei</td><td>Atos</td></tr>
+      <tr><td class="cod">PES-189</td><td>Febe</td><td>é recomendada por Paulo como serva da igreja</td><td>Discípulo</td><td>Romanos</td></tr>
+      <tr><td class="cod">PES-190</td><td>Epafrodito</td><td>adoeceu quase até a morte servindo a Paulo</td><td>Discípulo</td><td>Filipenses</td></tr>
+      <tr><td class="cod">PES-191</td><td>Demas</td><td>abandonou Paulo por amar o mundo presente</td><td>Inimigo do povo</td><td>2 Timóteo</td></tr>
+      <tr><td class="cod">PES-192</td><td>Lóide</td><td>foi a avó de Timóteo, de fé sincera</td><td>Discípulo</td><td>2 Timóteo</td></tr>
+      <tr><td class="cod">PES-193</td><td>Miguel</td><td>é chamado de arcanjo e luta contra o dragão</td><td>Anjo</td><td>Apocalipse</td></tr>
+      <tr><td class="cod">PES-194</td><td>Melquisedeque no NT</td><td>é lembrado em Hebreus como sacerdote para sempre</td><td>Sacerdote</td><td>Hebreus</td></tr>
+      <tr><td class="cod">PES-195</td><td>Os magos do Oriente</td><td>seguiram uma estrela e trouxeram ouro, incenso e mirra</td><td>Líder do povo</td><td>Mateus</td></tr>
+      <tr><td class="cod">PES-196</td><td>Os pastores de Belém</td><td>ouviram os anjos e correram para ver o menino</td><td>Líder do povo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-197</td><td>O centurião da cruz</td><td>disse: verdadeiramente este era o Filho de Deus</td><td>Discípulo</td><td>Marcos</td></tr>
+      <tr><td class="cod">PES-198</td><td>O bom ladrão</td><td>pediu a Jesus para ser lembrado no Reino</td><td>Discípulo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PES-199</td><td>O jovem rico</td><td>foi embora triste porque tinha muitos bens</td><td>Discípulo</td><td>Marcos</td></tr>
+      <tr><td class="cod">PES-200</td><td>O menino dos cinco pães</td><td>entregou o pouco que tinha e alimentou uma multidão</td><td>Discípulo</td><td>João</td></tr>
+      <tr><td class="cod">PES-201</td><td>A viúva das duas moedinhas</td><td>deu tudo o que tinha para viver</td><td>Discípulo</td><td>Marcos</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="pais">
+  <h2>Pais e filhos <span class="conta">40 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a pergunta “quem era o pai de fulano?”.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Filho</th><th>Pai</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">PAI-001</td><td>Isaque</td><td>Abraão</td></tr>
+      <tr><td class="cod">PAI-002</td><td>Jacó</td><td>Isaque</td></tr>
+      <tr><td class="cod">PAI-003</td><td>José</td><td>Jacó</td></tr>
+      <tr><td class="cod">PAI-004</td><td>Salomão</td><td>Davi</td></tr>
+      <tr><td class="cod">PAI-005</td><td>Jônatas</td><td>Saul</td></tr>
+      <tr><td class="cod">PAI-006</td><td>Sem</td><td>Noé</td></tr>
+      <tr><td class="cod">PAI-007</td><td>Cam</td><td>Noé</td></tr>
+      <tr><td class="cod">PAI-008</td><td>Jafé</td><td>Noé</td></tr>
+      <tr><td class="cod">PAI-009</td><td>Ismael</td><td>Abraão</td></tr>
+      <tr><td class="cod">PAI-010</td><td>Esaú</td><td>Isaque</td></tr>
+      <tr><td class="cod">PAI-011</td><td>Benjamim</td><td>Jacó</td></tr>
+      <tr><td class="cod">PAI-012</td><td>Judá</td><td>Jacó</td></tr>
+      <tr><td class="cod">PAI-013</td><td>Roboão</td><td>Salomão</td></tr>
+      <tr><td class="cod">PAI-014</td><td>Manassés</td><td>Ezequias</td></tr>
+      <tr><td class="cod">PAI-015</td><td>Tiago e João</td><td>Zebedeu</td></tr>
+      <tr><td class="cod">PAI-016</td><td>Noé</td><td>Lameque</td></tr>
+      <tr><td class="cod">PAI-017</td><td>Matusalém</td><td>Enoque</td></tr>
+      <tr><td class="cod">PAI-018</td><td>Caim e Abel</td><td>Adão</td></tr>
+      <tr><td class="cod">PAI-019</td><td>Sansão</td><td>Manoá</td></tr>
+      <tr><td class="cod">PAI-020</td><td>Obede</td><td>Boaz</td></tr>
+      <tr><td class="cod">PAI-021</td><td>Jessé</td><td>Obede</td></tr>
+      <tr><td class="cod">PAI-022</td><td>Davi</td><td>Jessé</td></tr>
+      <tr><td class="cod">PAI-023</td><td>Josué</td><td>Num</td></tr>
+      <tr><td class="cod">PAI-024</td><td>Calebe</td><td>Jefoné</td></tr>
+      <tr><td class="cod">PAI-025</td><td>Absalão</td><td>Davi</td></tr>
+      <tr><td class="cod">PAI-026</td><td>Eliseu</td><td>Safate</td></tr>
+      <tr><td class="cod">PAI-027</td><td>Isaías</td><td>Amoz</td></tr>
+      <tr><td class="cod">PAI-028</td><td>Jeremias</td><td>Hilquias</td></tr>
+      <tr><td class="cod">PAI-029</td><td>Ezequiel</td><td>Buzi</td></tr>
+      <tr><td class="cod">PAI-030</td><td>Jonas</td><td>Amitai</td></tr>
+      <tr><td class="cod">PAI-031</td><td>João Batista</td><td>Zacarias</td></tr>
+      <tr><td class="cod">PAI-032</td><td>Pedro e André</td><td>Jonas</td></tr>
+      <tr><td class="cod">PAI-033</td><td>Terá</td><td>Naor</td></tr>
+      <tr><td class="cod">PAI-034</td><td>Abraão</td><td>Terá</td></tr>
+      <tr><td class="cod">PAI-035</td><td>Moisés e Arão</td><td>Anrão</td></tr>
+      <tr><td class="cod">PAI-036</td><td>Josafá</td><td>Asa</td></tr>
+      <tr><td class="cod">PAI-037</td><td>Salomão e Absalão</td><td>Davi</td></tr>
+      <tr><td class="cod">PAI-038</td><td>Gérson</td><td>Moisés</td></tr>
+      <tr><td class="cod">PAI-039</td><td>Samuel</td><td>Elcana</td></tr>
+      <tr><td class="cod">PAI-040</td><td>Joás</td><td>Acazias</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="maes">
+  <h2>Mães e filhos <span class="conta">12 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a pergunta “quem era a mãe de fulano?”.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Filho</th><th>Mãe</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">MAE-001</td><td>Isaque</td><td>Sara</td></tr>
+      <tr><td class="cod">MAE-002</td><td>Jesus</td><td>Maria</td></tr>
+      <tr><td class="cod">MAE-003</td><td>José e Benjamim</td><td>Raquel</td></tr>
+      <tr><td class="cod">MAE-004</td><td>Samuel</td><td>Ana</td></tr>
+      <tr><td class="cod">MAE-005</td><td>João Batista</td><td>Isabel</td></tr>
+      <tr><td class="cod">MAE-006</td><td>Ismael</td><td>Agar</td></tr>
+      <tr><td class="cod">MAE-007</td><td>Jacó e Esaú</td><td>Rebeca</td></tr>
+      <tr><td class="cod">MAE-008</td><td>Moisés</td><td>Joquebede</td></tr>
+      <tr><td class="cod">MAE-009</td><td>Salomão</td><td>Bate-Seba</td></tr>
+      <tr><td class="cod">MAE-010</td><td>Obede</td><td>Rute</td></tr>
+      <tr><td class="cod">MAE-011</td><td>Timóteo</td><td>Eunice</td></tr>
+      <tr><td class="cod">MAE-012</td><td>Caim, Abel e Sete</td><td>Eva</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="lugares">
+  <h2>Lugares <span class="conta">96 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> três perguntas por lugar — onde aconteceu tal coisa, o que aconteceu naquele lugar e em que livro ele aparece.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Lugar</th><th>O que aconteceu</th><th>Livro</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">LUG-001</td><td>o Jardim do Éden</td><td>Adão e Eva viveram no começo</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-002</td><td>a Arca de Noé</td><td>os animais entraram de dois em dois</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-003</td><td>a Torre de Babel</td><td>as línguas foram confundidas</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-004</td><td>Sodoma</td><td>a cidade foi destruída no tempo de Ló</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-005</td><td>o Monte Moriá</td><td>Abraão foi provado com Isaque</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-006</td><td>Betel</td><td>Jacó sonhou com a escada até o céu</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-007</td><td>Peniel</td><td>Jacó lutou a noite toda e teve o nome mudado</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-008</td><td>o Egito</td><td>o povo de Israel ficou escravo por muitos anos</td><td>Êxodo</td></tr>
+      <tr><td class="cod">LUG-009</td><td>o Mar Vermelho</td><td>as águas se abriram para o povo passar</td><td>Êxodo</td></tr>
+      <tr><td class="cod">LUG-010</td><td>a sarça ardente</td><td>Deus chamou Moisés pelo nome</td><td>Êxodo</td></tr>
+      <tr><td class="cod">LUG-011</td><td>o Monte Sinai</td><td>Moisés recebeu os Dez Mandamentos</td><td>Êxodo</td></tr>
+      <tr><td class="cod">LUG-012</td><td>Meribá</td><td>a água brotou da rocha para o povo beber</td><td>Êxodo</td></tr>
+      <tr><td class="cod">LUG-013</td><td>o deserto do Sinai</td><td>o povo comeu maná por quarenta anos</td><td>Êxodo</td></tr>
+      <tr><td class="cod">LUG-014</td><td>o Monte Nebo</td><td>Moisés viu a terra prometida antes de morrer</td><td>Deuteronômio</td></tr>
+      <tr><td class="cod">LUG-015</td><td>Jericó</td><td>os muros caíram depois de sete voltas</td><td>Josué</td></tr>
+      <tr><td class="cod">LUG-016</td><td>o rio Jordão</td><td>as águas pararam para o povo entrar na terra</td><td>Josué</td></tr>
+      <tr><td class="cod">LUG-017</td><td>Gibeão</td><td>o sol parou no céu durante a batalha</td><td>Josué</td></tr>
+      <tr><td class="cod">LUG-018</td><td>o Vale de Elá</td><td>Davi enfrentou Golias</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">LUG-019</td><td>Belém</td><td>Jesus nasceu numa manjedoura</td><td>Lucas</td></tr>
+      <tr><td class="cod">LUG-020</td><td>Nazaré</td><td>Jesus cresceu e aprendeu a carpintaria</td><td>Lucas</td></tr>
+      <tr><td class="cod">LUG-021</td><td>Cafarnaum</td><td>Jesus fez sua base durante o ministério na Galileia</td><td>Mateus</td></tr>
+      <tr><td class="cod">LUG-022</td><td>Caná</td><td>Jesus transformou água em vinho</td><td>João</td></tr>
+      <tr><td class="cod">LUG-023</td><td>o Mar da Galileia</td><td>Jesus acalmou a tempestade</td><td>Marcos</td></tr>
+      <tr><td class="cod">LUG-024</td><td>o deserto da Judeia</td><td>Jesus jejuou quarenta dias e foi tentado</td><td>Mateus</td></tr>
+      <tr><td class="cod">LUG-025</td><td>o Getsêmani</td><td>Jesus orou na noite em que foi preso</td><td>Mateus</td></tr>
+      <tr><td class="cod">LUG-026</td><td>o Gólgota</td><td>Jesus foi crucificado</td><td>João</td></tr>
+      <tr><td class="cod">LUG-027</td><td>o túmulo vazio</td><td>as mulheres encontraram a pedra removida</td><td>Marcos</td></tr>
+      <tr><td class="cod">LUG-028</td><td>Emaús</td><td>Jesus ressuscitado caminhou com dois discípulos</td><td>Lucas</td></tr>
+      <tr><td class="cod">LUG-029</td><td>Jerusalém</td><td>o Espírito Santo desceu no dia de Pentecostes</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-030</td><td>o caminho de Damasco</td><td>Saulo viu uma luz e ficou cego</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-031</td><td>Antioquia</td><td>os discípulos foram chamados cristãos pela primeira vez</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-032</td><td>Atenas</td><td>Paulo falou do Deus desconhecido no Areópago</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-033</td><td>Filipos</td><td>Paulo e Silas cantaram na prisão e a terra tremeu</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-034</td><td>a ilha de Patmos</td><td>João recebeu as visões do Apocalipse</td><td>Apocalipse</td></tr>
+      <tr><td class="cod">LUG-035</td><td>Nínive</td><td>a cidade se arrependeu depois da pregação de Jonas</td><td>Jonas</td></tr>
+      <tr><td class="cod">LUG-036</td><td>Babilônia</td><td>o povo de Judá viveu setenta anos de exílio</td><td>Daniel</td></tr>
+      <tr><td class="cod">LUG-037</td><td>a cova dos leões</td><td>Daniel passou a noite protegido por um anjo</td><td>Daniel</td></tr>
+      <tr><td class="cod">LUG-038</td><td>a fornalha ardente</td><td>três jovens saíram sem cheiro de fumaça</td><td>Daniel</td></tr>
+      <tr><td class="cod">LUG-039</td><td>o Monte Carmelo</td><td>Elias desafiou os profetas de Baal</td><td>1 Reis</td></tr>
+      <tr><td class="cod">LUG-040</td><td>Sarepta</td><td>a farinha e o azeite da viúva não acabaram</td><td>1 Reis</td></tr>
+      <tr><td class="cod">LUG-041</td><td>o rio Quebar</td><td>Ezequiel teve a visão dos seres viventes</td><td>Ezequiel</td></tr>
+      <tr><td class="cod">LUG-042</td><td>Susã</td><td>Ester foi rainha no palácio do rei persa</td><td>Ester</td></tr>
+      <tr><td class="cod">LUG-043</td><td>o muro de Jerusalém</td><td>Neemias liderou a reconstrução em 52 dias</td><td>Neemias</td></tr>
+      <tr><td class="cod">LUG-044</td><td>o Monte das Oliveiras</td><td>Jesus subiu ao céu diante dos discípulos</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-045</td><td>Betânia</td><td>Lázaro foi chamado de volta do túmulo</td><td>João</td></tr>
+      <tr><td class="cod">LUG-046</td><td>o poço de Jacó</td><td>Jesus conversou com a mulher samaritana</td><td>João</td></tr>
+      <tr><td class="cod">LUG-047</td><td>o tanque de Betesda</td><td>um paralítico esperava havia 38 anos</td><td>João</td></tr>
+      <tr><td class="cod">LUG-048</td><td>Jope</td><td>Jonas embarcou fugindo do chamado de Deus</td><td>Jonas</td></tr>
+      <tr><td class="cod">LUG-049</td><td>o Templo de Salomão</td><td>a arca da aliança foi colocada no lugar santíssimo</td><td>1 Reis</td></tr>
+      <tr><td class="cod">LUG-050</td><td>Gerar</td><td>Isaque cavou de novo os poços do pai</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-051</td><td>Ur dos Caldeus</td><td>Abraão morava antes de partir para Canaã</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-052</td><td>Silo</td><td>o tabernáculo ficou por muito tempo antes do Templo</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">LUG-053</td><td>Berseba</td><td>Agar recebeu socorro no deserto</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-054</td><td>o Egito, de novo</td><td>José e Maria fugiram com o menino Jesus</td><td>Mateus</td></tr>
+      <tr><td class="cod">LUG-055</td><td>Cesareia</td><td>Cornélio recebeu Pedro em sua casa</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-056</td><td>Malta</td><td>Paulo naufragou e foi picado por uma víbora</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-057</td><td>Roma</td><td>Paulo ficou preso e continuou ensinando</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-058</td><td>Éfeso</td><td>Paulo ensinou por dois anos na escola de Tirano</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-059</td><td>Corinto</td><td>Paulo trabalhou fazendo tendas com Áquila</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-060</td><td>o Monte Ararate</td><td>a arca parou quando as águas baixaram</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-061</td><td>Endor</td><td>Saul procurou uma médium na véspera da batalha</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">LUG-062</td><td>Ramá</td><td>Samuel morava e julgava o povo</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">LUG-063</td><td>Hebrom</td><td>Davi reinou sete anos antes de tomar Jerusalém</td><td>2 Samuel</td></tr>
+      <tr><td class="cod">LUG-064</td><td>o deserto de Zim</td><td>Moisés bateu na rocha em vez de falar com ela</td><td>Números</td></tr>
+      <tr><td class="cod">LUG-065</td><td>Cades-Barneia</td><td>os doze espias voltaram com o relatório da terra</td><td>Números</td></tr>
+      <tr><td class="cod">LUG-066</td><td>o vale de Ossos Secos</td><td>um exército voltou a viver na visão do profeta</td><td>Ezequiel</td></tr>
+      <tr><td class="cod">LUG-067</td><td>a casa de Zaqueu</td><td>Jesus se hospedou depois de chamar o cobrador de impostos</td><td>Lucas</td></tr>
+      <tr><td class="cod">LUG-068</td><td>o cenáculo</td><td>Jesus repartiu o pão e o cálice com os doze</td><td>Lucas</td></tr>
+      <tr><td class="cod">LUG-069</td><td>o pátio do sumo sacerdote</td><td>Pedro negou Jesus e o galo cantou</td><td>Lucas</td></tr>
+      <tr><td class="cod">LUG-070</td><td>o vale de Josafá</td><td>o profeta anunciou o juízo das nações</td><td>Joel</td></tr>
+      <tr><td class="cod">LUG-071</td><td>a planície de Dura</td><td>o rei levantou uma estátua de ouro</td><td>Daniel</td></tr>
+      <tr><td class="cod">LUG-072</td><td>a cidade de Ur</td><td>começou a caminhada de fé da família de Abraão</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-073</td><td>o vale de Sidim</td><td>os reis do sul se enfrentaram no tempo de Abraão</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-074</td><td>a terra de Gósen</td><td>a família de Jacó se instalou no Egito</td><td>Gênesis</td></tr>
+      <tr><td class="cod">LUG-075</td><td>a terra de Uz</td><td>morava o homem mais íntegro do seu tempo</td><td>Jó</td></tr>
+      <tr><td class="cod">LUG-076</td><td>a terra de Midiã</td><td>Moisés pastoreou ovelhas por quarenta anos</td><td>Êxodo</td></tr>
+      <tr><td class="cod">LUG-077</td><td>o mar de Jafo</td><td>a tempestade quase afundou o navio do profeta fugitivo</td><td>Jonas</td></tr>
+      <tr><td class="cod">LUG-078</td><td>o palácio de Nabucodonosor</td><td>quatro jovens escolheram legumes em vez da comida do rei</td><td>Daniel</td></tr>
+      <tr><td class="cod">LUG-079</td><td>o Templo reconstruído</td><td>os mais velhos choraram lembrando o antigo</td><td>Esdras</td></tr>
+      <tr><td class="cod">LUG-080</td><td>a porta do Templo chamada Formosa</td><td>um coxo se levantou e entrou andando e saltando</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-081</td><td>a estrada de Gaza</td><td>um etíope foi batizado depois de entender a Escritura</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-082</td><td>o terraço em Jope</td><td>Pedro teve a visão do lençol com animais</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-083</td><td>a prisão de Jerusalém</td><td>um anjo abriu as portas e soltou Pedro</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-084</td><td>o rio fora de Filipos</td><td>Lídia ouviu Paulo e foi batizada com sua casa</td><td>Atos</td></tr>
+      <tr><td class="cod">LUG-085</td><td>o monte da Transfiguração</td><td>o rosto de Jesus brilhou diante de três discípulos</td><td>Mateus</td></tr>
+      <tr><td class="cod">LUG-086</td><td>o monte das Bem-Aventuranças</td><td>Jesus ensinou o Sermão do Monte</td><td>Mateus</td></tr>
+      <tr><td class="cod">LUG-087</td><td>a sinagoga de Nazaré</td><td>Jesus leu Isaías e disse que a profecia se cumpria</td><td>Lucas</td></tr>
+      <tr><td class="cod">LUG-088</td><td>o campo do oleiro</td><td>foi comprado com as trinta moedas devolvidas</td><td>Mateus</td></tr>
+      <tr><td class="cod">LUG-089</td><td>o deserto de Berseba</td><td>Elias se sentou debaixo de um zimbro e pediu para morrer</td><td>1 Reis</td></tr>
+      <tr><td class="cod">LUG-090</td><td>a caverna de Horebe</td><td>Elias ouviu a voz mansa e delicada</td><td>1 Reis</td></tr>
+      <tr><td class="cod">LUG-091</td><td>a vinha de Nabote</td><td>um rei cobiçou a terra do vizinho</td><td>1 Reis</td></tr>
+      <tr><td class="cod">LUG-092</td><td>o quarto do profeta em Suném</td><td>uma família preparou um lugar para Eliseu descansar</td><td>2 Reis</td></tr>
+      <tr><td class="cod">LUG-093</td><td>o vale dos filisteus</td><td>os dois exércitos se enfrentaram por quarenta dias</td><td>1 Samuel</td></tr>
+      <tr><td class="cod">LUG-094</td><td>a eira de Araúna</td><td>Davi comprou o terreno para levantar um altar</td><td>2 Samuel</td></tr>
+      <tr><td class="cod">LUG-095</td><td>o rio Quebar, de novo</td><td>o profeta ficou sete dias sentado entre os exilados</td><td>Ezequiel</td></tr>
+      <tr><td class="cod">LUG-096</td><td>a cidade de Tarso</td><td>Paulo nasceu e cresceu antes de encontrar Jesus</td><td>Atos</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="milagres">
+  <h2>Milagres de Jesus <span class="conta">33 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> três perguntas por milagre — onde a Bíblia diz que Jesus fez aquilo, o que Jesus fez naquele lugar e em que Evangelho está.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>O que Jesus fez</th><th>Onde</th><th>Evangelho</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">MIL-001</td><td>transformou água em vinho</td><td>numa festa de casamento em Caná</td><td>João</td></tr>
+      <tr><td class="cod">MIL-002</td><td>acalmou a tempestade com uma palavra</td><td>no Mar da Galileia</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-003</td><td>alimentou cinco mil pessoas</td><td>num lugar deserto perto do lago</td><td>João</td></tr>
+      <tr><td class="cod">MIL-004</td><td>andou sobre as águas</td><td>no Mar da Galileia de madrugada</td><td>Mateus</td></tr>
+      <tr><td class="cod">MIL-005</td><td>ressuscitou Lázaro</td><td>diante do túmulo em Betânia</td><td>João</td></tr>
+      <tr><td class="cod">MIL-006</td><td>curou dez leprosos, e só um voltou para agradecer</td><td>a caminho de Jerusalém</td><td>Lucas</td></tr>
+      <tr><td class="cod">MIL-007</td><td>devolveu a visão ao cego Bartimeu</td><td>à saída de Jericó</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-008</td><td>curou a sogra de Pedro com febre</td><td>na casa de Pedro em Cafarnaum</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-009</td><td>curou um paralítico descido pelo telhado</td><td>numa casa cheia em Cafarnaum</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-010</td><td>encheu as redes de peixes depois de uma noite vazia</td><td>na praia do lago de Genesaré</td><td>Lucas</td></tr>
+      <tr><td class="cod">MIL-011</td><td>curou o servo do centurião à distância</td><td>sem entrar na casa, em Cafarnaum</td><td>Mateus</td></tr>
+      <tr><td class="cod">MIL-012</td><td>ressuscitou a filha de Jairo</td><td>na casa do chefe da sinagoga</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-013</td><td>curou a mulher que tocou a orla do seu manto</td><td>no meio da multidão apertada</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-014</td><td>alimentou quatro mil com sete pães</td><td>na região de Decápolis</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-015</td><td>curou o cego de nascença com lama e saliva</td><td>junto ao tanque de Siloé</td><td>João</td></tr>
+      <tr><td class="cod">MIL-016</td><td>curou o paralítico que esperava havia 38 anos</td><td>no tanque de Betesda</td><td>João</td></tr>
+      <tr><td class="cod">MIL-017</td><td>curou o filho de um oficial sem estar presente</td><td>estando ainda em Caná</td><td>João</td></tr>
+      <tr><td class="cod">MIL-018</td><td>ressuscitou o filho único de uma viúva</td><td>no portão da cidade de Naim</td><td>Lucas</td></tr>
+      <tr><td class="cod">MIL-019</td><td>curou um homem da mão ressequida no sábado</td><td>dentro da sinagoga</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-020</td><td>libertou o endemoninhado que morava entre os túmulos</td><td>na região dos gadarenos</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-021</td><td>encontrou a moeda do imposto na boca de um peixe</td><td>em Cafarnaum, pela mão de Pedro</td><td>Mateus</td></tr>
+      <tr><td class="cod">MIL-022</td><td>secou a figueira que não dava fruto</td><td>no caminho entre Betânia e Jerusalém</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-023</td><td>curou a orelha do servo do sumo sacerdote</td><td>na hora da prisão, no Getsêmani</td><td>Lucas</td></tr>
+      <tr><td class="cod">MIL-024</td><td>curou a mulher encurvada havia dezoito anos</td><td>ensinando numa sinagoga no sábado</td><td>Lucas</td></tr>
+      <tr><td class="cod">MIL-025</td><td>curou dez homens que gritaram de longe</td><td>na fronteira entre a Samaria e a Galileia</td><td>Lucas</td></tr>
+      <tr><td class="cod">MIL-026</td><td>abriu os ouvidos de um surdo que também mal falava</td><td>na região de Decápolis, longe da multidão</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-027</td><td>curou um cego em duas etapas, perguntando o que ele via</td><td>na aldeia de Betsaida</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-028</td><td>libertou a filha de uma mulher que insistiu com fé</td><td>na região de Tiro e Sidom</td><td>Mateus</td></tr>
+      <tr><td class="cod">MIL-029</td><td>curou dois cegos que gritavam Filho de Davi</td><td>enquanto saía de uma casa na Galileia</td><td>Mateus</td></tr>
+      <tr><td class="cod">MIL-030</td><td>curou um homem que não conseguia falar por causa de um espírito</td><td>diante dos fariseus, que ficaram admirados</td><td>Mateus</td></tr>
+      <tr><td class="cod">MIL-031</td><td>curou um menino que os discípulos não conseguiram ajudar</td><td>ao descer do monte da Transfiguração</td><td>Marcos</td></tr>
+      <tr><td class="cod">MIL-032</td><td>curou um homem inchado de água num dia de sábado</td><td>na casa de um chefe dos fariseus</td><td>Lucas</td></tr>
+      <tr><td class="cod">MIL-033</td><td>encheu de novo as redes depois da ressurreição</td><td>na praia do mar de Tiberíades</td><td>João</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="parabolas">
+  <h2>Parábolas <span class="conta">28 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> três perguntas por parábola — qual é o ensino dela, qual parábola ensina aquilo e em que Evangelho está.</p>
+  <p class="nota">Aqui a revisão é <strong>doutrinária</strong>, e não só factual: a coluna “o que ensina” é a leitura que a criança leva para casa.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Parábola</th><th>O que ensina</th><th>Evangelho</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">PRB-001</td><td>a Ovelha Perdida</td><td>Deus procura cada um que se perde</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-002</td><td>o Filho Pródigo</td><td>o Pai recebe de volta quem volta para casa</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-003</td><td>o Bom Samaritano</td><td>o próximo é aquele de quem eu me aproximo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-004</td><td>o Semeador</td><td>o mesmo ensino cai em corações diferentes</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-005</td><td>os Dois Alicerces</td><td>quem ouve e pratica constrói sobre a rocha</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-006</td><td>os Talentos</td><td>o que se recebe é para ser usado, não escondido</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-007</td><td>as Dez Virgens</td><td>estar preparado importa mais do que parecer preparado</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-008</td><td>a Moeda Perdida</td><td>há festa no céu por um só que é encontrado</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-009</td><td>o Servo Impiedoso</td><td>quem foi muito perdoado também deve perdoar</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-010</td><td>o Rico Insensato</td><td>guardar para si não é o mesmo que ser rico para Deus</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-011</td><td>o Fariseu e o Publicano</td><td>Deus recebe quem se aproxima humilde</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-012</td><td>o Grão de Mostarda</td><td>o Reino começa pequeno e cresce muito</td><td>Marcos</td></tr>
+      <tr><td class="cod">PRB-013</td><td>o Trigo e o Joio</td><td>a separação final não é feita por nós</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-014</td><td>o Tesouro Escondido</td><td>vale a pena dar tudo pelo Reino</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-015</td><td>os Trabalhadores da Vinha</td><td>a bondade de Deus não é injustiça com ninguém</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-016</td><td>a Rede</td><td>no fim haverá separação, como o pescador faz</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-017</td><td>o Amigo Importuno</td><td>vale a pena continuar pedindo</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-018</td><td>a Viúva Insistente</td><td>orar sempre, sem desanimar</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-019</td><td>os Dois Filhos</td><td>obedecer de fato vale mais que prometer</td><td>Mateus</td></tr>
+      <tr><td class="cod">PRB-020</td><td>a Grande Ceia</td><td>muitos são convidados e arranjam desculpas</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-021</td><td>a Torre e o Rei</td><td>conte o custo antes de começar</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-022</td><td>a Semente que Cresce Sozinha</td><td>Deus faz crescer enquanto dormimos</td><td>Marcos</td></tr>
+      <tr><td class="cod">PRB-023</td><td>o Bom Pastor</td><td>o pastor dá a vida pelas ovelhas e as chama pelo nome</td><td>João</td></tr>
+      <tr><td class="cod">PRB-024</td><td>a Videira e os Ramos</td><td>sem permanecer nele não há fruto</td><td>João</td></tr>
+      <tr><td class="cod">PRB-025</td><td>a Figueira Estéril</td><td>Deus dá mais um tempo para dar fruto</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-026</td><td>o Mordomo Infiel</td><td>seja fiel no pouco para ser confiável no muito</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-027</td><td>o Rico e Lázaro</td><td>o que se faz com o pobre hoje importa para sempre</td><td>Lucas</td></tr>
+      <tr><td class="cod">PRB-028</td><td>a Pérola de Grande Valor</td><td>quem acha o Reino troca tudo por ele</td><td>Mateus</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="versiculos">
+  <h2>Versículos <span class="conta">83 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> duas perguntas por versículo — em que livro está escrito aquilo, e completar a frase.</p>
+  <p class="nota">É o único lugar do banco em que <strong>Escritura é citada</strong>. Vale conferir a fidelidade do texto e o livro indicado.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Começo</th><th>Fim</th><th>Livro</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">VER-001</td><td>No princípio criou Deus</td><td>os céus e a terra</td><td>Gênesis</td></tr>
+      <tr><td class="cod">VER-002</td><td>O Senhor é o meu pastor;</td><td>nada me faltará</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-003</td><td>Porque Deus amou o mundo de tal maneira que</td><td>deu o seu Filho unigênito</td><td>João</td></tr>
+      <tr><td class="cod">VER-004</td><td>Eu sou o caminho,</td><td>e a verdade, e a vida</td><td>João</td></tr>
+      <tr><td class="cod">VER-005</td><td>Amarás o teu próximo</td><td>como a ti mesmo</td><td>Levítico</td></tr>
+      <tr><td class="cod">VER-006</td><td>Posso todas as coisas naquele</td><td>que me fortalece</td><td>Filipenses</td></tr>
+      <tr><td class="cod">VER-007</td><td>A tua palavra é lâmpada para os meus pés</td><td>e luz para o meu caminho</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-008</td><td>Confia no Senhor de todo o teu coração e não te estribes</td><td>no teu próprio entendimento</td><td>Provérbios</td></tr>
+      <tr><td class="cod">VER-009</td><td>Sede fortes e corajosos;</td><td>não temas nem te espantes</td><td>Josué</td></tr>
+      <tr><td class="cod">VER-010</td><td>Bem-aventurados os que têm fome e sede de justiça,</td><td>porque eles serão fartos</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-011</td><td>O amor é sofredor,</td><td>é benigno</td><td>1 Coríntios</td></tr>
+      <tr><td class="cod">VER-012</td><td>Vinde a mim, todos os que estais cansados e oprimidos,</td><td>e eu vos aliviarei</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-013</td><td>Eu e a minha casa</td><td>serviremos ao Senhor</td><td>Josué</td></tr>
+      <tr><td class="cod">VER-014</td><td>Tudo tem o seu tempo determinado,</td><td>e há tempo para todo o propósito</td><td>Eclesiastes</td></tr>
+      <tr><td class="cod">VER-015</td><td>Buscai primeiro o reino de Deus e a sua justiça,</td><td>e todas estas coisas vos serão acrescentadas</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-016</td><td>Não te deixarei,</td><td>nem te desampararei</td><td>Hebreus</td></tr>
+      <tr><td class="cod">VER-017</td><td>Os que esperam no Senhor</td><td>renovarão as suas forças</td><td>Isaías</td></tr>
+      <tr><td class="cod">VER-018</td><td>Ensina a criança no caminho em que deve andar,</td><td>e até quando envelhecer não se desviará dele</td><td>Provérbios</td></tr>
+      <tr><td class="cod">VER-019</td><td>Deus é o nosso refúgio e fortaleza,</td><td>socorro bem presente na angústia</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-020</td><td>Eu sou a videira,</td><td>vós, as varas</td><td>João</td></tr>
+      <tr><td class="cod">VER-021</td><td>Lançando sobre ele toda a vossa ansiedade,</td><td>porque ele tem cuidado de vós</td><td>1 Pedro</td></tr>
+      <tr><td class="cod">VER-022</td><td>Ora, a fé é o firme fundamento das coisas que se esperam,</td><td>e a prova das coisas que se não veem</td><td>Hebreus</td></tr>
+      <tr><td class="cod">VER-023</td><td>Tiago diz: sede cumpridores da palavra,</td><td>e não somente ouvintes</td><td>Tiago</td></tr>
+      <tr><td class="cod">VER-024</td><td>As misericórdias do Senhor são a causa de não sermos consumidos;</td><td>renovam-se cada manhã</td><td>Lamentações</td></tr>
+      <tr><td class="cod">VER-025</td><td>Sonda-me, ó Deus,</td><td>e conhece o meu coração</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-026</td><td>Ainda que eu ande pelo vale da sombra da morte,</td><td>não temerei mal algum</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-027</td><td>Se confessarmos os nossos pecados,</td><td>ele é fiel e justo para nos perdoar</td><td>1 João</td></tr>
+      <tr><td class="cod">VER-028</td><td>O Senhor é a minha luz e a minha salvação;</td><td>a quem temerei?</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-029</td><td>Melhor é o fim das coisas</td><td>do que o seu princípio</td><td>Eclesiastes</td></tr>
+      <tr><td class="cod">VER-030</td><td>E conhecereis a verdade,</td><td>e a verdade vos libertará</td><td>João</td></tr>
+      <tr><td class="cod">VER-031</td><td>Toda a Escritura é divinamente inspirada</td><td>e proveitosa para ensinar</td><td>2 Timóteo</td></tr>
+      <tr><td class="cod">VER-032</td><td>Alegrai-vos sempre no Senhor;</td><td>outra vez digo: alegrai-vos</td><td>Filipenses</td></tr>
+      <tr><td class="cod">VER-033</td><td>Não vos conformeis com este mundo,</td><td>mas transformai-vos pela renovação do vosso entendimento</td><td>Romanos</td></tr>
+      <tr><td class="cod">VER-034</td><td>Deus é amor;</td><td>e quem está em amor está em Deus</td><td>1 João</td></tr>
+      <tr><td class="cod">VER-035</td><td>Não to mandei eu?</td><td>Sê forte e corajoso</td><td>Josué</td></tr>
+      <tr><td class="cod">VER-036</td><td>Vós sois a luz do mundo;</td><td>não se pode esconder uma cidade sobre um monte</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-037</td><td>O choro pode durar uma noite,</td><td>mas a alegria vem pela manhã</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-038</td><td>Antes que eu te formasse no ventre,</td><td>eu te conheci</td><td>Jeremias</td></tr>
+      <tr><td class="cod">VER-039</td><td>Tudo posso, mas nem tudo</td><td>me convém</td><td>1 Coríntios</td></tr>
+      <tr><td class="cod">VER-040</td><td>Onde estiver o vosso tesouro,</td><td>aí estará também o vosso coração</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-041</td><td>Bem-aventurados os mansos,</td><td>porque eles herdarão a terra</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-042</td><td>Bem-aventurados os pacificadores,</td><td>porque serão chamados filhos de Deus</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-043</td><td>Amai os vossos inimigos</td><td>e orai pelos que vos perseguem</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-044</td><td>Pedi, e dar-se-vos-á;</td><td>buscai, e encontrareis</td><td>Mateus</td></tr>
+      <tr><td class="cod">VER-045</td><td>Eu sou o pão</td><td>da vida</td><td>João</td></tr>
+      <tr><td class="cod">VER-046</td><td>Eu sou a luz</td><td>do mundo</td><td>João</td></tr>
+      <tr><td class="cod">VER-047</td><td>Eu sou o bom</td><td>pastor</td><td>João</td></tr>
+      <tr><td class="cod">VER-048</td><td>Eu sou a ressurreição</td><td>e a vida</td><td>João</td></tr>
+      <tr><td class="cod">VER-049</td><td>Porque o salário do pecado é a morte,</td><td>mas o dom gratuito de Deus é a vida eterna</td><td>Romanos</td></tr>
+      <tr><td class="cod">VER-050</td><td>Todos pecaram e destituídos estão</td><td>da glória de Deus</td><td>Romanos</td></tr>
+      <tr><td class="cod">VER-051</td><td>Se Deus é por nós,</td><td>quem será contra nós?</td><td>Romanos</td></tr>
+      <tr><td class="cod">VER-052</td><td>Não devais nada a ninguém,</td><td>senão o amor com que vos ameis</td><td>Romanos</td></tr>
+      <tr><td class="cod">VER-053</td><td>Pela graça sois salvos, por meio da fé;</td><td>e isto não vem de vós, é dom de Deus</td><td>Efésios</td></tr>
+      <tr><td class="cod">VER-054</td><td>Filhos, obedecei a vossos pais no Senhor,</td><td>porque isto é justo</td><td>Efésios</td></tr>
+      <tr><td class="cod">VER-055</td><td>Não andeis ansiosos por coisa alguma,</td><td>mas em tudo apresentai a Deus os vossos pedidos</td><td>Filipenses</td></tr>
+      <tr><td class="cod">VER-056</td><td>Tudo quanto fizerdes, fazei de coração,</td><td>como para o Senhor e não para os homens</td><td>Colossenses</td></tr>
+      <tr><td class="cod">VER-057</td><td>Orai</td><td>sem cessar</td><td>1 Tessalonicenses</td></tr>
+      <tr><td class="cod">VER-058</td><td>Ninguém despreze a tua mocidade;</td><td>sê exemplo dos fiéis</td><td>1 Timóteo</td></tr>
+      <tr><td class="cod">VER-059</td><td>Porque a palavra de Deus é viva</td><td>e eficaz</td><td>Hebreus</td></tr>
+      <tr><td class="cod">VER-060</td><td>Jesus Cristo é o mesmo ontem,</td><td>e hoje, e eternamente</td><td>Hebreus</td></tr>
+      <tr><td class="cod">VER-061</td><td>Se algum de vós tem falta de sabedoria,</td><td>peça-a a Deus</td><td>Tiago</td></tr>
+      <tr><td class="cod">VER-062</td><td>A fé sem obras</td><td>é morta</td><td>Tiago</td></tr>
+      <tr><td class="cod">VER-063</td><td>Eis que estou à porta e bato;</td><td>se alguém ouvir a minha voz, entrarei</td><td>Apocalipse</td></tr>
+      <tr><td class="cod">VER-064</td><td>Eu sou o Alfa e o Ômega,</td><td>o princípio e o fim</td><td>Apocalipse</td></tr>
+      <tr><td class="cod">VER-065</td><td>E Deus limpará de seus olhos toda lágrima;</td><td>e não haverá mais morte</td><td>Apocalipse</td></tr>
+      <tr><td class="cod">VER-066</td><td>Honra a teu pai</td><td>e a tua mãe</td><td>Êxodo</td></tr>
+      <tr><td class="cod">VER-067</td><td>Ouve, ó Israel: o Senhor nosso Deus</td><td>é o único Senhor</td><td>Deuteronômio</td></tr>
+      <tr><td class="cod">VER-068</td><td>Amarás o Senhor teu Deus de todo o teu coração,</td><td>de toda a tua alma e de todas as tuas forças</td><td>Deuteronômio</td></tr>
+      <tr><td class="cod">VER-069</td><td>O Senhor te abençoe</td><td>e te guarde</td><td>Números</td></tr>
+      <tr><td class="cod">VER-070</td><td>Os céus manifestam</td><td>a glória de Deus</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-071</td><td>Criai em mim, ó Deus,</td><td>um coração puro</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-072</td><td>Deleita-te no Senhor,</td><td>e ele te concederá os desejos do teu coração</td><td>Salmos</td></tr>
+      <tr><td class="cod">VER-073</td><td>A resposta branda</td><td>desvia o furor</td><td>Provérbios</td></tr>
+      <tr><td class="cod">VER-074</td><td>O princípio da sabedoria</td><td>é o temor do Senhor</td><td>Provérbios</td></tr>
+      <tr><td class="cod">VER-075</td><td>O ferro com o ferro se afia;</td><td>assim o homem afia o seu amigo</td><td>Provérbios</td></tr>
+      <tr><td class="cod">VER-076</td><td>Lança o teu pão sobre as águas,</td><td>porque depois de muitos dias o acharás</td><td>Eclesiastes</td></tr>
+      <tr><td class="cod">VER-077</td><td>Ainda que os vossos pecados sejam como a escarlata,</td><td>eles se tornarão brancos como a neve</td><td>Isaías</td></tr>
+      <tr><td class="cod">VER-078</td><td>Porque um menino nos nasceu,</td><td>um filho se nos deu</td><td>Isaías</td></tr>
+      <tr><td class="cod">VER-079</td><td>Eu sei os planos que tenho a vosso respeito,</td><td>planos de paz e não de mal</td><td>Jeremias</td></tr>
+      <tr><td class="cod">VER-080</td><td>Clama a mim, e responder-te-ei,</td><td>e anunciar-te-ei coisas grandes</td><td>Jeremias</td></tr>
+      <tr><td class="cod">VER-081</td><td>Ainda que a figueira não floresça,</td><td>todavia me alegrarei no Senhor</td><td>Habacuque</td></tr>
+      <tr><td class="cod">VER-082</td><td>O que o Senhor pede de ti: pratica a justiça,</td><td>ama a misericórdia e anda humildemente com o teu Deus</td><td>Miqueias</td></tr>
+      <tr><td class="cod">VER-083</td><td>Trazei todos os dízimos à casa do tesouro,</td><td>e provai-me nisto, diz o Senhor</td><td>Malaquias</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="citacoes">
+  <h2>Quem disse <span class="conta">59 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a pergunta “quem disse isto?”.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Fala</th><th>Quem disse</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CIT-001</td><td>Eis a serva do Senhor; faça-se em mim segundo a tua palavra</td><td>Maria</td></tr>
+      <tr><td class="cod">CIT-002</td><td>Tu és o Cristo, o Filho do Deus vivo</td><td>Pedro</td></tr>
+      <tr><td class="cod">CIT-003</td><td>Eu e a minha casa serviremos ao Senhor</td><td>Josué</td></tr>
+      <tr><td class="cod">CIT-004</td><td>Aonde quer que fores, irei; o teu povo será o meu povo</td><td>Rute</td></tr>
+      <tr><td class="cod">CIT-005</td><td>Se perecer, pereci</td><td>Ester</td></tr>
+      <tr><td class="cod">CIT-006</td><td>Deixa ir o meu povo</td><td>Moisés</td></tr>
+      <tr><td class="cod">CIT-007</td><td>Eis-me aqui, envia-me a mim</td><td>Isaías</td></tr>
+      <tr><td class="cod">CIT-008</td><td>Fala, Senhor, que o teu servo ouve</td><td>Samuel</td></tr>
+      <tr><td class="cod">CIT-009</td><td>Senhor meu, e Deus meu!</td><td>Tomé</td></tr>
+      <tr><td class="cod">CIT-010</td><td>Eu sei que o meu Redentor vive</td><td>Jó</td></tr>
+      <tr><td class="cod">CIT-011</td><td>Ele deve crescer e eu diminuir</td><td>João Batista</td></tr>
+      <tr><td class="cod">CIT-012</td><td>Sou inocente do sangue deste justo</td><td>Pilatos</td></tr>
+      <tr><td class="cod">CIT-013</td><td>Serei eu guarda do meu irmão?</td><td>Caim</td></tr>
+      <tr><td class="cod">CIT-014</td><td>Vem e vê</td><td>Filipe</td></tr>
+      <tr><td class="cod">CIT-015</td><td>Ainda que ele me mate, nele esperarei</td><td>Jó</td></tr>
+      <tr><td class="cod">CIT-016</td><td>O Senhor deu, e o Senhor tomou</td><td>Jó</td></tr>
+      <tr><td class="cod">CIT-017</td><td>Não fui eu quem vos mandou para cá, senão Deus</td><td>José</td></tr>
+      <tr><td class="cod">CIT-018</td><td>Vós bem intentastes o mal, porém Deus o tornou em bem</td><td>José</td></tr>
+      <tr><td class="cod">CIT-019</td><td>Escolhei hoje a quem sirvais</td><td>Josué</td></tr>
+      <tr><td class="cod">CIT-020</td><td>Até aqui nos ajudou o Senhor</td><td>Samuel</td></tr>
+      <tr><td class="cod">CIT-021</td><td>Dá ao teu servo um coração entendido</td><td>Salomão</td></tr>
+      <tr><td class="cod">CIT-022</td><td>Se o Senhor é Deus, segui-o</td><td>Elias</td></tr>
+      <tr><td class="cod">CIT-023</td><td>Não temas, porque mais são os que estão conosco</td><td>Eliseu</td></tr>
+      <tr><td class="cod">CIT-024</td><td>Prata e ouro não tenho, mas o que tenho te dou</td><td>Pedro</td></tr>
+      <tr><td class="cod">CIT-025</td><td>Senhor, que queres que eu faça?</td><td>Paulo</td></tr>
+      <tr><td class="cod">CIT-026</td><td>Combati o bom combate, acabei a carreira</td><td>Paulo</td></tr>
+      <tr><td class="cod">CIT-027</td><td>Senhor, não lhes imputes este pecado</td><td>Estêvão</td></tr>
+      <tr><td class="cod">CIT-028</td><td>Deus proverá para si o cordeiro</td><td>Abraão</td></tr>
+      <tr><td class="cod">CIT-029</td><td>Certamente o Senhor está neste lugar e eu não sabia</td><td>Jacó</td></tr>
+      <tr><td class="cod">CIT-030</td><td>Quem sou eu, para que vá a Faraó?</td><td>Moisés</td></tr>
+      <tr><td class="cod">CIT-031</td><td>Não temais; ficai quietos e vede o livramento do Senhor</td><td>Moisés</td></tr>
+      <tr><td class="cod">CIT-032</td><td>Se achei graça aos teus olhos, dá-me um sinal</td><td>Gideão</td></tr>
+      <tr><td class="cod">CIT-033</td><td>O Senhor é o meu pastor, nada me faltará</td><td>Davi</td></tr>
+      <tr><td class="cod">CIT-034</td><td>Tu vens a mim com espada, mas eu venho em nome do Senhor</td><td>Davi</td></tr>
+      <tr><td class="cod">CIT-035</td><td>Sonda-me, ó Deus, e conhece o meu coração</td><td>Davi</td></tr>
+      <tr><td class="cod">CIT-036</td><td>Nós não serviremos aos teus deuses</td><td>Sadraque</td></tr>
+      <tr><td class="cod">CIT-037</td><td>O meu Deus enviou o seu anjo e fechou a boca dos leões</td><td>Daniel</td></tr>
+      <tr><td class="cod">CIT-038</td><td>Clamei do ventre do inferno, e ouviste a minha voz</td><td>Jonas</td></tr>
+      <tr><td class="cod">CIT-039</td><td>Eis o Cordeiro de Deus, que tira o pecado do mundo</td><td>João Batista</td></tr>
+      <tr><td class="cod">CIT-040</td><td>Senhor, salva-me!</td><td>Pedro</td></tr>
+      <tr><td class="cod">CIT-041</td><td>Senhor, a quem iremos? Tu tens as palavras da vida eterna</td><td>Pedro</td></tr>
+      <tr><td class="cod">CIT-042</td><td>Explica-nos a parábola</td><td>Pedro</td></tr>
+      <tr><td class="cod">CIT-043</td><td>Em verdade reconheço que Deus não faz acepção de pessoas</td><td>Pedro</td></tr>
+      <tr><td class="cod">CIT-044</td><td>Vamos também nós, para morrermos com ele</td><td>Tomé</td></tr>
+      <tr><td class="cod">CIT-045</td><td>Senhor, mostra-nos o Pai, e isso nos basta</td><td>Filipe</td></tr>
+      <tr><td class="cod">CIT-046</td><td>A minha alma engrandece ao Senhor</td><td>Maria</td></tr>
+      <tr><td class="cod">CIT-047</td><td>Fazei tudo quanto ele vos disser</td><td>Maria</td></tr>
+      <tr><td class="cod">CIT-048</td><td>Senhor, se tivesses estado aqui, meu irmão não teria morrido</td><td>Marta</td></tr>
+      <tr><td class="cod">CIT-049</td><td>Levaram o meu Senhor, e não sei onde o puseram</td><td>Maria Madalena</td></tr>
+      <tr><td class="cod">CIT-050</td><td>Que farei, Senhor?</td><td>Paulo</td></tr>
+      <tr><td class="cod">CIT-051</td><td>Para mim o viver é Cristo e o morrer é lucro</td><td>Paulo</td></tr>
+      <tr><td class="cod">CIT-052</td><td>Sede meus imitadores, como também eu sou de Cristo</td><td>Paulo</td></tr>
+      <tr><td class="cod">CIT-053</td><td>Crê no Senhor Jesus e serás salvo</td><td>Paulo</td></tr>
+      <tr><td class="cod">CIT-054</td><td>Vejo os céus abertos</td><td>Estêvão</td></tr>
+      <tr><td class="cod">CIT-055</td><td>Nu saí do ventre de minha mãe e nu voltarei</td><td>Jó</td></tr>
+      <tr><td class="cod">CIT-056</td><td>Melhor é obedecer do que sacrificar</td><td>Samuel</td></tr>
+      <tr><td class="cod">CIT-057</td><td>Deixa-me beijar meu pai e minha mãe e te seguirei</td><td>Eliseu</td></tr>
+      <tr><td class="cod">CIT-058</td><td>Como pode um homem nascer sendo velho?</td><td>Nicodemos</td></tr>
+      <tr><td class="cod">CIT-059</td><td>Que é a verdade?</td><td>Pilatos</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="numeros">
+  <h2>Números <span class="conta">97 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a própria pergunta, com a resposta certa e três números próximos como alternativas.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Pergunta</th><th>Resposta</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">NUM-001</td><td>Quantos livros tem a Bíblia?</td><td>66</td></tr>
+      <tr><td class="cod">NUM-002</td><td>Quantos discípulos Jesus escolheu?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-003</td><td>Quantos dias durou a criação, contando o descanso?</td><td>7</td></tr>
+      <tr><td class="cod">NUM-004</td><td>Quantos mandamentos Moisés recebeu nas tábuas?</td><td>10</td></tr>
+      <tr><td class="cod">NUM-005</td><td>Quantas pragas caíram sobre o Egito?</td><td>10</td></tr>
+      <tr><td class="cod">NUM-006</td><td>Quantos Evangelhos existem?</td><td>4</td></tr>
+      <tr><td class="cod">NUM-007</td><td>Quantos anos Israel andou pelo deserto?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-008</td><td>Quantos livros tem o Novo Testamento?</td><td>27</td></tr>
+      <tr><td class="cod">NUM-009</td><td>Quantos livros tem o Antigo Testamento?</td><td>39</td></tr>
+      <tr><td class="cod">NUM-010</td><td>Quantas voltas o povo deu em Jericó no sétimo dia?</td><td>7</td></tr>
+      <tr><td class="cod">NUM-011</td><td>Quantos irmãos José tinha?</td><td>11</td></tr>
+      <tr><td class="cod">NUM-012</td><td>Quantas tribos formavam Israel?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-013</td><td>Quantos capítulos tem o livro de Salmos?</td><td>150</td></tr>
+      <tr><td class="cod">NUM-014</td><td>Quantos homens ficaram com Gideão para a batalha?</td><td>300</td></tr>
+      <tr><td class="cod">NUM-015</td><td>Quantas moedas de prata Judas recebeu?</td><td>30</td></tr>
+      <tr><td class="cod">NUM-016</td><td>Quantos dias Jesus jejuou no deserto?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-017</td><td>Quantas pessoas Jesus alimentou com cinco pães e dois peixes?</td><td>5000</td></tr>
+      <tr><td class="cod">NUM-018</td><td>Quantos dias choveu no dilúvio?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-019</td><td>Quantos anos Matusalém viveu?</td><td>969</td></tr>
+      <tr><td class="cod">NUM-020</td><td>Quantas vezes Pedro negou Jesus?</td><td>3</td></tr>
+      <tr><td class="cod">NUM-021</td><td>Quantos dias Lázaro estava no túmulo quando Jesus chegou?</td><td>4</td></tr>
+      <tr><td class="cod">NUM-022</td><td>Quantos dias Jesus apareceu aos discípulos depois de ressuscitar?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-023</td><td>Quantos anos Neemias levou para reconstruir os muros, em dias?</td><td>52</td></tr>
+      <tr><td class="cod">NUM-024</td><td>Quantos anos durou o exílio na Babilônia?</td><td>70</td></tr>
+      <tr><td class="cod">NUM-025</td><td>Quantos capítulos tem o livro de Gênesis?</td><td>50</td></tr>
+      <tr><td class="cod">NUM-026</td><td>Quantos capítulos tem o Evangelho de João?</td><td>21</td></tr>
+      <tr><td class="cod">NUM-027</td><td>Quantas cartas de Paulo há no Novo Testamento?</td><td>13</td></tr>
+      <tr><td class="cod">NUM-028</td><td>Quantos profetas menores existem?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-029</td><td>Quantos profetas maiores existem?</td><td>5</td></tr>
+      <tr><td class="cod">NUM-030</td><td>Quantos livros formam o Pentateuco?</td><td>5</td></tr>
+      <tr><td class="cod">NUM-031</td><td>Com quantos anos Josias virou rei?</td><td>8</td></tr>
+      <tr><td class="cod">NUM-032</td><td>Quantos anos Jacó trabalhou por Raquel, no total?</td><td>14</td></tr>
+      <tr><td class="cod">NUM-033</td><td>Quantos anos Davi reinou sobre Israel?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-034</td><td>Quantos anos Salomão levou para construir o Templo?</td><td>7</td></tr>
+      <tr><td class="cod">NUM-035</td><td>Quantos capítulos tem o livro de Isaías?</td><td>66</td></tr>
+      <tr><td class="cod">NUM-036</td><td>Quantos capítulos tem o Apocalipse?</td><td>22</td></tr>
+      <tr><td class="cod">NUM-037</td><td>Quantas pessoas foram salvas na arca de Noé?</td><td>8</td></tr>
+      <tr><td class="cod">NUM-038</td><td>Quantos espias Moisés enviou à terra prometida?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-039</td><td>Quantos filhos Jó teve de novo, no fim do livro?</td><td>10</td></tr>
+      <tr><td class="cod">NUM-040</td><td>Quantas cestas sobraram depois de alimentar os cinco mil?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-041</td><td>Quantas igrejas recebem cartas no início do Apocalipse?</td><td>7</td></tr>
+      <tr><td class="cod">NUM-042</td><td>Quantos anos Ezequias ganhou de vida depois de orar?</td><td>15</td></tr>
+      <tr><td class="cod">NUM-043</td><td>Quantas pessoas se converteram no dia de Pentecostes?</td><td>3000</td></tr>
+      <tr><td class="cod">NUM-044</td><td>Quantos capítulos tem o livro de Jó?</td><td>42</td></tr>
+      <tr><td class="cod">NUM-045</td><td>Quantos capítulos tem o livro de Provérbios?</td><td>31</td></tr>
+      <tr><td class="cod">NUM-046</td><td>Quantos anos José tinha ao se apresentar a Faraó?</td><td>30</td></tr>
+      <tr><td class="cod">NUM-047</td><td>Quantos anos Israel foi escravo no Egito, segundo Êxodo?</td><td>430</td></tr>
+      <tr><td class="cod">NUM-048</td><td>Quantos dias os discípulos esperaram até o Pentecostes?</td><td>10</td></tr>
+      <tr><td class="cod">NUM-049</td><td>Quantos anjos são citados pelo nome na Bíblia?</td><td>2</td></tr>
+      <tr><td class="cod">NUM-050</td><td>Quantas pessoas Jesus ressuscitou nos Evangelhos?</td><td>3</td></tr>
+      <tr><td class="cod">NUM-051</td><td>Quantos pães Jesus usou para alimentar os quatro mil?</td><td>7</td></tr>
+      <tr><td class="cod">NUM-052</td><td>Quantos dias Jesus ficou no túmulo antes de ressuscitar?</td><td>3</td></tr>
+      <tr><td class="cod">NUM-053</td><td>Quantos leprosos Jesus curou de uma só vez?</td><td>10</td></tr>
+      <tr><td class="cod">NUM-054</td><td>Quantas moedinhas a viúva pobre colocou no cofre?</td><td>2</td></tr>
+      <tr><td class="cod">NUM-055</td><td>Quantos anos Jesus tinha quando ficou no templo em Jerusalém?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-056</td><td>Quantos discípulos Jesus enviou de dois em dois, além dos doze?</td><td>70</td></tr>
+      <tr><td class="cod">NUM-057</td><td>Quantos filhos Jacó teve?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-058</td><td>Quantos anos Noé tinha quando veio o dilúvio?</td><td>600</td></tr>
+      <tr><td class="cod">NUM-059</td><td>Quantos dias Moisés ficou no monte com Deus?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-060</td><td>Quantos livros da Bíblia levam nome de mulher?</td><td>2</td></tr>
+      <tr><td class="cod">NUM-061</td><td>Quantos capítulos tem o livro de Rute?</td><td>4</td></tr>
+      <tr><td class="cod">NUM-062</td><td>Quantos capítulos tem o livro de Jonas?</td><td>4</td></tr>
+      <tr><td class="cod">NUM-063</td><td>Quantos capítulos tem o livro de Atos?</td><td>28</td></tr>
+      <tr><td class="cod">NUM-064</td><td>Quantos capítulos tem o Evangelho de Marcos?</td><td>16</td></tr>
+      <tr><td class="cod">NUM-065</td><td>Quantos capítulos tem o Evangelho de Lucas?</td><td>24</td></tr>
+      <tr><td class="cod">NUM-066</td><td>Quantos capítulos tem o livro de Êxodo?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-067</td><td>Quantos capítulos tem o livro de Jeremias?</td><td>52</td></tr>
+      <tr><td class="cod">NUM-068</td><td>Quantos capítulos tem o livro de Ezequiel?</td><td>48</td></tr>
+      <tr><td class="cod">NUM-069</td><td>Quantos capítulos tem o livro de Daniel?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-070</td><td>Quantos capítulos tem o livro de Josué?</td><td>24</td></tr>
+      <tr><td class="cod">NUM-071</td><td>Quantos capítulos tem o livro de Juízes?</td><td>21</td></tr>
+      <tr><td class="cod">NUM-072</td><td>Quantos capítulos tem o livro de Romanos?</td><td>16</td></tr>
+      <tr><td class="cod">NUM-073</td><td>Quantos capítulos tem o livro de Hebreus?</td><td>13</td></tr>
+      <tr><td class="cod">NUM-074</td><td>Quantos capítulos tem o livro de Tiago?</td><td>5</td></tr>
+      <tr><td class="cod">NUM-075</td><td>Quantos anos Jacó viveu, segundo Gênesis?</td><td>147</td></tr>
+      <tr><td class="cod">NUM-076</td><td>Quantos anos José viveu?</td><td>110</td></tr>
+      <tr><td class="cod">NUM-077</td><td>Quantos anos Moisés viveu?</td><td>120</td></tr>
+      <tr><td class="cod">NUM-078</td><td>Quantos anos Abraão tinha quando Isaque nasceu?</td><td>100</td></tr>
+      <tr><td class="cod">NUM-079</td><td>Quantos anos Sara tinha quando Isaque nasceu?</td><td>90</td></tr>
+      <tr><td class="cod">NUM-080</td><td>Quantos anos Salomão reinou?</td><td>40</td></tr>
+      <tr><td class="cod">NUM-081</td><td>Quantas cidades de refúgio Israel tinha?</td><td>6</td></tr>
+      <tr><td class="cod">NUM-082</td><td>Quantos braços tinha o candelabro do Tabernáculo, contando o central?</td><td>7</td></tr>
+      <tr><td class="cod">NUM-083</td><td>Quantas pedras havia no peitoral do sumo sacerdote?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-084</td><td>Quantos homens carregaram o paralítico até Jesus?</td><td>4</td></tr>
+      <tr><td class="cod">NUM-085</td><td>Quantas cestas sobraram depois de alimentar os quatro mil?</td><td>7</td></tr>
+      <tr><td class="cod">NUM-086</td><td>Quantas horas de trevas houve enquanto Jesus estava na cruz?</td><td>3</td></tr>
+      <tr><td class="cod">NUM-087</td><td>Quantos soldados guardavam Pedro na prisão, em quatro grupos?</td><td>16</td></tr>
+      <tr><td class="cod">NUM-088</td><td>Quantos livros da Bíblia são atribuídos a João?</td><td>5</td></tr>
+      <tr><td class="cod">NUM-089</td><td>Quantos livros de Samuel existem?</td><td>2</td></tr>
+      <tr><td class="cod">NUM-090</td><td>Quantos livros de Crônicas existem?</td><td>2</td></tr>
+      <tr><td class="cod">NUM-091</td><td>Quantas cartas Paulo escreveu a Timóteo?</td><td>2</td></tr>
+      <tr><td class="cod">NUM-092</td><td>Quantas cartas Paulo escreveu aos Coríntios?</td><td>2</td></tr>
+      <tr><td class="cod">NUM-093</td><td>Quantas cartas de João existem no Novo Testamento?</td><td>3</td></tr>
+      <tr><td class="cod">NUM-094</td><td>Quantos livros do Novo Testamento têm um só capítulo?</td><td>4</td></tr>
+      <tr><td class="cod">NUM-095</td><td>Quantos jarros de água foram enchidos na festa de Caná?</td><td>6</td></tr>
+      <tr><td class="cod">NUM-096</td><td>Quantos anos tinha a filha de Jairo?</td><td>12</td></tr>
+      <tr><td class="cod">NUM-097</td><td>Quantos filhos Ana teve depois de Samuel?</td><td>5</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="fatos">
+  <h2>Fatos avulsos <span class="conta">28 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a própria pergunta. Aqui as três alternativas erradas também foram escritas à mão — vale conferir se alguma delas não poderia ser defendida como certa.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">FAT-001</td><td>Qual foi o primeiro milagre de Jesus?</td><td>Transformar água em vinho</td><td>Andar sobre as águas · Curar um cego · Multiplicar os pães</td></tr>
+      <tr><td class="cod">FAT-002</td><td>Em que animal Jesus entrou em Jerusalém?</td><td>Um jumentinho</td><td>Um cavalo branco · Um camelo · Uma mula do rei</td></tr>
+      <tr><td class="cod">FAT-003</td><td>O que Deus criou no primeiro dia?</td><td>A luz</td><td>Os animais · O sol · O homem</td></tr>
+      <tr><td class="cod">FAT-004</td><td>Que sinal Deus deu depois do dilúvio?</td><td>O arco-íris</td><td>Uma estrela · Uma nuvem de fogo · Um trovão</td></tr>
+      <tr><td class="cod">FAT-005</td><td>Que ave Noé soltou e voltou com uma folha de oliveira?</td><td>A pomba</td><td>O corvo · A águia · A andorinha</td></tr>
+      <tr><td class="cod">FAT-006</td><td>O que o povo comeu no deserto todas as manhãs?</td><td>O maná</td><td>Pão de trigo · Figos secos · Peixe salgado</td></tr>
+      <tr><td class="cod">FAT-007</td><td>Em que rio Jesus foi batizado?</td><td>No rio Jordão</td><td>No rio Nilo · No rio Eufrates · No rio Tigre</td></tr>
+      <tr><td class="cod">FAT-008</td><td>Qual era a profissão de Pedro antes de seguir Jesus?</td><td>Pescador</td><td>Carpinteiro · Cobrador de impostos · Fabricante de tendas</td></tr>
+      <tr><td class="cod">FAT-009</td><td>Qual era a profissão de Paulo além de pregar?</td><td>Fabricante de tendas</td><td>Pescador · Médico · Carpinteiro</td></tr>
+      <tr><td class="cod">FAT-010</td><td>O que Jesus escreveu no chão diante dos acusadores?</td><td>Escreveu com o dedo na terra</td><td>Desenhou um peixe · Fez uma cruz · Não fez nada</td></tr>
+      <tr><td class="cod">FAT-011</td><td>Que instrumento Davi tocava para acalmar o rei Saul?</td><td>A harpa</td><td>A flauta · O tambor · A trombeta</td></tr>
+      <tr><td class="cod">FAT-012</td><td>O que estava dentro da arca da aliança?</td><td>As tábuas da Lei</td><td>A coroa do rei · Os rolos dos profetas · O manto de Elias</td></tr>
+      <tr><td class="cod">FAT-013</td><td>Como Deus guiou o povo no deserto de dia?</td><td>Com uma coluna de nuvem</td><td>Com uma estrela · Com um anjo visível · Com uma coluna de fogo</td></tr>
+      <tr><td class="cod">FAT-014</td><td>Que comida João Batista comia no deserto?</td><td>Gafanhotos e mel silvestre</td><td>Pão e peixe · Figos e uvas · Somente água</td></tr>
+      <tr><td class="cod">FAT-015</td><td>Qual foi o sinal do beijo de Judas?</td><td>Mostrar aos soldados quem era Jesus</td><td>Um pedido de perdão · Uma despedida de amigo · O começo da Ceia</td></tr>
+      <tr><td class="cod">FAT-016</td><td>O que aconteceu no véu do Templo quando Jesus morreu?</td><td>Rasgou-se de alto a baixo</td><td>Pegou fogo · Ficou branco · Foi retirado pelos sacerdotes</td></tr>
+      <tr><td class="cod">FAT-017</td><td>Que sinal apareceu sobre os discípulos em Pentecostes?</td><td>Línguas como de fogo</td><td>Uma nuvem branca · Uma estrela brilhante · Um arco-íris</td></tr>
+      <tr><td class="cod">FAT-018</td><td>Que sinal Gideão pediu a Deus com um velo de lã?</td><td>Orvalho só no velo e o chão seco</td><td>Fogo no altar · Um trovão ao meio-dia · Chuva por sete dias</td></tr>
+      <tr><td class="cod">FAT-019</td><td>O que Eliseu fez flutuar na água?</td><td>Um machado de ferro</td><td>Uma pedra · Um barco furado · Uma jarra de barro</td></tr>
+      <tr><td class="cod">FAT-020</td><td>Como Davi carregou as pedras para enfrentar Golias?</td><td>Numa bolsa de pastor</td><td>No bolso da túnica · Numa cesta · Nas duas mãos</td></tr>
+      <tr><td class="cod">FAT-021</td><td>Quantas pedras Davi escolheu no ribeiro?</td><td>Cinco</td><td>Três · Uma · Sete</td></tr>
+      <tr><td class="cod">FAT-022</td><td>O que Jesus fez antes de lavar os pés dos discípulos?</td><td>Cingiu-se com uma toalha</td><td>Orou em voz alta · Cantou um salmo · Partiu o pão</td></tr>
+      <tr><td class="cod">FAT-023</td><td>Que animal falou com Balaão?</td><td>A jumenta</td><td>O camelo · O cavalo · A serpente</td></tr>
+      <tr><td class="cod">FAT-024</td><td>Que sinal Deus deu a Ezequias para confirmar a promessa?</td><td>A sombra voltou dez degraus</td><td>A chuva parou · Uma estrela apareceu de dia · O rio secou</td></tr>
+      <tr><td class="cod">FAT-025</td><td>O que Jesus disse ser o maior mandamento?</td><td>Amar a Deus de todo o coração</td><td>Guardar o sábado · Não matar · Honrar pai e mãe</td></tr>
+      <tr><td class="cod">FAT-026</td><td>Que fruto os espias trouxeram da terra prometida?</td><td>Um cacho de uvas enorme</td><td>Uma cesta de figos · Espigas de trigo · Romãs e azeitonas</td></tr>
+      <tr><td class="cod">FAT-027</td><td>Como Jesus chamou os discípulos que eram pescadores?</td><td>Pescadores de homens</td><td>Guardas do Reino · Mensageiros do mar · Servos da rede</td></tr>
+      <tr><td class="cod">FAT-028</td><td>Que roupa o filho pródigo recebeu ao voltar?</td><td>A melhor túnica, um anel e sandálias</td><td>Uma capa de viagem · Roupa de servo · Nada, só comida</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="lista-mandamentos">
+  <h2>Lista: Qual é o nº mandamento <span class="conta">10 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> uma pergunta por item da lista, pedindo o item na posição certa.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Posição</th><th>Item</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">MAN-001</td><td>1</td><td>Não terás outros deuses além de mim</td></tr>
+      <tr><td class="cod">MAN-002</td><td>2</td><td>Não farás para ti imagem de escultura</td></tr>
+      <tr><td class="cod">MAN-003</td><td>3</td><td>Não tomarás o nome do Senhor em vão</td></tr>
+      <tr><td class="cod">MAN-004</td><td>4</td><td>Lembra-te do dia de sábado, para o santificar</td></tr>
+      <tr><td class="cod">MAN-005</td><td>5</td><td>Honra teu pai e tua mãe</td></tr>
+      <tr><td class="cod">MAN-006</td><td>6</td><td>Não matarás</td></tr>
+      <tr><td class="cod">MAN-007</td><td>7</td><td>Não adulterarás</td></tr>
+      <tr><td class="cod">MAN-008</td><td>8</td><td>Não furtarás</td></tr>
+      <tr><td class="cod">MAN-009</td><td>9</td><td>Não dirás falso testemunho</td></tr>
+      <tr><td class="cod">MAN-010</td><td>10</td><td>Não cobiçarás o que é do próximo</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="lista-pragas">
+  <h2>Lista: Qual foi a nª praga do Egito <span class="conta">10 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> uma pergunta por item da lista, pedindo o item na posição certa.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Posição</th><th>Item</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">PRA-001</td><td>1</td><td>As águas viraram sangue</td></tr>
+      <tr><td class="cod">PRA-002</td><td>2</td><td>As rãs</td></tr>
+      <tr><td class="cod">PRA-003</td><td>3</td><td>Os piolhos</td></tr>
+      <tr><td class="cod">PRA-004</td><td>4</td><td>As moscas</td></tr>
+      <tr><td class="cod">PRA-005</td><td>5</td><td>A peste nos animais</td></tr>
+      <tr><td class="cod">PRA-006</td><td>6</td><td>As úlceras</td></tr>
+      <tr><td class="cod">PRA-007</td><td>7</td><td>A chuva de pedras</td></tr>
+      <tr><td class="cod">PRA-008</td><td>8</td><td>Os gafanhotos</td></tr>
+      <tr><td class="cod">PRA-009</td><td>9</td><td>As trevas</td></tr>
+      <tr><td class="cod">PRA-010</td><td>10</td><td>A morte dos primogênitos</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="lista-criacao">
+  <h2>Lista: O que Deus criou no nº dia <span class="conta">7 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> uma pergunta por item da lista, pedindo o item na posição certa.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Posição</th><th>Item</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CRI-001</td><td>1</td><td>A luz</td></tr>
+      <tr><td class="cod">CRI-002</td><td>2</td><td>O céu, separando as águas</td></tr>
+      <tr><td class="cod">CRI-003</td><td>3</td><td>A terra seca e as plantas</td></tr>
+      <tr><td class="cod">CRI-004</td><td>4</td><td>O sol, a lua e as estrelas</td></tr>
+      <tr><td class="cod">CRI-005</td><td>5</td><td>Os peixes e as aves</td></tr>
+      <tr><td class="cod">CRI-006</td><td>6</td><td>Os animais da terra e o homem</td></tr>
+      <tr><td class="cod">CRI-007</td><td>7</td><td>Nada: Ele descansou</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p><strong>Lumus — Kids Game Hub</strong> · ElCamargo Soluções em TI LTDA · Blumenau, SC<br>
+  Gerado por <code>npm run doc-biblia</code> a partir de <code>src/data/biblia-*.js</code>.
+  Os códigos seguem a ordem das tabelas: acrescentar uma linha no meio desloca
+  as seguintes, então vale marcar tudo neste mesmo documento e só depois gerar
+  o próximo. Cada linha traz o nome ao lado do código, que desfaz qualquer dúvida.</p>
+  <p>Os textos em francês, alemão e italiano ainda não existem para os versículos e
+  as falas — está no roadmap, e depende de uma edição em domínio público conferida
+  para cada língua. Não é erro do banco.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1397,6 +1397,7 @@ scripts/
   check-bancos.mjs   confere os bancos de perguntas
   check-faixas.mjs   garante que toda faixa existe em todo mapa que depende dela
   check-rodadas.mjs  monta uma rodada de cada trilha e faixa e confere se é jogável
+  doc-biblia.mjs     gera o documento de revisão do banco bíblico, para leigo ler
   baixar-bandeiras.mjs  busca no Wikimedia Commons o que o flag-icons não tem
 flags-extra/       as 42 bandeiras baixadas à mão, com FONTES.md ao lado
 .github/workflows/
@@ -1507,9 +1508,32 @@ Ordem decidida com o pai, do que mais pesa para o que menos pesa.
 - [x] **Ciências além dos bichos** *(Pesquisar)* — feito: corpo humano, plantas, água, sentidos, materiais e higiene
 - [x] **O Brasil antes do mundo** *(Relacionar)* — feito: as 5 regiões, os 27 estados, símbolos e biomas — e a rodada abre pelo estado onde a criança mora
 
+### O documento de revisão do banco bíblico
+
+As 2000+ perguntas da Bíblia **não são escritas uma a uma**: são geradas de
+tabelas de fatos. Um capítulo errado em Gênesis vira quatro perguntas erradas
+de uma vez — então o que precisa de revisão são os **fatos**, não as perguntas.
+
+```bash
+npm run doc-biblia
+```
+
+Gera `docs/revisao-biblia.html`: uma página única com **770 fatos** em 14
+seções — os 66 livros, 201 personagens, 96 lugares, 33 milagres, 28 parábolas,
+83 versículos, e o resto. Cada linha tem um código (`PRB-003`) e o nome ao
+lado, e cada seção explica **em que perguntas aquela tabela vira** — para o
+revisor saber o peso do que está olhando.
+
+A página abre offline, não busca nada na rede e não tem script: as mesmas
+regras do app valem para o que sai dele. Dá para imprimir ou mandar o arquivo
+por mensagem, e quem revisa **não precisa abrir uma linha de código** — cita o
+código e diz o que está errado.
+
+É a ferramenta que destrava o item do roadmap que depende de outras pessoas:
+revisar 770 linhas é um fim de semana; revisar duas mil perguntas ninguém faz.
 ### Depende de outras pessoas
 
-- [ ] Revisão pastoral do banco de perguntas bíblicas (2000+ por idioma)
+- [ ] Revisão pastoral do banco de perguntas bíblicas — o documento para revisar já existe (`npm run doc-biblia`), falta a pessoa
 - [ ] Versículos e falas em francês, alemão e italiano, de edição em domínio público conferida
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
 - [ ] Devocionais em francês, alemão e italiano (o versículo pede edição em domínio público conferida)
