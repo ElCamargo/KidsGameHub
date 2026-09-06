@@ -16,7 +16,7 @@
  */
 export const NOVIDADES = [
   {
-    v: "1.1.0", d: "2026-09-05",
+    v: "1.1.0", d: "2026-09-06",
     t: {
       pt: {
         titulo: "Ler, contar e lembrar",
