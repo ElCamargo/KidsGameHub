@@ -10,6 +10,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { CIENCIAS_MUNDO, NIVEIS_DA_CIENCIA } from "../src/data/ciencias-mundo.js";
 import { ESTADOS, FATOS, REGIOES, NIVEIS_DO_BRASIL } from "../src/data/brasil.js";
+import { BR_ESTADOS } from "../src/data/geografia.js";
 import { montarRodadaCorpo, montarRodadaBrasil } from "../src/lib/rodadas.js";
 import { chaveDaPergunta } from "../src/lib/revisao.js";
 import { T } from "../src/data/textos.js";
@@ -109,4 +110,50 @@ test("os temas de ciências cobrem o que a escola cobra", () => {
   const temas = new Set(CIENCIAS_MUNDO.map(x => x.tema));
   for (const t of ["corpo", "plantas", "agua", "sentidos", "materiais", "higiene"])
     assert.ok(temas.has(t), `nenhuma pergunta sobre ${t}`);
+});
+
+test("as 27 siglas batem com o banco das capitais", () => {
+  /* São dois bancos escritos à mão em arquivos diferentes. Um estado com
+     sigla errada aqui viraria um seletor de "onde eu moro" que aponta para
+     nada — e ninguém perceberia, porque o jogo continuaria funcionando. */
+  const doMapa = new Set(BR_ESTADOS.map(x => x[2].slice(-2).toUpperCase()));
+  const meus = ESTADOS.map(e => e.uf);
+  assert.equal(new Set(meus).size, 27, "sigla repetida");
+  for (const uf of meus) assert.ok(doMapa.has(uf), `${uf} não existe no banco das capitais`);
+  for (const uf of doMapa) assert.ok(meus.includes(uf), `${uf} está nas capitais e não aqui`);
+});
+
+test("dizendo onde mora, a rodada abre pelo estado da criança", () => {
+  for (const uf of ["SC", "SP", "AC", "DF", "RR"]) {
+    const meu = ESTADOS.find(e => e.uf === uf);
+    for (const stage of [1, 27, 54]) {
+      const { qs } = montarRodadaBrasil(stage, T.pt, uf);
+      assert.ok(qs[0].ask.includes(meu.w),
+        `${uf}/fase ${stage}: a rodada abriu com "${qs[0].ask}"`);
+      assert.equal(qs[0].answer, REGIOES[meu.r].nome);
+      // A explicação é pessoal: fala com a criança, não sobre o estado.
+      assert.ok(qs[0].porque.includes(meu.w) && /voc[êe]/i.test(qs[0].porque),
+        `${uf}: a explicação não é a personalizada — "${qs[0].porque}"`);
+      // E o estado dela não volta como pergunta repetida no meio da rodada.
+      assert.equal(qs.filter(q => q.ask.includes(meu.w)).length, 1,
+        `${uf}: o estado da criança apareceu duas vezes`);
+    }
+  }
+});
+
+test("o estado da criança abre a rodada mesmo fora do degrau da faixa", () => {
+  /* Roraima é degrau 4 e não entraria numa rodada Fácil. Mas é onde a criança
+     mora: essa ela precisa saber antes de qualquer outra. */
+  const rr = ESTADOS.find(e => e.uf === "RR");
+  assert.equal(rr.n, 4);
+  const { qs } = montarRodadaBrasil(1, T.pt, "RR");
+  assert.ok(qs[0].ask.includes("Roraima"), `abriu com "${qs[0].ask}"`);
+});
+
+test("sem estado escolhido, nada muda", () => {
+  for (const vazio of [null, undefined, "", "XX"]) {
+    const { qs } = montarRodadaBrasil(27, T.pt, vazio);
+    assert.equal(qs.length, PERGUNTAS.hard, `${vazio}: rodada com ${qs.length}`);
+    for (const q of qs) assert.ok(!/voc[êe] mora/i.test(q.porque), "explicação pessoal sem estado escolhido");
+  }
 });

@@ -9,6 +9,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { LANG_CATALOG } from "../data/textos.js";
 import { MADE_BY } from "../lib/catalogo.js";
+import { ESTADOS } from "../data/brasil.js";
 import { Avatar, Btn, HAIRS, Modal, Mundi, SHIRTS, SKINS } from "./base.jsx";
 
 
@@ -141,7 +142,26 @@ export function Create({ t, lang, onLang, player, setPlayer, onDone, editando = 
                 ))}
               </div>
             </div>
-          </>
+
+            {lang === "pt" && (
+              <div style={{ marginBottom: 14 }}>
+                <div className="display" style={{ color: "#1B2A6B", fontSize: 15, marginBottom: 6 }}>{t.myState}</div>
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                  <button onClick={() => campo("estado", null)} className="chunky"
+                    style={{ width: 42, padding: "8px 0", fontSize: 13,
+                      background: !player.estado ? "#8B93AD" : "#E4E8F5",
+                      color: !player.estado ? "#fff" : "#6C7695" }}>—</button>
+                  {[...ESTADOS].sort((a, b) => a.uf.localeCompare(b.uf)).map(e => (
+                    <button key={e.uf} onClick={() => campo("estado", e.uf)} className="chunky"
+                      aria-label={e.w}
+                      style={{ width: 42, padding: "8px 0", fontSize: 13,
+                        background: player.estado === e.uf ? "#00B894" : "#E4E8F5",
+                        color: player.estado === e.uf ? "#fff" : "#6C7695" }}>{e.uf}</button>
+                  ))}
+                </div>
+                <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, marginTop: 5 }}>{t.stateWhy}</div>
+              </div>
+            )}          </>
         )}
 
         <Swatches label={t.skin} items={SKINS} k="skin" />

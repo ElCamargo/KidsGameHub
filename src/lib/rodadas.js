@@ -1138,26 +1138,35 @@ export function montarRodadaCorpo(stage, t) {
 
    A figura das perguntas de região é sempre o mapa, e nunca o emoji da
    região: 🌵 no enunciado entregaria "Nordeste" antes de a criança pensar. */
-export function montarRodadaBrasil(stage, t) {
+export function montarRodadaBrasil(stage, t, estado = null) {
   const band = bandFor("brasil", stage);
   const niveis = NIVEIS_DO_BRASIL[band] || NIVEIS_DO_BRASIL.easy;
   const nomes = Object.values(REGIOES).map(r => r.nome);
-  const deRegiao = ESTADOS.filter(e => niveis.includes(e.n)).map(e => {
+  const perguntaDoEstado = (e, meu = false) => {
     const certa = REGIOES[e.r].nome;
     const fora = shuffle(nomes.filter(n => n !== certa)).slice(0, 3);
     return {
       kind: "emojiAsk", prompt: "🗺️", ask: t.askRegiao.replace("{p}", e.w),
       answer: certa, options: shuffle([certa, ...fora]),
-      porque: t.whyRegiao.replace("{p}", e.w).replace("{r}", certa),
+      porque: (meu ? t.whyMeuEstado : t.whyRegiao).replace("{p}", e.w).replace("{r}", certa),
     };
-  });
+  };
+  const deRegiao = ESTADOS.filter(e => niveis.includes(e.n)).map(e => perguntaDoEstado(e));
   const deFato = FATOS.filter(f => niveis.includes(f.n)).map(f => ({
     kind: "emojiAsk", prompt: f.e, ask: f.q,
     answer: f.a, options: shuffle(f.o), porque: f.porque,
   }));
+  let qs = shuffle([...deRegiao, ...deFato]);
+
+  /* Se a família disse onde mora, a rodada ABRE pelo estado da criança —
+     mesmo que ele não esteja no degrau da faixa. A escola ensina do próximo
+     ao distante, e não há nada mais próximo do que a casa dela. */
+  const meu = estado && ESTADOS.find(e => e.uf === estado);
+  if (meu) qs = [perguntaDoEstado(meu, true), ...qs.filter(q => !q.ask.includes(meu.w))];
+
   return {
     cont: "brasil", diff: band, stage, time: tempoDe("brasil", stage), t0: Date.now(),
-    qs: shuffle([...deRegiao, ...deFato]).slice(0, qtdPerguntas(band)),
+    qs: qs.slice(0, qtdPerguntas(band)),
     i: 0, score: 0, right: 0, hintsUsed: 0, streak: 0, flash: 0, islandRight: 0, subRight: 0,
   };
 }
@@ -1200,7 +1209,7 @@ const QUIZZES = {
   ortografia: { icone: "📝", cor: "#E84393", nome: t => t.games.ortografia, montar: (st, t) => montarRodadaOrtografia(st, t) },
   problema: { icone: "🧩", cor: "#F9A826", nome: t => t.games.problema, montar: (st, t) => montarRodadaProblema(st, t) },
   corpo: { icone: "🧪", cor: "#00C2CB", nome: t => t.games.corpo, montar: (st, t) => montarRodadaCorpo(st, t) },
-  brasil: { icone: "🇧🇷", cor: "#00B894", nome: t => t.games.brasil, montar: (st, t) => montarRodadaBrasil(st, t) },
+  brasil: { icone: "🇧🇷", cor: "#00B894", nome: t => t.games.brasil, montar: (st, t, lang, cont, quem) => montarRodadaBrasil(st, t, quem?.estado) },
   tabuada: { icone: "✖️", cor: "#E84393", nome: t => t.games.tabuada, montar: (st, t) => montarRodadaTabuada(st, t) },
   horas:   { icone: "🕐", cor: "#6A5AE0", nome: t => t.games.horas,   montar: (st, t) => montarRodadaHoras(st, t) },
   dinheiro:{ icone: "💰", cor: "#00B894", nome: t => t.games.dinheiro, montar: (st, t) => montarRodadaDinheiro(st, t) },

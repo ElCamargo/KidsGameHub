@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 185 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 189 testes |
 | Licença | MIT |
 
 ---
@@ -808,6 +808,27 @@ O emoji da região não era usado em lugar nenhum, e saiu.
 quando havia uma. Duas perguntas de ciências com o mesmo 🦴 viravam **a mesma**
 na fila, e uma se perdia. Agora a chave junta figura e enunciado.
 
+**E o jogo começa por onde a criança mora.** A ficha do jogador ganhou um
+campo opcional — **Onde eu moro** —, com as 27 siglas numa grade que cabe na
+tela. Escolhido o estado, **a rodada do Brasil abre com ele**, e a explicação
+fala com a criança em vez de falar sobre o estado:
+
+> **Em que região fica Santa Catarina?** → Sul
+> *"Você mora em Santa Catarina, que fica na região Sul."*
+
+Isso vale **mesmo quando o estado não é do degrau da faixa**: Roraima é degrau
+4 e não entraria numa rodada Fácil, mas se a criança mora lá, é a primeira
+coisa que ela precisa saber. É o caminho da escola — do próximo ao distante.
+
+O campo **só aparece em português**: mostrar 27 siglas brasileiras para uma
+família italiana seria ruído. É opcional, tem a opção de não dizer, e — como
+tudo no Lumus — **fica no aparelho**. A ficha do responsável mostra o estado ao
+lado do ano escolar.
+
+Dois bancos escritos à mão passaram a ter as mesmas 27 siglas, em arquivos
+diferentes. Um teste cruza os dois: sigla errada aqui viraria um seletor que
+aponta para nada, e o jogo continuaria funcionando sem ninguém perceber.
+
 ### A escola pede por ano; o app entregava por dificuldade
 
 O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
@@ -1138,7 +1159,7 @@ funções e mais nada.
 | `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
 | `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
 | `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 185 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
+| `tests/*.test.mjs` | 189 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -1344,8 +1365,8 @@ src/
     leitura.js           20 textos e 70 perguntas de interpretação, em 4 degraus
     ortografia.js        64 palavras com lacuna: ç ou ss, s ou z, m antes de p e b
     ciencias-mundo.js    47 perguntas de corpo, plantas, água, sentidos e materiais
-    brasil.js            os 27 estados com região, e os fatos que a prova cobra
-tests/             185 testes em node --test, sem framework nenhum
+    brasil.js            os 27 estados com sigla e região, e os fatos que a prova cobra
+tests/             189 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1460,7 +1481,7 @@ Ordem decidida com o pai, do que mais pesa para o que menos pesa.
 - [x] **Ortografia** *(Registrar)* — feito: 64 palavras com lacuna, e a palavra nunca aparece escrita errado
 - [x] **Armar a conta e situação-problema** *(Raciocinar)* — feito: o problema em texto, com as iscas que são os erros de verdade, e a conta armada com vai-um e empresta-um
 - [x] **Ciências além dos bichos** *(Pesquisar)* — feito: corpo humano, plantas, água, sentidos, materiais e higiene
-- [x] **O Brasil antes do mundo** *(Relacionar)* — feito: as 5 regiões, os 27 estados, símbolos e biomas
+- [x] **O Brasil antes do mundo** *(Relacionar)* — feito: as 5 regiões, os 27 estados, símbolos e biomas — e a rodada abre pelo estado onde a criança mora
 
 ### Depende de outras pessoas
 
