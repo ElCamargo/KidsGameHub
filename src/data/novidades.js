@@ -21,6 +21,7 @@ export const NOVIDADES = [
       pt: {
         titulo: "Ler, contar e lembrar",
         itens: [
+          "Jogo novo: Leitura do Lumus — o app lê um texto e faz perguntas sobre ele",
           "Jogo novo: Começa Igual — ouça as palavras e ache a que começa com o mesmo som",
           "Jogo novo: Ditado do Lumus — ouça a palavra e escreva letra por letra",
           "Jogo novo: Família Silábica — ouça a palavra e ache a sílaba que a começa",
@@ -36,6 +37,7 @@ export const NOVIDADES = [
       en: {
         titulo: "Reading, counting and remembering",
         itens: [
+          "New game: Lumus Reading — the app reads a text and asks questions about it",
           "New game: Same Start — hear the words and find the one starting with the same sound",
           "New game: Lumus Dictation — hear the word and spell it letter by letter",
           "New game: Syllable Family — hear the word and find the syllable it starts with",
@@ -51,6 +53,7 @@ export const NOVIDADES = [
       es: {
         titulo: "Leer, contar y recordar",
         itens: [
+          "Juego nuevo: Lectura de Lumus — la app lee un texto y hace preguntas sobre él",
           "Juego nuevo: Empieza Igual — escucha las palabras y encuentra la del mismo sonido inicial",
           "Juego nuevo: Dictado de Lumus — escucha la palabra y escríbela letra por letra",
           "Juego nuevo: Familia Silábica — escucha la palabra y encuentra la sílaba que la empieza",
@@ -66,6 +69,7 @@ export const NOVIDADES = [
       fr: {
         titulo: "Lire, compter et se souvenir",
         itens: [
+          "Nouveau jeu : Lecture de Lumus — l'appli lit un texte et pose des questions dessus",
           "Nouveau jeu : Même Début — écoute les mots et trouve celui qui commence par le même son",
           "Nouveau jeu : Dictée de Lumus — écoute le mot et écris-le lettre par lettre",
           "Nouveau jeu : Famille de Syllabes — écoute le mot et trouve la syllabe qui le commence",
@@ -81,6 +85,7 @@ export const NOVIDADES = [
       de: {
         titulo: "Lesen, rechnen und behalten",
         itens: [
+          "Neues Spiel: Lumus-Lesen — die App liest einen Text vor und stellt Fragen dazu",
           "Neues Spiel: Gleicher Anfang — hör die Wörter und finde das mit dem gleichen Anlaut",
           "Neues Spiel: Lumus-Diktat — hör das Wort und schreib es Buchstabe für Buchstabe",
           "Neues Spiel: Silbenfamilie — hör das Wort und finde die Silbe, mit der es beginnt",
@@ -96,6 +101,7 @@ export const NOVIDADES = [
       it: {
         titulo: "Leggere, contare e ricordare",
         itens: [
+          "Gioco nuovo: Lettura di Lumus — l'app legge un testo e fa domande su di esso",
           "Gioco nuovo: Stesso Inizio — ascolta le parole e trova quella con lo stesso suono iniziale",
           "Gioco nuovo: Dettato di Lumus — ascolta la parola e scrivila lettera per lettera",
           "Gioco nuovo: Famiglia di Sillabe — ascolta la parola e trova la sillaba che la inizia",

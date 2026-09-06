@@ -114,6 +114,9 @@ export function falar(texto, { lang = "pt", tom = "lumus", aoTerminar } = {}) {
 export function textoDaPergunta(q, t) {
   if (!q) return "";
   const partes = [];
+  /* O texto vem antes da pergunta, na ordem em que se lê. Sem isto, a criança
+     que ainda não lê ouviria a pergunta sobre um texto que ninguém leu. */
+  if (q.texto) partes.push(q.texto);
   if (q.ask) partes.push(q.ask);
   else if (q.prompt && q.kind !== "emojiAsk") partes.push(q.prompt);
   else if (q.flag) partes.push(t?.whichCountry || "");
