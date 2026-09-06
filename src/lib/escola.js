@@ -51,6 +51,7 @@ export const CONTEUDO = {
   /* 2º ano: entra a tabuada fácil (2, 5 e 10, as que se contam nos dedos),
      a meia hora e o dinheiro em moedas. */
   a2: [
+    { jogo: "ditado", tela: "ditLevels" },
     { jogo: "rimas", cont: "rimas", banda: "medium" },
     { jogo: "count", cont: "math", banda: "medium" },
     { jogo: "tabuada", cont: "tabuada", banda: "easy" },

@@ -74,6 +74,63 @@ export function montarRodadaPalavras(banco, banda, sorte = Math.random) {
   });
 }
 
+
+/* ---------- O ditado ----------
+   Montar a palavra dá as SÍLABAS prontas; o ditado dá as LETRAS. É a mesma
+   escuta e um trabalho diferente: lá ela ordena pedaços que já são unidades
+   de som, aqui ela precisa saber com que letra cada som se escreve — que é
+   o que a professora cobra quando dita.
+
+   O app continua dizendo só a palavra inteira. Nada aqui depende de o
+   aparelho falar letra ou sílaba (ver docs/decisoes/0004 e 0006). */
+
+/* Palavra de ditado é mais curta que de montar: onze letras na bandeja
+   viram parede para quem está aprendendo. */
+export const LETRAS_NO_MAXIMO = 8;
+export const QUANTAS_DITADO = { easy: 3, medium: 4, hard: 4, genius: 5, mestre: 5, lenda: 6 };
+
+/* Letras a mais na bandeja, que não estão na palavra. No Fácil nenhuma: as
+   letras certas já bastam de desafio para quem escreve a primeira palavra. */
+export const LETRAS_EXTRAS = { easy: 0, medium: 1, hard: 2, genius: 3, mestre: 3, lenda: 4 };
+
+export const palavrasDoDitado = (banco, banda) =>
+  palavrasDaFaixa(banco, banda).filter(p => [...p.w].length <= LETRAS_NO_MAXIMO);
+
+/* Letras que NÃO estão na palavra — senão a isca encaixaria e o jogo
+   mentiria, do mesmo jeito que a sílaba extra mentiria lá em cima. */
+export function letrasExtras(palavra, alfabeto, quantas, sorte = Math.random) {
+  if (quantas <= 0) return [];
+  const dela = new Set([...palavra.w]);
+  const fora = alfabeto.filter(l => !dela.has(l));
+  const escolhidas = [];
+  let guarda = 0;
+  while (escolhidas.length < quantas && guarda++ < 200) {
+    const l = sortear(fora, sorte);
+    if (l && !escolhidas.includes(l)) escolhidas.push(l);
+  }
+  return escolhidas;
+}
+
+export function montarRodadaDitado(banco, alfabeto, banda, sorte = Math.random) {
+  const cabem = palavrasDoDitado(banco, banda);
+  const quantas = Math.min(QUANTAS_DITADO[banda] || 3, cabem.length);
+  const usadas = [];
+  let guarda = 0;
+  while (usadas.length < quantas && guarda++ < 400) {
+    const p = sortear(cabem, sorte);
+    if (p && !usadas.some(u => u.w === p.w)) usadas.push(p);
+  }
+  return usadas.map(p => {
+    const letras = [...p.w];
+    const extras = letrasExtras(p, alfabeto, LETRAS_EXTRAS[banda] || 0, sorte);
+    const pecas = [...letras, ...extras]
+      .map(l => ({ l, ordem: sorte() }))
+      .sort((a, b) => a.ordem - b.ordem)
+      .map(x => x.l);
+    return { e: p.e, w: p.w, s: letras, pecas };
+  });
+}
+
 /* As estrelas contam ERRO, não relógio: montar palavra não é corrida, e
    cronômetro em quem está aprendendo a ler só atrapalha. */
 export function estrelasDaPalavra(erros, quantasPalavras) {
