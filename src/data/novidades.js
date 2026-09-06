@@ -21,6 +21,7 @@ export const NOVIDADES = [
       pt: {
         titulo: "Ler, contar e lembrar",
         itens: [
+          "Jogo novo: Começa Igual — ouça as palavras e ache a que começa com o mesmo som",
           "Jogo novo: Ditado do Lumus — ouça a palavra e escreva letra por letra",
           "Jogo novo: Família Silábica — ouça a palavra e ache a sílaba que a começa",
           "Trilha do ano escolar: escolha o ano e jogue o que a escola cobra, de graça",
@@ -35,6 +36,7 @@ export const NOVIDADES = [
       en: {
         titulo: "Reading, counting and remembering",
         itens: [
+          "New game: Same Start — hear the words and find the one starting with the same sound",
           "New game: Lumus Dictation — hear the word and spell it letter by letter",
           "New game: Syllable Family — hear the word and find the syllable it starts with",
           "School year track: pick the grade and play what school asks for, free",
@@ -49,6 +51,7 @@ export const NOVIDADES = [
       es: {
         titulo: "Leer, contar y recordar",
         itens: [
+          "Juego nuevo: Empieza Igual — escucha las palabras y encuentra la del mismo sonido inicial",
           "Juego nuevo: Dictado de Lumus — escucha la palabra y escríbela letra por letra",
           "Juego nuevo: Familia Silábica — escucha la palabra y encuentra la sílaba que la empieza",
           "Ruta del año escolar: elige el grado y juega lo que la escuela pide, gratis",
@@ -63,6 +66,7 @@ export const NOVIDADES = [
       fr: {
         titulo: "Lire, compter et se souvenir",
         itens: [
+          "Nouveau jeu : Même Début — écoute les mots et trouve celui qui commence par le même son",
           "Nouveau jeu : Dictée de Lumus — écoute le mot et écris-le lettre par lettre",
           "Nouveau jeu : Famille de Syllabes — écoute le mot et trouve la syllabe qui le commence",
           "Parcours de l'année scolaire : choisis ton année et joue ce que l'école demande, gratuitement",
@@ -77,6 +81,7 @@ export const NOVIDADES = [
       de: {
         titulo: "Lesen, rechnen und behalten",
         itens: [
+          "Neues Spiel: Gleicher Anfang — hör die Wörter und finde das mit dem gleichen Anlaut",
           "Neues Spiel: Lumus-Diktat — hör das Wort und schreib es Buchstabe für Buchstabe",
           "Neues Spiel: Silbenfamilie — hör das Wort und finde die Silbe, mit der es beginnt",
           "Schuljahr-Pfad: Klasse wählen und spielen, was die Schule verlangt — gratis",
@@ -91,6 +96,7 @@ export const NOVIDADES = [
       it: {
         titulo: "Leggere, contare e ricordare",
         itens: [
+          "Gioco nuovo: Stesso Inizio — ascolta le parole e trova quella con lo stesso suono iniziale",
           "Gioco nuovo: Dettato di Lumus — ascolta la parola e scrivila lettera per lettera",
           "Gioco nuovo: Famiglia di Sillabe — ascolta la parola e trova la sillaba che la inizia",
           "Percorso dell'anno scolastico: scegli la classe e gioca quello che la scuola chiede, gratis",

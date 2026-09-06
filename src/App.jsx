@@ -1350,7 +1350,7 @@ function AppInterno() {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
             const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
               curiosidades: "curiosidades", sciAnimals: "ciencias", inicial: "inicial", rimas: "rimas",
-              silabas: "silabas",
+              silabas: "silabas", aliteracao: "aliteracao",
               tabuada: "tabuada", horas: "horas", dinheiro: "dinheiro" };
             if (g === "capitals") { setScreen("capMap"); return; }
             if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }

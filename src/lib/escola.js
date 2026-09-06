@@ -34,6 +34,7 @@ export const CONTEUDO = {
      leitura corrida — nesta idade a voz do aparelho é que lê. */
   pre: [
     { jogo: "montar", tela: "palLevels" },
+    { jogo: "aliteracao", cont: "aliteracao", banda: "easy" },
     { jogo: "inicial", cont: "inicial", banda: "easy" },
     { jogo: "count", cont: "math", banda: "easy" },
     { jogo: "colors", cont: "arts", banda: "easy" },

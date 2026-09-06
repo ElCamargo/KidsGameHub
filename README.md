@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **29**, em 7 áreas |
+| Jogos | **30**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 131 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 142 testes |
 | Licença | MIT |
 
 ---
@@ -132,12 +132,13 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **29 jogos em 7 áreas**.
+São **30 jogos em 7 áreas**.
 
 ### Jogos
 
 | Área | Jogo | O que treina |
 |---|---|---|
+| 📚 Ler e Escrever | Começa Igual | ouve quatro palavras e acha a que começa com o mesmo som |
 | 📚 Ler e Escrever | Monta a Palavra | ouve a palavra inteira e monta com as sílabas |
 | 📚 Ler e Escrever | Que Letra Começa | a figura e a letra inicial |
 | 📚 Ler e Escrever | Rimas | consciência fonológica: o que termina igual |
@@ -663,6 +664,17 @@ descontava os vãos entre elas, e uma palavra de cinco sílabas quebrava em duas
 fileiras — que a criança lê como **duas palavras**. Corrigido para os dois
 jogos.
 
+**E o "som da letra" acabou sem precisar de gravação — porque metade dele não
+existe.** `b`, `p`, `t`, `d`, `c` e `g` são oclusivas: o som só acontece no
+instante em que a boca abre para a vogal. Ninguém diz /b/ puro, nem gravando.
+O que se ensina é **comparar**, e isso é o jogo 👂 **Começa Igual**: o app fala
+quatro palavras inteiras e a criança acha a que começa com o mesmo som.
+
+Ele agrupa por **som, não por letra** — senão ensinaria que *casa* e *cebola*
+começam igual, e que *casa* e *queijo* não. A conversão está em
+`src/lib/sons.js`, escrita à mão, e o `c`/`g` virou a armadilha das faixas
+altas: no Lenda, um alvo com C sempre traz uma isca com C de outro som.
+
 Detalhes e o que ficou de fora na [ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md).
 
 ### A escola pede por ano; o app entregava por dificuldade
@@ -677,7 +689,7 @@ as poucas coisas que a escola cobra nele, **já na faixa certa**:
 
 | Ano | O que abre |
 |---|---|
-| **Antes do 1º** | Monta a Palavra, Que Letra Começa, Contas, Cores |
+| **Antes do 1º** | Começa Igual, Monta a Palavra, Que Letra Começa, Contas, Cores |
 | **1º** | alfabetização, família silábica, contagem e a hora cheia |
 | **2º** | ditado, rimas, tabuada do 2, 5 e 10, meia hora, moedas |
 | **3º** | o resto da tabuada, notas, ciências |
@@ -995,7 +1007,7 @@ funções e mais nada.
 | `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
 | `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
 | `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 131 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
+| `tests/*.test.mjs` | 142 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -1175,6 +1187,7 @@ src/
   lib/matematica.js  tabuada, dinheiro brasileiro e as horas do relógio
   lib/escola.js      que trilha e que faixa cada ano da escola cobra
   lib/silabas.js     a família silábica: o que é sílaba, e como ela se gera
+  lib/sons.js        com que SOM a palavra começa — que não é a mesma coisa que a letra
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -1194,7 +1207,7 @@ src/
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
     palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
     novidades.js         o que mudou a cada versão, nos 6 idiomas
-tests/             131 testes em node --test, sem framework nenhum
+tests/             142 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1289,7 +1302,7 @@ item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educa
 - [x] **Memória de erro e revisão espaçada** *(Raciocinar)* — feito: a pergunta errada volta em 1, 3, 7 e 21 dias e sai da fila quando é aprendida
 - [x] **Área 📚 Ler e Escrever, completa** *(Pesquisar → Registrar)* — Monta a Palavra, Que Letra Começa, Rimas, Família Silábica e **Ditado do Lumus**, todos com a **palavra inteira** falada pelo aparelho — e por isso nenhum deles esperou a gravação
 - [x] **Famílias silábicas** *(Pesquisar)* — feito **sem gravação**: o app diz a palavra e a criança acha a sílaba escrita ([ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md))
-- [ ] **Gravar o SOM das letras** — o /b/, e não o nome "bê". É o único caso em que só áudio gravado resolve; encolheu de ~130 áudios para as letras ([ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md))
+- [x] **O som da letra** *(Pesquisar)* — resolvido **sem gravação**, e o item estava mal escrito: metade das consoantes não tem som isolado nem gravado (são oclusivas). O que se ensina é comparar, e isso é o jogo **Começa Igual** ([ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md))
 - [x] **Ficha do responsável dizendo onde o filho está devendo** *(Relacionar)* — feito, e saiu de graça da memória de erro
 - [x] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — feito: três trilhas novas, com divisão nas faixas altas e troco no dinheiro
 - [x] **Trilha do ano escolar** *(Relacionar)* — feito: escolhido o ano, o app abre a faixa que a escola cobra e não cobra lumicoin por ela

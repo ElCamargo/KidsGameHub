@@ -103,6 +103,33 @@ caminho crítico:
 - **Quando a gravação existir, ela entra por cima** — o áudio da mãe dizendo
   "BA" não substitui este jogo, acrescenta a ele.
 
+## O som da letra: metade do alfabeto não tem
+
+Depois desta ADR, ficou no roadmap "gravar o SOM das letras" — o /b/, e não o
+nome "bê". Ao construir o jogo que fecharia esse item, apareceu um fato que
+muda a pergunta: **metade das consoantes não tem som isolado, nem gravado.**
+
+`b`, `p`, `t`, `d`, `c`, `g` são **oclusivas**: o som existe apenas no
+instante em que a boca abre para a vogal seguinte. Não há /b/ sustentado —
+quem tenta diz "bê" ou "buh", e isso vale para a mãe no microfone tanto quanto
+para a engine. Só as **contínuas** (`f`, `s`, `v`, `z`, `m`, `n`, `l`, `r`,
+`j`, `x`) se sustentam sozinhas.
+
+Ou seja: o item pedia, para seis letras, uma coisa que não existe. A gravação
+teria entregue "buh".
+
+**A habilidade que ele queria ensinar é comparar**, e essa não precisa de som
+isolado nenhum: é ouvir que *bola*, *bala* e *bebê* começam igual. Virou o jogo
+**Começa Igual**, com palavras inteiras faladas — a mesma saída desta ADR,
+aplicada ao fonema.
+
+Uma consequência de conteúdo: agrupar por **letra** seria ensinar errado. Em
+português *casa* e *queijo* começam com o mesmo som e letras diferentes, e
+*casa* e *cebola* com a mesma letra e sons diferentes. A conversão de letra
+para som está em `src/lib/sons.js`, escrita à mão como as sílabas do banco, e
+o `c`/`g` que muda de som virou a **armadilha das faixas altas** — que é
+justamente o que a escola cobra e a criança erra ao escrever.
+
 ## A outra saída que ficou na mesa
 
 Gerar os 130 áudios aqui, offline, cortando a sílaba de uma palavra

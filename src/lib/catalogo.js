@@ -77,6 +77,7 @@ export function deviceLang() {
 export const CATALOG = [
   { id: "letras", icon: "📚", color: "#FF7043", games: [
       { id: "montar", icon: "🔡", color: "#4C6FFF", preco: 0, leitura: false, ready: true },
+      { id: "aliteracao", icon: "👂", color: "#00C2CB", preco: 120, leitura: true, vozBasta: true, ready: true },
       { id: "inicial", icon: "🅰️", color: "#00B894", preco: 150, leitura: false, vozBasta: true, ready: true },
       { id: "rimas", icon: "🎵", color: "#9B59B6", preco: 250, leitura: true, vozBasta: true, ready: true },
       { id: "silabas", icon: "🆎", color: "#FF7043", preco: 350, leitura: false, vozBasta: true, ready: true },
