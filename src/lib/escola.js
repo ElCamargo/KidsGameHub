@@ -66,6 +66,7 @@ export const CONTEUDO = {
     { jogo: "count", cont: "math", banda: "hard" },
     { jogo: "dinheiro", cont: "dinheiro", banda: "medium" },
     { jogo: "horas", cont: "horas", banda: "hard" },
+    { jogo: "leitura", cont: "leitura", banda: "easy" },
     { jogo: "sciAnimals", cont: "ciencias", banda: "easy" },
   ],
   /* 4º ano: as tabuadas que travam todo mundo — 6, 7, 8 —, o troco, e a
@@ -74,6 +75,7 @@ export const CONTEUDO = {
     { jogo: "tabuada", cont: "tabuada", banda: "hard" },
     { jogo: "dinheiro", cont: "dinheiro", banda: "hard" },
     { jogo: "count", cont: "math", banda: "genius" },
+    { jogo: "leitura", cont: "leitura", banda: "medium" },
     { jogo: "sciAnimals", cont: "ciencias", banda: "medium" },
     { jogo: "capitals", cont: "cap_br", banda: "easy" },
   ],

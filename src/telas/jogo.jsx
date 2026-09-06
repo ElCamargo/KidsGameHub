@@ -229,9 +229,19 @@ export function Game({ t, lang, round, setRound, coins, setCoins, finishRound, p
       {/* bandeira */}
       <div className="card" style={{ padding: 14, marginBottom: 12, textAlign: "center" }}>
         <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 13, marginBottom: 8 }}>
-          {q.kind === "math" ? t.howMuch : q.kind === "emojiAsk" ? q.ask : q.ask ? q.ask : ["emojiPick", "texto"].includes(q.kind) ? q.prompt : q.sub ? t.whichRegion : t.whichCountry}
+          {q.kind === "leitura" ? "" : q.kind === "math" ? t.howMuch : q.kind === "emojiAsk" ? q.ask : q.ask ? q.ask : ["emojiPick", "texto"].includes(q.kind) ? q.prompt : q.sub ? t.whichRegion : t.whichCountry}
         </div>
-        {q.kind === "emojiPick" ? (
+        {q.kind === "leitura" ? (
+          /* Texto alinhado à esquerda e com entrelinha larga: é assim que se
+             lê. Centralizado, como o resto do app, a criança perde a linha. */
+          <div className={picked && picked !== q.answer ? "shake" : ""}>
+            <div style={{ fontSize: 38, lineHeight: 1 }}>{q.figura}</div>
+            <div style={{ color: "#1B2A6B", fontWeight: 700, fontSize: 15, lineHeight: 1.6,
+              textAlign: "left", margin: "10px 2px 12px" }}>{q.texto}</div>
+            <div style={{ height: 2, background: "#D7DEF5", borderRadius: 2, margin: "0 auto 10px", width: "45%" }} />
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 18, lineHeight: 1.25 }}>{q.ask}</div>
+          </div>
+        ) : q.kind === "emojiPick" ? (
           <div style={{ fontSize: 46, padding: "6px 0 2px" }}>🔎</div>
         ) : q.kind === "texto" ? (
           <div className={picked && picked !== q.answer ? "shake" : ""}>

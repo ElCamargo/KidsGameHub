@@ -82,6 +82,7 @@ export const CATALOG = [
       { id: "rimas", icon: "🎵", color: "#9B59B6", preco: 250, leitura: true, vozBasta: true, ready: true },
       { id: "silabas", icon: "🆎", color: "#FF7043", preco: 350, leitura: false, vozBasta: true, ready: true },
       { id: "ditado", icon: "✍️", color: "#6A5AE0", preco: 450, leitura: false, vozBasta: true, ready: true },
+      { id: "leitura", icon: "📖", color: "#8D6E3A", preco: 500, leitura: true, vozBasta: true, ready: true },
   ]},
   { id: "geo", icon: "🌍", color: "#4C6FFF", games: [
       { id: "flags", icon: "🚩", color: "#00B894", preco: 0, leitura: true, ready: true },

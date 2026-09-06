@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **30**, em 7 áreas |
+| Jogos | **31**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 142 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 151 testes |
 | Licença | MIT |
 
 ---
@@ -132,7 +132,7 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **30 jogos em 7 áreas**.
+São **31 jogos em 7 áreas**.
 
 ### Jogos
 
@@ -144,6 +144,7 @@ São **30 jogos em 7 áreas**.
 | 📚 Ler e Escrever | Rimas | consciência fonológica: o que termina igual |
 | 📚 Ler e Escrever | Família Silábica | ouve a palavra e acha a sílaba escrita que a abre |
 | 📚 Ler e Escrever | Ditado do Lumus | ouve a palavra e escreve letra por letra |
+| 📚 Ler e Escrever | Leitura do Lumus | lê (ou ouve) um texto e responde sobre ele |
 | 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
 | 🌍 Geografia | Capitais | 27 estados do BR **com a bandeira de cada um** → países por continente → estados dos EUA |
@@ -677,6 +678,37 @@ altas: no Lenda, um alvo com C sempre traz uma isca com C de outro som.
 
 Detalhes e o que ficou de fora na [ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md).
 
+### Interpretação de texto, que era o buraco maior
+
+Do 2º ano em diante é **o que mais cai em prova** — e não só em Português: o
+enunciado da conta, a pergunta de Ciências e a questão de História são todos
+texto para interpretar. O app tinha zero.
+
+São **20 textos e 70 perguntas**, escritos à mão, em quatro degraus — de três
+frases curtas a seis frases que exigem juntar as pontas. E as perguntas são de
+três tipos, porque a escola cobra os três:
+
+| Tipo | O que pede |
+|---|---|
+| **literal** | a resposta está escrita lá, com essas palavras |
+| **inferência** | a resposta **não** está escrita: sai de juntar duas coisas do texto |
+| **vocabulário** | o que uma palavra quer dizer **ali**, naquele texto |
+
+**A voz lê o texto inteiro antes da pergunta**, o que faz a criança que ainda
+não lê jogar interpretação de texto — ouvindo. E **não há cronômetro em
+nenhuma faixa**: compreender não é corrida, e relógio correndo mede pressa.
+
+As perguntas do mesmo texto vêm **juntas e em ordem**, como numa prova — um
+teste confere isso em 120 rodadas, porque embaralhar faria a criança reler o
+mesmo texto três vezes salteadas.
+
+As regras de escrita do banco estão no cabeçalho do arquivo e não são de
+estilo: **alternativa errada tem que ser plausível para quem não leu e
+claramente errada para quem leu**, e se duas podem ser defendidas lendo o
+texto, a pergunta está errada — não a criança. Um teste confere que a resposta
+de toda pergunta **literal** aparece mesmo no texto: ele já pegou duas em que
+eu tinha escrito "molhava" onde o texto dizia "molhou".
+
 ### A escola pede por ano; o app entregava por dificuldade
 
 O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
@@ -692,8 +724,8 @@ as poucas coisas que a escola cobra nele, **já na faixa certa**:
 | **Antes do 1º** | Começa Igual, Monta a Palavra, Que Letra Começa, Contas, Cores |
 | **1º** | alfabetização, família silábica, contagem e a hora cheia |
 | **2º** | ditado, rimas, tabuada do 2, 5 e 10, meia hora, moedas |
-| **3º** | o resto da tabuada, notas, ciências |
-| **4º** | 6, 7 e 8, troco, estados do Brasil |
+| **3º** | o resto da tabuada, notas, **interpretação de texto**, ciências |
+| **4º** | 6, 7 e 8, troco, textos mais longos, estados do Brasil |
 | **5º** | divisão, troco de nota alta, o mundo além do Brasil |
 
 O ano é sugerido pela idade do perfil e fica **no save do filho**, não no
@@ -1007,7 +1039,7 @@ funções e mais nada.
 | `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
 | `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
 | `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 142 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
+| `tests/*.test.mjs` | 151 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -1207,7 +1239,8 @@ src/
     caderno.js           as 28 perguntas do Meu Caderno e os carimbos
     palavras.js          104 palavras com as sílabas separadas à mão, figura e rima
     novidades.js         o que mudou a cada versão, nos 6 idiomas
-tests/             142 testes em node --test, sem framework nenhum
+    leitura.js           20 textos e 70 perguntas de interpretação, em 4 degraus
+tests/             151 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1312,6 +1345,15 @@ item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educa
 com mascote e lumicoins, e mudar a cara do Lumus para atendê-lo estragaria o
 que funciona para uma criança de cinco. O Lumus é dos 3 aos 10; atender os
 maiores seria outro app, reusando esta base.
+
+### O reforço escolar de verdade
+
+Com a alfabetização fechada, o que falta é o que a escola cobra em prova.
+Ordem decidida com o pai, do que mais pesa para o que menos pesa.
+
+- [x] **Interpretação de texto** *(Pesquisar → Raciocinar)* — feito: 20 textos, 70 perguntas, com inferência e vocabulário, sem cronômetro e com a voz lendo o texto inteiro
+- [ ] **Ortografia** *(Registrar)* — ç ou ss, s ou z, g ou j, m antes de p e b. É onde o caderno leva vermelho, e é regra fechada
+- [ ] **Armar a conta e situação-problema** *(Raciocinar)* — o app tem conta mental; falta a conta armada com reserva e o problema em texto, que é como a prova pergunta
 
 ### Depende de outras pessoas
 

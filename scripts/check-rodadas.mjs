@@ -90,6 +90,7 @@ const outros = [
   ["rimas", st => app.montarRodadaRima(st, t)],
   ["silabas", st => app.montarRodadaSilaba(st, t)],
   ["aliteracao", st => app.montarRodadaAliteracao(st, t)],
+  ["leitura", st => app.montarRodadaLeitura(st, t)],
   ["tabuada", st => app.montarRodadaTabuada(st, t)],
   ["horas", st => app.montarRodadaHoras(st, t)],
   ["dinheiro", st => app.montarRodadaDinheiro(st, t)],
