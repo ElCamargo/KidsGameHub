@@ -12,6 +12,12 @@
 # Para voltar a uma versão antiga, ou republicar sem tag nova: rode este
 # workflow à mão pelo Actions, escolhendo a tag em "Use workflow from".
 #
+# NÃO BASTA MEXER AQUI: o ambiente github-pages tem regra própria de quem pode
+# publicar, e ela está em Settings → Environments → github-pages. Lá só existe
+# uma política, "tag: v*". Rodar este workflow a partir de uma BRANCH — main
+# inclusive — é rejeitado com "is not allowed to deploy to github-pages due to
+# environment protection rules". É de propósito: só tag vai ao ar.
+#
 # O portão de qualidade (ci.yml) continua rodando em todo push e todo PR, para
 # nada quebrado chegar a virar tag.
 name: Deploy

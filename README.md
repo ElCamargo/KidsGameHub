@@ -1303,6 +1303,12 @@ de publicar.
 → Deploy → *Run workflow* → escolha a tag em *Use workflow from*. O Pages serve
 uma versão só, então publicar a antiga substitui a atual.
 
+**Nem a `main` publica.** Além do gatilho acima, o ambiente `github-pages`
+(Settings → Environments) tem uma única política de deploy: `tag: v*`. Rodar o
+workflow a partir de uma branch é rejeitado pelo próprio GitHub. São duas
+travas de propósito: a de cima diz *quando* publicar, a de baixo diz *o que*
+pode ser publicado.
+
 O portão de qualidade (`ci.yml`) continua rodando em todo push e todo PR, para
 nada quebrado chegar a virar tag.
 
