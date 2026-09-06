@@ -31,7 +31,7 @@ const FOLGA_MAX = 25;
 
 
 function folgaLeitura(q) {
-  const texto = ((q.ask || q.prompt || "") + q.options.join("")).length;
+  const texto = ((q.texto || "") + (q.ask || q.prompt || "") + q.options.join("")).length;
   return Math.min(FOLGA_MAX, Math.max(0, Math.round((texto - LEITURA_BASE) / LEITURA_POR_SEG)));
 }
 

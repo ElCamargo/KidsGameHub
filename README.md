@@ -116,7 +116,7 @@ Detalhes e o histórico da decisão em
 
 | | |
 |---|---|
-| Jogos | **32**, em 7 áreas |
+| Jogos | **34**, em 7 áreas |
 | Perguntas conferidas por script | **mais de 2.600** |
 | Bandeiras | **203** (154 países + 49 regiões e estados), empacotadas |
 | Idiomas | **6**, com as mesmas 280 frases cada, todos embutidos |
@@ -124,7 +124,7 @@ Detalhes e o histórico da decisão em
 | JavaScript comprimido | **261 KB**, em 3 pedaços |
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
-| Portão automático a cada alteração | 3 guardas de conteúdo + 159 testes |
+| Portão automático a cada alteração | 3 guardas de conteúdo + 175 testes |
 | Licença | MIT |
 
 ---
@@ -132,7 +132,7 @@ Detalhes e o histórico da decisão em
 ## O que é
 
 Um agrupador de jogos onde crianças aprendem brincando, num ambiente fechado e seguro.
-São **32 jogos em 7 áreas**.
+São **34 jogos em 7 áreas**.
 
 ### Jogos
 
@@ -156,6 +156,8 @@ São **32 jogos em 7 áreas**.
 | 🔢 Matemática | Tabuada | multiplicação e, nas faixas altas, divisão |
 | 🔢 Matemática | Que Horas São | ler o relógio, achar a hora e adiantar o ponteiro |
 | 🔢 Matemática | Dinheiro do Brasil | somar moedas e notas, e calcular o troco |
+| 🔢 Matemática | Problema do Dia | o enunciado em texto: descobrir que conta cabe ali |
+| 🔢 Matemática | Arma a Conta | uma casa embaixo da outra, com vai-um e empresta-um |
 | 🦁 Natureza | Memória dos Animais | 50 animais |
 | 🦁 Natureza | Quebra-cabeça dos Animais | monta um cartaz de bichos |
 | 🦁 Natureza | Quiz dos Animais | classes, habitat, características |
@@ -735,6 +737,43 @@ CH porque sim; inventar uma regra ali seria pior do que dizer "esta se
 decora". Um teste confere que as regras cobrem os temas que a escola cobra —
 e que pelo menos uma palavra é apresentada como decoreba mesmo.
 
+### A conta como a prova pede: em texto e no caderno
+
+O app treinava a conta de cabeça. A prova cobra outras duas coisas, e nenhuma
+delas estava aqui.
+
+**🧩 Problema do Dia — o enunciado em texto.** A prova não pergunta "quanto é
+8 − 3": conta uma história e espera que a criança descubra que ali cabe uma
+subtração. Esse pulo é o que reprova. O problema é **gerado**, com nome, coisa
+e números sorteados, e um teste confere mil contas por faixa.
+
+**As alternativas erradas são os erros de verdade.** Numa subtração, a isca
+principal é a **soma** daqueles números — porque o erro clássico não é errar a
+conta, é escolher a operação errada depois de ler rápido demais. Um teste
+exige que essa isca esteja lá em toda subtração.
+
+E a pergunta concorda com o que se conta: *"Com quantas ficou?"* para flores,
+*"Com quantos ficou?"* para adesivos. Não é preciosismo — é a primeira coisa
+que um pai brasileiro vê.
+
+**➕ Arma a Conta — o procedimento do caderno.** Uma casa embaixo da outra,
+resolvida da unidade para a esquerda, com o "vai um" e o "empresta um". **Não
+é a mesma habilidade que somar de cabeça:** é alinhar as casas, começar pela
+unidade e lembrar do que subiu. Criança que soma bem de cabeça erra a conta
+armada, e é essa que cai na prova.
+
+A conferência é **casa a casa**: pôs o algarismo errado, ele treme e volta na
+hora. Deixar preencher tudo para só então dizer "errado" esconde qual casa ela
+não sabe — e é qual casa que interessa.
+
+**O "vai um" aparece sozinho, depois que a casa fica certa.** Pedir para a
+criança digitar a reserva dobraria os toques e ensinaria a mesma coisa; assim
+ela vê a reserva surgir exatamente no momento em que ela acontece.
+
+A escada é a reserva, e o teste garante isso: no Fácil **nenhuma** conta tem
+vai-um, e do Médio em diante **todas** têm. Faixa que sorteia ora com, ora sem,
+não é degrau — é sorteio.
+
 ### A escola pede por ano; o app entregava por dificuldade
 
 O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
@@ -749,8 +788,8 @@ as poucas coisas que a escola cobra nele, **já na faixa certa**:
 |---|---|
 | **Antes do 1º** | Começa Igual, Monta a Palavra, Que Letra Começa, Contas, Cores |
 | **1º** | alfabetização, família silábica, contagem e a hora cheia |
-| **2º** | ditado, rimas, tabuada do 2, 5 e 10, meia hora, moedas |
-| **3º** | o resto da tabuada, notas, **interpretação de texto**, ortografia, ciências |
+| **2º** | ditado, conta armada, rimas, tabuada do 2, 5 e 10, meia hora, moedas |
+| **3º** | o resto da tabuada, notas, **interpretação de texto**, ortografia, situação-problema, ciências |
 | **4º** | 6, 7 e 8, troco, textos mais longos, ortografia, estados do Brasil |
 | **5º** | divisão, troco de nota alta, o mundo além do Brasil |
 
@@ -1065,7 +1104,7 @@ funções e mais nada.
 | `src/telas/*.jsx` | 10 arquivos | uma tela por assunto — jogo, hub, família, memória, quebra-cabeça… |
 | `src/lib/*.js` | 13 arquivos | as regras: catálogo, rodadas, escola, revisão, som, voz, quebra-cabeça |
 | `src/data/*.js` | 17 arquivos | **só dados** — perguntas, textos, países, desenhos, devocionais |
-| `tests/*.test.mjs` | 159 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
+| `tests/*.test.mjs` | 175 testes | conteúdo, idiomas, geografia, desenhos, voz, contas, revisão, escola |
 | `scripts/check-*.mjs` | 3 guardas | rodam antes de todo `dev` e `build` |
 
 A separação não é estética: um pastor consegue revisar
@@ -1230,7 +1269,8 @@ src/
     quebracabeca.jsx   o quebra-cabeça
     desenho.jsx        desenhar, pintar e a galeria
     memoria.jsx        o jogo da memória
-    palavra.jsx        Monta a Palavra
+    palavra.jsx        Monta a Palavra e o Ditado
+    conta.jsx          a conta armada, uma casa embaixo da outra
     loja.jsx           a loja e as conquistas
   lib/catalogo.js  catálogo de jogos, escada de fases, preços, economia e conquistas
   lib/rodadas.js   como cada rodada é sorteada, trilha por trilha
@@ -1246,6 +1286,8 @@ src/
   lib/escola.js      que trilha e que faixa cada ano da escola cobra
   lib/silabas.js     a família silábica: o que é sílaba, e como ela se gera
   lib/sons.js        com que SOM a palavra começa — que não é a mesma coisa que a letra
+  lib/problemas.js   a situação-problema: a história, a conta e os erros de verdade
+  lib/contas.js      a conta armada: o vai-um, o empresta-um e a ordem das casas
   index.css        base
   data/            SÓ DADOS: nenhuma lógica de jogo, nenhum componente
     textos.js            as 280 frases da interface, nos 6 idiomas
@@ -1267,7 +1309,7 @@ src/
     novidades.js         o que mudou a cada versão, nos 6 idiomas
     leitura.js           20 textos e 70 perguntas de interpretação, em 4 degraus
     ortografia.js        64 palavras com lacuna: ç ou ss, s ou z, m antes de p e b
-tests/             159 testes em node --test, sem framework nenhum
+tests/             175 testes em node --test, sem framework nenhum
 docs/decisoes/     registros de decisão: por que o app é assim
 scripts/
   prepare-flags.mjs  copia só as bandeiras usadas
@@ -1380,7 +1422,7 @@ Ordem decidida com o pai, do que mais pesa para o que menos pesa.
 
 - [x] **Interpretação de texto** *(Pesquisar → Raciocinar)* — feito: 20 textos, 70 perguntas, com inferência e vocabulário, sem cronômetro e com a voz lendo o texto inteiro
 - [x] **Ortografia** *(Registrar)* — feito: 64 palavras com lacuna, e a palavra nunca aparece escrita errado
-- [ ] **Armar a conta e situação-problema** *(Raciocinar)* — o app tem conta mental; falta a conta armada com reserva e o problema em texto, que é como a prova pergunta
+- [x] **Armar a conta e situação-problema** *(Raciocinar)* — feito: o problema em texto, com as iscas que são os erros de verdade, e a conta armada com vai-um e empresta-um
 
 ### Depende de outras pessoas
 
