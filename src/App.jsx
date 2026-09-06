@@ -1365,6 +1365,7 @@ function AppInterno() {
           onPickGame: (g) => {
             const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
             const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
+              corpo: "corpo", brasil: "brasil",
               curiosidades: "curiosidades", sciAnimals: "ciencias", inicial: "inicial", rimas: "rimas",
               silabas: "silabas", aliteracao: "aliteracao", leitura: "leitura", ortografia: "ortografia",
               tabuada: "tabuada", horas: "horas", dinheiro: "dinheiro", problema: "problema" };

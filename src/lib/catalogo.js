@@ -90,6 +90,7 @@ export const CATALOG = [
       { id: "memory", icon: "🧠", color: "#4C6FFF", preco: 150, leitura: false, ready: true },
       { id: "puzzle", icon: "🧩", color: "#F9A826", preco: 200, leitura: false, ready: true },
       { id: "capitals", icon: "🏛️", color: "#6A5AE0", preco: 500, leitura: true, ready: true },
+      { id: "brasil", icon: "🇧🇷", color: "#00B894", preco: 300, leitura: true, vozBasta: true, ready: true },
       { id: "curiosidades", icon: "🗺️", color: "#00C2CB", preco: 800, leitura: true, ready: true },
   ]},
   { id: "math", icon: "🔢", color: "#F9A826", games: [
@@ -106,6 +107,7 @@ export const CATALOG = [
       { id: "animalPuzzle", icon: "🦓", color: "#F9A826", preco: 200, leitura: false, ready: true },
       { id: "animalQuiz", icon: "🦉", color: "#00B894", preco: 300, leitura: true, vozBasta: true, ready: true },
       { id: "sciAnimals", icon: "🔬", color: "#6A5AE0", preco: 600, leitura: true, ready: true },
+      { id: "corpo", icon: "🧪", color: "#00C2CB", preco: 350, leitura: true, vozBasta: true, ready: true },
   ]},
   { id: "art", icon: "🎨", color: "#E84393", games: [
       { id: "color", icon: "🖍️", color: "#E84393", preco: 0, leitura: false, ready: true },

@@ -31,7 +31,12 @@ export const LIMITE = 120;
    armazenamento do celular. Duas perguntas que colidam dividem a mesma vaga
    de revisão, o que é inofensivo: as duas voltam. */
 export function chaveDaPergunta(cont, q) {
-  const base = q?.flag || q?.prompt || q?.fala || q?.ask || String(q?.answer ?? "");
+  /* A figura sozinha não distingue: duas perguntas de ciências podem ter o
+     mesmo 🦴, e duas de geografia o mesmo 🗺️. Junta figura e enunciado — a
+     bandeira continua bastando sozinha, porque ela já é única. */
+  const base = q?.flag
+    || [q?.prompt, q?.fala, q?.ask].filter(Boolean).join(" ")
+    || String(q?.answer ?? "");
   return `${cont}:${String(base).slice(0, 60)}`;
 }
 
