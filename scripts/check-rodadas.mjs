@@ -12,39 +12,18 @@
  * só tinha 12. O erro só aparecia jogando até o fim, no celular. Agora aparece
  * no build, em dois segundos.
  *
- * O App.jsx é JSX e não abre direto no node: passo pelo esbuild, que já vem
- * com o Vite, e acrescento uma linha de export só para o teste.
+ * As rodadas moram em src/lib/rodadas.js e as tabelas em src/lib/catalogo.js,
+ * que são JavaScript comum: dá para importar direto aqui, sem esbuild e sem
+ * arquivo temporário. Antes disso tudo vivia no App.jsx, que é JSX.
  */
-import fs from "node:fs";
-import path from "node:path";
-import { pathToFileURL } from "node:url";
-import { transform } from "esbuild";
 import { ANOS, conteudoDoAno, faixaDaBanda, faseDeEntrada } from "../src/lib/escola.js";
-
-const EXPORTA = [
-  "buildRound", "poolFor", "montarRodadaMath", "montarRodadaBichos",
-  "montarRodadaIdioma", "montarRodadaArte", "montarRodadaBiblia",
-  "montarRodadaCapitais", "montarRodadaCuriosidades", "montarRodadaCiencias",
-  "montarRodadaInicial", "montarRodadaRima",
-  "montarRodadaTabuada", "montarRodadaHoras", "montarRodadaDinheiro",
-  "DIFFS", "T", "ROUTE", "CAP_REGIOES", "CATALOG", "totalDe", "bandFor", "escadaDe", "explicacaoDe",
-];
-
-async function carregarApp() {
-  const src = fs.readFileSync("src/App.jsx", "utf8")
-    + `\nexport { ${EXPORTA.join(", ")} };\n`;
-  const { code } = await transform(src, { loader: "jsx", format: "esm", target: "node20" });
-  // Dentro de src/ e não no temp do sistema: é de lá que "./data/..." e o
-  // node_modules resolvem. O arquivo morre no finally logo abaixo.
-  const arq = path.join("src", `.rodadas-${Date.now()}.tmp.mjs`);
-  fs.writeFileSync(arq, code);
-  try { return await import(pathToFileURL(arq).href); }
-  finally { try { fs.unlinkSync(arq); } catch { } }
-}
+import { T } from "../src/data/textos.js";
+import { CATALOG, DIFFS, ROUTE, bandFor, escadaDe, totalDe } from "../src/lib/catalogo.js";
+import * as app from "../src/lib/rodadas.js";
 
 /* Uma fase de cada faixa, na metade dela, onde o comportamento é o típico. */
-function fasesDeCadaFaixa(app, cont) {
-  const { plan } = app.escadaDe(cont);
+function fasesDeCadaFaixa(cont) {
+  const { plan } = escadaDe(cont);
   const vistas = new Map();
   plan.forEach((faixa, i) => { if (!vistas.has(faixa)) vistas.set(faixa, []); vistas.get(faixa).push(i + 1); });
   // primeira, do meio e última de cada faixa: pega os cantos e o corpo
@@ -79,14 +58,13 @@ function conferirRodada(rotulo, r, { exigeBandeira = false } = {}) {
   return r.qs.length;
 }
 
-const app = await carregarApp();
-const t = app.T.pt;
+const t = T.pt;
 const resumo = [];
 
 /* ---------- bandeiras, continente por continente ---------- */
-for (const r of app.ROUTE) {
+for (const r of ROUTE) {
   const tamanhos = [];
-  for (const { faixa, stage } of fasesDeCadaFaixa(app, r.id)) {
+  for (const { faixa, stage } of fasesDeCadaFaixa(r.id)) {
     const rodada = app.buildRound(r.id, stage, "pt");
     const n = conferirRodada(`bandeiras/${r.id} ${faixa} f${stage}`, rodada, { exigeBandeira: true });
     tamanhos.push(`${faixa[0]}${n}`);
@@ -96,7 +74,7 @@ for (const r of app.ROUTE) {
 
 /* ---------- capitais, região por região ---------- */
 for (const reg of app.CAP_REGIOES) {
-  for (const { faixa, stage } of fasesDeCadaFaixa(app, reg.id))
+  for (const { faixa, stage } of fasesDeCadaFaixa(reg.id))
     conferirRodada(`capitais/${reg.id} ${faixa} f${stage}`, app.montarRodadaCapitais(stage, t, "pt", reg.id));
 }
 
@@ -116,14 +94,14 @@ const outros = [
 ];
 for (const [cont, montar] of outros) {
   const tamanhos = [];
-  for (const { faixa, stage } of fasesDeCadaFaixa(app, cont)) {
+  for (const { faixa, stage } of fasesDeCadaFaixa(cont)) {
     const n = conferirRodada(`${cont} ${faixa} f${stage}`, montar(stage));
     tamanhos.push(`${faixa[0]}${n}`);
   }
   resumo.push(`🎯 ${cont.padEnd(13)} ${tamanhos.join(" ")}`);
 }
 for (const alvo of ["en", "es", "fr"]) {
-  for (const { faixa, stage } of fasesDeCadaFaixa(app, `idiomas_${alvo}`))
+  for (const { faixa, stage } of fasesDeCadaFaixa(`idiomas_${alvo}`))
     conferirRodada(`idiomas_${alvo} ${faixa} f${stage}`, app.montarRodadaIdioma(stage, t, alvo));
 }
 
@@ -131,7 +109,7 @@ for (const alvo of ["en", "es", "fr"]) {
    Ela é a única porta que abre faixa e dispensa moeda, e aponta para trilhas
    por NOME. Um id trocado aqui manda a criança para uma tela vazia, e nada
    no app reclama — só esta conferência. */
-const JOGOS = new Set(app.CATALOG.flatMap(c => c.games.map(g => g.id)));
+const JOGOS = new Set(CATALOG.flatMap(c => c.games.map(g => g.id)));
 for (const ano of ANOS) {
   const linha = [];
   for (const item of conteudoDoAno(ano)) {
@@ -139,14 +117,14 @@ for (const ano of ANOS) {
     if (!JOGOS.has(item.jogo)) aviso(`${onde}: não existe jogo com esse id no CATALOG`);
     if (!t.games[item.jogo]) aviso(`${onde}: sem nome em t.games — o botão sairia vazio`);
     if (item.tela) { linha.push(`${item.jogo}·tela`); continue; }
-    const { plan, total } = app.escadaDe(item.cont);
+    const { plan, total } = escadaDe(item.cont);
     if (!faixaDaBanda(plan, item.banda)) {
       aviso(`${onde}: a trilha "${item.cont}" não tem a faixa ${item.banda}`);
       continue;
     }
     const fase = faseDeEntrada(plan, item.banda, 0);
-    if (app.bandFor(item.cont, fase) !== item.banda)
-      aviso(`${onde}: a fase ${fase} é ${app.bandFor(item.cont, fase)}, não ${item.banda}`);
+    if (bandFor(item.cont, fase) !== item.banda)
+      aviso(`${onde}: a fase ${fase} é ${bandFor(item.cont, fase)}, não ${item.banda}`);
     if (fase < 1 || fase > total) aviso(`${onde}: fase ${fase} fora da escada de ${total}`);
     linha.push(`${item.cont}·${item.banda[0]}${fase}`);
   }

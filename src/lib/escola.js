@@ -88,6 +88,12 @@ export const CONTEUDO = {
 
 export const conteudoDoAno = ano => CONTEUDO[ano] || [];
 
+/* Como o ano aparece escrito. Mora aqui, e não na tela, porque a tela da
+   escola e a ficha do responsável precisam do mesmo nome — e se ele morasse
+   numa delas, as duas passariam a importar uma à outra. */
+export const nomeDoAno = (ano, t) =>
+  ano === "pre" ? t.schoolPre : t.schoolYear.replace("{n}", ANOS.indexOf(ano));
+
 /* Qual ano sugerir a quem não escolheu. Idade em branco cai no 1º ano, que é
    o meio da faixa que este app atende. */
 export function anoPorIdade(idade) {
