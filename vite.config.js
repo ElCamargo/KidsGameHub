@@ -26,9 +26,11 @@ export default defineConfig({
       },
     },
   },
-  // O site vive em https://elcamargo.github.io/KidsGameHub/ — sem esta base
-  // os arquivos são buscados na raiz do domínio e a página abre em branco.
-  base: "/KidsGameHub/",
+  // O site vive em https://lumus.elcamargo.com.br/ — domínio próprio, então a
+  // raiz é nossa. Era "/KidsGameHub/" enquanto morava numa pasta do
+  // elcamargo.github.io; mudou junto com o public/CNAME, e é o que permite
+  // servir /.well-known/assetlinks.json, que o TWA da Play Store exige na raiz.
+  base: "/",
   plugins: [
     react(),
     VitePWA({

@@ -13,7 +13,7 @@ celular de entrada.
 Uma criação da **ElCamargo Soluções em TI LTDA** · CNPJ 57.299.418/0001-69 ·
 Blumenau, Santa Catarina, Brasil.
 
-🎮 **[Jogar agora](https://elcamargo.github.io/KidsGameHub/)** — abre no
+🎮 **[Jogar agora](https://lumus.elcamargo.com.br/)** — abre no
 navegador, dá para instalar na tela inicial, e depois disso funciona sem
 internet nenhuma.
 
@@ -1318,11 +1318,23 @@ Antes do primeiro deploy, no GitHub: **Settings → Pages → Source → GitHub 
 
 | Página | URL |
 |---|---|
-| Jogo | `https://elcamargo.github.io/KidsGameHub/` |
-| Política de Privacidade | `https://elcamargo.github.io/KidsGameHub/privacidade.html` |
-| Termos de Uso | `https://elcamargo.github.io/KidsGameHub/termos.html` |
+| Jogo | `https://lumus.elcamargo.com.br/` |
+| Política de Privacidade | `https://lumus.elcamargo.com.br/privacidade.html` |
+| Termos de Uso | `https://lumus.elcamargo.com.br/termos.html` |
+| Verificação do TWA | `https://lumus.elcamargo.com.br/.well-known/assetlinks.json` |
 
 As duas páginas legais ficam em `public/` e são copiadas para a raiz do site no build. Elas são exigidas pelas lojas quando o app for publicado — tenha os endereços à mão.
+
+**O endereço mudou em 06/09/2026.** O Lumus morava em
+`elcamargo.github.io/KidsGameHub/`; agora tem subdomínio próprio, o que era
+condição para entrar na Play Store — o TWA exige um arquivo na raiz do domínio, e
+pasta de projeto no `github.io` não tem raiz. O GitHub redireciona o endereço
+antigo, então quem já instalou não perde nada.
+
+> ⚠️ **Ordem importa.** O `public/CNAME` só entra em vigor no próximo deploy, e um
+> deploy antes de o DNS existir tira o site do ar até a propagação. Configure
+> primeiro o `lumus CNAME elcamargo.github.io.` no painel do Registro.br, e só
+> depois marque a tag.
 
 ## Instalando no celular
 
@@ -1553,7 +1565,7 @@ revisar uma tabela é um fim de semana; revisar milhares de perguntas ninguém f
 - [ ] Revisão pastoral do banco bíblico e do devocional — os documentos já existem (`npm run doc-revisao`), falta a pessoa
 - [ ] Revisão de professora nos bancos da escola e do mundo — mesma coisa: o documento existe, falta quem leia
 - [ ] Versículos e falas em francês, alemão e italiano, de edição em domínio público conferida
-- [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md)) — o passo a passo pela conta CNPJ está em [docs/play-store.md](docs/play-store.md); trava no D-U-N-S da empresa e na decisão de domínio
+- [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md)) — o passo a passo pela conta CNPJ está em [docs/play-store.md](docs/play-store.md); o domínio já está resolvido, trava só no D-U-N-S da empresa
 - [ ] Devocionais em francês, alemão e italiano (o versículo pede edição em domínio público conferida)
 
 ## Privacidade

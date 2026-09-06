@@ -5,61 +5,64 @@
 > LTDA**. A decisão de entrar por TWA em vez de reescrever em nativo está na
 > [ADR 0001](decisoes/0001-pwa-ou-apps-nativos.md); aqui é só a execução.
 >
-> **Estado:** nada foi feito ainda. Cada passo diz quem executa — há coisas que só
+> **Estado:** o domínio está resolvido (seção 0). O que trava agora é o D-U-N-S.
+> Cada passo diz quem executa — há coisas que só
 > o Ederson pode fazer (a conta, o pagamento, a assinatura) e coisas que são
 > técnicas e podem ser preparadas antes.
 
 ---
 
-## 0. A decisão que vem antes de tudo: o domínio
+## 0. O domínio — resolvido
 
-**Isto trava o resto, e é a única coisa realmente difícil aqui.**
+**Feito em 06/09/2026.** `elcamargo.com.br` registrado no Registro.br em nome da
+**ElCamargo Soluções em TI LTDA** (CNPJ 057.299.418/0001-69), válido até 06/09/2028.
 
-Um TWA só abre em tela cheia — sem a barra de endereço do Chrome por cima — se o
-site provar que autoriza aquele app. A prova é um arquivo chamado
-`assetlinks.json`, e o Android o procura **na raiz do domínio**:
+Isto era o que travava tudo. Um TWA só abre em tela cheia — sem a barra de
+endereço do Chrome por cima — se o site provar que autoriza aquele app, e a prova
+é um arquivo que o Android procura **na raiz do domínio**:
 
 ```
-https://<domínio>/.well-known/assetlinks.json
+https://lumus.elcamargo.com.br/.well-known/assetlinks.json
 ```
 
-Note que é a **raiz**, não a pasta do projeto. Hoje o Lumus vive em
-`https://elcamargo.github.io/KidsGameHub/`, e o GitHub Pages **não deixa** um
-repositório de projeto publicar arquivo na raiz de `elcamargo.github.io`. Sem
-resolver isso, o app abre com a barra do navegador aparecendo — e o Google trata
-isso como um site embrulhado, que é motivo de reprovação.
+Enquanto o Lumus morava em `elcamargo.github.io/KidsGameHub/`, isso era
+impossível: o GitHub Pages não deixa um repositório de projeto publicar arquivo na
+raiz de `elcamargo.github.io`. Num subdomínio próprio, a raiz é nossa — e o
+arquivo sai direto de `public/.well-known/`.
 
-Duas saídas:
+O que já está no repositório:
 
-### Opção A — domínio próprio (recomendada)
-
-Apontar um domínio ou subdomínio da empresa para o GitHub Pages, por exemplo
-`lumus.elcamargo.com.br`.
-
-| | |
+| Arquivo | Estado |
 |---|---|
-| Custo | zero, se já existe o domínio da empresa |
-| O que muda no repositório | `public/CNAME` com o domínio, e `base: "/"` no `vite.config.js` |
-| Onde fica o assetlinks | `public/.well-known/assetlinks.json` — vai para a raiz sozinho |
-| Ganho extra | a conta CNPJ do Play pede um **site da organização**; um domínio próprio serve para as duas coisas |
-| Risco | endereço antigo (`elcamargo.github.io/KidsGameHub/`) para de valer para quem já instalou o PWA — o app instalado continua funcionando, mas passa a ser outro site |
+| `public/CNAME` | ✅ `lumus.elcamargo.com.br` |
+| `vite.config.js` → `base` | ✅ `"/"` (era `"/KidsGameHub/"`) |
+| `public/.well-known/assetlinks.json` | ✅ criado, faltando só a impressão digital (seção 3) |
 
-### Opção B — repositório `ElCamargo.github.io`
+### O que falta no DNS — painel do Registro.br
 
-Criar o repositório de site pessoal do GitHub, que publica na raiz, e pôr lá só o
-`.well-known/assetlinks.json`.
+**Não precisa de Cloudflare.** O DNS do próprio Registro.br dá conta, e é uma
+conta a menos para manter. Em *Painel → ELCAMARGO.COM.BR → DNS*:
 
-| | |
-|---|---|
-| Custo | zero, e não mexe no Lumus |
-| O que muda | nada no KidsGameHub |
-| Efeito colateral | o app fica ligado ao domínio `elcamargo.github.io` **inteiro** — qualquer outro projeto seu nesse domínio passa a estar dentro do escopo do app |
-| Quando serve | para testar o caminho todo sem gastar decisão de domínio |
+```
+lumus    CNAME    elcamargo.github.io.
+```
 
-**Recomendação:** A. Um app na loja com endereço `elcamargo.github.io/KidsGameHub`
-não parece um produto, e a conta de organização vai pedir o site mesmo assim.
+E no repositório KidsGameHub, em *Settings → Pages → Custom domain*, digitar
+`lumus.elcamargo.com.br` e marcar **Enforce HTTPS** depois que o certificado sair
+(leva de minutos a uma hora).
 
----
+Para o site da empresa no apex (`elcamargo.com.br`), são quatro registros A:
+
+```
+@    A    185.199.108.153
+@    A    185.199.109.153
+@    A    185.199.110.153
+@    A    185.199.111.153
+```
+
+> **O endereço antigo não quebra.** O GitHub redireciona
+> `elcamargo.github.io/KidsGameHub/` para o domínio novo, então quem já instalou o
+> PWA é levado junto na próxima abertura.
 
 ## 1. A conta de desenvolvedor — o que só você faz
 
@@ -283,8 +286,8 @@ Designed for Families. Ajuda ter as capturas de tela boas e a descrição honest
 
 ```
     VOCÊ                                    EU
- 1. Pedir o D-U-N-S ──────────┐
-    (dias a semanas)          │      2. Preparar domínio e assetlinks
+ 1. Pedir o D-U-N-S ──────────┐      2. ✅ domínio e assetlinks — feito
+    (dias a semanas)          │         (falta só o CNAME no DNS)
                               │      3. Gerar ícones e capturas de tela
  4. Criar a conta CNPJ  ◄─────┘      5. Gerar o pacote TWA (com sua autorização
     (US$ 25)                            para instalar o Bubblewrap)
