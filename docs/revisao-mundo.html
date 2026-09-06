@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumus — revisão de ciências, mundo e Brasil</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #FAF9F6; color: #1B2A6B;
+    font-family: Georgia, "Times New Roman", serif; line-height: 1.65; }
+  .folha { max-width: 940px; margin: 0 auto; padding: 32px 22px 80px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 4px; }
+  .sub { color: #6C7695; font-size: 15px; margin: 0 0 26px; }
+  h2 { font-size: 21px; margin: 38px 0 6px; padding-top: 14px; border-top: 3px solid #1B2A6B; }
+  .conta { float: right; font-size: 13px; font-weight: normal; color: #6C7695;
+    font-family: ui-monospace, Consolas, monospace; padding-top: 8px; }
+  .vira { margin: 0 0 10px; font-size: 14px; color: #3C4A7A; }
+  .nota { margin: 0 0 12px; font-size: 14px; background: #FFF4D6; border-left: 4px solid #F9A826;
+    padding: 9px 12px; }
+  .caixa { background: #EEF1FF; border: 2px solid #C3CBEA; border-radius: 10px;
+    padding: 16px 18px; margin: 0 0 26px; }
+  .caixa h3 { margin: 0 0 8px; font-size: 17px; }
+  .caixa ol { margin: 0; padding-left: 20px; }
+  .caixa li { margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px;
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  th { text-align: left; background: #1B2A6B; color: #fff; padding: 7px 9px; font-weight: 700; }
+  td { padding: 6px 9px; border-bottom: 1px solid #E0E4F0; vertical-align: top; }
+  tbody tr:nth-child(even) { background: #F2F4FB; }
+  .cod { font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    color: #6C7695; white-space: nowrap; width: 1%; }
+  .fig { font-size: 20px; text-align: center; width: 1%; }
+  .bloco { margin: 20px 0 28px; }
+  .bloco h3 { font-size: 16px; margin: 0 0 6px; }
+  .bloco h3 .conta { float: none; margin-left: 8px; }
+  .lido { background: #fff; border-left: 4px solid #4C6FFF; padding: 10px 14px;
+    margin: 0 0 8px; font-size: 15px; }
+  nav { font-size: 14px; margin: 0 0 8px; }
+  nav a { color: #4C6FFF; margin-right: 14px; white-space: nowrap; display: inline-block; }
+  footer { margin-top: 48px; padding-top: 14px; border-top: 2px solid #C3CBEA;
+    font-size: 13px; color: #6C7695; }
+  @media print {
+    body { background: #fff; }
+    .folha { max-width: none; padding: 0; }
+    h2 { break-after: avoid; }
+    tr { break-inside: avoid; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<h1>Lumus — revisão de ciências, mundo e Brasil</h1>
+<p class="sub">639 fatos · v1.1.0-3-gcb363a6 · gerado em 2026-09-06</p>
+
+<div class="caixa">
+  <h3>O que é isto, e o que se espera de quem lê</h3>
+  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  e sem coleta de dados, dado de graça a famílias. Esta parte é o mundo: os bichos,
+  o corpo, as plantas, a água, os monumentos, o Brasil e as capitais.</p>
+
+  <p><strong>As perguntas do app não são escritas uma a uma: elas são geradas a partir
+  das tabelas abaixo.</strong> Um bicho no grupo errado vira cinco perguntas erradas de
+  uma vez. Por isso pedimos a revisão dos <em>fatos</em>.</p>
+
+  <h3>O que procurar</h3>
+  <ol>
+    <li><strong>Está certo?</strong> O grupo do bicho, o que ele come, onde vive, a região do
+      estado, a capital do país.</li>
+    <li><strong>Dá para defender outra resposta?</strong> É o erro mais comum e o mais injusto:
+      a criança sabe, responde certo, e o app diz que errou. O golfinho vive no mar e
+      no rio; o urso come planta e carne. Onde couber “depende”, avise.</li>
+    <li><strong>A figura diz que coisa é?</strong> Nos animais e nas curiosidades, é só a figura —
+      se ela confunde, a criança erra pelo desenho, não pelo conteúdo.</li>
+    <li><strong>Assusta?</strong> Doença, morte e acidente ficam de fora de propósito: a criança
+      joga sozinha, sem adulto do lado para explicar.</li>
+  </ol>
+
+  <h3>Como marcar</h3>
+  <p style="margin-bottom:0">Cada linha tem um código à esquerda (<span class="cod">ANI-014</span>,
+  <span class="cod">CAP-032</span>…). Basta escrever o código e o que está errado —
+  numa mensagem, num papel, do jeito que for mais fácil. Não é preciso abrir nada
+  de programação.</p>
+</div>
+
+<nav><a href="#animais">Os animais</a><a href="#ciencias">Ciências além dos bichos</a><a href="#curiosidades">Curiosidades do mundo</a><a href="#estados">Os 27 estados</a><a href="#brasil">Fatos do Brasil</a><a href="#capitais">Capitais dos países</a><a href="#capitais-br">Capitais dos estados brasileiros</a><a href="#capitais-us">Capitais dos estados americanos</a></nav>
+
+
+<section id="animais">
+  <h2>Os animais <span class="conta">94 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> 5 perguntas por bicho — de que grupo é, o que come, onde vive, como nasce e de que continente é. O bicho sem continente próprio não gera a quinta.</p>
+  <p class="nota">O bicho <strong>é a figura</strong>: o app não escreve o nome dele, porque assim a mesma tabela serve aos seis idiomas. Então a primeira pergunta é se a figura deixa claro que animal é — 🦭 e 🦦 confundem, e aí a criança erra por causa do desenho, não por não saber.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Figura</th><th>Grupo</th><th>O que come</th><th>Onde vive</th><th>Como nasce</th><th>Continente</th><th>Degrau</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">ANI-001</td><td>🐶</td><td>Mamífero</td><td>Plantas e carne</td><td>Na fazenda</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-002</td><td>🐱</td><td>Mamífero</td><td>Só carne</td><td>No jardim</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-003</td><td>🐮</td><td>Mamífero</td><td>Só plantas</td><td>Na fazenda</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-004</td><td>🐷</td><td>Mamífero</td><td>Plantas e carne</td><td>Na fazenda</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-005</td><td>🐴</td><td>Mamífero</td><td>Só plantas</td><td>Na fazenda</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-006</td><td>🐑</td><td>Mamífero</td><td>Só plantas</td><td>Na fazenda</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-007</td><td>🐐</td><td>Mamífero</td><td>Só plantas</td><td>Nas montanhas</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-008</td><td>🐔</td><td>Ave</td><td>Plantas e carne</td><td>Na fazenda</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-009</td><td>🦆</td><td>Ave</td><td>Plantas e carne</td><td>Em rios e lagos</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-010</td><td>🐭</td><td>Mamífero</td><td>Plantas e carne</td><td>No jardim</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-011</td><td>🐰</td><td>Mamífero</td><td>Só plantas</td><td>No jardim</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-012</td><td>🦁</td><td>Mamífero</td><td>Só carne</td><td>Na savana</td><td>Já nasce filhote</td><td>África</td><td>1</td></tr>
+      <tr><td class="cod">ANI-013</td><td>🐯</td><td>Mamífero</td><td>Só carne</td><td>Na floresta tropical</td><td>Já nasce filhote</td><td>Ásia</td><td>1</td></tr>
+      <tr><td class="cod">ANI-014</td><td>🐘</td><td>Mamífero</td><td>Só plantas</td><td>Na savana</td><td>Já nasce filhote</td><td>África</td><td>1</td></tr>
+      <tr><td class="cod">ANI-015</td><td>🦒</td><td>Mamífero</td><td>Só plantas</td><td>Na savana</td><td>Já nasce filhote</td><td>África</td><td>1</td></tr>
+      <tr><td class="cod">ANI-016</td><td>🦓</td><td>Mamífero</td><td>Só plantas</td><td>Na savana</td><td>Já nasce filhote</td><td>África</td><td>1</td></tr>
+      <tr><td class="cod">ANI-017</td><td>🐵</td><td>Mamífero</td><td>Plantas e carne</td><td>Na floresta tropical</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-018</td><td>🐻</td><td>Mamífero</td><td>Plantas e carne</td><td>Na mata fria</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-019</td><td>🐼</td><td>Mamífero</td><td>Só plantas</td><td>Nas montanhas</td><td>Já nasce filhote</td><td>Ásia</td><td>1</td></tr>
+      <tr><td class="cod">ANI-020</td><td>🐧</td><td>Ave</td><td>Só carne</td><td>No gelo</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-021</td><td>🐟</td><td>Peixe</td><td>Plantas e carne</td><td>Em rios e lagos</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-022</td><td>🐠</td><td>Peixe</td><td>Plantas e carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-023</td><td>🐬</td><td>Mamífero</td><td>Só carne</td><td>No mar</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-024</td><td>🐳</td><td>Mamífero</td><td>Só carne</td><td>No mar</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-025</td><td>🦈</td><td>Peixe</td><td>Só carne</td><td>No mar</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-026</td><td>🐢</td><td>Réptil</td><td>Plantas e carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-027</td><td>🐍</td><td>Réptil</td><td>Só carne</td><td>Na floresta tropical</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-028</td><td>🐸</td><td>Anfíbio</td><td>Só carne</td><td>Em rios e lagos</td><td>Começa como girino</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-029</td><td>🐝</td><td>Inseto</td><td>Néctar e pólen</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-030</td><td>🦋</td><td>Inseto</td><td>Néctar e pólen</td><td>No jardim</td><td>Sai de um casulo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-031</td><td>🐜</td><td>Inseto</td><td>Plantas e carne</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-032</td><td>🕷️</td><td>Aracnídeo</td><td>Só carne</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>1</td></tr>
+      <tr><td class="cod">ANI-033</td><td>🦊</td><td>Mamífero</td><td>Plantas e carne</td><td>Na mata fria</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-034</td><td>🐺</td><td>Mamífero</td><td>Só carne</td><td>Na mata fria</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-035</td><td>🦌</td><td>Mamífero</td><td>Só plantas</td><td>Na mata fria</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-036</td><td>🐗</td><td>Mamífero</td><td>Plantas e carne</td><td>Na mata fria</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-037</td><td>🦇</td><td>Mamífero</td><td>Plantas e carne</td><td>Na floresta tropical</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-038</td><td>🐊</td><td>Réptil</td><td>Só carne</td><td>Em rios e lagos</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-039</td><td>🦎</td><td>Réptil</td><td>Só carne</td><td>No deserto</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-040</td><td>🦉</td><td>Ave</td><td>Só carne</td><td>Na mata fria</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-041</td><td>🦅</td><td>Ave</td><td>Só carne</td><td>Nas montanhas</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-042</td><td>🦜</td><td>Ave</td><td>Só plantas</td><td>Na floresta tropical</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-043</td><td>🦩</td><td>Ave</td><td>Plantas e carne</td><td>Em rios e lagos</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-044</td><td>🦚</td><td>Ave</td><td>Plantas e carne</td><td>Na floresta tropical</td><td>De um ovo</td><td>Ásia</td><td>2</td></tr>
+      <tr><td class="cod">ANI-045</td><td>🐙</td><td>Molusco</td><td>Só carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-046</td><td>🦀</td><td>Crustáceo</td><td>Plantas e carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-047</td><td>🦐</td><td>Crustáceo</td><td>Plantas e carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-048</td><td>🐌</td><td>Molusco</td><td>Só plantas</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-049</td><td>🐪</td><td>Mamífero</td><td>Só plantas</td><td>No deserto</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-050</td><td>🦏</td><td>Mamífero</td><td>Só plantas</td><td>Na savana</td><td>Já nasce filhote</td><td>África</td><td>2</td></tr>
+      <tr><td class="cod">ANI-051</td><td>🦛</td><td>Mamífero</td><td>Só plantas</td><td>Em rios e lagos</td><td>Já nasce filhote</td><td>África</td><td>2</td></tr>
+      <tr><td class="cod">ANI-052</td><td>🦍</td><td>Mamífero</td><td>Só plantas</td><td>Na floresta tropical</td><td>Já nasce filhote</td><td>África</td><td>2</td></tr>
+      <tr><td class="cod">ANI-053</td><td>🐨</td><td>Mamífero</td><td>Só plantas</td><td>Na mata fria</td><td>Já nasce filhote</td><td>Oceania</td><td>2</td></tr>
+      <tr><td class="cod">ANI-054</td><td>🦘</td><td>Mamífero</td><td>Só plantas</td><td>Na savana</td><td>Já nasce filhote</td><td>Oceania</td><td>2</td></tr>
+      <tr><td class="cod">ANI-055</td><td>🐿️</td><td>Mamífero</td><td>Só plantas</td><td>Na mata fria</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-056</td><td>🦔</td><td>Mamífero</td><td>Plantas e carne</td><td>No jardim</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-057</td><td>🐢</td><td>Réptil</td><td>Só plantas</td><td>No deserto</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-058</td><td>🦭</td><td>Mamífero</td><td>Só carne</td><td>No gelo</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-059</td><td>🐻‍❄️</td><td>Mamífero</td><td>Só carne</td><td>No gelo</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-060</td><td>🦌</td><td>Mamífero</td><td>Só plantas</td><td>No gelo</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-061</td><td>🐞</td><td>Inseto</td><td>Só carne</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-062</td><td>🦗</td><td>Inseto</td><td>Só plantas</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-063</td><td>🪲</td><td>Inseto</td><td>Plantas e carne</td><td>Na mata fria</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-064</td><td>🐦</td><td>Ave</td><td>Plantas e carne</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>2</td></tr>
+      <tr><td class="cod">ANI-065</td><td>🦥</td><td>Mamífero</td><td>Só plantas</td><td>Na floresta tropical</td><td>Já nasce filhote</td><td>América do Sul</td><td>3</td></tr>
+      <tr><td class="cod">ANI-066</td><td>🦦</td><td>Mamífero</td><td>Só carne</td><td>Em rios e lagos</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-067</td><td>🦨</td><td>Mamífero</td><td>Plantas e carne</td><td>Na mata fria</td><td>Já nasce filhote</td><td>América do Norte</td><td>3</td></tr>
+      <tr><td class="cod">ANI-068</td><td>🦡</td><td>Mamífero</td><td>Plantas e carne</td><td>Na mata fria</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-069</td><td>🦫</td><td>Mamífero</td><td>Só plantas</td><td>Em rios e lagos</td><td>Já nasce filhote</td><td>América do Norte</td><td>3</td></tr>
+      <tr><td class="cod">ANI-070</td><td>🦙</td><td>Mamífero</td><td>Só plantas</td><td>Nas montanhas</td><td>Já nasce filhote</td><td>América do Sul</td><td>3</td></tr>
+      <tr><td class="cod">ANI-071</td><td>🦣</td><td>Mamífero</td><td>Só plantas</td><td>No gelo</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-072</td><td>🦬</td><td>Mamífero</td><td>Só plantas</td><td>Na savana</td><td>Já nasce filhote</td><td>América do Norte</td><td>3</td></tr>
+      <tr><td class="cod">ANI-073</td><td>🐃</td><td>Mamífero</td><td>Só plantas</td><td>Em rios e lagos</td><td>Já nasce filhote</td><td>Ásia</td><td>3</td></tr>
+      <tr><td class="cod">ANI-074</td><td>🦤</td><td>Ave</td><td>Só plantas</td><td>Na mata fria</td><td>De um ovo</td><td>África</td><td>3</td></tr>
+      <tr><td class="cod">ANI-075</td><td>🦢</td><td>Ave</td><td>Só plantas</td><td>Em rios e lagos</td><td>De um ovo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-076</td><td>🦃</td><td>Ave</td><td>Plantas e carne</td><td>Na mata fria</td><td>De um ovo</td><td>América do Norte</td><td>3</td></tr>
+      <tr><td class="cod">ANI-077</td><td>🕊️</td><td>Ave</td><td>Só plantas</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-078</td><td>🦡</td><td>Mamífero</td><td>Plantas e carne</td><td>No deserto</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-079</td><td>🐡</td><td>Peixe</td><td>Só carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-080</td><td>🦑</td><td>Molusco</td><td>Só carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-081</td><td>🦞</td><td>Crustáceo</td><td>Plantas e carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-082</td><td>🦂</td><td>Aracnídeo</td><td>Só carne</td><td>No deserto</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-083</td><td>🪳</td><td>Inseto</td><td>Plantas e carne</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-084</td><td>🐛</td><td>Inseto</td><td>Só plantas</td><td>No jardim</td><td>Sai de um casulo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-085</td><td>🪱</td><td>Inseto</td><td>Plantas e carne</td><td>No jardim</td><td>De um ovo</td><td>— (vive em vários)</td><td>3</td></tr>
+      <tr><td class="cod">ANI-086</td><td>🦧</td><td>Mamífero</td><td>Só plantas</td><td>Na floresta tropical</td><td>Já nasce filhote</td><td>Ásia</td><td>3</td></tr>
+      <tr><td class="cod">ANI-087</td><td>🫎</td><td>Mamífero</td><td>Só plantas</td><td>Na mata fria</td><td>Já nasce filhote</td><td>América do Norte</td><td>4</td></tr>
+      <tr><td class="cod">ANI-088</td><td>🫏</td><td>Mamífero</td><td>Só plantas</td><td>No deserto</td><td>Já nasce filhote</td><td>África</td><td>4</td></tr>
+      <tr><td class="cod">ANI-089</td><td>🦭</td><td>Mamífero</td><td>Só carne</td><td>No mar</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>4</td></tr>
+      <tr><td class="cod">ANI-090</td><td>🪸</td><td>Molusco</td><td>Plantas e carne</td><td>No mar</td><td>De um ovo</td><td>— (vive em vários)</td><td>4</td></tr>
+      <tr><td class="cod">ANI-091</td><td>🦠</td><td>Inseto</td><td>Plantas e carne</td><td>Em rios e lagos</td><td>De um ovo</td><td>— (vive em vários)</td><td>4</td></tr>
+      <tr><td class="cod">ANI-092</td><td>🐋</td><td>Mamífero</td><td>Só carne</td><td>No gelo</td><td>Já nasce filhote</td><td>— (vive em vários)</td><td>4</td></tr>
+      <tr><td class="cod">ANI-093</td><td>🦩</td><td>Ave</td><td>Plantas e carne</td><td>No mar</td><td>De um ovo</td><td>América do Sul</td><td>4</td></tr>
+      <tr><td class="cod">ANI-094</td><td>🐓</td><td>Ave</td><td>Plantas e carne</td><td>Na fazenda</td><td>De um ovo</td><td>— (vive em vários)</td><td>4</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ciencias">
+  <h2>Ciências além dos bichos <span class="conta">47 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a própria pergunta, com as quatro alternativas. A explicação aparece quando a criança erra.</p>
+  <p class="nota">Aqui a pergunta é escrita à mão, e não sai de molde. Vale conferir se a explicação <strong>ensina o porquê</strong> em vez de repetir a resposta com outras palavras.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Tema</th><th>Figura</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>A explicação</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CIE-001</td><td>corpo</td><td>❤️</td><td>Que órgão bombeia o sangue pelo corpo?</td><td>O coração</td><td>O pulmão · O estômago · O cérebro</td><td>O coração aperta e solta o tempo todo, empurrando o sangue por todo o corpo.</td></tr>
+      <tr><td class="cod">CIE-002</td><td>corpo</td><td>🫁</td><td>Que parte do corpo usamos para respirar?</td><td>Os pulmões</td><td>O coração · O fígado · Os rins</td><td>O ar entra pelo nariz e enche os pulmões, que tiram dele o oxigênio.</td></tr>
+      <tr><td class="cod">CIE-003</td><td>corpo</td><td>🦴</td><td>O que dá forma e sustenta o nosso corpo?</td><td>Os ossos</td><td>O cabelo · A pele · O sangue</td><td>Os ossos formam o esqueleto, que segura o corpo em pé e protege os órgãos.</td></tr>
+      <tr><td class="cod">CIE-004</td><td>corpo</td><td>🦷</td><td>Para que servem os dentes?</td><td>Para cortar e triturar a comida</td><td>Para respirar · Para falar mais alto · Para sentir cheiro</td><td>Mastigar quebra o alimento em pedaços pequenos, e assim o corpo aproveita melhor.</td></tr>
+      <tr><td class="cod">CIE-005</td><td>corpo</td><td>🧠</td><td>Que órgão comanda tudo o que fazemos e pensamos?</td><td>O cérebro</td><td>O coração · O estômago · O pulmão</td><td>O cérebro manda ordens para o corpo inteiro pelos nervos, e recebe de volta o que os sentidos captam.</td></tr>
+      <tr><td class="cod">CIE-006</td><td>corpo</td><td>💪</td><td>O que faz os ossos se moverem?</td><td>Os músculos</td><td>O sangue · A pele · As unhas</td><td>O músculo encurta e puxa o osso: é assim que o braço dobra.</td></tr>
+      <tr><td class="cod">CIE-007</td><td>corpo</td><td>🩸</td><td>O que o sangue leva para todas as partes do corpo?</td><td>Oxigênio e alimento</td><td>Só água · Ar quente · Luz</td><td>O sangue é o caminhão do corpo: entrega oxigênio e nutrientes e recolhe o que sobra.</td></tr>
+      <tr><td class="cod">CIE-008</td><td>corpo</td><td>🍽️</td><td>Onde a comida começa a ser digerida depois de mastigada?</td><td>No estômago</td><td>No pulmão · No coração · No cérebro</td><td>No estômago a comida se mistura a um líquido que a desmancha antes de seguir para o intestino.</td></tr>
+      <tr><td class="cod">CIE-009</td><td>corpo</td><td>🧴</td><td>Qual é o maior órgão do corpo humano?</td><td>A pele</td><td>O fígado · O pulmão · O coração</td><td>A pele cobre o corpo inteiro. Ela protege, sente e ajuda a controlar a temperatura.</td></tr>
+      <tr><td class="cod">CIE-010</td><td>corpo</td><td>🦴</td><td>Com quantos ossos, mais ou menos, um adulto fica?</td><td>206</td><td>50 · 600 · 1.000</td><td>O bebê nasce com mais de 300 ossos, e alguns se juntam enquanto ele cresce.</td></tr>
+      <tr><td class="cod">CIE-011</td><td>corpo</td><td>🫀</td><td>Para onde vai o sangue quando sai do coração e vai buscar oxigênio?</td><td>Para os pulmões</td><td>Para o estômago · Para os pés · Para o cérebro</td><td>O sangue passa pelos pulmões para pegar oxigênio e volta ao coração antes de sair para o corpo.</td></tr>
+      <tr><td class="cod">CIE-012</td><td>corpo</td><td>🦵</td><td>Como se chama o lugar onde dois ossos se encontram e dobram?</td><td>Articulação</td><td>Músculo · Nervo · Tendão</td><td>O joelho e o cotovelo são articulações: é onde o esqueleto pode dobrar.</td></tr>
+      <tr><td class="cod">CIE-013</td><td>plantas</td><td>🌱</td><td>De que parte da planta nasce uma planta nova?</td><td>Da semente</td><td>Da folha · Do caule · Da flor</td><td>Dentro da semente já existe uma plantinha adormecida, esperando água e calor.</td></tr>
+      <tr><td class="cod">CIE-014</td><td>plantas</td><td>🌿</td><td>Que parte da planta segura ela na terra e puxa a água?</td><td>A raiz</td><td>A folha · A flor · O fruto</td><td>A raiz cresce para baixo, prende a planta e absorve a água com os sais do solo.</td></tr>
+      <tr><td class="cod">CIE-015</td><td>plantas</td><td>💧</td><td>Do que uma planta precisa para crescer?</td><td>Água, luz e terra</td><td>Só água · Escuro e frio · Só vento</td><td>Faltando um dos três a planta murcha — foi o que aconteceu no canteiro que ficou sem rega.</td></tr>
+      <tr><td class="cod">CIE-016</td><td>plantas</td><td>🍃</td><td>Em que parte da planta a luz do sol vira alimento?</td><td>Na folha</td><td>Na raiz · No caule · Na semente</td><td>A folha é achatada e verde justamente para pegar bastante luz.</td></tr>
+      <tr><td class="cod">CIE-017</td><td>plantas</td><td>🌷</td><td>Que parte da planta vira fruto depois?</td><td>A flor</td><td>A raiz · A folha · O caule</td><td>Depois que a flor é polinizada, ela se transforma no fruto, com a semente dentro.</td></tr>
+      <tr><td class="cod">CIE-018</td><td>plantas</td><td>🐝</td><td>Quem carrega o pólen de uma flor para outra?</td><td>As abelhas</td><td>As minhocas · Os peixes · As formigas de casa</td><td>A abelha vai buscar néctar e leva o pólen grudado no corpo, sem querer.</td></tr>
+      <tr><td class="cod">CIE-019</td><td>plantas</td><td>☀️</td><td>Como se chama o processo em que a planta usa a luz para se alimentar?</td><td>Fotossíntese</td><td>Digestão · Respiração · Germinação</td><td>Na fotossíntese a planta junta água, gás carbônico e luz, e produz o próprio alimento.</td></tr>
+      <tr><td class="cod">CIE-020</td><td>plantas</td><td>🌬️</td><td>Que gás as plantas soltam no ar durante o dia?</td><td>Oxigênio</td><td>Gás carbônico · Vapor de gasolina · Fumaça</td><td>É por isso que floresta e mata limpam o ar: elas devolvem o oxigênio que respiramos.</td></tr>
+      <tr><td class="cod">CIE-021</td><td>plantas</td><td>🪵</td><td>Que parte leva a água da raiz até as folhas?</td><td>O caule</td><td>A flor · O fruto · A casca da semente</td><td>O caule tem canais finos por dentro, como canudinhos, que levam a água para cima.</td></tr>
+      <tr><td class="cod">CIE-022</td><td>plantas</td><td>🌰</td><td>Como se chama o momento em que a semente brota?</td><td>Germinação</td><td>Fotossíntese · Polinização · Floração</td><td>Na germinação a semente absorve água, incha e a primeira raiz sai para fora.</td></tr>
+      <tr><td class="cod">CIE-023</td><td>plantas</td><td>🌵</td><td>Onde o cacto guarda a água que consegue?</td><td>No caule</td><td>Nos espinhos · Na flor · Nas raízes de cima</td><td>O caule grosso do cacto é um reservatório, e os espinhos são folhas que viraram agulha para perder menos água.</td></tr>
+      <tr><td class="cod">CIE-024</td><td>agua</td><td>🧊</td><td>O que acontece com a água quando ela congela?</td><td>Vira gelo</td><td>Vira vapor · Desaparece · Vira areia</td><td>Abaixo de zero grau a água fica sólida: é o gelo.</td></tr>
+      <tr><td class="cod">CIE-025</td><td>agua</td><td>☁️</td><td>De que são feitas as nuvens?</td><td>De gotinhas de água</td><td>De algodão · De fumaça · De areia</td><td>O vapor que sobe esfria lá em cima e vira gotinhas, que juntas formam a nuvem.</td></tr>
+      <tr><td class="cod">CIE-026</td><td>agua</td><td>♨️</td><td>O que acontece com a água quando ela ferve?</td><td>Vira vapor</td><td>Vira gelo · Vira pedra · Fica mais pesada</td><td>Com muito calor a água passa de líquida para gasosa, e sobe como vapor.</td></tr>
+      <tr><td class="cod">CIE-027</td><td>agua</td><td>🌧️</td><td>Por que chove?</td><td>As gotinhas da nuvem ficam pesadas e caem</td><td>O céu abre um buraco · O vento empurra o mar para cima · O sol derrete a nuvem</td><td>As gotinhas se juntam até ficarem pesadas demais para o ar segurar.</td></tr>
+      <tr><td class="cod">CIE-028</td><td>agua</td><td>🔄</td><td>Como se chama a viagem da água entre o mar, o céu e a terra?</td><td>Ciclo da água</td><td>Fotossíntese · Maré · Correnteza</td><td>A água evapora, vira nuvem, chove, corre para o rio e volta ao mar — e recomeça.</td></tr>
+      <tr><td class="cod">CIE-029</td><td>agua</td><td>🌊</td><td>Em que estado a água está no mar?</td><td>Líquido</td><td>Sólido · Gasoso · Nenhum</td><td>Os três estados da água são sólido (gelo), líquido (mar e rio) e gasoso (vapor).</td></tr>
+      <tr><td class="cod">CIE-030</td><td>agua</td><td>🫗</td><td>Quando a roupa seca no varal, para onde vai a água?</td><td>Evapora para o ar</td><td>Escorre para o chão · Some para sempre · Vira poeira</td><td>O sol e o vento fazem a água virar vapor, que se mistura ao ar. É evaporação.</td></tr>
+      <tr><td class="cod">CIE-031</td><td>agua</td><td>🥤</td><td>Por que o copo gelado fica molhado por fora?</td><td>O vapor do ar vira gota no vidro frio</td><td>A água atravessa o vidro · O copo está furado · O gelo escorre por cima</td><td>Isso é condensação: o vapor que está no ar esfria ao encostar no copo e vira gotinha.</td></tr>
+      <tr><td class="cod">CIE-032</td><td>sentidos</td><td>👁️</td><td>Que sentido usamos com os olhos?</td><td>A visão</td><td>A audição · O olfato · O paladar</td><td>Os olhos captam a luz, e é assim que enxergamos formas e cores.</td></tr>
+      <tr><td class="cod">CIE-033</td><td>sentidos</td><td>👅</td><td>Com que parte do corpo sentimos o gosto?</td><td>A língua</td><td>O nariz · A orelha · A mão</td><td>A língua tem pontinhos que reconhecem doce, salgado, azedo e amargo.</td></tr>
+      <tr><td class="cod">CIE-034</td><td>sentidos</td><td>👃</td><td>Que sentido usamos para sentir cheiro?</td><td>O olfato</td><td>O tato · A audição · A visão</td><td>O nariz reconhece cheirinhos no ar — e ele ajuda a língua a sentir o sabor.</td></tr>
+      <tr><td class="cod">CIE-035</td><td>sentidos</td><td>✋</td><td>Que sentido usamos para saber se algo é liso ou áspero?</td><td>O tato</td><td>O paladar · A audição · O olfato</td><td>A pele sente textura, calor e frio: é o tato, e ele funciona no corpo inteiro.</td></tr>
+      <tr><td class="cod">CIE-036</td><td>sentidos</td><td>👂</td><td>Quantos sentidos costumamos contar?</td><td>5</td><td>3 · 7 · 10</td><td>Visão, audição, olfato, paladar e tato.</td></tr>
+      <tr><td class="cod">CIE-037</td><td>sentidos</td><td>🔊</td><td>O que chega ao ouvido e nos faz escutar?</td><td>O som</td><td>A luz · O cheiro · O calor</td><td>O som viaja pelo ar como uma vibração, e o ouvido transforma isso em sinal para o cérebro.</td></tr>
+      <tr><td class="cod">CIE-038</td><td>materiais</td><td>🧱</td><td>Como se chama o estado da matéria que tem forma própria?</td><td>Sólido</td><td>Líquido · Gasoso · Molhado</td><td>O sólido mantém a forma; o líquido toma a forma do vasilhame; o gás ocupa tudo.</td></tr>
+      <tr><td class="cod">CIE-039</td><td>materiais</td><td>🧲</td><td>O que o ímã atrai?</td><td>Ferro</td><td>Papel · Madeira · Vidro</td><td>O ímã puxa alguns metais, principalmente o ferro. Papel e madeira ele nem sente.</td></tr>
+      <tr><td class="cod">CIE-040</td><td>materiais</td><td>🪵</td><td>Por que a madeira flutua na água?</td><td>Porque é mais leve que a água</td><td>Porque é seca · Porque é marrom · Porque tem casca</td><td>O que flutua é o que pesa menos que o mesmo tanto de água. A pedra pesa mais e afunda.</td></tr>
+      <tr><td class="cod">CIE-041</td><td>materiais</td><td>🕯️</td><td>O que forma uma sombra?</td><td>Um objeto barrando a luz</td><td>O vento · O escuro subindo · A cor preta</td><td>A luz anda em linha reta; onde o objeto barra, fica a sombra com o formato dele.</td></tr>
+      <tr><td class="cod">CIE-042</td><td>materiais</td><td>🌡️</td><td>O que acontece com o metal quando esquenta muito?</td><td>Ele dilata, fica um pouco maior</td><td>Ele encolhe · Ele vira líquido na hora · Nada muda</td><td>O calor afasta as partes de dentro do material, e por isso ele aumenta um pouquinho.</td></tr>
+      <tr><td class="cod">CIE-043</td><td>materiais</td><td>♻️</td><td>O que quer dizer reciclar?</td><td>Transformar o que foi usado em coisa nova</td><td>Jogar tudo no mesmo lugar · Queimar o lixo · Enterrar o lixo</td><td>Papel vira papel de novo, e a garrafa vira outra garrafa: gasta-se menos e sobra menos lixo.</td></tr>
+      <tr><td class="cod">CIE-044</td><td>higiene</td><td>🧼</td><td>Quando é mais importante lavar as mãos?</td><td>Antes de comer</td><td>Depois de dormir · Antes de assistir TV · Depois de rir</td><td>A mão encosta em tudo. Lavar antes de comer impede que a sujeira vá junto com a comida.</td></tr>
+      <tr><td class="cod">CIE-045</td><td>higiene</td><td>🪥</td><td>Quantas vezes por dia se deve escovar os dentes?</td><td>Depois de cada refeição</td><td>Uma vez por semana · Só quando doer · Só de manhã</td><td>O resto de comida no dente vira placa, e a placa é o que faz o buraquinho aparecer.</td></tr>
+      <tr><td class="cod">CIE-046</td><td>higiene</td><td>😴</td><td>Por que uma criança precisa dormir bem?</td><td>O corpo cresce e a cabeça descansa</td><td>Para passar o tempo · Para não comer à noite · Para ficar com fome</td><td>É dormindo que o corpo se recupera, cresce e guarda o que aprendeu no dia.</td></tr>
+      <tr><td class="cod">CIE-047</td><td>higiene</td><td>🥦</td><td>Por que comer verdura e fruta todo dia?</td><td>Elas trazem vitaminas que o corpo precisa</td><td>Porque são coloridas · Para gastar dinheiro · Porque são doces</td><td>Vitamina é o que faz o corpo funcionar direito, e ela não fica guardada: precisa vir todo dia.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="curiosidades">
+  <h2>Curiosidades do mundo <span class="conta">235 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> uma pergunta por linha, do tipo indicado na coluna “o que se pergunta”.</p>
+  <p class="nota">A regra do banco é <strong>nada de fronteira dividida</strong>: o que fica em dois países (Everest, Iguaçu) entra como continente, nunca como país. Se encontrar aqui alguma coisa que fica em dois lugares e está marcada como país, é erro.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Figura</th><th>O quê</th><th>O que se pergunta</th><th>Resposta certa</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CUR-001</td><td>🗼</td><td>a Torre Eiffel</td><td>em que país fica</td><td>França</td></tr>
+      <tr><td class="cod">CUR-002</td><td>🏟️</td><td>o Coliseu</td><td>em que país fica</td><td>Itália</td></tr>
+      <tr><td class="cod">CUR-003</td><td>🗽</td><td>a Estátua da Liberdade</td><td>em que país fica</td><td>Estados Unidos</td></tr>
+      <tr><td class="cod">CUR-004</td><td>✝️</td><td>o Cristo Redentor</td><td>em que país fica</td><td>Brasil</td></tr>
+      <tr><td class="cod">CUR-005</td><td>🧱</td><td>a Grande Muralha</td><td>em que país fica</td><td>China</td></tr>
+      <tr><td class="cod">CUR-006</td><td>🔺</td><td>as Pirâmides de Gizé</td><td>em que país fica</td><td>Egito</td></tr>
+      <tr><td class="cod">CUR-007</td><td>🕌</td><td>o Taj Mahal</td><td>em que país fica</td><td>Índia</td></tr>
+      <tr><td class="cod">CUR-008</td><td>🕰️</td><td>o Big Ben</td><td>em que país fica</td><td>Reino Unido</td></tr>
+      <tr><td class="cod">CUR-009</td><td>🏔️</td><td>Machu Picchu</td><td>em que país fica</td><td>Peru</td></tr>
+      <tr><td class="cod">CUR-010</td><td>🗼</td><td>a Torre de Pisa</td><td>em que país fica</td><td>Itália</td></tr>
+      <tr><td class="cod">CUR-011</td><td>⛪</td><td>a Sagrada Família</td><td>em que país fica</td><td>Espanha</td></tr>
+      <tr><td class="cod">CUR-012</td><td>🗻</td><td>o Monte Fuji</td><td>em que país fica</td><td>Japão</td></tr>
+      <tr><td class="cod">CUR-013</td><td>🎭</td><td>a Ópera de Sydney</td><td>em que país fica</td><td>Austrália</td></tr>
+      <tr><td class="cod">CUR-014</td><td>🪨</td><td>Stonehenge</td><td>em que país fica</td><td>Reino Unido</td></tr>
+      <tr><td class="cod">CUR-015</td><td>🏛️</td><td>o Partenon</td><td>em que país fica</td><td>Grécia</td></tr>
+      <tr><td class="cod">CUR-016</td><td>🌮</td><td>Chichén Itzá</td><td>em que país fica</td><td>México</td></tr>
+      <tr><td class="cod">CUR-017</td><td>🏰</td><td>o Kremlin</td><td>em que país fica</td><td>Rússia</td></tr>
+      <tr><td class="cod">CUR-018</td><td>🚪</td><td>o Portão de Brandemburgo</td><td>em que país fica</td><td>Alemanha</td></tr>
+      <tr><td class="cod">CUR-019</td><td>🗿</td><td>a Ilha de Páscoa</td><td>em que país fica</td><td>Chile</td></tr>
+      <tr><td class="cod">CUR-020</td><td>🏜️</td><td>o Grand Canyon</td><td>em que país fica</td><td>Estados Unidos</td></tr>
+      <tr><td class="cod">CUR-021</td><td>🏰</td><td>o Castelo de Neuschwanstein</td><td>em que país fica</td><td>Alemanha</td></tr>
+      <tr><td class="cod">CUR-022</td><td>🚢</td><td>o Canal do Panamá</td><td>em que país fica</td><td>Panamá</td></tr>
+      <tr><td class="cod">CUR-023</td><td>🐢</td><td>as Ilhas Galápagos</td><td>em que país fica</td><td>Equador</td></tr>
+      <tr><td class="cod">CUR-024</td><td>🏙️</td><td>o Burj Khalifa</td><td>em que país fica</td><td>Emirados Árabes Unidos</td></tr>
+      <tr><td class="cod">CUR-025</td><td>🗿</td><td>o Monte Rushmore</td><td>em que país fica</td><td>Estados Unidos</td></tr>
+      <tr><td class="cod">CUR-026</td><td>🌉</td><td>a Ponte Golden Gate</td><td>em que país fica</td><td>Estados Unidos</td></tr>
+      <tr><td class="cod">CUR-027</td><td>🌷</td><td>os campos de tulipas</td><td>em que país fica</td><td>Países Baixos</td></tr>
+      <tr><td class="cod">CUR-028</td><td>🌬️</td><td>os moinhos de vento de Kinderdijk</td><td>em que país fica</td><td>Países Baixos</td></tr>
+      <tr><td class="cod">CUR-029</td><td>🐠</td><td>a Grande Barreira de Corais</td><td>em que país fica</td><td>Austrália</td></tr>
+      <tr><td class="cod">CUR-030</td><td>🪨</td><td>o Uluru</td><td>em que país fica</td><td>Austrália</td></tr>
+      <tr><td class="cod">CUR-031</td><td>🏜️</td><td>Petra</td><td>em que país fica</td><td>Jordânia</td></tr>
+      <tr><td class="cod">CUR-032</td><td>🛕</td><td>Angkor Wat</td><td>em que país fica</td><td>Camboja</td></tr>
+      <tr><td class="cod">CUR-033</td><td>🏔️</td><td>os fiordes de Geiranger</td><td>em que país fica</td><td>Noruega</td></tr>
+      <tr><td class="cod">CUR-034</td><td>🏰</td><td>a Alhambra</td><td>em que país fica</td><td>Espanha</td></tr>
+      <tr><td class="cod">CUR-035</td><td>🗼</td><td>a Torre de Belém</td><td>em que país fica</td><td>Portugal</td></tr>
+      <tr><td class="cod">CUR-036</td><td>⛪</td><td>a Basílica de São Pedro</td><td>em que país fica</td><td>Cidade do Vaticano</td></tr>
+      <tr><td class="cod">CUR-037</td><td>🧂</td><td>o Salar de Uyuni</td><td>em que país fica</td><td>Bolívia</td></tr>
+      <tr><td class="cod">CUR-038</td><td>🏔️</td><td>o Monte Kilimanjaro</td><td>em que país fica</td><td>Tanzânia</td></tr>
+      <tr><td class="cod">CUR-039</td><td>🗿</td><td>os Guerreiros de Terracota</td><td>em que país fica</td><td>China</td></tr>
+      <tr><td class="cod">CUR-040</td><td>🏯</td><td>a Cidade Proibida</td><td>em que país fica</td><td>China</td></tr>
+      <tr><td class="cod">CUR-041</td><td>🌋</td><td>o Monte Etna</td><td>em que país fica</td><td>Itália</td></tr>
+      <tr><td class="cod">CUR-042</td><td>🌋</td><td>o Vesúvio</td><td>em que país fica</td><td>Itália</td></tr>
+      <tr><td class="cod">CUR-043</td><td>🏛️</td><td>as ruínas de Pompeia</td><td>em que país fica</td><td>Itália</td></tr>
+      <tr><td class="cod">CUR-044</td><td>🏝️</td><td>Santorini</td><td>em que país fica</td><td>Grécia</td></tr>
+      <tr><td class="cod">CUR-045</td><td>🕌</td><td>a Hagia Sophia</td><td>em que país fica</td><td>Turquia</td></tr>
+      <tr><td class="cod">CUR-046</td><td>🎈</td><td>a Capadócia</td><td>em que país fica</td><td>Turquia</td></tr>
+      <tr><td class="cod">CUR-047</td><td>🧱</td><td>o Muro das Lamentações</td><td>em que país fica</td><td>Israel</td></tr>
+      <tr><td class="cod">CUR-048</td><td>🕋</td><td>a Caaba</td><td>em que país fica</td><td>Arábia Saudita</td></tr>
+      <tr><td class="cod">CUR-049</td><td>🦁</td><td>a Grande Esfinge</td><td>em que país fica</td><td>Egito</td></tr>
+      <tr><td class="cod">CUR-050</td><td>🏛️</td><td>os templos de Abu Simbel</td><td>em que país fica</td><td>Egito</td></tr>
+      <tr><td class="cod">CUR-051</td><td>🦓</td><td>o Parque Serengeti</td><td>em que país fica</td><td>Tanzânia</td></tr>
+      <tr><td class="cod">CUR-052</td><td>🦁</td><td>a reserva Masai Mara</td><td>em que país fica</td><td>Quênia</td></tr>
+      <tr><td class="cod">CUR-053</td><td>⛰️</td><td>a Montanha da Mesa</td><td>em que país fica</td><td>África do Sul</td></tr>
+      <tr><td class="cod">CUR-054</td><td>🏙️</td><td>as Torres Petronas</td><td>em que país fica</td><td>Malásia</td></tr>
+      <tr><td class="cod">CUR-055</td><td>🛕</td><td>o templo de Borobudur</td><td>em que país fica</td><td>Indonésia</td></tr>
+      <tr><td class="cod">CUR-056</td><td>🏝️</td><td>a ilha de Bali</td><td>em que país fica</td><td>Indonésia</td></tr>
+      <tr><td class="cod">CUR-057</td><td>⛵</td><td>a Baía de Ha Long</td><td>em que país fica</td><td>Vietnã</td></tr>
+      <tr><td class="cod">CUR-058</td><td>🏰</td><td>o Palácio de Versalhes</td><td>em que país fica</td><td>França</td></tr>
+      <tr><td class="cod">CUR-059</td><td>🏰</td><td>o Monte Saint-Michel</td><td>em que país fica</td><td>França</td></tr>
+      <tr><td class="cod">CUR-060</td><td>🧜</td><td>a estátua da Pequena Sereia</td><td>em que país fica</td><td>Dinamarca</td></tr>
+      <tr><td class="cod">CUR-061</td><td>♨️</td><td>a Lagoa Azul</td><td>em que país fica</td><td>Islândia</td></tr>
+      <tr><td class="cod">CUR-062</td><td>🦕</td><td>o Lago Ness</td><td>em que país fica</td><td>Reino Unido</td></tr>
+      <tr><td class="cod">CUR-063</td><td>🐊</td><td>o Pantanal</td><td>em que país fica</td><td>Brasil</td></tr>
+      <tr><td class="cod">CUR-064</td><td>🏖️</td><td>os Lençóis Maranhenses</td><td>em que país fica</td><td>Brasil</td></tr>
+      <tr><td class="cod">CUR-065</td><td>🏝️</td><td>Fernando de Noronha</td><td>em que país fica</td><td>Brasil</td></tr>
+      <tr><td class="cod">CUR-066</td><td>🏜️</td><td>o Deserto do Atacama</td><td>em que país fica</td><td>Chile</td></tr>
+      <tr><td class="cod">CUR-067</td><td>⛰️</td><td>o Matterhorn</td><td>em que país fica</td><td>Suíça</td></tr>
+      <tr><td class="cod">CUR-068</td><td>🏰</td><td>o Castelo de Bran</td><td>em que país fica</td><td>Romênia</td></tr>
+      <tr><td class="cod">CUR-069</td><td>💧</td><td>os lagos de Plitvice</td><td>em que país fica</td><td>Croácia</td></tr>
+      <tr><td class="cod">CUR-070</td><td>🏰</td><td>as muralhas de Dubrovnik</td><td>em que país fica</td><td>Croácia</td></tr>
+      <tr><td class="cod">CUR-071</td><td>⛪</td><td>os mosteiros de Meteora</td><td>em que país fica</td><td>Grécia</td></tr>
+      <tr><td class="cod">CUR-072</td><td>🌊</td><td>as Falésias de Moher</td><td>em que país fica</td><td>Irlanda</td></tr>
+      <tr><td class="cod">CUR-073</td><td>🧊</td><td>a geleira Vatnajökull</td><td>em que país fica</td><td>Islândia</td></tr>
+      <tr><td class="cod">CUR-074</td><td>🚂</td><td>a ferrovia Transiberiana</td><td>em que país fica</td><td>Rússia</td></tr>
+      <tr><td class="cod">CUR-075</td><td>⛰️</td><td>as montanhas de Zhangjiajie</td><td>em que país fica</td><td>China</td></tr>
+      <tr><td class="cod">CUR-076</td><td>🏯</td><td>o Palácio de Potala</td><td>em que país fica</td><td>China</td></tr>
+      <tr><td class="cod">CUR-077</td><td>🛕</td><td>o Templo Dourado de Amritsar</td><td>em que país fica</td><td>Índia</td></tr>
+      <tr><td class="cod">CUR-078</td><td>⛰️</td><td>as Colinas de Chocolate</td><td>em que país fica</td><td>Filipinas</td></tr>
+      <tr><td class="cod">CUR-079</td><td>⛰️</td><td>o Monte Kinabalu</td><td>em que país fica</td><td>Malásia</td></tr>
+      <tr><td class="cod">CUR-080</td><td>🕌</td><td>a Grande Mesquita de Djenné</td><td>em que país fica</td><td>Mali</td></tr>
+      <tr><td class="cod">CUR-081</td><td>🌊</td><td>o Cabo da Boa Esperança</td><td>em que país fica</td><td>África do Sul</td></tr>
+      <tr><td class="cod">CUR-082</td><td>⛰️</td><td>o Monte Sinai</td><td>em que país fica</td><td>Egito</td></tr>
+      <tr><td class="cod">CUR-083</td><td>⚱️</td><td>o Vale dos Reis</td><td>em que país fica</td><td>Egito</td></tr>
+      <tr><td class="cod">CUR-084</td><td>🎭</td><td>o Teatro Amazonas</td><td>em que país fica</td><td>Brasil</td></tr>
+      <tr><td class="cod">CUR-085</td><td>🏝️</td><td>o arquipélago da Madeira</td><td>em que país fica</td><td>Portugal</td></tr>
+      <tr><td class="cod">CUR-086</td><td>⛪</td><td>o santuário de Fátima</td><td>em que país fica</td><td>Portugal</td></tr>
+      <tr><td class="cod">CUR-087</td><td>🏝️</td><td>a ilha de Ibiza</td><td>em que país fica</td><td>Espanha</td></tr>
+      <tr><td class="cod">CUR-088</td><td>🌴</td><td>a ilha artificial Palm Jumeirah</td><td>em que país fica</td><td>Emirados Árabes Unidos</td></tr>
+      <tr><td class="cod">CUR-089</td><td>🏞️</td><td>o Lago Baikal</td><td>em que país fica</td><td>Rússia</td></tr>
+      <tr><td class="cod">CUR-090</td><td>🏔️</td><td>a geleira Perito Moreno</td><td>em que país fica</td><td>Argentina</td></tr>
+      <tr><td class="cod">CUR-091</td><td>🌊</td><td>as praias de Bora Bora</td><td>em que país fica</td><td>Polinésia Francesa</td></tr>
+      <tr><td class="cod">CUR-092</td><td>🌋</td><td>o vulcão Tongariro</td><td>em que país fica</td><td>Nova Zelândia</td></tr>
+      <tr><td class="cod">CUR-093</td><td>🏝️</td><td>o arquipélago dos Açores</td><td>em que país fica</td><td>Portugal</td></tr>
+      <tr><td class="cod">CUR-094</td><td>🏛️</td><td>a cidade antiga de Éfeso</td><td>em que país fica</td><td>Turquia</td></tr>
+      <tr><td class="cod">CUR-095</td><td>🏰</td><td>o Castelo de Himeji</td><td>em que país fica</td><td>Japão</td></tr>
+      <tr><td class="cod">CUR-096</td><td>🌉</td><td>a Ponte Øresund</td><td>em que país fica</td><td>Dinamarca</td></tr>
+      <tr><td class="cod">CUR-097</td><td>⛰️</td><td>o Parque Torres del Paine</td><td>em que país fica</td><td>Chile</td></tr>
+      <tr><td class="cod">CUR-098</td><td>🏜️</td><td>o Deserto do Namibe</td><td>em que país fica</td><td>Namíbia</td></tr>
+      <tr><td class="cod">CUR-099</td><td>🦎</td><td>o Parque Nacional de Komodo</td><td>em que país fica</td><td>Indonésia</td></tr>
+      <tr><td class="cod">CUR-100</td><td>🏛️</td><td>as Linhas de Nazca</td><td>em que país fica</td><td>Peru</td></tr>
+      <tr><td class="cod">CUR-101</td><td>🏔️</td><td>o Monte Elbrus</td><td>em que país fica</td><td>Rússia</td></tr>
+      <tr><td class="cod">CUR-102</td><td>🌊</td><td>a Calçada dos Gigantes</td><td>em que país fica</td><td>Reino Unido</td></tr>
+      <tr><td class="cod">CUR-103</td><td>🏛️</td><td>o Grande Zimbábue</td><td>em que país fica</td><td>Zimbábue</td></tr>
+      <tr><td class="cod">CUR-104</td><td>🕌</td><td>a mesquita Sheikh Zayed</td><td>em que país fica</td><td>Emirados Árabes Unidos</td></tr>
+      <tr><td class="cod">CUR-105</td><td>🏝️</td><td>o atol de Aldabra</td><td>em que país fica</td><td>Seicheles</td></tr>
+      <tr><td class="cod">CUR-106</td><td>🧊</td><td>a geleira Franz Josef</td><td>em que país fica</td><td>Nova Zelândia</td></tr>
+      <tr><td class="cod">CUR-107</td><td>🌋</td><td>o vulcão Cotopaxi</td><td>em que país fica</td><td>Equador</td></tr>
+      <tr><td class="cod">CUR-108</td><td>🏛️</td><td>as igrejas de Lalibela</td><td>em que país fica</td><td>Etiópia</td></tr>
+      <tr><td class="cod">CUR-109</td><td>🏰</td><td>o Castelo de Chambord</td><td>em que país fica</td><td>França</td></tr>
+      <tr><td class="cod">CUR-110</td><td>🌳</td><td>o Parque Nacional de Chobe</td><td>em que país fica</td><td>Botsuana</td></tr>
+      <tr><td class="cod">CUR-111</td><td>🏔️</td><td>o Monte Cook</td><td>em que país fica</td><td>Nova Zelândia</td></tr>
+      <tr><td class="cod">CUR-112</td><td>🕌</td><td>o Registão de Samarcanda</td><td>em que país fica</td><td>Uzbequistão</td></tr>
+      <tr><td class="cod">CUR-113</td><td>🏝️</td><td>o arquipélago de Zanzibar</td><td>em que país fica</td><td>Tanzânia</td></tr>
+      <tr><td class="cod">CUR-114</td><td>🏛️</td><td>o Arco do Triunfo</td><td>em que cidade fica</td><td>Paris</td></tr>
+      <tr><td class="cod">CUR-115</td><td>🖼️</td><td>o Museu do Louvre</td><td>em que cidade fica</td><td>Paris</td></tr>
+      <tr><td class="cod">CUR-116</td><td>⛪</td><td>a Catedral de Notre-Dame</td><td>em que cidade fica</td><td>Paris</td></tr>
+      <tr><td class="cod">CUR-117</td><td>⛲</td><td>a Fontana di Trevi</td><td>em que cidade fica</td><td>Roma</td></tr>
+      <tr><td class="cod">CUR-118</td><td>🌳</td><td>o Central Park</td><td>em que cidade fica</td><td>Nova York</td></tr>
+      <tr><td class="cod">CUR-119</td><td>🌆</td><td>a Times Square</td><td>em que cidade fica</td><td>Nova York</td></tr>
+      <tr><td class="cod">CUR-120</td><td>🏛️</td><td>a Casa Branca</td><td>em que cidade fica</td><td>Washington</td></tr>
+      <tr><td class="cod">CUR-121</td><td>🎬</td><td>a colina de Hollywood</td><td>em que cidade fica</td><td>Los Angeles</td></tr>
+      <tr><td class="cod">CUR-122</td><td>🍞</td><td>o Pão de Açúcar</td><td>em que cidade fica</td><td>Rio de Janeiro</td></tr>
+      <tr><td class="cod">CUR-123</td><td>🎡</td><td>o London Eye</td><td>em que cidade fica</td><td>Londres</td></tr>
+      <tr><td class="cod">CUR-124</td><td>🏰</td><td>o Palácio de Buckingham</td><td>em que cidade fica</td><td>Londres</td></tr>
+      <tr><td class="cod">CUR-125</td><td>🎢</td><td>o parque Tivoli</td><td>em que cidade fica</td><td>Copenhague</td></tr>
+      <tr><td class="cod">CUR-126</td><td>⛪</td><td>a Catedral de São Basílio</td><td>em que cidade fica</td><td>Moscou</td></tr>
+      <tr><td class="cod">CUR-127</td><td>🚩</td><td>a Praça Vermelha</td><td>em que cidade fica</td><td>Moscou</td></tr>
+      <tr><td class="cod">CUR-128</td><td>🌉</td><td>a Ponte do Porto de Sydney</td><td>em que cidade fica</td><td>Sydney</td></tr>
+      <tr><td class="cod">CUR-129</td><td>🗼</td><td>a Torre de Tóquio</td><td>em que cidade fica</td><td>Tóquio</td></tr>
+      <tr><td class="cod">CUR-130</td><td>🏙️</td><td>a Avenida Paulista</td><td>em que cidade fica</td><td>São Paulo</td></tr>
+      <tr><td class="cod">CUR-131</td><td>🏛️</td><td>o Congresso Nacional do Brasil</td><td>em que cidade fica</td><td>Brasília</td></tr>
+      <tr><td class="cod">CUR-132</td><td>🎨</td><td>o Parque Güell</td><td>em que cidade fica</td><td>Barcelona</td></tr>
+      <tr><td class="cod">CUR-133</td><td>🖼️</td><td>o Museu do Prado</td><td>em que cidade fica</td><td>Madri</td></tr>
+      <tr><td class="cod">CUR-134</td><td>🏛️</td><td>o Reichstag</td><td>em que cidade fica</td><td>Berlim</td></tr>
+      <tr><td class="cod">CUR-135</td><td>🍺</td><td>a Oktoberfest</td><td>em que cidade fica</td><td>Munique</td></tr>
+      <tr><td class="cod">CUR-136</td><td>🏛️</td><td>o Atomium</td><td>em que cidade fica</td><td>Bruxelas</td></tr>
+      <tr><td class="cod">CUR-137</td><td>📔</td><td>a Casa de Anne Frank</td><td>em que cidade fica</td><td>Amsterdã</td></tr>
+      <tr><td class="cod">CUR-138</td><td>🌉</td><td>a Ponte Carlos</td><td>em que cidade fica</td><td>Praga</td></tr>
+      <tr><td class="cod">CUR-139</td><td>🏰</td><td>o Palácio de Schönbrunn</td><td>em que cidade fica</td><td>Viena</td></tr>
+      <tr><td class="cod">CUR-140</td><td>⛪</td><td>o Duomo de Milão</td><td>em que cidade fica</td><td>Milão</td></tr>
+      <tr><td class="cod">CUR-141</td><td>🌉</td><td>a Ponte Vecchio</td><td>em que cidade fica</td><td>Florença</td></tr>
+      <tr><td class="cod">CUR-142</td><td>🛶</td><td>o Grande Canal</td><td>em que cidade fica</td><td>Veneza</td></tr>
+      <tr><td class="cod">CUR-143</td><td>🏛️</td><td>a Acrópole</td><td>em que cidade fica</td><td>Atenas</td></tr>
+      <tr><td class="cod">CUR-144</td><td>⛪</td><td>o Mosteiro dos Jerónimos</td><td>em que cidade fica</td><td>Lisboa</td></tr>
+      <tr><td class="cod">CUR-145</td><td>🕌</td><td>o Grande Bazar</td><td>em que cidade fica</td><td>Istambul</td></tr>
+      <tr><td class="cod">CUR-146</td><td>🏨</td><td>o hotel Burj Al Arab</td><td>em que cidade fica</td><td>Dubai</td></tr>
+      <tr><td class="cod">CUR-147</td><td>🧱</td><td>o Muro das Lamentações da Cidade Velha</td><td>em que cidade fica</td><td>Jerusalém</td></tr>
+      <tr><td class="cod">CUR-148</td><td>🛕</td><td>o templo Senso-ji</td><td>em que cidade fica</td><td>Tóquio</td></tr>
+      <tr><td class="cod">CUR-149</td><td>🏙️</td><td>o Marina Bay Sands</td><td>em que cidade fica</td><td>Singapura</td></tr>
+      <tr><td class="cod">CUR-150</td><td>🏛️</td><td>o Grande Palácio Real</td><td>em que cidade fica</td><td>Bangcoc</td></tr>
+      <tr><td class="cod">CUR-151</td><td>🗼</td><td>a Torre CN</td><td>em que cidade fica</td><td>Toronto</td></tr>
+      <tr><td class="cod">CUR-152</td><td>🚡</td><td>o bairro do Caminito</td><td>em que cidade fica</td><td>Buenos Aires</td></tr>
+      <tr><td class="cod">CUR-153</td><td>🏛️</td><td>a Casa Rosada</td><td>em que cidade fica</td><td>Buenos Aires</td></tr>
+      <tr><td class="cod">CUR-154</td><td>🛗</td><td>o Elevador Lacerda</td><td>em que cidade fica</td><td>Salvador</td></tr>
+      <tr><td class="cod">CUR-155</td><td>🖼️</td><td>o Museu Hermitage</td><td>em que cidade fica</td><td>São Petersburgo</td></tr>
+      <tr><td class="cod">CUR-156</td><td>🕰️</td><td>o Relógio Astronômico medieval</td><td>em que cidade fica</td><td>Praga</td></tr>
+      <tr><td class="cod">CUR-157</td><td>🏛️</td><td>o Parlamento Húngaro</td><td>em que cidade fica</td><td>Budapeste</td></tr>
+      <tr><td class="cod">CUR-158</td><td>⛩️</td><td>o santuário Fushimi Inari</td><td>em que cidade fica</td><td>Quioto</td></tr>
+      <tr><td class="cod">CUR-159</td><td>🛕</td><td>as Cavernas de Batu</td><td>em que cidade fica</td><td>Kuala Lumpur</td></tr>
+      <tr><td class="cod">CUR-160</td><td>🏺</td><td>o Museu Egípcio</td><td>em que cidade fica</td><td>Cairo</td></tr>
+      <tr><td class="cod">CUR-161</td><td>🕌</td><td>a praça Jemaa el-Fna</td><td>em que cidade fica</td><td>Marrakech</td></tr>
+      <tr><td class="cod">CUR-162</td><td>📚</td><td>a Livraria Lello</td><td>em que cidade fica</td><td>Porto</td></tr>
+      <tr><td class="cod">CUR-163</td><td>🏝️</td><td>a ilha de Robben</td><td>em que cidade fica</td><td>Cidade do Cabo</td></tr>
+      <tr><td class="cod">CUR-164</td><td>🌆</td><td>o calçadão do Bund</td><td>em que cidade fica</td><td>Xangai</td></tr>
+      <tr><td class="cod">CUR-165</td><td>🏙️</td><td>o bairro de Gangnam</td><td>em que cidade fica</td><td>Seul</td></tr>
+      <tr><td class="cod">CUR-166</td><td>🏟️</td><td>a Federation Square</td><td>em que cidade fica</td><td>Melbourne</td></tr>
+      <tr><td class="cod">CUR-167</td><td>🏛️</td><td>a Puerta del Sol</td><td>em que cidade fica</td><td>Madri</td></tr>
+      <tr><td class="cod">CUR-168</td><td>🖼️</td><td>o Museu Rijksmuseum</td><td>em que cidade fica</td><td>Amsterdã</td></tr>
+      <tr><td class="cod">CUR-169</td><td>⛪</td><td>a Basílica de Sagrado Coração</td><td>em que cidade fica</td><td>Paris</td></tr>
+      <tr><td class="cod">CUR-170</td><td>🏰</td><td>o Castelo de Edimburgo</td><td>em que cidade fica</td><td>Edimburgo</td></tr>
+      <tr><td class="cod">CUR-171</td><td>🏛️</td><td>a Piazza San Marco</td><td>em que cidade fica</td><td>Veneza</td></tr>
+      <tr><td class="cod">CUR-172</td><td>🏙️</td><td>o Empire State Building</td><td>em que cidade fica</td><td>Nova York</td></tr>
+      <tr><td class="cod">CUR-173</td><td>🎭</td><td>a Ópera Estatal de Viena</td><td>em que cidade fica</td><td>Viena</td></tr>
+      <tr><td class="cod">CUR-174</td><td>🌊</td><td>a Fossa das Marianas</td><td>que mar ou oceano é</td><td>Oceano Pacífico</td></tr>
+      <tr><td class="cod">CUR-175</td><td>🏝️</td><td>as ilhas do Havaí</td><td>que mar ou oceano é</td><td>Oceano Pacífico</td></tr>
+      <tr><td class="cod">CUR-176</td><td>🏝️</td><td>a ilha de Cuba</td><td>que mar ou oceano é</td><td>Mar do Caribe</td></tr>
+      <tr><td class="cod">CUR-177</td><td>🏝️</td><td>a ilha da Sicília</td><td>que mar ou oceano é</td><td>Mar Mediterrâneo</td></tr>
+      <tr><td class="cod">CUR-178</td><td>🧊</td><td>o Polo Norte</td><td>que mar ou oceano é</td><td>Oceano Ártico</td></tr>
+      <tr><td class="cod">CUR-179</td><td>🏝️</td><td>as Ilhas Maldivas</td><td>que mar ou oceano é</td><td>Oceano Índico</td></tr>
+      <tr><td class="cod">CUR-180</td><td>🚢</td><td>o naufrágio do Titanic</td><td>que mar ou oceano é</td><td>Oceano Atlântico</td></tr>
+      <tr><td class="cod">CUR-181</td><td>🏝️</td><td>as Ilhas Canárias</td><td>que mar ou oceano é</td><td>Oceano Atlântico</td></tr>
+      <tr><td class="cod">CUR-182</td><td>🐠</td><td>o recife da Grande Barreira</td><td>que mar ou oceano é</td><td>Oceano Pacífico</td></tr>
+      <tr><td class="cod">CUR-183</td><td>🏝️</td><td>a ilha da Jamaica</td><td>que mar ou oceano é</td><td>Mar do Caribe</td></tr>
+      <tr><td class="cod">CUR-184</td><td>🏝️</td><td>a ilha de Creta</td><td>que mar ou oceano é</td><td>Mar Mediterrâneo</td></tr>
+      <tr><td class="cod">CUR-185</td><td>🏝️</td><td>a ilha de Madagáscar</td><td>que mar ou oceano é</td><td>Oceano Índico</td></tr>
+      <tr><td class="cod">CUR-186</td><td>🏝️</td><td>o arquipélago das Bahamas</td><td>que mar ou oceano é</td><td>Oceano Atlântico</td></tr>
+      <tr><td class="cod">CUR-187</td><td>🇮🇸</td><td>a ilha da Islândia</td><td>que mar ou oceano é</td><td>Oceano Atlântico</td></tr>
+      <tr><td class="cod">CUR-188</td><td>🐢</td><td>o arquipélago de Galápagos</td><td>que mar ou oceano é</td><td>Oceano Pacífico</td></tr>
+      <tr><td class="cod">CUR-189</td><td>🏖️</td><td>a ilha de Malta</td><td>que mar ou oceano é</td><td>Mar Mediterrâneo</td></tr>
+      <tr><td class="cod">CUR-190</td><td>🏝️</td><td>as ilhas Seychelles</td><td>que mar ou oceano é</td><td>Oceano Índico</td></tr>
+      <tr><td class="cod">CUR-191</td><td>🏝️</td><td>a ilha do Sri Lanka</td><td>que mar ou oceano é</td><td>Oceano Índico</td></tr>
+      <tr><td class="cod">CUR-192</td><td>🗿</td><td>a Ilha de Páscoa no mapa</td><td>que mar ou oceano é</td><td>Oceano Pacífico</td></tr>
+      <tr><td class="cod">CUR-193</td><td>🏝️</td><td>as ilhas Fiji</td><td>que mar ou oceano é</td><td>Oceano Pacífico</td></tr>
+      <tr><td class="cod">CUR-194</td><td>🏝️</td><td>a ilha de Chipre</td><td>que mar ou oceano é</td><td>Mar Mediterrâneo</td></tr>
+      <tr><td class="cod">CUR-195</td><td>🏝️</td><td>a ilha de Barbados</td><td>que mar ou oceano é</td><td>Mar do Caribe</td></tr>
+      <tr><td class="cod">CUR-196</td><td>⛵</td><td>a cidade de Veneza</td><td>que mar ou oceano é</td><td>Mar Adriático</td></tr>
+      <tr><td class="cod">CUR-197</td><td>🏝️</td><td>a ilha de Santorini no mapa</td><td>que mar ou oceano é</td><td>Mar Egeu</td></tr>
+      <tr><td class="cod">CUR-198</td><td>🚢</td><td>a saída sul do Canal de Suez</td><td>que mar ou oceano é</td><td>Mar Vermelho</td></tr>
+      <tr><td class="cod">CUR-199</td><td>🏖️</td><td>o litoral da cidade de Odessa</td><td>que mar ou oceano é</td><td>Mar Negro</td></tr>
+      <tr><td class="cod">CUR-200</td><td>🏝️</td><td>a ilha sueca de Gotland</td><td>que mar ou oceano é</td><td>Mar Báltico</td></tr>
+      <tr><td class="cod">CUR-201</td><td>🛢️</td><td>as plataformas de petróleo da Noruega</td><td>que mar ou oceano é</td><td>Mar do Norte</td></tr>
+      <tr><td class="cod">CUR-202</td><td>🏝️</td><td>a ilha de Zanzibar no mapa</td><td>que mar ou oceano é</td><td>Oceano Índico</td></tr>
+      <tr><td class="cod">CUR-203</td><td>🏝️</td><td>a ilha da Sardenha</td><td>que mar ou oceano é</td><td>Mar Mediterrâneo</td></tr>
+      <tr><td class="cod">CUR-204</td><td>🏜️</td><td>o Deserto do Saara</td><td>em que continente fica</td><td>África</td></tr>
+      <tr><td class="cod">CUR-205</td><td>🏔️</td><td>o Monte Everest</td><td>em que continente fica</td><td>Ásia</td></tr>
+      <tr><td class="cod">CUR-206</td><td>🌳</td><td>a Floresta Amazônica</td><td>em que continente fica</td><td>América do Sul</td></tr>
+      <tr><td class="cod">CUR-207</td><td>🏞️</td><td>o Rio Nilo</td><td>em que continente fica</td><td>África</td></tr>
+      <tr><td class="cod">CUR-208</td><td>⛰️</td><td>a Cordilheira dos Andes</td><td>em que continente fica</td><td>América do Sul</td></tr>
+      <tr><td class="cod">CUR-209</td><td>🏔️</td><td>os Alpes</td><td>em que continente fica</td><td>Europa</td></tr>
+      <tr><td class="cod">CUR-210</td><td>💦</td><td>as Cataratas do Niágara</td><td>em que continente fica</td><td>América do Norte</td></tr>
+      <tr><td class="cod">CUR-211</td><td>🪨</td><td>o rochedo Uluru</td><td>em que continente fica</td><td>Oceania</td></tr>
+      <tr><td class="cod">CUR-212</td><td>🏔️</td><td>a cordilheira do Himalaia</td><td>em que continente fica</td><td>Ásia</td></tr>
+      <tr><td class="cod">CUR-213</td><td>⛰️</td><td>as Montanhas Rochosas</td><td>em que continente fica</td><td>América do Norte</td></tr>
+      <tr><td class="cod">CUR-214</td><td>💦</td><td>as Cataratas Vitória</td><td>em que continente fica</td><td>África</td></tr>
+      <tr><td class="cod">CUR-215</td><td>💦</td><td>as Cataratas do Iguaçu</td><td>em que continente fica</td><td>América do Sul</td></tr>
+      <tr><td class="cod">CUR-216</td><td>🏜️</td><td>o Deserto de Gobi</td><td>em que continente fica</td><td>Ásia</td></tr>
+      <tr><td class="cod">CUR-217</td><td>🌊</td><td>os Grandes Lagos</td><td>em que continente fica</td><td>América do Norte</td></tr>
+      <tr><td class="cod">CUR-218</td><td>🐨</td><td>a Papua-Nova Guiné</td><td>em que continente fica</td><td>Oceania</td></tr>
+      <tr><td class="cod">CUR-219</td><td>🏞️</td><td>o Lago Titicaca</td><td>em que continente fica</td><td>América do Sul</td></tr>
+      <tr><td class="cod">CUR-220</td><td>🏜️</td><td>o Deserto do Kalahari</td><td>em que continente fica</td><td>África</td></tr>
+      <tr><td class="cod">CUR-221</td><td>🌲</td><td>a Sibéria</td><td>em que continente fica</td><td>Ásia</td></tr>
+      <tr><td class="cod">CUR-222</td><td>🏔️</td><td>os fiordes noruegueses</td><td>em que continente fica</td><td>Europa</td></tr>
+      <tr><td class="cod">CUR-223</td><td>🏝️</td><td>a Península Ibérica</td><td>em que continente fica</td><td>Europa</td></tr>
+      <tr><td class="cod">CUR-224</td><td>🌴</td><td>a Península da Flórida</td><td>em que continente fica</td><td>América do Norte</td></tr>
+      <tr><td class="cod">CUR-225</td><td>🏝️</td><td>o arquipélago de Fiji</td><td>em que continente fica</td><td>Oceania</td></tr>
+      <tr><td class="cod">CUR-226</td><td>🏞️</td><td>o Vale do Rift</td><td>em que continente fica</td><td>África</td></tr>
+      <tr><td class="cod">CUR-227</td><td>🐊</td><td>o Pantanal Mato-Grossense</td><td>em que continente fica</td><td>América do Sul</td></tr>
+      <tr><td class="cod">CUR-228</td><td>🧊</td><td>a ilha da Groenlândia</td><td>em que continente fica</td><td>América do Norte</td></tr>
+      <tr><td class="cod">CUR-229</td><td>🏔️</td><td>a Cordilheira dos Urais</td><td>em que continente fica</td><td>Europa</td></tr>
+      <tr><td class="cod">CUR-230</td><td>🏜️</td><td>o Deserto de Victoria</td><td>em que continente fica</td><td>Oceania</td></tr>
+      <tr><td class="cod">CUR-231</td><td>🏞️</td><td>o Rio Mekong</td><td>em que continente fica</td><td>Ásia</td></tr>
+      <tr><td class="cod">CUR-232</td><td>🌋</td><td>o Monte Erebus</td><td>em que continente fica</td><td>Oceania</td></tr>
+      <tr><td class="cod">CUR-233</td><td>🏞️</td><td>o Rio Orinoco</td><td>em que continente fica</td><td>América do Sul</td></tr>
+      <tr><td class="cod">CUR-234</td><td>🏜️</td><td>o Deserto da Núbia</td><td>em que continente fica</td><td>África</td></tr>
+      <tr><td class="cod">CUR-235</td><td>🏔️</td><td>os Montes Cárpatos</td><td>em que continente fica</td><td>Europa</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="estados">
+  <h2>Os 27 estados <span class="conta">27 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a pergunta “em que região fica tal estado?”, e o seletor de onde a criança mora.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Estado</th><th>Sigla</th><th>Região</th><th>Degrau</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">EST-001</td><td>São Paulo</td><td>SP</td><td>Sudeste</td><td>1</td></tr>
+      <tr><td class="cod">EST-002</td><td>Rio de Janeiro</td><td>RJ</td><td>Sudeste</td><td>1</td></tr>
+      <tr><td class="cod">EST-003</td><td>Minas Gerais</td><td>MG</td><td>Sudeste</td><td>1</td></tr>
+      <tr><td class="cod">EST-004</td><td>Bahia</td><td>BA</td><td>Nordeste</td><td>1</td></tr>
+      <tr><td class="cod">EST-005</td><td>Amazonas</td><td>AM</td><td>Norte</td><td>1</td></tr>
+      <tr><td class="cod">EST-006</td><td>Santa Catarina</td><td>SC</td><td>Sul</td><td>1</td></tr>
+      <tr><td class="cod">EST-007</td><td>Rio Grande do Sul</td><td>RS</td><td>Sul</td><td>1</td></tr>
+      <tr><td class="cod">EST-008</td><td>Paraná</td><td>PR</td><td>Sul</td><td>1</td></tr>
+      <tr><td class="cod">EST-009</td><td>Ceará</td><td>CE</td><td>Nordeste</td><td>2</td></tr>
+      <tr><td class="cod">EST-010</td><td>Pernambuco</td><td>PE</td><td>Nordeste</td><td>2</td></tr>
+      <tr><td class="cod">EST-011</td><td>Goiás</td><td>GO</td><td>Centro-Oeste</td><td>2</td></tr>
+      <tr><td class="cod">EST-012</td><td>Pará</td><td>PA</td><td>Norte</td><td>2</td></tr>
+      <tr><td class="cod">EST-013</td><td>Espírito Santo</td><td>ES</td><td>Sudeste</td><td>2</td></tr>
+      <tr><td class="cod">EST-014</td><td>Mato Grosso</td><td>MT</td><td>Centro-Oeste</td><td>2</td></tr>
+      <tr><td class="cod">EST-015</td><td>Distrito Federal</td><td>DF</td><td>Centro-Oeste</td><td>2</td></tr>
+      <tr><td class="cod">EST-016</td><td>Maranhão</td><td>MA</td><td>Nordeste</td><td>3</td></tr>
+      <tr><td class="cod">EST-017</td><td>Paraíba</td><td>PB</td><td>Nordeste</td><td>3</td></tr>
+      <tr><td class="cod">EST-018</td><td>Rio Grande do Norte</td><td>RN</td><td>Nordeste</td><td>3</td></tr>
+      <tr><td class="cod">EST-019</td><td>Alagoas</td><td>AL</td><td>Nordeste</td><td>3</td></tr>
+      <tr><td class="cod">EST-020</td><td>Mato Grosso do Sul</td><td>MS</td><td>Centro-Oeste</td><td>3</td></tr>
+      <tr><td class="cod">EST-021</td><td>Piauí</td><td>PI</td><td>Nordeste</td><td>3</td></tr>
+      <tr><td class="cod">EST-022</td><td>Sergipe</td><td>SE</td><td>Nordeste</td><td>4</td></tr>
+      <tr><td class="cod">EST-023</td><td>Acre</td><td>AC</td><td>Norte</td><td>4</td></tr>
+      <tr><td class="cod">EST-024</td><td>Rondônia</td><td>RO</td><td>Norte</td><td>4</td></tr>
+      <tr><td class="cod">EST-025</td><td>Roraima</td><td>RR</td><td>Norte</td><td>4</td></tr>
+      <tr><td class="cod">EST-026</td><td>Amapá</td><td>AP</td><td>Norte</td><td>4</td></tr>
+      <tr><td class="cod">EST-027</td><td>Tocantins</td><td>TO</td><td>Norte</td><td>4</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="brasil">
+  <h2>Fatos do Brasil <span class="conta">25 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a própria pergunta, com as quatro alternativas e a explicação de quando erra.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Tema</th><th>Figura</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>A explicação</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">BRA-001</td><td>simbolos</td><td>🏛️</td><td>Qual é a capital do Brasil?</td><td>Brasília</td><td>São Paulo · Rio de Janeiro · Salvador</td><td>Brasília é a capital desde 1960. Antes dela foi o Rio de Janeiro.</td></tr>
+      <tr><td class="cod">BRA-002</td><td>simbolos</td><td>🇧🇷</td><td>De que cor é o losango da bandeira do Brasil?</td><td>Amarelo</td><td>Azul · Branco · Verde</td><td>A bandeira tem o fundo verde, o losango amarelo e o círculo azul.</td></tr>
+      <tr><td class="cod">BRA-003</td><td>simbolos</td><td>🇧🇷</td><td>O que está escrito na faixa da bandeira?</td><td>Ordem e Progresso</td><td>Paz e Amor · Brasil Unido · Terra à Vista</td><td>A faixa branca traz a frase Ordem e Progresso.</td></tr>
+      <tr><td class="cod">BRA-004</td><td>simbolos</td><td>🎵</td><td>Como se chama a música oficial do país?</td><td>Hino Nacional</td><td>Canção do Brasil · Marcha do Povo · Samba da Bandeira</td><td>O Hino Nacional é um dos quatro símbolos oficiais, com a bandeira, as armas e o selo.</td></tr>
+      <tr><td class="cod">BRA-005</td><td>simbolos</td><td>🌐</td><td>O que o círculo azul da bandeira representa?</td><td>O céu com estrelas</td><td>O mar do litoral · Um lago grande · A chuva</td><td>O círculo azul é o céu do Rio de Janeiro com as estrelas, e cada estrela é um estado.</td></tr>
+      <tr><td class="cod">BRA-006</td><td>simbolos</td><td>🗣️</td><td>Qual é a língua oficial do Brasil?</td><td>Português</td><td>Espanhol · Inglês · Tupi</td><td>O Brasil é o único país da América com o português como língua oficial.</td></tr>
+      <tr><td class="cod">BRA-007</td><td>mapa</td><td>🗺️</td><td>Quantas regiões tem o Brasil?</td><td>5</td><td>3 · 7 · 27</td><td>São cinco: Norte, Nordeste, Centro-Oeste, Sudeste e Sul.</td></tr>
+      <tr><td class="cod">BRA-008</td><td>mapa</td><td>🗺️</td><td>Quantos estados tem o Brasil?</td><td>26 e mais o Distrito Federal</td><td>20 · 30 · 15</td><td>São 26 estados mais o Distrito Federal, onde fica Brasília.</td></tr>
+      <tr><td class="cod">BRA-009</td><td>mapa</td><td>🌎</td><td>Em que continente fica o Brasil?</td><td>América do Sul</td><td>África · Europa · América do Norte</td><td>O Brasil é o maior país da América do Sul.</td></tr>
+      <tr><td class="cod">BRA-010</td><td>mapa</td><td>🌊</td><td>Que oceano banha o litoral brasileiro?</td><td>Atlântico</td><td>Pacífico · Índico · Ártico</td><td>Todo o litoral do Brasil é banhado pelo oceano Atlântico.</td></tr>
+      <tr><td class="cod">BRA-011</td><td>mapa</td><td>🏞️</td><td>Qual é o maior rio do Brasil?</td><td>Amazonas</td><td>São Francisco · Tietê · Paraná</td><td>O rio Amazonas é o maior do Brasil e o de maior volume de água do mundo.</td></tr>
+      <tr><td class="cod">BRA-012</td><td>mapa</td><td>🧭</td><td>Qual região do Brasil é a maior em tamanho?</td><td>Norte</td><td>Sudeste · Sul · Centro-Oeste</td><td>A região Norte é a maior em área, e é onde fica a maior parte da Amazônia.</td></tr>
+      <tr><td class="cod">BRA-013</td><td>mapa</td><td>👨‍👩‍👧</td><td>Qual região tem mais gente morando?</td><td>Sudeste</td><td>Norte · Centro-Oeste · Sul</td><td>O Sudeste é a região mais populosa, com São Paulo, Rio de Janeiro, Minas e Espírito Santo.</td></tr>
+      <tr><td class="cod">BRA-014</td><td>biomas</td><td>🌳</td><td>Qual é a maior floresta do Brasil?</td><td>Amazônia</td><td>Cerrado · Caatinga · Pantanal</td><td>A Amazônia é a maior floresta tropical do mundo, e a maior parte dela fica no Brasil.</td></tr>
+      <tr><td class="cod">BRA-015</td><td>biomas</td><td>🌵</td><td>Que bioma é seco, com plantas espinhosas, e fica no Nordeste?</td><td>Caatinga</td><td>Pantanal · Amazônia · Pampa</td><td>A Caatinga é o único bioma que só existe no Brasil. Suas plantas guardam água no caule.</td></tr>
+      <tr><td class="cod">BRA-016</td><td>biomas</td><td>🐊</td><td>Qual é a maior planície alagada do mundo, no Centro-Oeste?</td><td>Pantanal</td><td>Cerrado · Caatinga · Mata Atlântica</td><td>O Pantanal alaga na época da chuva e é onde vive a maior variedade de bichos do país.</td></tr>
+      <tr><td class="cod">BRA-017</td><td>biomas</td><td>🌾</td><td>Que bioma tem árvores baixas e tortas, e é chamado de savana brasileira?</td><td>Cerrado</td><td>Pampa · Amazônia · Caatinga</td><td>O Cerrado fica no meio do país e é onde nascem muitos dos grandes rios brasileiros.</td></tr>
+      <tr><td class="cod">BRA-018</td><td>biomas</td><td>🌿</td><td>Que floresta acompanha o litoral e quase desapareceu?</td><td>Mata Atlântica</td><td>Amazônia · Cerrado · Pampa</td><td>A Mata Atlântica cobria todo o litoral e hoje resta uma parte pequena dela.</td></tr>
+      <tr><td class="cod">BRA-019</td><td>biomas</td><td>🐎</td><td>Que bioma de campos abertos fica no extremo Sul?</td><td>Pampa</td><td>Caatinga · Cerrado · Pantanal</td><td>O Pampa é de campo aberto, no Rio Grande do Sul, e é onde se cria gado a cavalo.</td></tr>
+      <tr><td class="cod">BRA-020</td><td>geral</td><td>⚽</td><td>Quantas Copas do Mundo o Brasil já ganhou?</td><td>5</td><td>3 · 7 · 2</td><td>O Brasil é o único país com cinco títulos: 1958, 1962, 1970, 1994 e 2002.</td></tr>
+      <tr><td class="cod">BRA-021</td><td>geral</td><td>🎭</td><td>Qual é a maior festa popular do Brasil?</td><td>Carnaval</td><td>Festa Junina · Réveillon · Folia de Reis</td><td>O Carnaval acontece em todo o país, com formatos diferentes em cada região.</td></tr>
+      <tr><td class="cod">BRA-022</td><td>geral</td><td>🌽</td><td>Que festa acontece em junho, com quadrilha e fogueira?</td><td>Festa Junina</td><td>Carnaval · Natal · Páscoa</td><td>A Festa Junina é forte no Nordeste, com milho, quadrilha e fogueira.</td></tr>
+      <tr><td class="cod">BRA-023</td><td>geral</td><td>🥁</td><td>De qual estado é o frevo e o maracatu?</td><td>Pernambuco</td><td>São Paulo · Amazonas · Paraná</td><td>O frevo e o maracatu são de Pernambuco, e o frevo é dançado com sombrinha.</td></tr>
+      <tr><td class="cod">BRA-024</td><td>geral</td><td>🧉</td><td>Em que região se toma chimarrão?</td><td>Sul</td><td>Norte · Nordeste · Sudeste</td><td>O chimarrão é do Sul, principalmente do Rio Grande do Sul.</td></tr>
+      <tr><td class="cod">BRA-025</td><td>geral</td><td>🍲</td><td>De onde vem o acarajé?</td><td>Bahia</td><td>Minas Gerais · Santa Catarina · Goiás</td><td>O acarajé é baiano, feito de feijão-fradinho frito no azeite de dendê.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="capitais">
+  <h2>Capitais dos países <span class="conta">154 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a pergunta “qual é a capital de tal país?”, e o mapa das capitais.</p>
+  <p class="nota">O <strong>nome do país</strong> não está guardado no app: vem do próprio sistema do aparelho, e por isso o jogo fala uns cem idiomas de graça. Só a capital tem grafia nossa. Capitais que mudaram de nome ou de cidade valem um olhar.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Continente</th><th>País</th><th>Capital</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CAP-001</td><td>América do Sul</td><td>Argentina</td><td>Buenos Aires</td></tr>
+      <tr><td class="cod">CAP-002</td><td>América do Sul</td><td>Brasil</td><td>Brasília</td></tr>
+      <tr><td class="cod">CAP-003</td><td>América do Sul</td><td>Chile</td><td>Santiago</td></tr>
+      <tr><td class="cod">CAP-004</td><td>América do Sul</td><td>Uruguai</td><td>Montevidéu</td></tr>
+      <tr><td class="cod">CAP-005</td><td>América do Sul</td><td>Paraguai</td><td>Assunção</td></tr>
+      <tr><td class="cod">CAP-006</td><td>América do Sul</td><td>Bolívia</td><td>Sucre</td></tr>
+      <tr><td class="cod">CAP-007</td><td>América do Sul</td><td>Peru</td><td>Lima</td></tr>
+      <tr><td class="cod">CAP-008</td><td>América do Sul</td><td>Equador</td><td>Quito</td></tr>
+      <tr><td class="cod">CAP-009</td><td>América do Sul</td><td>Colômbia</td><td>Bogotá</td></tr>
+      <tr><td class="cod">CAP-010</td><td>América do Sul</td><td>Venezuela</td><td>Caracas</td></tr>
+      <tr><td class="cod">CAP-011</td><td>América do Sul</td><td>Guiana</td><td>Georgetown</td></tr>
+      <tr><td class="cod">CAP-012</td><td>América do Sul</td><td>Suriname</td><td>Paramaribo</td></tr>
+      <tr><td class="cod">CAP-013</td><td>América do Norte</td><td>Estados Unidos</td><td>Washington</td></tr>
+      <tr><td class="cod">CAP-014</td><td>América do Norte</td><td>Canadá</td><td>Ottawa</td></tr>
+      <tr><td class="cod">CAP-015</td><td>América do Norte</td><td>México</td><td>Cidade do México</td></tr>
+      <tr><td class="cod">CAP-016</td><td>América do Norte</td><td>Cuba</td><td>Havana</td></tr>
+      <tr><td class="cod">CAP-017</td><td>América do Norte</td><td>Jamaica</td><td>Kingston</td></tr>
+      <tr><td class="cod">CAP-018</td><td>América do Norte</td><td>Haiti</td><td>Porto Príncipe</td></tr>
+      <tr><td class="cod">CAP-019</td><td>América do Norte</td><td>República Dominicana</td><td>Santo Domingo</td></tr>
+      <tr><td class="cod">CAP-020</td><td>América do Norte</td><td>Guatemala</td><td>Cidade da Guatemala</td></tr>
+      <tr><td class="cod">CAP-021</td><td>América do Norte</td><td>Costa Rica</td><td>San José</td></tr>
+      <tr><td class="cod">CAP-022</td><td>América do Norte</td><td>Panamá</td><td>Cidade do Panamá</td></tr>
+      <tr><td class="cod">CAP-023</td><td>América do Norte</td><td>Honduras</td><td>Tegucigalpa</td></tr>
+      <tr><td class="cod">CAP-024</td><td>América do Norte</td><td>Nicarágua</td><td>Managua</td></tr>
+      <tr><td class="cod">CAP-025</td><td>América do Norte</td><td>El Salvador</td><td>San Salvador</td></tr>
+      <tr><td class="cod">CAP-026</td><td>América do Norte</td><td>Belize</td><td>Belmopan</td></tr>
+      <tr><td class="cod">CAP-027</td><td>América do Norte</td><td>Bahamas</td><td>Nassau</td></tr>
+      <tr><td class="cod">CAP-028</td><td>América do Norte</td><td>Trinidad e Tobago</td><td>Porto de Espanha</td></tr>
+      <tr><td class="cod">CAP-029</td><td>América do Norte</td><td>Antígua e Barbuda</td><td>Saint John's</td></tr>
+      <tr><td class="cod">CAP-030</td><td>América do Norte</td><td>Barbados</td><td>Bridgetown</td></tr>
+      <tr><td class="cod">CAP-031</td><td>América do Norte</td><td>Dominica</td><td>Roseau</td></tr>
+      <tr><td class="cod">CAP-032</td><td>América do Norte</td><td>Granada</td><td>Saint George's</td></tr>
+      <tr><td class="cod">CAP-033</td><td>América do Norte</td><td>São Cristóvão e Névis</td><td>Basseterre</td></tr>
+      <tr><td class="cod">CAP-034</td><td>América do Norte</td><td>Santa Lúcia</td><td>Castries</td></tr>
+      <tr><td class="cod">CAP-035</td><td>América do Norte</td><td>São Vicente e Granadinas</td><td>Kingstown</td></tr>
+      <tr><td class="cod">CAP-036</td><td>América do Norte</td><td>Porto Rico</td><td>San Juan</td></tr>
+      <tr><td class="cod">CAP-037</td><td>Europa</td><td>Portugal</td><td>Lisboa</td></tr>
+      <tr><td class="cod">CAP-038</td><td>Europa</td><td>Espanha</td><td>Madrid</td></tr>
+      <tr><td class="cod">CAP-039</td><td>Europa</td><td>França</td><td>Paris</td></tr>
+      <tr><td class="cod">CAP-040</td><td>Europa</td><td>Itália</td><td>Roma</td></tr>
+      <tr><td class="cod">CAP-041</td><td>Europa</td><td>Alemanha</td><td>Berlin</td></tr>
+      <tr><td class="cod">CAP-042</td><td>Europa</td><td>Reino Unido</td><td>Londres</td></tr>
+      <tr><td class="cod">CAP-043</td><td>Europa</td><td>Irlanda</td><td>Dublin</td></tr>
+      <tr><td class="cod">CAP-044</td><td>Europa</td><td>Países Baixos</td><td>Amsterdam</td></tr>
+      <tr><td class="cod">CAP-045</td><td>Europa</td><td>Bélgica</td><td>Bruxelas</td></tr>
+      <tr><td class="cod">CAP-046</td><td>Europa</td><td>Suíça</td><td>Berna</td></tr>
+      <tr><td class="cod">CAP-047</td><td>Europa</td><td>Áustria</td><td>Viena</td></tr>
+      <tr><td class="cod">CAP-048</td><td>Europa</td><td>Grécia</td><td>Atenas</td></tr>
+      <tr><td class="cod">CAP-049</td><td>Europa</td><td>Suécia</td><td>Estocolmo</td></tr>
+      <tr><td class="cod">CAP-050</td><td>Europa</td><td>Noruega</td><td>Oslo</td></tr>
+      <tr><td class="cod">CAP-051</td><td>Europa</td><td>Finlândia</td><td>Helsinki</td></tr>
+      <tr><td class="cod">CAP-052</td><td>Europa</td><td>Dinamarca</td><td>Copenhague</td></tr>
+      <tr><td class="cod">CAP-053</td><td>Europa</td><td>Polônia</td><td>Varsóvia</td></tr>
+      <tr><td class="cod">CAP-054</td><td>Europa</td><td>Rússia</td><td>Moscou</td></tr>
+      <tr><td class="cod">CAP-055</td><td>Europa</td><td>Ucrânia</td><td>Kiev</td></tr>
+      <tr><td class="cod">CAP-056</td><td>Europa</td><td>Hungria</td><td>Budapest</td></tr>
+      <tr><td class="cod">CAP-057</td><td>Europa</td><td>Tchéquia</td><td>Praga</td></tr>
+      <tr><td class="cod">CAP-058</td><td>Europa</td><td>Romênia</td><td>Bucareste</td></tr>
+      <tr><td class="cod">CAP-059</td><td>Europa</td><td>Croácia</td><td>Zagreb</td></tr>
+      <tr><td class="cod">CAP-060</td><td>Europa</td><td>Islândia</td><td>Reiquiavique</td></tr>
+      <tr><td class="cod">CAP-061</td><td>Europa</td><td>Sérvia</td><td>Belgrado</td></tr>
+      <tr><td class="cod">CAP-062</td><td>Europa</td><td>Bulgária</td><td>Sofia</td></tr>
+      <tr><td class="cod">CAP-063</td><td>Europa</td><td>Eslováquia</td><td>Bratislava</td></tr>
+      <tr><td class="cod">CAP-064</td><td>Europa</td><td>Eslovênia</td><td>Ljubljana</td></tr>
+      <tr><td class="cod">CAP-065</td><td>Europa</td><td>Lituânia</td><td>Vilnius</td></tr>
+      <tr><td class="cod">CAP-066</td><td>Europa</td><td>Letônia</td><td>Riga</td></tr>
+      <tr><td class="cod">CAP-067</td><td>Europa</td><td>Estônia</td><td>Tallinn</td></tr>
+      <tr><td class="cod">CAP-068</td><td>Europa</td><td>Albânia</td><td>Tirana</td></tr>
+      <tr><td class="cod">CAP-069</td><td>Europa</td><td>Malta</td><td>Valletta</td></tr>
+      <tr><td class="cod">CAP-070</td><td>Europa</td><td>Luxemburgo</td><td>Luxemburgo</td></tr>
+      <tr><td class="cod">CAP-071</td><td>Europa</td><td>Chipre</td><td>Nicósia</td></tr>
+      <tr><td class="cod">CAP-072</td><td>Europa</td><td>Montenegro</td><td>Podgorica</td></tr>
+      <tr><td class="cod">CAP-073</td><td>Europa</td><td>Mônaco</td><td>Mônaco</td></tr>
+      <tr><td class="cod">CAP-074</td><td>Europa</td><td>Andorra</td><td>Andorra-a-Velha</td></tr>
+      <tr><td class="cod">CAP-075</td><td>Europa</td><td>San Marino</td><td>San Marino</td></tr>
+      <tr><td class="cod">CAP-076</td><td>África</td><td>África do Sul</td><td>Pretoria</td></tr>
+      <tr><td class="cod">CAP-077</td><td>África</td><td>Egito</td><td>Cairo</td></tr>
+      <tr><td class="cod">CAP-078</td><td>África</td><td>Nigéria</td><td>Abuja</td></tr>
+      <tr><td class="cod">CAP-079</td><td>África</td><td>Quênia</td><td>Nairobi</td></tr>
+      <tr><td class="cod">CAP-080</td><td>África</td><td>Marrocos</td><td>Rabat</td></tr>
+      <tr><td class="cod">CAP-081</td><td>África</td><td>Angola</td><td>Luanda</td></tr>
+      <tr><td class="cod">CAP-082</td><td>África</td><td>Moçambique</td><td>Maputo</td></tr>
+      <tr><td class="cod">CAP-083</td><td>África</td><td>Gana</td><td>Accra</td></tr>
+      <tr><td class="cod">CAP-084</td><td>África</td><td>Etiópia</td><td>Adis Abeba</td></tr>
+      <tr><td class="cod">CAP-085</td><td>África</td><td>Senegal</td><td>Dakar</td></tr>
+      <tr><td class="cod">CAP-086</td><td>África</td><td>Camarões</td><td>Yaoundé</td></tr>
+      <tr><td class="cod">CAP-087</td><td>África</td><td>Tanzânia</td><td>Dodoma</td></tr>
+      <tr><td class="cod">CAP-088</td><td>África</td><td>Argélia</td><td>Argel</td></tr>
+      <tr><td class="cod">CAP-089</td><td>África</td><td>Tunísia</td><td>Tunis</td></tr>
+      <tr><td class="cod">CAP-090</td><td>África</td><td>Congo - Kinshasa</td><td>Kinshasa</td></tr>
+      <tr><td class="cod">CAP-091</td><td>África</td><td>Costa do Marfim</td><td>Yamoussoukro</td></tr>
+      <tr><td class="cod">CAP-092</td><td>África</td><td>Zimbábue</td><td>Harare</td></tr>
+      <tr><td class="cod">CAP-093</td><td>África</td><td>Namíbia</td><td>Windhoek</td></tr>
+      <tr><td class="cod">CAP-094</td><td>África</td><td>Uganda</td><td>Kampala</td></tr>
+      <tr><td class="cod">CAP-095</td><td>África</td><td>Zâmbia</td><td>Lusaka</td></tr>
+      <tr><td class="cod">CAP-096</td><td>África</td><td>Mali</td><td>Bamako</td></tr>
+      <tr><td class="cod">CAP-097</td><td>África</td><td>Madagascar</td><td>Antananarivo</td></tr>
+      <tr><td class="cod">CAP-098</td><td>África</td><td>Botsuana</td><td>Gaborone</td></tr>
+      <tr><td class="cod">CAP-099</td><td>África</td><td>Ruanda</td><td>Kigali</td></tr>
+      <tr><td class="cod">CAP-100</td><td>África</td><td>Cabo Verde</td><td>Praia</td></tr>
+      <tr><td class="cod">CAP-101</td><td>África</td><td>Maurício</td><td>Port Louis</td></tr>
+      <tr><td class="cod">CAP-102</td><td>África</td><td>Seicheles</td><td>Victoria</td></tr>
+      <tr><td class="cod">CAP-103</td><td>África</td><td>Comores</td><td>Moroni</td></tr>
+      <tr><td class="cod">CAP-104</td><td>África</td><td>São Tomé e Príncipe</td><td>São Tomé</td></tr>
+      <tr><td class="cod">CAP-105</td><td>Ásia</td><td>China</td><td>Pequim</td></tr>
+      <tr><td class="cod">CAP-106</td><td>Ásia</td><td>Japão</td><td>Tóquio</td></tr>
+      <tr><td class="cod">CAP-107</td><td>Ásia</td><td>Índia</td><td>Nova Délhi</td></tr>
+      <tr><td class="cod">CAP-108</td><td>Ásia</td><td>Coreia do Sul</td><td>Seul</td></tr>
+      <tr><td class="cod">CAP-109</td><td>Ásia</td><td>Tailândia</td><td>Bangkok</td></tr>
+      <tr><td class="cod">CAP-110</td><td>Ásia</td><td>Vietnã</td><td>Hanói</td></tr>
+      <tr><td class="cod">CAP-111</td><td>Ásia</td><td>Indonésia</td><td>Jacarta</td></tr>
+      <tr><td class="cod">CAP-112</td><td>Ásia</td><td>Filipinas</td><td>Manila</td></tr>
+      <tr><td class="cod">CAP-113</td><td>Ásia</td><td>Malásia</td><td>Kuala Lumpur</td></tr>
+      <tr><td class="cod">CAP-114</td><td>Ásia</td><td>Singapura</td><td>Singapura</td></tr>
+      <tr><td class="cod">CAP-115</td><td>Ásia</td><td>Arábia Saudita</td><td>Riade</td></tr>
+      <tr><td class="cod">CAP-116</td><td>Ásia</td><td>Emirados Árabes Unidos</td><td>Abu Dhabi</td></tr>
+      <tr><td class="cod">CAP-117</td><td>Ásia</td><td>Israel</td><td>Jerusalém</td></tr>
+      <tr><td class="cod">CAP-118</td><td>Ásia</td><td>Turquia</td><td>Ankara</td></tr>
+      <tr><td class="cod">CAP-119</td><td>Ásia</td><td>Paquistão</td><td>Islamabad</td></tr>
+      <tr><td class="cod">CAP-120</td><td>Ásia</td><td>Bangladesh</td><td>Dhaka</td></tr>
+      <tr><td class="cod">CAP-121</td><td>Ásia</td><td>Nepal</td><td>Catmandu</td></tr>
+      <tr><td class="cod">CAP-122</td><td>Ásia</td><td>Sri Lanka</td><td>Sri Jayawardenepura Kotte</td></tr>
+      <tr><td class="cod">CAP-123</td><td>Ásia</td><td>Irã</td><td>Teerã</td></tr>
+      <tr><td class="cod">CAP-124</td><td>Ásia</td><td>Iraque</td><td>Bagdá</td></tr>
+      <tr><td class="cod">CAP-125</td><td>Ásia</td><td>Mongólia</td><td>Ulan Bator</td></tr>
+      <tr><td class="cod">CAP-126</td><td>Ásia</td><td>Cazaquistão</td><td>Astana</td></tr>
+      <tr><td class="cod">CAP-127</td><td>Ásia</td><td>Uzbequistão</td><td>Tashkent</td></tr>
+      <tr><td class="cod">CAP-128</td><td>Ásia</td><td>Camboja</td><td>Pnom Pene</td></tr>
+      <tr><td class="cod">CAP-129</td><td>Ásia</td><td>Laos</td><td>Vientiane</td></tr>
+      <tr><td class="cod">CAP-130</td><td>Ásia</td><td>Mianmar (Birmânia)</td><td>Naypyidaw</td></tr>
+      <tr><td class="cod">CAP-131</td><td>Ásia</td><td>Catar</td><td>Doha</td></tr>
+      <tr><td class="cod">CAP-132</td><td>Ásia</td><td>Jordânia</td><td>Amman</td></tr>
+      <tr><td class="cod">CAP-133</td><td>Ásia</td><td>Líbano</td><td>Beirute</td></tr>
+      <tr><td class="cod">CAP-134</td><td>Ásia</td><td>Síria</td><td>Damasco</td></tr>
+      <tr><td class="cod">CAP-135</td><td>Ásia</td><td>Afeganistão</td><td>Kabul</td></tr>
+      <tr><td class="cod">CAP-136</td><td>Ásia</td><td>Butão</td><td>Thimphu</td></tr>
+      <tr><td class="cod">CAP-137</td><td>Ásia</td><td>Maldivas</td><td>Malé</td></tr>
+      <tr><td class="cod">CAP-138</td><td>Ásia</td><td>Brunei</td><td>Bandar Seri Begawan</td></tr>
+      <tr><td class="cod">CAP-139</td><td>Ásia</td><td>Timor-Leste</td><td>Dili</td></tr>
+      <tr><td class="cod">CAP-140</td><td>Ásia</td><td>Barein</td><td>Manama</td></tr>
+      <tr><td class="cod">CAP-141</td><td>Oceania</td><td>Austrália</td><td>Canberra</td></tr>
+      <tr><td class="cod">CAP-142</td><td>Oceania</td><td>Nova Zelândia</td><td>Wellington</td></tr>
+      <tr><td class="cod">CAP-143</td><td>Oceania</td><td>Fiji</td><td>Suva</td></tr>
+      <tr><td class="cod">CAP-144</td><td>Oceania</td><td>Papua-Nova Guiné</td><td>Port Moresby</td></tr>
+      <tr><td class="cod">CAP-145</td><td>Oceania</td><td>Samoa</td><td>Apia</td></tr>
+      <tr><td class="cod">CAP-146</td><td>Oceania</td><td>Tonga</td><td>Nuku'alofa</td></tr>
+      <tr><td class="cod">CAP-147</td><td>Oceania</td><td>Vanuatu</td><td>Port Vila</td></tr>
+      <tr><td class="cod">CAP-148</td><td>Oceania</td><td>Ilhas Salomão</td><td>Honiara</td></tr>
+      <tr><td class="cod">CAP-149</td><td>Oceania</td><td>Quiribati</td><td>Tarawa</td></tr>
+      <tr><td class="cod">CAP-150</td><td>Oceania</td><td>Tuvalu</td><td>Funafuti</td></tr>
+      <tr><td class="cod">CAP-151</td><td>Oceania</td><td>Nauru</td><td>Yaren</td></tr>
+      <tr><td class="cod">CAP-152</td><td>Oceania</td><td>Ilhas Marshall</td><td>Majuro</td></tr>
+      <tr><td class="cod">CAP-153</td><td>Oceania</td><td>Micronésia</td><td>Palikir</td></tr>
+      <tr><td class="cod">CAP-154</td><td>Oceania</td><td>Palau</td><td>Ngerulmud</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="capitais-br">
+  <h2>Capitais dos estados brasileiros <span class="conta">27 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a mesma pergunta das capitais, na fase que começa pelo Brasil.</p>
+  
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Estado</th><th>Capital</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CBR-001</td><td>Acre</td><td>Rio Branco</td></tr>
+      <tr><td class="cod">CBR-002</td><td>Alagoas</td><td>Maceió</td></tr>
+      <tr><td class="cod">CBR-003</td><td>Amapá</td><td>Macapá</td></tr>
+      <tr><td class="cod">CBR-004</td><td>Amazonas</td><td>Manaus</td></tr>
+      <tr><td class="cod">CBR-005</td><td>Bahia</td><td>Salvador</td></tr>
+      <tr><td class="cod">CBR-006</td><td>Ceará</td><td>Fortaleza</td></tr>
+      <tr><td class="cod">CBR-007</td><td>Distrito Federal</td><td>Brasília</td></tr>
+      <tr><td class="cod">CBR-008</td><td>Espírito Santo</td><td>Vitória</td></tr>
+      <tr><td class="cod">CBR-009</td><td>Goiás</td><td>Goiânia</td></tr>
+      <tr><td class="cod">CBR-010</td><td>Maranhão</td><td>São Luís</td></tr>
+      <tr><td class="cod">CBR-011</td><td>Mato Grosso</td><td>Cuiabá</td></tr>
+      <tr><td class="cod">CBR-012</td><td>Mato Grosso do Sul</td><td>Campo Grande</td></tr>
+      <tr><td class="cod">CBR-013</td><td>Minas Gerais</td><td>Belo Horizonte</td></tr>
+      <tr><td class="cod">CBR-014</td><td>Pará</td><td>Belém</td></tr>
+      <tr><td class="cod">CBR-015</td><td>Paraíba</td><td>João Pessoa</td></tr>
+      <tr><td class="cod">CBR-016</td><td>Paraná</td><td>Curitiba</td></tr>
+      <tr><td class="cod">CBR-017</td><td>Pernambuco</td><td>Recife</td></tr>
+      <tr><td class="cod">CBR-018</td><td>Piauí</td><td>Teresina</td></tr>
+      <tr><td class="cod">CBR-019</td><td>Rio de Janeiro</td><td>Rio de Janeiro</td></tr>
+      <tr><td class="cod">CBR-020</td><td>Rio Grande do Norte</td><td>Natal</td></tr>
+      <tr><td class="cod">CBR-021</td><td>Rio Grande do Sul</td><td>Porto Alegre</td></tr>
+      <tr><td class="cod">CBR-022</td><td>Rondônia</td><td>Porto Velho</td></tr>
+      <tr><td class="cod">CBR-023</td><td>Roraima</td><td>Boa Vista</td></tr>
+      <tr><td class="cod">CBR-024</td><td>Santa Catarina</td><td>Florianópolis</td></tr>
+      <tr><td class="cod">CBR-025</td><td>São Paulo</td><td>São Paulo</td></tr>
+      <tr><td class="cod">CBR-026</td><td>Sergipe</td><td>Aracaju</td></tr>
+      <tr><td class="cod">CBR-027</td><td>Tocantins</td><td>Palmas</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="capitais-us">
+  <h2>Capitais dos estados americanos <span class="conta">30 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a fase final das capitais, no nível mais alto.</p>
+  <p class="nota">Estes ficam em inglês de propósito: é o nome oficial do estado, e traduzir “New York” para “Nova York” criaria uma grafia que não existe em documento nenhum.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Estado</th><th>Capital</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CUS-001</td><td>California</td><td>Sacramento</td></tr>
+      <tr><td class="cod">CUS-002</td><td>Texas</td><td>Austin</td></tr>
+      <tr><td class="cod">CUS-003</td><td>New York</td><td>Albany</td></tr>
+      <tr><td class="cod">CUS-004</td><td>Florida</td><td>Tallahassee</td></tr>
+      <tr><td class="cod">CUS-005</td><td>Illinois</td><td>Springfield</td></tr>
+      <tr><td class="cod">CUS-006</td><td>Ohio</td><td>Columbus</td></tr>
+      <tr><td class="cod">CUS-007</td><td>Georgia</td><td>Atlanta</td></tr>
+      <tr><td class="cod">CUS-008</td><td>Michigan</td><td>Lansing</td></tr>
+      <tr><td class="cod">CUS-009</td><td>Washington</td><td>Olympia</td></tr>
+      <tr><td class="cod">CUS-010</td><td>Arizona</td><td>Phoenix</td></tr>
+      <tr><td class="cod">CUS-011</td><td>Colorado</td><td>Denver</td></tr>
+      <tr><td class="cod">CUS-012</td><td>Oregon</td><td>Salem</td></tr>
+      <tr><td class="cod">CUS-013</td><td>Nevada</td><td>Carson City</td></tr>
+      <tr><td class="cod">CUS-014</td><td>Utah</td><td>Salt Lake City</td></tr>
+      <tr><td class="cod">CUS-015</td><td>Alaska</td><td>Juneau</td></tr>
+      <tr><td class="cod">CUS-016</td><td>Hawaii</td><td>Honolulu</td></tr>
+      <tr><td class="cod">CUS-017</td><td>Louisiana</td><td>Baton Rouge</td></tr>
+      <tr><td class="cod">CUS-018</td><td>Tennessee</td><td>Nashville</td></tr>
+      <tr><td class="cod">CUS-019</td><td>Kentucky</td><td>Frankfort</td></tr>
+      <tr><td class="cod">CUS-020</td><td>Missouri</td><td>Jefferson City</td></tr>
+      <tr><td class="cod">CUS-021</td><td>Kansas</td><td>Topeka</td></tr>
+      <tr><td class="cod">CUS-022</td><td>Nebraska</td><td>Lincoln</td></tr>
+      <tr><td class="cod">CUS-023</td><td>Minnesota</td><td>Saint Paul</td></tr>
+      <tr><td class="cod">CUS-024</td><td>Wisconsin</td><td>Madison</td></tr>
+      <tr><td class="cod">CUS-025</td><td>Indiana</td><td>Indianapolis</td></tr>
+      <tr><td class="cod">CUS-026</td><td>Virginia</td><td>Richmond</td></tr>
+      <tr><td class="cod">CUS-027</td><td>Maryland</td><td>Annapolis</td></tr>
+      <tr><td class="cod">CUS-028</td><td>Massachusetts</td><td>Boston</td></tr>
+      <tr><td class="cod">CUS-029</td><td>Pennsylvania</td><td>Harrisburg</td></tr>
+      <tr><td class="cod">CUS-030</td><td>New Jersey</td><td>Trenton</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p><strong>Lumus — Kids Game Hub</strong> · ElCamargo Soluções em TI LTDA · Blumenau, SC<br>
+  Gerado a partir de <code>src/data/ciencias.js, ciencias-mundo.js, curiosidades.js, brasil.js e geografia.js (npm run doc-bancos)</code>.
+  Os códigos seguem a ordem das tabelas: acrescentar uma linha no meio desloca
+  as seguintes, então vale marcar tudo neste mesmo documento e só depois gerar
+  o próximo. Cada linha traz o nome ao lado do código, que desfaz qualquer dúvida.</p>
+  
+</footer>
+
+</div>
+</body>
+</html>

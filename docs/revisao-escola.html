@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumus — revisão do reforço escolar</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #FAF9F6; color: #1B2A6B;
+    font-family: Georgia, "Times New Roman", serif; line-height: 1.65; }
+  .folha { max-width: 940px; margin: 0 auto; padding: 32px 22px 80px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 4px; }
+  .sub { color: #6C7695; font-size: 15px; margin: 0 0 26px; }
+  h2 { font-size: 21px; margin: 38px 0 6px; padding-top: 14px; border-top: 3px solid #1B2A6B; }
+  .conta { float: right; font-size: 13px; font-weight: normal; color: #6C7695;
+    font-family: ui-monospace, Consolas, monospace; padding-top: 8px; }
+  .vira { margin: 0 0 10px; font-size: 14px; color: #3C4A7A; }
+  .nota { margin: 0 0 12px; font-size: 14px; background: #FFF4D6; border-left: 4px solid #F9A826;
+    padding: 9px 12px; }
+  .caixa { background: #EEF1FF; border: 2px solid #C3CBEA; border-radius: 10px;
+    padding: 16px 18px; margin: 0 0 26px; }
+  .caixa h3 { margin: 0 0 8px; font-size: 17px; }
+  .caixa ol { margin: 0; padding-left: 20px; }
+  .caixa li { margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px;
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  th { text-align: left; background: #1B2A6B; color: #fff; padding: 7px 9px; font-weight: 700; }
+  td { padding: 6px 9px; border-bottom: 1px solid #E0E4F0; vertical-align: top; }
+  tbody tr:nth-child(even) { background: #F2F4FB; }
+  .cod { font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    color: #6C7695; white-space: nowrap; width: 1%; }
+  .fig { font-size: 20px; text-align: center; width: 1%; }
+  .bloco { margin: 20px 0 28px; }
+  .bloco h3 { font-size: 16px; margin: 0 0 6px; }
+  .bloco h3 .conta { float: none; margin-left: 8px; }
+  .lido { background: #fff; border-left: 4px solid #4C6FFF; padding: 10px 14px;
+    margin: 0 0 8px; font-size: 15px; }
+  nav { font-size: 14px; margin: 0 0 8px; }
+  nav a { color: #4C6FFF; margin-right: 14px; white-space: nowrap; display: inline-block; }
+  footer { margin-top: 48px; padding-top: 14px; border-top: 2px solid #C3CBEA;
+    font-size: 13px; color: #6C7695; }
+  @media print {
+    body { background: #fff; }
+    .folha { max-width: none; padding: 0; }
+    h2 { break-after: avoid; }
+    tr { break-inside: avoid; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<h1>Lumus — revisão do reforço escolar</h1>
+<p class="sub">258 linhas para conferir · v1.1.0-3-gcb363a6 · gerado em 2026-09-06</p>
+
+<div class="caixa">
+  <h3>O que é isto, e o que se espera de quem lê</h3>
+  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  e sem coleta de dados, dado de graça a famílias. Esta parte é a que acompanha a
+  escola: alfabetização, ortografia e interpretação de texto, do 1º ao 5º ano.</p>
+
+  <p><strong>As perguntas do app não são escritas uma a uma: elas são geradas a partir
+  das tabelas abaixo.</strong> Uma sílaba separada errado aparece em quatro jogos
+  diferentes. Por isso pedimos a revisão dos <em>dados</em>, e não das telas.</p>
+
+  <h3>O que procurar</h3>
+  <ol>
+    <li><strong>A separação de sílabas está certa?</strong> É a linha mais importante deste
+      documento — é o que a criança copia para o caderno.</li>
+    <li><strong>A figura basta para saber que palavra é?</strong> Na ortografia, é a figura que
+      faz a pergunta ter uma resposta só.</li>
+    <li><strong>Dá para defender outra alternativa?</strong> Pergunta com duas respostas certas é
+      pergunta errada — e a criança é reprovada por acertar.</li>
+    <li><strong>A regra está dita do jeito que a escola ensina?</strong> Se a sua turma aprende
+      com outras palavras, vale mais a sua.</li>
+    <li><strong>O degrau está no lugar?</strong> 1 é 1º ano, 4 é 5º. Palavra fácil demais no
+      degrau alto entedia; difícil demais no degrau baixo desiste.</li>
+  </ol>
+
+  <h3>Como marcar</h3>
+  <p style="margin-bottom:0">Cada linha tem um código à esquerda (<span class="cod">PAL-014</span>,
+  <span class="cod">LEI-003.2</span>…). Basta escrever o código e o que está errado —
+  numa mensagem, num papel, do jeito que for mais fácil. Não é preciso abrir nada
+  de programação.</p>
+</div>
+
+<nav><a href="#palavras">Palavras e sílabas</a><a href="#ortografia">Ortografia</a><a href="#leitura">Textos de leitura</a></nav>
+
+
+<section id="palavras">
+  <h2>Palavras e sílabas <span class="conta">104 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> quatro jogos — Monta a Palavra (a criança arrasta as sílabas), o ditado (ela ouve e escreve), a família silábica e a rima.</p>
+  <p class="nota">A separação de sílabas foi feita <strong>à mão</strong>, e é o que mais pede olho de professora: algoritmo erra baixinho, e sílaba errada é criança aprendendo a separar errado. A rima é o pedaço final que soa igual — só existe quando há outra palavra aqui que rime.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Figura</th><th>Palavra</th><th>Sílabas</th><th>Rima</th><th>Degrau</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">PAL-001</td><td>⚽</td><td>bola</td><td>bo · la</td><td>ola</td><td>1</td></tr>
+      <tr><td class="cod">PAL-002</td><td>🏠</td><td>casa</td><td>ca · sa</td><td>asa</td><td>1</td></tr>
+      <tr><td class="cod">PAL-003</td><td>🎲</td><td>dado</td><td>da · do</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-004</td><td>🧚</td><td>fada</td><td>fa · da</td><td>ada</td><td>1</td></tr>
+      <tr><td class="cod">PAL-005</td><td>🐱</td><td>gato</td><td>ga · to</td><td>ato</td><td>1</td></tr>
+      <tr><td class="cod">PAL-006</td><td>🎒</td><td>mala</td><td>ma · la</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-007</td><td>🪑</td><td>mesa</td><td>me · sa</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-008</td><td>🦆</td><td>pato</td><td>pa · to</td><td>ato</td><td>1</td></tr>
+      <tr><td class="cod">PAL-009</td><td>🐀</td><td>rato</td><td>ra · to</td><td>ato</td><td>1</td></tr>
+      <tr><td class="cod">PAL-010</td><td>🐸</td><td>sapo</td><td>sa · po</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-011</td><td>🐄</td><td>vaca</td><td>va · ca</td><td>aca</td><td>1</td></tr>
+      <tr><td class="cod">PAL-012</td><td>🔪</td><td>faca</td><td>fa · ca</td><td>aca</td><td>1</td></tr>
+      <tr><td class="cod">PAL-013</td><td>☝️</td><td>dedo</td><td>de · do</td><td>edo</td><td>1</td></tr>
+      <tr><td class="cod">PAL-014</td><td>🎀</td><td>fita</td><td>fi · ta</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-015</td><td>🛵</td><td>moto</td><td>mo · to</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-016</td><td>🪁</td><td>pipa</td><td>pi · pa</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-017</td><td>🔔</td><td>sino</td><td>si · no</td><td>ino</td><td>1</td></tr>
+      <tr><td class="cod">PAL-018</td><td>🎂</td><td>bolo</td><td>bo · lo</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-019</td><td>🔥</td><td>fogo</td><td>fo · go</td><td>ogo</td><td>1</td></tr>
+      <tr><td class="cod">PAL-020</td><td>🎮</td><td>jogo</td><td>jo · go</td><td>ogo</td><td>1</td></tr>
+      <tr><td class="cod">PAL-021</td><td>💧</td><td>gota</td><td>go · ta</td><td>ota</td><td>1</td></tr>
+      <tr><td class="cod">PAL-022</td><td>🥾</td><td>bota</td><td>bo · ta</td><td>ota</td><td>1</td></tr>
+      <tr><td class="cod">PAL-023</td><td>🐓</td><td>galo</td><td>ga · lo</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-024</td><td>🌹</td><td>rosa</td><td>ro · sa</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-025</td><td>🛋️</td><td>sofá</td><td>so · fá</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-026</td><td>👶</td><td>bebê</td><td>be · bê</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-027</td><td>🦡</td><td>tatu</td><td>ta · tu</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-028</td><td>🍇</td><td>uva</td><td>u · va</td><td>uva</td><td>1</td></tr>
+      <tr><td class="cod">PAL-029</td><td>🧤</td><td>luva</td><td>lu · va</td><td>uva</td><td>1</td></tr>
+      <tr><td class="cod">PAL-030</td><td>🌛</td><td>lua</td><td>lu · a</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-031</td><td>🪶</td><td>asa</td><td>a · sa</td><td>asa</td><td>1</td></tr>
+      <tr><td class="cod">PAL-032</td><td>🧊</td><td>gelo</td><td>ge · lo</td><td>elo</td><td>1</td></tr>
+      <tr><td class="cod">PAL-033</td><td>🕯️</td><td>vela</td><td>ve · la</td><td>ela</td><td>1</td></tr>
+      <tr><td class="cod">PAL-034</td><td>🛏️</td><td>cama</td><td>ca · ma</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-035</td><td>🧃</td><td>suco</td><td>su · co</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-036</td><td>🥫</td><td>lata</td><td>la · ta</td><td>ata</td><td>1</td></tr>
+      <tr><td class="cod">PAL-037</td><td>🐺</td><td>lobo</td><td>lo · bo</td><td>—</td><td>1</td></tr>
+      <tr><td class="cod">PAL-038</td><td>🚪</td><td>porta</td><td>por · ta</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-039</td><td>🐍</td><td>cobra</td><td>co · bra</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-040</td><td>🍽️</td><td>prato</td><td>pra · to</td><td>ato</td><td>2</td></tr>
+      <tr><td class="cod">PAL-041</td><td>🚗</td><td>carro</td><td>car · ro</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-042</td><td>🐷</td><td>porco</td><td>por · co</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-043</td><td>🐻</td><td>urso</td><td>ur · so</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-044</td><td>🦴</td><td>osso</td><td>os · so</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-045</td><td>🪣</td><td>balde</td><td>bal · de</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-046</td><td>🥛</td><td>leite</td><td>lei · te</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-047</td><td>🧦</td><td>meia</td><td>mei · a</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-048</td><td>🐟</td><td>peixe</td><td>pei · xe</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-049</td><td>🎁</td><td>caixa</td><td>cai · xa</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-050</td><td>🧀</td><td>queijo</td><td>quei · jo</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-051</td><td>🦁</td><td>leão</td><td>le · ão</td><td>ão</td><td>2</td></tr>
+      <tr><td class="cod">PAL-052</td><td>🍋</td><td>limão</td><td>li · mão</td><td>ão</td><td>2</td></tr>
+      <tr><td class="cod">PAL-053</td><td>🍎</td><td>maçã</td><td>ma · çã</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-054</td><td>🥁</td><td>tambor</td><td>tam · bor</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-055</td><td>🪺</td><td>ninho</td><td>ni · nho</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-056</td><td>🌽</td><td>milho</td><td>mi · lho</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-057</td><td>🍌</td><td>banana</td><td>ba · na · na</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-058</td><td>🐒</td><td>macaco</td><td>ma · ca · co</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-059</td><td>🐴</td><td>cavalo</td><td>ca · va · lo</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-060</td><td>🪟</td><td>janela</td><td>ja · ne · la</td><td>ela</td><td>2</td></tr>
+      <tr><td class="cod">PAL-061</td><td>🍳</td><td>panela</td><td>pa · ne · la</td><td>ela</td><td>2</td></tr>
+      <tr><td class="cod">PAL-062</td><td>🍅</td><td>tomate</td><td>to · ma · te</td><td>ate</td><td>2</td></tr>
+      <tr><td class="cod">PAL-063</td><td>👞</td><td>sapato</td><td>sa · pa · to</td><td>ato</td><td>2</td></tr>
+      <tr><td class="cod">PAL-064</td><td>🧸</td><td>boneca</td><td>bo · ne · ca</td><td>—</td><td>2</td></tr>
+      <tr><td class="cod">PAL-065</td><td>💇</td><td>cabelo</td><td>ca · be · lo</td><td>elo</td><td>2</td></tr>
+      <tr><td class="cod">PAL-066</td><td>🧅</td><td>cebola</td><td>ce · bo · la</td><td>ola</td><td>2</td></tr>
+      <tr><td class="cod">PAL-067</td><td>🛍️</td><td>sacola</td><td>sa · co · la</td><td>ola</td><td>2</td></tr>
+      <tr><td class="cod">PAL-068</td><td>🥔</td><td>batata</td><td>ba · ta · ta</td><td>ata</td><td>2</td></tr>
+      <tr><td class="cod">PAL-069</td><td>👦</td><td>menino</td><td>me · ni · no</td><td>ino</td><td>2</td></tr>
+      <tr><td class="cod">PAL-070</td><td>🐝</td><td>abelha</td><td>a · be · lha</td><td>elha</td><td>3</td></tr>
+      <tr><td class="cod">PAL-071</td><td>🐑</td><td>ovelha</td><td>o · ve · lha</td><td>elha</td><td>3</td></tr>
+      <tr><td class="cod">PAL-072</td><td>🦒</td><td>girafa</td><td>gi · ra · fa</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-073</td><td>🐕</td><td>cachorro</td><td>ca · chor · ro</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-074</td><td>🐛</td><td>lagarta</td><td>la · gar · ta</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-075</td><td>🗡️</td><td>espada</td><td>es · pa · da</td><td>ada</td><td>3</td></tr>
+      <tr><td class="cod">PAL-076</td><td>🏫</td><td>escola</td><td>es · co · la</td><td>ola</td><td>3</td></tr>
+      <tr><td class="cod">PAL-077</td><td>⭐</td><td>estrela</td><td>es · tre · la</td><td>ela</td><td>3</td></tr>
+      <tr><td class="cod">PAL-078</td><td>🪞</td><td>espelho</td><td>es · pe · lho</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-079</td><td>🐐</td><td>cabrito</td><td>ca · bri · to</td><td>ito</td><td>3</td></tr>
+      <tr><td class="cod">PAL-080</td><td>🍢</td><td>palito</td><td>pa · li · to</td><td>ito</td><td>3</td></tr>
+      <tr><td class="cod">PAL-081</td><td>🥕</td><td>cenoura</td><td>ce · nou · ra</td><td>oura</td><td>3</td></tr>
+      <tr><td class="cod">PAL-082</td><td>🧹</td><td>vassoura</td><td>vas · sou · ra</td><td>oura</td><td>3</td></tr>
+      <tr><td class="cod">PAL-083</td><td>🌻</td><td>girassol</td><td>gi · ras · sol</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-084</td><td>🌰</td><td>castanha</td><td>cas · ta · nha</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-085</td><td>🐜</td><td>formiga</td><td>for · mi · ga</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-086</td><td>🪴</td><td>planta</td><td>plan · ta</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-087</td><td>🪵</td><td>tronco</td><td>tron · co</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-088</td><td>🌵</td><td>cacto</td><td>cac · to</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-089</td><td>🦜</td><td>tucano</td><td>tu · ca · no</td><td>ano</td><td>3</td></tr>
+      <tr><td class="cod">PAL-090</td><td>🎹</td><td>piano</td><td>pi · a · no</td><td>ano</td><td>3</td></tr>
+      <tr><td class="cod">PAL-091</td><td>🍒</td><td>cereja</td><td>ce · re · ja</td><td>—</td><td>3</td></tr>
+      <tr><td class="cod">PAL-092</td><td>🦋</td><td>borboleta</td><td>bor · bo · le · ta</td><td>eta</td><td>4</td></tr>
+      <tr><td class="cod">PAL-093</td><td>🚲</td><td>bicicleta</td><td>bi · ci · cle · ta</td><td>eta</td><td>4</td></tr>
+      <tr><td class="cod">PAL-094</td><td>🐘</td><td>elefante</td><td>e · le · fan · te</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-095</td><td>🐦</td><td>pássaro</td><td>pás · sa · ro</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-096</td><td>🍉</td><td>melancia</td><td>me · lan · ci · a</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-097</td><td>🍫</td><td>chocolate</td><td>cho · co · la · te</td><td>ate</td><td>4</td></tr>
+      <tr><td class="cod">PAL-098</td><td>🐢</td><td>tartaruga</td><td>tar · ta · ru · ga</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-099</td><td>🪀</td><td>brinquedo</td><td>brin · que · do</td><td>edo</td><td>4</td></tr>
+      <tr><td class="cod">PAL-100</td><td>🦩</td><td>flamingo</td><td>fla · min · go</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-101</td><td>🚁</td><td>helicóptero</td><td>he · li · cóp · te · ro</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-102</td><td>🦕</td><td>dinossauro</td><td>di · nos · sau · ro</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-103</td><td>🐊</td><td>crocodilo</td><td>cro · co · di · lo</td><td>—</td><td>4</td></tr>
+      <tr><td class="cod">PAL-104</td><td>🍍</td><td>abacaxi</td><td>a · ba · ca · xi</td><td>—</td><td>4</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ortografia">
+  <h2>Ortografia <span class="conta">64 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a palavra aparece com uma lacuna e a criança escolhe o pedaço que falta. A regra vira a explicação de quando ela erra.</p>
+  <p class="nota">Duas coisas para conferir aqui. <strong>A figura tem que bastar</strong>: “ca__a” pode ser casa e pode ser caça, e é o 🏠 que diz qual é — figura ambígua é pergunta sem resposta única. E <strong>a regra tem que ser verdadeira</strong>: onde não existe regra, ela precisa dizer que é de memorizar, em vez de inventar uma.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Figura</th><th>Palavra</th><th>Como aparece</th><th>Pedaço certo</th><th>Alternativas erradas</th><th>A regra que ensina</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">ORT-001</td><td>💣</td><td>bomba</td><td>bo__ba</td><td>m</td><td>n · nh · ch</td><td>Antes de P e B sempre vem M: bomba.</td></tr>
+      <tr><td class="cod">ORT-002</td><td>🥁</td><td>tambor</td><td>ta__bor</td><td>m</td><td>n · nh · lh</td><td>Antes de P e B sempre vem M: tambor.</td></tr>
+      <tr><td class="cod">ORT-003</td><td>🕊️</td><td>pomba</td><td>po__ba</td><td>m</td><td>n · nh · ch</td><td>Antes de P e B sempre vem M: pomba.</td></tr>
+      <tr><td class="cod">ORT-004</td><td>⛺</td><td>campo</td><td>ca__po</td><td>m</td><td>n · nh · lh</td><td>Antes de P e B sempre vem M: campo.</td></tr>
+      <tr><td class="cod">ORT-005</td><td>🔔</td><td>campainha</td><td>ca__painha</td><td>m</td><td>n · nh · ch</td><td>Antes de P e B sempre vem M: campainha.</td></tr>
+      <tr><td class="cod">ORT-006</td><td>🍫</td><td>bombom</td><td>bo__bom</td><td>m</td><td>n · nh · lh</td><td>Antes de P e B sempre vem M: bombom.</td></tr>
+      <tr><td class="cod">ORT-007</td><td>🌽</td><td>milho</td><td>mi__o</td><td>lh</td><td>nh · ch · li</td><td>LH é um som só, o de milho e de olho.</td></tr>
+      <tr><td class="cod">ORT-008</td><td>🪺</td><td>ninho</td><td>ni__o</td><td>nh</td><td>lh · ch · ni</td><td>NH é um som só, o de ninho e de banho.</td></tr>
+      <tr><td class="cod">ORT-009</td><td>🐔</td><td>galinha</td><td>gali__a</td><td>nh</td><td>lh · ch · n</td><td>NH é um som só, o de galinha e de sonho.</td></tr>
+      <tr><td class="cod">ORT-010</td><td>👂</td><td>orelha</td><td>ore__a</td><td>lh</td><td>nh · ch · l</td><td>LH é um som só, o de orelha e de folha.</td></tr>
+      <tr><td class="cod">ORT-011</td><td>🔑</td><td>chave</td><td>__ave</td><td>ch</td><td>lh · nh · x</td><td>CH é um som só, o de chave e de chuva.</td></tr>
+      <tr><td class="cod">ORT-012</td><td>🌧️</td><td>chuva</td><td>__uva</td><td>ch</td><td>nh · lh · x</td><td>CH é um som só, o de chuva e de chão.</td></tr>
+      <tr><td class="cod">ORT-013</td><td>🎩</td><td>chapéu</td><td>__apéu</td><td>ch</td><td>lh · nh · x</td><td>CH é um som só, o de chapéu e de chave.</td></tr>
+      <tr><td class="cod">ORT-014</td><td>🛁</td><td>banho</td><td>ba__o</td><td>nh</td><td>lh · ch · n</td><td>NH é um som só, o de banho e de ninho.</td></tr>
+      <tr><td class="cod">ORT-015</td><td>🥄</td><td>colher</td><td>co__er</td><td>lh</td><td>nh · ch · l</td><td>LH é um som só, o de colher e de milho.</td></tr>
+      <tr><td class="cod">ORT-016</td><td>🐛</td><td>bicho</td><td>bi__o</td><td>ch</td><td>lh · nh · x</td><td>CH é um som só, o de bicho e de chave.</td></tr>
+      <tr><td class="cod">ORT-017</td><td>🍎</td><td>maçã</td><td>ma__ã</td><td>ç</td><td>ss · s · c</td><td>O Ç só aparece antes de A, O e U: maçã.</td></tr>
+      <tr><td class="cod">ORT-018</td><td>🎀</td><td>laço</td><td>la__o</td><td>ç</td><td>ss · s · c</td><td>O Ç só aparece antes de A, O e U: laço.</td></tr>
+      <tr><td class="cod">ORT-019</td><td>🕳️</td><td>poço</td><td>po__o</td><td>ç</td><td>ss · s · c</td><td>O Ç só aparece antes de A, O e U: poço.</td></tr>
+      <tr><td class="cod">ORT-020</td><td>🍬</td><td>açúcar</td><td>a__úcar</td><td>ç</td><td>ss · s · c</td><td>O Ç só aparece antes de A, O e U: açúcar.</td></tr>
+      <tr><td class="cod">ORT-021</td><td>🦒</td><td>pescoço</td><td>pesco__o</td><td>ç</td><td>ss · s · c</td><td>O Ç só aparece antes de A, O e U: pescoço.</td></tr>
+      <tr><td class="cod">ORT-022</td><td>🍽️</td><td>louça</td><td>lou__a</td><td>ç</td><td>ss · s · c</td><td>O Ç só aparece antes de A, O e U: louça.</td></tr>
+      <tr><td class="cod">ORT-023</td><td>🐦</td><td>pássaro</td><td>pá__aro</td><td>ss</td><td>s · ç · c</td><td>Entre duas vogais, o som forte de S se escreve SS: pássaro.</td></tr>
+      <tr><td class="cod">ORT-024</td><td>🧹</td><td>vassoura</td><td>va__oura</td><td>ss</td><td>s · ç · c</td><td>Entre duas vogais, o som forte de S se escreve SS: vassoura.</td></tr>
+      <tr><td class="cod">ORT-025</td><td>🌻</td><td>girassol</td><td>gira__ol</td><td>ss</td><td>s · ç · c</td><td>Entre duas vogais, o som forte de S se escreve SS: girassol.</td></tr>
+      <tr><td class="cod">ORT-026</td><td>🍝</td><td>massa</td><td>ma__a</td><td>ss</td><td>s · ç · c</td><td>Entre duas vogais, o som forte de S se escreve SS: massa.</td></tr>
+      <tr><td class="cod">ORT-027</td><td>🧀</td><td>queijo</td><td>__eijo</td><td>qu</td><td>c · k · gu</td><td>Antes de E e I, o som de K se escreve QU, e o U não soa: queijo.</td></tr>
+      <tr><td class="cod">ORT-028</td><td>🖼️</td><td>quadro</td><td>__adro</td><td>qu</td><td>c · k · gu</td><td>Aqui o U do QU soa: quadro.</td></tr>
+      <tr><td class="cod">ORT-029</td><td>🐿️</td><td>esquilo</td><td>es__ilo</td><td>qu</td><td>c · k · gu</td><td>Antes de E e I, o som de K se escreve QU: esquilo.</td></tr>
+      <tr><td class="cod">ORT-030</td><td>🎸</td><td>guitarra</td><td>__itarra</td><td>gu</td><td>g · j · qu</td><td>Antes de E e I, o som de G duro pede o U mudo: guitarra.</td></tr>
+      <tr><td class="cod">ORT-031</td><td>🚀</td><td>foguete</td><td>fo__ete</td><td>gu</td><td>g · j · qu</td><td>Antes de E e I, o som de G duro pede o U mudo: foguete.</td></tr>
+      <tr><td class="cod">ORT-032</td><td>🎉</td><td>guirlanda</td><td>__irlanda</td><td>gu</td><td>g · j · qu</td><td>Antes de E e I, o som de G duro pede o U mudo: guirlanda.</td></tr>
+      <tr><td class="cod">ORT-033</td><td>🏠</td><td>casa</td><td>ca__a</td><td>s</td><td>z · ss · ç</td><td>Entre vogais, o S soa como Z, mas continua S: casa.</td></tr>
+      <tr><td class="cod">ORT-034</td><td>🌹</td><td>rosa</td><td>ro__a</td><td>s</td><td>z · ss · ç</td><td>Entre vogais, o S soa como Z, mas continua S: rosa.</td></tr>
+      <tr><td class="cod">ORT-035</td><td>👕</td><td>camisa</td><td>cami__a</td><td>s</td><td>z · ss · ç</td><td>Entre vogais, o S soa como Z, mas continua S: camisa.</td></tr>
+      <tr><td class="cod">ORT-036</td><td>👚</td><td>blusa</td><td>blu__a</td><td>s</td><td>z · ss · ç</td><td>Entre vogais, o S soa como Z, mas continua S: blusa.</td></tr>
+      <tr><td class="cod">ORT-037</td><td>🔵</td><td>azul</td><td>a__ul</td><td>z</td><td>s · ss · ç</td><td>Aqui o som de Z se escreve com Z mesmo: azul.</td></tr>
+      <tr><td class="cod">ORT-038</td><td>📢</td><td>buzina</td><td>bu__ina</td><td>z</td><td>s · ss · ç</td><td>Aqui o som de Z se escreve com Z mesmo: buzina.</td></tr>
+      <tr><td class="cod">ORT-039</td><td>🍳</td><td>cozinha</td><td>co__inha</td><td>z</td><td>s · ss · ç</td><td>Aqui o som de Z se escreve com Z mesmo: cozinha.</td></tr>
+      <tr><td class="cod">ORT-040</td><td>🦓</td><td>zebra</td><td>__ebra</td><td>z</td><td>s · ss · x</td><td>No começo da palavra, este som é sempre Z: zebra.</td></tr>
+      <tr><td class="cod">ORT-041</td><td>🚗</td><td>carro</td><td>ca__o</td><td>rr</td><td>r · l · h</td><td>Entre vogais, o R forte se escreve RR: carro.</td></tr>
+      <tr><td class="cod">ORT-042</td><td>🌍</td><td>terra</td><td>te__a</td><td>rr</td><td>r · l · h</td><td>Entre vogais, o R forte se escreve RR: terra.</td></tr>
+      <tr><td class="cod">ORT-043</td><td>🐕</td><td>cachorro</td><td>cacho__o</td><td>rr</td><td>r · l · h</td><td>Entre vogais, o R forte se escreve RR: cachorro.</td></tr>
+      <tr><td class="cod">ORT-044</td><td>🔩</td><td>ferro</td><td>fe__o</td><td>rr</td><td>r · l · h</td><td>Entre vogais, o R forte se escreve RR: ferro.</td></tr>
+      <tr><td class="cod">ORT-045</td><td>🦒</td><td>girafa</td><td>__irafa</td><td>g</td><td>j · gu · ch</td><td>Antes de E e I, o G soa como J — e em girafa é com G.</td></tr>
+      <tr><td class="cod">ORT-046</td><td>🧊</td><td>gelo</td><td>__elo</td><td>g</td><td>j · gu · ch</td><td>Antes de E e I, o G soa como J — e em gelo é com G.</td></tr>
+      <tr><td class="cod">ORT-047</td><td>🪟</td><td>janela</td><td>__anela</td><td>j</td><td>g · ch · x</td><td>Antes de A, O e U este som é sempre J: janela.</td></tr>
+      <tr><td class="cod">ORT-048</td><td>🎲</td><td>jogo</td><td>__ogo</td><td>j</td><td>g · ch · x</td><td>Antes de A, O e U este som é sempre J: jogo.</td></tr>
+      <tr><td class="cod">ORT-049</td><td>📦</td><td>caixa</td><td>cai__a</td><td>x</td><td>ch · s · ss</td><td>Depois de ditongo (ai, ei, ou) vem X: caixa.</td></tr>
+      <tr><td class="cod">ORT-050</td><td>🐟</td><td>peixe</td><td>pei__e</td><td>x</td><td>ch · s · ss</td><td>Depois de ditongo (ai, ei, ou) vem X: peixe.</td></tr>
+      <tr><td class="cod">ORT-051</td><td>🪆</td><td>bruxa</td><td>bru__a</td><td>x</td><td>ch · s · ss</td><td>Não há regra aqui: bruxa é com X, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-052</td><td>🗑️</td><td>lixo</td><td>li__o</td><td>x</td><td>ch · s · ss</td><td>Não há regra aqui: lixo é com X, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-053</td><td>🚕</td><td>táxi</td><td>tá__i</td><td>x</td><td>ch · s · ss</td><td>Não há regra aqui: táxi é com X, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-054</td><td>☕</td><td>xícara</td><td>__ícara</td><td>x</td><td>ch · s · z</td><td>Não há regra aqui: xícara é com X, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-055</td><td>🚿</td><td>chuveiro</td><td>__uveiro</td><td>ch</td><td>x · s · ss</td><td>Não há regra aqui: chuveiro é com CH, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-056</td><td>🎒</td><td>mochila</td><td>mo__ila</td><td>ch</td><td>x · s · ss</td><td>Não há regra aqui: mochila é com CH, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-057</td><td>🔒</td><td>fechadura</td><td>fe__adura</td><td>ch</td><td>x · s · ss</td><td>Não há regra aqui: fechadura é com CH, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-058</td><td>🧣</td><td>cachecol</td><td>ca__ecol</td><td>ch</td><td>x · s · ss</td><td>Não há regra aqui: cachecol é com CH, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-059</td><td>🍵</td><td>chaleira</td><td>__aleira</td><td>ch</td><td>x · s · ss</td><td>Não há regra aqui: chaleira é com CH, e esta se decora.</td></tr>
+      <tr><td class="cod">ORT-060</td><td>🏊</td><td>piscina</td><td>pi__ina</td><td>sc</td><td>s · ss · c</td><td>Aqui o som de S vem de SC, com o C mudo: piscina.</td></tr>
+      <tr><td class="cod">ORT-061</td><td>🧅</td><td>cebola</td><td>__ebola</td><td>c</td><td>s · ss · ç</td><td>Antes de E e I, o C soa como S — e em cebola é com C.</td></tr>
+      <tr><td class="cod">ORT-062</td><td>🎪</td><td>circo</td><td>__irco</td><td>c</td><td>s · ss · ç</td><td>Antes de E e I, o C soa como S — e em circo é com C.</td></tr>
+      <tr><td class="cod">ORT-063</td><td>🍈</td><td>melancia</td><td>melan__ia</td><td>c</td><td>s · ss · ç</td><td>Antes de E e I, o C soa como S — e em melancia é com C.</td></tr>
+      <tr><td class="cod">ORT-064</td><td>🚲</td><td>bicicleta</td><td>bi__icleta</td><td>c</td><td>s · ss · ç</td><td>Antes de E e I, o C soa como S — e em bicicleta é com C.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="leitura">
+  <h2>Textos de leitura <span class="conta">20 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> 70 perguntas de interpretação. A voz do Lumus lê o texto inteiro para quem ainda não lê sozinho.</p>
+  <p class="nota">A regra do banco: as três erradas têm que ser <strong>plausíveis para quem não leu</strong> e <strong>claramente erradas para quem leu</strong>. Alternativa absurda a criança elimina sem ler, e aí a pergunta não mediu leitura nenhuma. E se duas alternativas podem ser defendidas lendo o texto, quem está errada é a pergunta.</p>
+  
+  <div class="bloco">
+    <h3>LEI-001 · 🐱 <span class="conta">degrau 1</span></h3>
+    <p class="lido">Miau é um gato preto. Ele dorme no telhado da casa. De noite, ele mia para a lua.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-001.1</td><td>literal</td><td>De que cor é o Miau?</td><td>Preto</td><td>Branco · Cinza · Laranja</td><td>O texto diz: Miau é um gato preto.</td></tr>
+        <tr><td class="cod">LEI-001.2</td><td>literal</td><td>Onde o Miau dorme?</td><td>No telhado</td><td>Na cama · No quintal · Na árvore</td><td>O texto diz que ele dorme no telhado da casa.</td></tr>
+        <tr><td class="cod">LEI-001.3</td><td>literal</td><td>Quando ele mia para a lua?</td><td>De noite</td><td>De manhã · Na hora do almoço · Na segunda-feira</td><td>O texto diz: de noite, ele mia para a lua.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-002 · ⚽ <span class="conta">degrau 1</span></h3>
+    <p class="lido">Pedro ganhou uma bola nova. Ele foi jogar no quintal com a irmã. A bola caiu dentro da horta.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-002.1</td><td>literal</td><td>O que o Pedro ganhou?</td><td>Uma bola</td><td>Uma bicicleta · Um cachorro · Um livro</td><td>O texto começa dizendo que Pedro ganhou uma bola nova.</td></tr>
+        <tr><td class="cod">LEI-002.2</td><td>literal</td><td>Com quem ele foi jogar?</td><td>Com a irmã</td><td>Com o pai · Com o vizinho · Sozinho</td><td>O texto diz que ele foi jogar com a irmã.</td></tr>
+        <tr><td class="cod">LEI-002.3</td><td>literal</td><td>Onde a bola caiu?</td><td>Na horta</td><td>No telhado · Na rua · No rio</td><td>A última frase diz que a bola caiu dentro da horta.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-003 · 🎂 <span class="conta">degrau 1</span></h3>
+    <p class="lido">Mamãe fez um bolo de cenoura. A casa inteira ficou com cheiro bom. Todos comeram no lanche da tarde.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-003.1</td><td>literal</td><td>De que era o bolo?</td><td>De cenoura</td><td>De chocolate · De banana · De milho</td><td>O texto diz: um bolo de cenoura.</td></tr>
+        <tr><td class="cod">LEI-003.2</td><td>literal</td><td>Quem fez o bolo?</td><td>A mamãe</td><td>O papai · A vovó · O irmão</td><td>A primeira frase diz que mamãe fez o bolo.</td></tr>
+        <tr><td class="cod">LEI-003.3</td><td>literal</td><td>Quando eles comeram?</td><td>No lanche da tarde</td><td>No café da manhã · Na janta · De madrugada</td><td>O texto termina dizendo: no lanche da tarde.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-004 · 🌧️ <span class="conta">degrau 1</span></h3>
+    <p class="lido">Começou a chover forte. As galinhas correram para o galinheiro. O cachorro ficou deitado na varanda.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-004.1</td><td>literal</td><td>Para onde as galinhas correram?</td><td>Para o galinheiro</td><td>Para a varanda · Para a horta · Para o telhado</td><td>O texto diz que as galinhas correram para o galinheiro.</td></tr>
+        <tr><td class="cod">LEI-004.2</td><td>literal</td><td>Onde ficou o cachorro?</td><td>Na varanda</td><td>No galinheiro · Dentro de casa · Na chuva</td><td>A última frase diz que o cachorro ficou na varanda.</td></tr>
+        <tr><td class="cod">LEI-004.3</td><td>inferência</td><td>Por que os bichos saíram do quintal?</td><td>Porque começou a chover</td><td>Porque estava com fome · Porque era de noite · Porque o dono chamou</td><td>O texto não diz o motivo, mas começa com a chuva forte — foi ela que fez todos correrem.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-005 · 🌱 <span class="conta">degrau 1</span></h3>
+    <p class="lido">Ana plantou um feijão no algodão. Ela molhou um pouquinho todo dia. Em uma semana nasceu a primeira folha.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-005.1</td><td>literal</td><td>O que a Ana plantou?</td><td>Um feijão</td><td>Uma flor · Uma cenoura · Um girassol</td><td>O texto diz: Ana plantou um feijão no algodão.</td></tr>
+        <tr><td class="cod">LEI-005.2</td><td>literal</td><td>O que a Ana fez todo dia?</td><td>Molhou</td><td>Cavou · Colheu · Contou</td><td>O texto diz que ela molhou um pouquinho todo dia.</td></tr>
+        <tr><td class="cod">LEI-005.3</td><td>literal</td><td>Quanto tempo levou para nascer a folha?</td><td>Uma semana</td><td>Um dia · Um mês · Um ano</td><td>O texto diz: em uma semana nasceu a primeira folha.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-006 · 🪁 <span class="conta">degrau 2</span></h3>
+    <p class="lido">Tomás levou a pipa para o campo. O vento estava fraco e ela não subia. Ele esperou um pouco, sentado na grama. Quando o vento voltou, a pipa subiu bem alto.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-006.1</td><td>literal</td><td>Para onde o Tomás levou a pipa?</td><td>Para o campo</td><td>Para a escola · Para a praia · Para o quintal</td><td>A primeira frase diz que ele levou a pipa para o campo.</td></tr>
+        <tr><td class="cod">LEI-006.2</td><td>inferência</td><td>Por que a pipa não subia no começo?</td><td>Porque o vento estava fraco</td><td>Porque o fio arrebentou · Porque estava chovendo · Porque a pipa era pesada</td><td>O texto diz que o vento estava fraco, e ela só subiu quando o vento voltou.</td></tr>
+        <tr><td class="cod">LEI-006.3</td><td>literal</td><td>O que o Tomás fez enquanto esperava?</td><td>Sentou na grama</td><td>Foi para casa · Correu com a pipa · Chamou um amigo</td><td>O texto diz que ele esperou sentado na grama.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-007 · 🐜 <span class="conta">degrau 2</span></h3>
+    <p class="lido">Uma formiga achou um pedaço de pão no chão da cozinha. Ela era pequena e o pedaço era grande. Ela chamou as outras formigas do formigueiro. Juntas, elas levaram o pão inteiro.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-007.1</td><td>literal</td><td>O que a formiga achou?</td><td>Um pedaço de pão</td><td>Uma folha · Um grão de açúcar · Uma migalha de bolo</td><td>O texto diz que ela achou um pedaço de pão no chão.</td></tr>
+        <tr><td class="cod">LEI-007.2</td><td>inferência</td><td>Por que ela chamou as outras?</td><td>Porque sozinha não daria conta</td><td>Porque estava com medo · Porque queria brincar · Porque se perdeu</td><td>O texto diz que ela era pequena e o pedaço era grande — por isso precisou de ajuda.</td></tr>
+        <tr><td class="cod">LEI-007.3</td><td>literal</td><td>Como o pão foi levado?</td><td>Por todas juntas</td><td>Por ela sozinha · Em pedaços · Não foi levado</td><td>A última frase diz: juntas, elas levaram o pão inteiro.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-008 · 🧺 <span class="conta">degrau 2</span></h3>
+    <p class="lido">No sábado, o vovô foi à feira com a Clara. Ele levou uma cesta de palha. Compraram laranja, alface e um queijo. Na volta, a cesta estava tão cheia que os dois carregaram juntos.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-008.1</td><td>literal</td><td>Em que dia eles foram à feira?</td><td>No sábado</td><td>No domingo · Na segunda · Na sexta</td><td>O texto começa dizendo: no sábado.</td></tr>
+        <tr><td class="cod">LEI-008.2</td><td>literal</td><td>O que eles compraram?</td><td>Laranja, alface e queijo</td><td>Pão, leite e ovo · Banana e arroz · Só laranja</td><td>O texto lista: laranja, alface e um queijo.</td></tr>
+        <tr><td class="cod">LEI-008.3</td><td>inferência</td><td>Por que os dois carregaram a cesta juntos?</td><td>Porque estava pesada</td><td>Porque a cesta quebrou · Porque estavam com pressa · Porque a Clara pediu</td><td>O texto diz que a cesta estava tão cheia — cesta cheia fica pesada para um só.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-009 · 🐈 <span class="conta">degrau 2</span></h3>
+    <p class="lido">O gato da vizinha sumiu de manhã. A família toda procurou pela rua e chamou pelo nome. À tarde, a Bia ouviu um miado fraco. Ele estava preso atrás do portão do quintal.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-009.1</td><td>literal</td><td>Quem ouviu o miado?</td><td>A Bia</td><td>A vizinha · O carteiro · Ninguém</td><td>O texto diz: à tarde, a Bia ouviu um miado fraco.</td></tr>
+        <tr><td class="cod">LEI-009.2</td><td>literal</td><td>Onde o gato estava?</td><td>Atrás do portão</td><td>Em cima da árvore · Na casa da vizinha · Debaixo do carro</td><td>A última frase diz que ele estava preso atrás do portão do quintal.</td></tr>
+        <tr><td class="cod">LEI-009.3</td><td>inferência</td><td>Por que demorou para acharem o gato?</td><td>Porque o miado era fraco</td><td>Porque ninguém procurou · Porque ele fugiu longe · Porque era de noite</td><td>Procuraram de manhã e só ouviram à tarde, e o texto diz que o miado era fraco.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-010 · 🏫 <span class="conta">degrau 2</span></h3>
+    <p class="lido">Era o primeiro dia de aula do Bento. Ele segurou a mão da mãe até a porta da sala. A professora sorriu e mostrou o lugar dele. No fim do dia, ele já sabia o nome de dois colegas.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-010.1</td><td>literal</td><td>Até onde o Bento segurou a mão da mãe?</td><td>Até a porta da sala</td><td>Até o portão · Até a carteira · Até o recreio</td><td>O texto diz: até a porta da sala.</td></tr>
+        <tr><td class="cod">LEI-010.2</td><td>literal</td><td>Quantos colegas ele já conhecia no fim do dia?</td><td>Dois</td><td>Um · Nenhum · A turma toda</td><td>A última frase diz que ele já sabia o nome de dois colegas.</td></tr>
+        <tr><td class="cod">LEI-010.3</td><td>inferência</td><td>Como o Bento estava no começo do dia?</td><td>Inseguro</td><td>Bravo · Com sono · Com fome</td><td>Ele segurou a mão da mãe até a porta — quem faz isso está inseguro, e depois melhorou.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-011 · ⛵ <span class="conta">degrau 3</span></h3>
+    <p class="lido">Depois da chuva, ficou uma poça comprida na calçada. Léo dobrou uma folha e fez um barquinho de papel. Ele colocou o barco na água e soprou devagar. O barco atravessou a poça inteira. Aos poucos, o papel foi ficando mole e o barco afundou.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-011.1</td><td>literal</td><td>Do que era o barco?</td><td>De papel</td><td>De madeira · De plástico · De folha de árvore</td><td>O texto diz: um barquinho de papel.</td></tr>
+        <tr><td class="cod">LEI-011.2</td><td>inferência</td><td>Por que o barco afundou no fim?</td><td>Porque o papel molhou</td><td>Porque o Léo pisou nele · Porque o vento parou · Porque a poça secou</td><td>O texto diz que o papel foi ficando mole — papel molhado não segura o barco.</td></tr>
+        <tr><td class="cod">LEI-011.3</td><td>vocabulário</td><td>No texto, o que é uma poça?</td><td>Água parada no chão</td><td>Um barco pequeno · Um pedaço de papel · Um tipo de chuva</td><td>A poça ficou na calçada depois da chuva: é água parada no chão.</td></tr>
+        <tr><td class="cod">LEI-011.4</td><td>literal</td><td>Como o Léo fez o barco andar?</td><td>Soprou</td><td>Empurrou com a mão · Puxou com um fio · Jogou uma pedra</td><td>O texto diz que ele soprou devagar.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-012 · 🥪 <span class="conta">degrau 3</span></h3>
+    <p class="lido">Na hora do recreio, o Davi abriu a lancheira e viu dois sanduíches. O colega do lado não tinha trazido nada e ficou olhando o chão. Davi ficou quieto um instante, pensando. Depois ele estendeu a mão com um dos sanduíches. Os dois comeram juntos, sentados no muro.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-012.1</td><td>literal</td><td>Quantos sanduíches o Davi tinha?</td><td>Dois</td><td>Um · Três · Nenhum</td><td>O texto diz que ele viu dois sanduíches na lancheira.</td></tr>
+        <tr><td class="cod">LEI-012.2</td><td>inferência</td><td>Por que o colega ficou olhando o chão?</td><td>Estava com vergonha</td><td>Tinha perdido algo · Estava com sono · Estava procurando a lancheira</td><td>Ele não tinha trazido nada e o Davi tinha dois — quem passa por isso costuma ficar sem graça.</td></tr>
+        <tr><td class="cod">LEI-012.3</td><td>inferência</td><td>Por que o Davi ficou quieto um instante?</td><td>Estava decidindo o que fazer</td><td>Estava com raiva · Estava contando os sanduíches · Estava esperando o sinal</td><td>O texto diz que ele ficou quieto pensando, e logo depois estendeu a mão.</td></tr>
+        <tr><td class="cod">LEI-012.4</td><td>vocabulário</td><td>No texto, o que quer dizer estendeu a mão?</td><td>Ofereceu</td><td>Bateu · Escondeu · Levantou o braço para pedir</td><td>Ele estendeu a mão com um sanduíche e os dois comeram juntos: ele ofereceu.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-013 · 🌻 <span class="conta">degrau 3</span></h3>
+    <p class="lido">A vovó plantou girassóis no canteiro da frente. De manhã, as flores estavam viradas para o nascente. Ao meio-dia, estavam olhando para cima. No fim da tarde, tinham virado para o outro lado. A vovó disse que elas seguem o sol o dia inteiro.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-013.1</td><td>literal</td><td>Onde a vovó plantou os girassóis?</td><td>No canteiro da frente</td><td>No quintal de trás · Num vaso · Na horta</td><td>O texto diz: no canteiro da frente.</td></tr>
+        <tr><td class="cod">LEI-013.2</td><td>inferência</td><td>Por que as flores mudam de posição?</td><td>Porque acompanham o sol</td><td>Porque o vento empurra · Porque a vovó vira elas · Porque estão murchando</td><td>A vovó explica no fim: elas seguem o sol o dia inteiro.</td></tr>
+        <tr><td class="cod">LEI-013.3</td><td>literal</td><td>Para onde as flores olhavam ao meio-dia?</td><td>Para cima</td><td>Para o nascente · Para o chão · Para a casa</td><td>O texto diz que ao meio-dia estavam olhando para cima.</td></tr>
+        <tr><td class="cod">LEI-013.4</td><td>vocabulário</td><td>No texto, o que é o nascente?</td><td>O lado onde o sol nasce</td><td>O nome da flor · O canteiro da vovó · O meio do dia</td><td>De manhã as flores olhavam para o nascente, e elas seguem o sol: é o lado onde o sol nasce.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-014 · 🚂 <span class="conta">degrau 3</span></h3>
+    <p class="lido">A família viajou de trem para visitar os tios. Clara escolheu o lugar da janela e não largou dali. Ela viu um rio, uma ponte e três vacas paradas no pasto. O irmão dormiu quase o caminho todo. Quando ele acordou, já estavam chegando.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-014.1</td><td>literal</td><td>O que a Clara viu no pasto?</td><td>Três vacas</td><td>Dois cavalos · Um rio · Uma ponte</td><td>O texto diz: três vacas paradas no pasto.</td></tr>
+        <tr><td class="cod">LEI-014.2</td><td>literal</td><td>O que o irmão fez na viagem?</td><td>Dormiu</td><td>Leu um livro · Ficou na janela · Conversou com os tios</td><td>O texto diz que ele dormiu quase o caminho todo.</td></tr>
+        <tr><td class="cod">LEI-014.3</td><td>inferência</td><td>Quem aproveitou mais a paisagem?</td><td>A Clara</td><td>O irmão · Os dois igualmente · Os tios</td><td>Clara ficou na janela vendo tudo e o irmão dormiu quase o caminho todo.</td></tr>
+        <tr><td class="cod">LEI-014.4</td><td>vocabulário</td><td>No texto, o que é o pasto?</td><td>O campo onde ficam os animais</td><td>A janela do trem · Um tipo de ponte · A casa dos tios</td><td>As vacas estavam paradas no pasto: é o campo onde os animais ficam.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-015 · 🎸 <span class="conta">degrau 3</span></h3>
+    <p class="lido">O violão do vovô ficava pendurado na parede da sala. Ninguém tocava desde que ele mudou de cidade. Um dia, o Téo pegou o violão e tentou uma nota. Saiu um som feio e ele quase desistiu. Ele treinou uma semana e, no domingo, tocou uma música inteira.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-015.1</td><td>literal</td><td>Onde ficava o violão?</td><td>Pendurado na parede</td><td>Dentro do armário · Em cima da mesa · Na casa do vovô</td><td>A primeira frase diz que ele ficava pendurado na parede da sala.</td></tr>
+        <tr><td class="cod">LEI-015.2</td><td>inferência</td><td>Por que ninguém tocava o violão?</td><td>Porque o vovô tinha mudado de cidade</td><td>Porque estava quebrado · Porque era proibido · Porque ninguém gostava</td><td>O texto diz: ninguém tocava desde que ele mudou de cidade.</td></tr>
+        <tr><td class="cod">LEI-015.3</td><td>inferência</td><td>O que fez o Téo conseguir tocar?</td><td>Treinar todo dia</td><td>Trocar o violão · Esperar o vovô voltar · Ter sorte</td><td>O primeiro som saiu feio, mas ele treinou uma semana e conseguiu.</td></tr>
+        <tr><td class="cod">LEI-015.4</td><td>literal</td><td>Quando ele tocou a música inteira?</td><td>No domingo</td><td>No mesmo dia · No sábado · Depois de um ano</td><td>O texto termina dizendo: no domingo, tocou uma música inteira.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-016 · 🐦 <span class="conta">degrau 4</span></h3>
+    <p class="lido">Todo ano, no começo do frio, as andorinhas somem da cidade. Elas voam milhares de quilômetros até um lugar mais quente. Lá elas passam a estação e depois voltam. No mesmo telhado, no mesmo cantinho de sempre. Dona Rita marca no calendário o dia em que elas chegam. Ela diz que é o aviso de que o inverno acabou.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-016.1</td><td>literal</td><td>Quando as andorinhas somem?</td><td>No começo do frio</td><td>No começo do calor · Quando chove · Quando anoitece</td><td>A primeira frase diz: no começo do frio.</td></tr>
+        <tr><td class="cod">LEI-016.2</td><td>inferência</td><td>Por que elas vão embora?</td><td>Para fugir do frio</td><td>Para achar o telhado · Porque o telhado quebrou · Para visitar a Dona Rita</td><td>Elas somem no frio e voam até um lugar mais quente.</td></tr>
+        <tr><td class="cod">LEI-016.3</td><td>inferência</td><td>Por que a chegada delas avisa que o inverno acabou?</td><td>Porque elas só voltam quando esquenta</td><td>Porque a Dona Rita chama elas · Porque o calendário diz · Porque elas trazem o sol</td><td>Elas foram embora com o frio e voltam depois da estação: a volta é sinal de calor.</td></tr>
+        <tr><td class="cod">LEI-016.4</td><td>vocabulário</td><td>No texto, o que quer dizer estação?</td><td>Uma parte do ano</td><td>Um lugar de pegar trem · Um tipo de ninho · Uma viagem</td><td>Elas passam a estação no lugar quente e depois voltam: é uma parte do ano, como o inverno.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-017 · 🌦️ <span class="conta">degrau 4</span></h3>
+    <p class="lido">Choveu a noite inteira e o formigueiro do quintal alagou. De manhã, as formigas subiram pelo muro em fila. Cada uma levava um ovinho branco nas costas. Elas pararam num canto seco embaixo do beiral. Quando o sol apareceu, começaram a cavar de novo. Em dois dias havia um formigueiro novo ali.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-017.1</td><td>literal</td><td>O que cada formiga levava nas costas?</td><td>Um ovinho branco</td><td>Uma folha · Um pedaço de pão · Um graveto</td><td>O texto diz que cada uma levava um ovinho branco nas costas.</td></tr>
+        <tr><td class="cod">LEI-017.2</td><td>inferência</td><td>Por que elas saíram do formigueiro?</td><td>Porque ele alagou</td><td>Porque acabou a comida · Porque estava lotado · Porque alguém pisou nele</td><td>Choveu a noite inteira e o formigueiro alagou — por isso subiram pelo muro.</td></tr>
+        <tr><td class="cod">LEI-017.3</td><td>inferência</td><td>Por que elas escolheram o canto embaixo do beiral?</td><td>Porque estava seco</td><td>Porque era mais perto · Porque tinha comida · Porque era escuro</td><td>O texto diz: pararam num canto seco embaixo do beiral, depois de fugirem da água.</td></tr>
+        <tr><td class="cod">LEI-017.4</td><td>literal</td><td>Quanto tempo levou o formigueiro novo?</td><td>Dois dias</td><td>Uma noite · Uma semana · Um mês</td><td>A última frase diz: em dois dias havia um formigueiro novo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-018 · 🥕 <span class="conta">degrau 4</span></h3>
+    <p class="lido">A vovó separou um canteiro pequeno para cada neto. Deu a mesma terra, a mesma semente e o mesmo regador. O canteiro do Ivo virou um pé de cenoura bonito. O da Malu quase não cresceu. Ela tinha molhado tudo de uma vez no primeiro dia e depois esqueceu. A vovó disse que planta não precisa de muita água — precisa de água todo dia.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-018.1</td><td>literal</td><td>O que a vovó deu para cada neto?</td><td>Terra, semente e regador</td><td>Só a semente · Uma cenoura pronta · Um canteiro grande</td><td>O texto diz: a mesma terra, a mesma semente e o mesmo regador.</td></tr>
+        <tr><td class="cod">LEI-018.2</td><td>inferência</td><td>Por que o canteiro da Malu não cresceu?</td><td>Porque ela regou só uma vez</td><td>Porque a semente era ruim · Porque a terra era fraca · Porque o Ivo pegou a água dela</td><td>Ela molhou tudo de uma vez e depois esqueceu — e a vovó explica que precisa ser todo dia.</td></tr>
+        <tr><td class="cod">LEI-018.3</td><td>inferência</td><td>O que a história quer ensinar?</td><td>Que o cuidado precisa ser constante</td><td>Que cenoura é difícil de plantar · Que a vovó gosta mais do Ivo · Que regador grande é melhor</td><td>As duas condições eram iguais; a diferença foi molhar todo dia em vez de tudo de uma vez.</td></tr>
+        <tr><td class="cod">LEI-018.4</td><td>vocabulário</td><td>No texto, o que é um canteiro?</td><td>Um pedaço de terra para plantar</td><td>Um regador · Um tipo de semente · Um cesto de cenoura</td><td>Cada neto ganhou um canteiro para plantar a sua semente.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-019 · 🌙 <span class="conta">degrau 4</span></h3>
+    <p class="lido">Toda noite o Caio olhava a lua da janela do quarto. Num dia ela era um risquinho fino. Uma semana depois, era meia lua. Depois de mais uma semana, era um círculo inteiro e claro. Ele desenhou cada uma num caderno, com a data do lado. No fim do mês, o caderno mostrava a lua crescendo e minguando de novo.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-019.1</td><td>literal</td><td>Onde o Caio olhava a lua?</td><td>Da janela do quarto</td><td>Do quintal · Do telhado · Da rua</td><td>A primeira frase diz: da janela do quarto.</td></tr>
+        <tr><td class="cod">LEI-019.2</td><td>literal</td><td>O que ele fazia no caderno?</td><td>Desenhava a lua com a data</td><td>Escrevia histórias · Fazia contas · Colava figurinhas</td><td>O texto diz que ele desenhou cada uma com a data do lado.</td></tr>
+        <tr><td class="cod">LEI-019.3</td><td>inferência</td><td>Para que servia anotar a data?</td><td>Para saber quanto tempo levava cada mudança</td><td>Para não perder o caderno · Para mostrar na escola · Para lembrar de olhar</td><td>Com a data, o caderno mostrou a lua mudando ao longo do mês.</td></tr>
+        <tr><td class="cod">LEI-019.4</td><td>vocabulário</td><td>No texto, o que é minguando?</td><td>Ficando menor</td><td>Ficando maior · Ficando escondida · Ficando mais clara</td><td>O caderno mostrava a lua crescendo e minguando: depois de crescer, ela volta a ficar menor.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="bloco">
+    <h3>LEI-020 · 🔑 <span class="conta">degrau 4</span></h3>
+    <p class="lido">O papai procurou a chave do carro a manhã inteira. Olhou no bolso do casaco, na gaveta e embaixo do sofá. Estava quase desistindo quando a Sofia perguntou onde ele tinha ido por último. Ele lembrou que só tinha saído para levar o lixo. A chave estava pendurada do lado de fora, na fechadura do portão. Desde esse dia, ele passou a pendurar a chave sempre no mesmo gancho.</p>
+    <table>
+      <thead><tr><th class="cod">Código</th><th>Tipo</th><th>Pergunta</th><th>Resposta certa</th><th>Alternativas erradas</th><th>Onde está no texto</th></tr></thead>
+      <tbody>
+        <tr><td class="cod">LEI-020.1</td><td>literal</td><td>Onde estava a chave?</td><td>Na fechadura do portão</td><td>No bolso do casaco · Embaixo do sofá · Na gaveta</td><td>O texto diz: pendurada do lado de fora, na fechadura do portão.</td></tr>
+        <tr><td class="cod">LEI-020.2</td><td>inferência</td><td>O que a pergunta da Sofia ajudou o papai a fazer?</td><td>Lembrar por onde tinha passado</td><td>Achar o casaco · Abrir a gaveta · Chamar um chaveiro</td><td>Ela perguntou onde ele tinha ido por último, e aí ele lembrou do lixo — e da chave.</td></tr>
+        <tr><td class="cod">LEI-020.3</td><td>inferência</td><td>Por que ele passou a usar sempre o mesmo gancho?</td><td>Para não perder de novo</td><td>Porque a Sofia mandou · Porque o portão quebrou · Porque o gancho era novo</td><td>Depois de perder a manhã inteira procurando, ele criou um lugar fixo para a chave.</td></tr>
+        <tr><td class="cod">LEI-020.4</td><td>literal</td><td>Quanto tempo ele procurou?</td><td>A manhã inteira</td><td>Cinco minutos · A tarde toda · Dois dias</td><td>A primeira frase diz que ele procurou a manhã inteira.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Lumus — Kids Game Hub</strong> · ElCamargo Soluções em TI LTDA · Blumenau, SC<br>
+  Gerado a partir de <code>src/data/palavras.js, ortografia.js e leitura.js (npm run doc-bancos)</code>.
+  Os códigos seguem a ordem das tabelas: acrescentar uma linha no meio desloca
+  as seguintes, então vale marcar tudo neste mesmo documento e só depois gerar
+  o próximo. Cada linha traz o nome ao lado do código, que desfaz qualquer dúvida.</p>
+  
+</footer>
+
+</div>
+</body>
+</html>

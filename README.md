@@ -1398,6 +1398,8 @@ scripts/
   check-faixas.mjs   garante que toda faixa existe em todo mapa que depende dela
   check-rodadas.mjs  monta uma rodada de cada trilha e faixa e confere se é jogável
   doc-biblia.mjs     gera o documento de revisão do banco bíblico, para leigo ler
+  doc-bancos.mjs     gera os outros três: escola, mundo e devocional em família
+  lib/doc-revisao.mjs  a folha que os dois usam — CSS, moldura e a montagem das seções
   baixar-bandeiras.mjs  busca no Wikimedia Commons o que o flag-icons não tem
 flags-extra/       as 42 bandeiras baixadas à mão, com FONTES.md ao lado
 .github/workflows/
@@ -1508,32 +1510,48 @@ Ordem decidida com o pai, do que mais pesa para o que menos pesa.
 - [x] **Ciências além dos bichos** *(Pesquisar)* — feito: corpo humano, plantas, água, sentidos, materiais e higiene
 - [x] **O Brasil antes do mundo** *(Relacionar)* — feito: as 5 regiões, os 27 estados, símbolos e biomas — e a rodada abre pelo estado onde a criança mora
 
-### O documento de revisão do banco bíblico
+### Os documentos de revisão dos bancos
 
-As 2000+ perguntas da Bíblia **não são escritas uma a uma**: são geradas de
-tabelas de fatos. Um capítulo errado em Gênesis vira quatro perguntas erradas
-de uma vez — então o que precisa de revisão são os **fatos**, não as perguntas.
+As perguntas do app **não são escritas uma a uma**: são geradas de tabelas de
+fatos. Um capítulo errado em Gênesis vira quatro perguntas erradas de uma vez, e
+um bicho no grupo errado vira cinco — então o que precisa de revisão são os
+**fatos**, não as perguntas.
 
 ```bash
-npm run doc-biblia
+npm run doc-revisao
 ```
 
-Gera `docs/revisao-biblia.html`: uma página única com **770 fatos** em 14
-seções — os 66 livros, 201 personagens, 96 lugares, 33 milagres, 28 parábolas,
-83 versículos, e o resto. Cada linha tem um código (`PRB-003`) e o nome ao
-lado, e cada seção explica **em que perguntas aquela tabela vira** — para o
-revisor saber o peso do que está olhando.
+Gera quatro páginas em `docs/`, e a divisão **não é por arquivo de dados: é por
+quem revisa**. Não adianta mandar 1.800 linhas para uma pessoa só.
 
-A página abre offline, não busca nada na rede e não tem script: as mesmas
-regras do app valem para o que sai dele. Dá para imprimir ou mandar o arquivo
-por mensagem, e quem revisa **não precisa abrir uma linha de código** — cita o
-código e diz o que está errado.
+| Arquivo | Para quem | O que tem |
+| --- | --- | --- |
+| `revisao-biblia.html` | pastor | 770 fatos — 66 livros, 201 personagens, 96 lugares, 33 milagres, 28 parábolas, 83 versículos |
+| `revisao-escola.html` | professora de alfabetização | 258 linhas — 124 palavras com as sílabas separadas à mão, 64 palavras de ortografia, 20 textos e as 70 perguntas deles |
+| `revisao-mundo.html` | professora, ou quem gosta de mapa | 639 fatos — 94 animais, 47 de ciências, 235 curiosidades, os 27 estados, 25 fatos do Brasil e as capitais |
+| `revisao-familia.html` | pastor, ou os pais | 130 linhas — os 7 princípios, o versículo do dia, os 49 devocionais e as 28 perguntas do caderno |
 
-É a ferramenta que destrava o item do roadmap que depende de outras pessoas:
-revisar 770 linhas é um fim de semana; revisar duas mil perguntas ninguém faz.
+O devocional sai **separado do banco bíblico** de propósito: lá são perguntas de
+quiz, com resposta certa e errada; aqui é Escritura que a família lê junta. Quem
+revisa uma coisa não revisa a outra do mesmo jeito.
+
+Cada linha tem um código (`PRB-003`, `PAL-014`, `LEI-003.2`) e o nome ao lado, e
+cada seção explica **em que perguntas aquela tabela vira** — para o revisor saber
+o peso do que está olhando. As seções que pedem olho especial trazem aviso: a
+autoria dos livros é a tradicional, o ensino das parábolas é revisão doutrinária,
+a separação de sílabas é o que a criança copia para o caderno.
+
+As páginas abrem offline, não buscam nada na rede e não têm script: as mesmas
+regras do app valem para o que sai dele. Dá para imprimir ou mandar o arquivo por
+mensagem, e quem revisa **não precisa abrir uma linha de código** — cita o código
+e diz o que está errado.
+
+É a ferramenta que destrava os itens do roadmap que dependem de outras pessoas:
+revisar uma tabela é um fim de semana; revisar milhares de perguntas ninguém faz.
 ### Depende de outras pessoas
 
-- [ ] Revisão pastoral do banco de perguntas bíblicas — o documento para revisar já existe (`npm run doc-biblia`), falta a pessoa
+- [ ] Revisão pastoral do banco bíblico e do devocional — os documentos já existem (`npm run doc-revisao`), falta a pessoa
+- [ ] Revisão de professora nos bancos da escola e do mundo — mesma coisa: o documento existe, falta quem leia
 - [ ] Versículos e falas em francês, alemão e italiano, de edição em domínio público conferida
 - [ ] Publicar na Play Store por TWA, sem reescrever ([ADR 0001](docs/decisoes/0001-pwa-ou-apps-nativos.md))
 - [ ] Devocionais em francês, alemão e italiano (o versículo pede edição em domínio público conferida)

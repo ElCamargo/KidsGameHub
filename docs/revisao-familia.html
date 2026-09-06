@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumus — revisão do devocional e do versículo do dia</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #FAF9F6; color: #1B2A6B;
+    font-family: Georgia, "Times New Roman", serif; line-height: 1.65; }
+  .folha { max-width: 940px; margin: 0 auto; padding: 32px 22px 80px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 4px; }
+  .sub { color: #6C7695; font-size: 15px; margin: 0 0 26px; }
+  h2 { font-size: 21px; margin: 38px 0 6px; padding-top: 14px; border-top: 3px solid #1B2A6B; }
+  .conta { float: right; font-size: 13px; font-weight: normal; color: #6C7695;
+    font-family: ui-monospace, Consolas, monospace; padding-top: 8px; }
+  .vira { margin: 0 0 10px; font-size: 14px; color: #3C4A7A; }
+  .nota { margin: 0 0 12px; font-size: 14px; background: #FFF4D6; border-left: 4px solid #F9A826;
+    padding: 9px 12px; }
+  .caixa { background: #EEF1FF; border: 2px solid #C3CBEA; border-radius: 10px;
+    padding: 16px 18px; margin: 0 0 26px; }
+  .caixa h3 { margin: 0 0 8px; font-size: 17px; }
+  .caixa ol { margin: 0; padding-left: 20px; }
+  .caixa li { margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px;
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  th { text-align: left; background: #1B2A6B; color: #fff; padding: 7px 9px; font-weight: 700; }
+  td { padding: 6px 9px; border-bottom: 1px solid #E0E4F0; vertical-align: top; }
+  tbody tr:nth-child(even) { background: #F2F4FB; }
+  .cod { font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    color: #6C7695; white-space: nowrap; width: 1%; }
+  .fig { font-size: 20px; text-align: center; width: 1%; }
+  .bloco { margin: 20px 0 28px; }
+  .bloco h3 { font-size: 16px; margin: 0 0 6px; }
+  .bloco h3 .conta { float: none; margin-left: 8px; }
+  .lido { background: #fff; border-left: 4px solid #4C6FFF; padding: 10px 14px;
+    margin: 0 0 8px; font-size: 15px; }
+  nav { font-size: 14px; margin: 0 0 8px; }
+  nav a { color: #4C6FFF; margin-right: 14px; white-space: nowrap; display: inline-block; }
+  footer { margin-top: 48px; padding-top: 14px; border-top: 2px solid #C3CBEA;
+    font-size: 13px; color: #6C7695; }
+  @media print {
+    body { background: #fff; }
+    .folha { max-width: none; padding: 0; }
+    h2 { break-after: avoid; }
+    tr { break-inside: avoid; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<h1>Lumus — revisão do devocional e do versículo do dia</h1>
+<p class="sub">130 linhas para conferir · v1.1.0-3-gcb363a6 · gerado em 2026-09-06</p>
+
+<div class="caixa">
+  <h3>O que é isto, e o que se espera de quem lê</h3>
+  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  e sem coleta de dados, dado de graça a famílias. Além dos jogos, ele tem um
+  <strong>Momento em Família</strong>: um devocional curto por dia, para fazer junto.</p>
+
+  <p>Este documento é <strong>diferente do da Bíblia</strong>, e por isso vem separado. Lá são
+  perguntas de quiz, com resposta certa e errada. Aqui é Escritura que a família lê
+  junta e uma conversa que ela puxa — o erro aqui não reprova ninguém numa prova,
+  entra na casa das pessoas.</p>
+
+  <h3>O que procurar</h3>
+  <ol>
+    <li><strong>A citação está fiel, e a referência confere?</strong> O português é da Almeida em
+      domínio público; o inglês, King James; o espanhol, Reina-Valera 1909.</li>
+    <li><strong>Tem alguma coisa que divida igrejas?</strong> A regra é ficar em terreno comum —
+      Salmos, Provérbios e os princípios. Escatologia, batismo e governo eclesiástico
+      ficam de fora: a mesa de cada família é da igreja dela. Se algo passou, aponte.</li>
+    <li><strong>As sete frases dos princípios</strong> são o resumo que a criança leva. É a parte
+      que mais pede olho pastoral.</li>
+    <li><strong>A atitude do dia cabe hoje?</strong> Pequena, concreta, e sem depender de dinheiro
+      ou de carro — a família que vai usar isso pode não ter nenhum dos dois.</li>
+  </ol>
+
+  <h3>Como marcar</h3>
+  <p style="margin-bottom:0">Cada linha tem um código à esquerda (<span class="cod">VDD-004</span>,
+  <span class="cod">DEV-012</span>…). Basta escrever o código e o que está errado —
+  numa mensagem, num papel, do jeito que for mais fácil. Não é preciso abrir nada
+  de programação.</p>
+</div>
+
+<nav><a href="#principios">Os sete princípios</a><a href="#versiculos">O versículo do dia</a><a href="#devocional">O devocional em família</a><a href="#caderno">As perguntas do caderno</a></nav>
+
+
+<section id="principios">
+  <h2>Os sete princípios <span class="conta">7 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> a espinha do devocional: cada semana fica num princípio, e os sete dias daquela semana o aprofundam. As perguntas do caderno seguem os mesmos sete.</p>
+  <p class="nota">Aqui a revisão é <strong>doutrinária</strong>, e é a mais importante deste documento: estas sete frases são o resumo que a criança leva. Vieram da Abordagem Educacional por Princípios.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Princípio</th><th>A ideia, em uma frase</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">PRI-001</td><td>Soberania</td><td>Deus governa tudo, e nada foge das mãos dele.</td></tr>
+      <tr><td class="cod">PRI-002</td><td>Individualidade</td><td>Cada pessoa é única e foi feita com um propósito.</td></tr>
+      <tr><td class="cod">PRI-003</td><td>Autogoverno</td><td>Antes de governar qualquer coisa, governo a mim mesmo.</td></tr>
+      <tr><td class="cod">PRI-004</td><td>Caráter</td><td>A marca que eu deixo em tudo o que falo e faço.</td></tr>
+      <tr><td class="cod">PRI-005</td><td>Aliança</td><td>Somos muitos, mas precisamos uns dos outros.</td></tr>
+      <tr><td class="cod">PRI-006</td><td>Semeadura e Colheita</td><td>Toda escolha planta alguma coisa. Nada acontece por acaso.</td></tr>
+      <tr><td class="cod">PRI-007</td><td>Mordomia</td><td>Cuidar bem do que me foi confiado — coisas, tempo e pessoas.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="versiculos">
+  <h2>O versículo do dia <span class="conta">46 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> um versículo por dia na tela inicial, o mesmo para todos os perfis do aparelho — para a criança poder decorar o de hoje.</p>
+  <p class="nota">É <strong>Escritura citada</strong>. O texto em português é da <strong>Almeida</strong>, em domínio público (o inglês é a King James, o espanhol a Reina-Valera 1909). Vale conferir a fidelidade da citação e a referência. Só Salmos e Provérbios, curtos e de encorajamento: nada de doutrina que divida igrejas, porque o app vai para o mundo todo.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Versículo</th><th>Referência</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">VDD-001</td><td>O Senhor é o meu pastor; nada me faltará.</td><td>Salmos 23:1</td></tr>
+      <tr><td class="cod">VDD-002</td><td>Lâmpada para os meus pés é a tua palavra.</td><td>Salmos 119:105</td></tr>
+      <tr><td class="cod">VDD-003</td><td>Este é o dia que o Senhor fez; alegremo-nos nele.</td><td>Salmos 118:24</td></tr>
+      <tr><td class="cod">VDD-004</td><td>Deus é o nosso refúgio e fortaleza.</td><td>Salmos 46:1</td></tr>
+      <tr><td class="cod">VDD-005</td><td>Elevo os meus olhos para os montes: de onde me vem o socorro?</td><td>Salmos 121:1</td></tr>
+      <tr><td class="cod">VDD-006</td><td>Eu te louvarei, porque de um modo assombroso fui formado.</td><td>Salmos 139:14</td></tr>
+      <tr><td class="cod">VDD-007</td><td>Provai e vede que o Senhor é bom.</td><td>Salmos 34:8</td></tr>
+      <tr><td class="cod">VDD-008</td><td>O Senhor é a minha luz e a minha salvação.</td><td>Salmos 27:1</td></tr>
+      <tr><td class="cod">VDD-009</td><td>Servi ao Senhor com alegria.</td><td>Salmos 100:2</td></tr>
+      <tr><td class="cod">VDD-010</td><td>Quão bom e quão suave é que os irmãos vivam em união!</td><td>Salmos 133:1</td></tr>
+      <tr><td class="cod">VDD-011</td><td>Os céus manifestam a glória de Deus.</td><td>Salmos 19:1</td></tr>
+      <tr><td class="cod">VDD-012</td><td>Cria em mim, ó Deus, um coração puro.</td><td>Salmos 51:10</td></tr>
+      <tr><td class="cod">VDD-013</td><td>No dia em que eu temer, hei de confiar em ti.</td><td>Salmos 56:3</td></tr>
+      <tr><td class="cod">VDD-014</td><td>Entrega o teu caminho ao Senhor; confia nele.</td><td>Salmos 37:5</td></tr>
+      <tr><td class="cod">VDD-015</td><td>O Senhor é bom para todos.</td><td>Salmos 145:9</td></tr>
+      <tr><td class="cod">VDD-016</td><td>Em paz me deitarei e logo dormirei.</td><td>Salmos 4:8</td></tr>
+      <tr><td class="cod">VDD-017</td><td>Bendize, ó minha alma, ao Senhor.</td><td>Salmos 103:1</td></tr>
+      <tr><td class="cod">VDD-018</td><td>Ensina-nos a contar os nossos dias.</td><td>Salmos 90:12</td></tr>
+      <tr><td class="cod">VDD-019</td><td>Faze-me saber os teus caminhos, Senhor.</td><td>Salmos 25:4</td></tr>
+      <tr><td class="cod">VDD-020</td><td>Ele sara os quebrantados de coração.</td><td>Salmos 147:3</td></tr>
+      <tr><td class="cod">VDD-021</td><td>O Senhor guardará a tua saída e a tua entrada.</td><td>Salmos 121:8</td></tr>
+      <tr><td class="cod">VDD-022</td><td>Alegrei-me quando me disseram: vamos à casa do Senhor.</td><td>Salmos 122:1</td></tr>
+      <tr><td class="cod">VDD-023</td><td>Ainda que eu ande pelo vale da sombra da morte, não temerei mal algum.</td><td>Salmos 23:4</td></tr>
+      <tr><td class="cod">VDD-024</td><td>O Senhor é a força da minha vida.</td><td>Salmos 27:1</td></tr>
+      <tr><td class="cod">VDD-025</td><td>Confia no Senhor de todo o teu coração.</td><td>Provérbios 3:5</td></tr>
+      <tr><td class="cod">VDD-026</td><td>Ensina a criança no caminho em que deve andar.</td><td>Provérbios 22:6</td></tr>
+      <tr><td class="cod">VDD-027</td><td>A resposta branda desvia o furor.</td><td>Provérbios 15:1</td></tr>
+      <tr><td class="cod">VDD-028</td><td>Em todo o tempo ama o amigo.</td><td>Provérbios 17:17</td></tr>
+      <tr><td class="cod">VDD-029</td><td>Confia ao Senhor as tuas obras, e teus pensamentos serão estabelecidos.</td><td>Provérbios 16:3</td></tr>
+      <tr><td class="cod">VDD-030</td><td>Uma boa palavra alegra o coração.</td><td>Provérbios 12:25</td></tr>
+      <tr><td class="cod">VDD-031</td><td>Como o ferro afia o ferro, assim o homem afia o seu amigo.</td><td>Provérbios 27:17</td></tr>
+      <tr><td class="cod">VDD-032</td><td>O temor do Senhor é o princípio do conhecimento.</td><td>Provérbios 1:7</td></tr>
+      <tr><td class="cod">VDD-033</td><td>Sobre tudo o que se deve guardar, guarda o teu coração.</td><td>Provérbios 4:23</td></tr>
+      <tr><td class="cod">VDD-034</td><td>Há amigo mais chegado do que um irmão.</td><td>Provérbios 18:24</td></tr>
+      <tr><td class="cod">VDD-035</td><td>Anda com os sábios e serás sábio.</td><td>Provérbios 13:20</td></tr>
+      <tr><td class="cod">VDD-036</td><td>Palavras suaves são favo de mel, doces para a alma.</td><td>Provérbios 16:24</td></tr>
+      <tr><td class="cod">VDD-037</td><td>Até a criança se dá a conhecer pelas suas ações.</td><td>Provérbios 20:11</td></tr>
+      <tr><td class="cod">VDD-038</td><td>A alma generosa prosperará.</td><td>Provérbios 11:25</td></tr>
+      <tr><td class="cod">VDD-039</td><td>Ouve o conselho e recebe a instrução.</td><td>Provérbios 19:20</td></tr>
+      <tr><td class="cod">VDD-040</td><td>O coração alegre aformoseia o rosto.</td><td>Provérbios 15:13</td></tr>
+      <tr><td class="cod">VDD-041</td><td>O que guarda a sua boca guarda a sua alma.</td><td>Provérbios 21:23</td></tr>
+      <tr><td class="cod">VDD-042</td><td>O amor cobre todas as faltas.</td><td>Provérbios 10:12</td></tr>
+      <tr><td class="cod">VDD-043</td><td>Não deixes de fazer o bem a quem precisa, estando em tuas mãos fazê-lo.</td><td>Provérbios 3:27</td></tr>
+      <tr><td class="cod">VDD-044</td><td>O justo cai sete vezes e torna a levantar-se.</td><td>Provérbios 24:16</td></tr>
+      <tr><td class="cod">VDD-045</td><td>O que anda em sinceridade anda seguro.</td><td>Provérbios 10:9</td></tr>
+      <tr><td class="cod">VDD-046</td><td>A sabedoria é a coisa principal; adquire a sabedoria.</td><td>Provérbios 4:7</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="devocional">
+  <h2>O devocional em família <span class="conta">49 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> um por dia na tela do Momento em Família: o versículo, uma pergunta para conversar e uma atitude para hoje.</p>
+  <p class="nota">Três coisas para olhar. O <strong>versículo</strong> é Escritura citada, como acima. A <strong>pergunta</strong> não tem resposta certa, e é de propósito — é para conversar, não para acertar. E a <strong>atitude</strong> tem que caber no dia de hoje: “ame mais” não é atitude, “diga obrigado a quem fez o seu almoço” é.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Princípio</th><th>Dia</th><th>Versículo</th><th>Referência</th><th>A pergunta para conversar</th><th>A atitude de hoje</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">DEV-001</td><td>Soberania</td><td>1</td><td>No princípio criou Deus os céus e a terra.</td><td>Gênesis 1:1</td><td>Olhando pela janela, o que você acha mais bonito que Deus fez?</td><td>Saiam juntos por dois minutos e cada um aponta uma coisa que Deus fez.</td></tr>
+      <tr><td class="cod">DEV-002</td><td>Soberania</td><td>2</td><td>Os céus manifestam a glória de Deus.</td><td>Salmos 19:1</td><td>O céu de hoje está de que jeito? O que ele conta para você?</td><td>Olhem o céu juntos antes de dormir.</td></tr>
+      <tr><td class="cod">DEV-003</td><td>Soberania</td><td>3</td><td>O Senhor é bom para todos.</td><td>Salmos 145:9</td><td>Qual foi a coisa boa que aconteceu com você hoje?</td><td>Cada um agradece por uma coisa boa do dia, em voz alta.</td></tr>
+      <tr><td class="cod">DEV-004</td><td>Soberania</td><td>4</td><td>Grande é o nosso Senhor, e de grande poder.</td><td>Salmos 147:5</td><td>Tem alguma coisa que te dá medo? Deus é maior que ela?</td><td>Orem juntos por uma coisa que dá medo em alguém da casa.</td></tr>
+      <tr><td class="cod">DEV-005</td><td>Soberania</td><td>5</td><td>O Senhor guardará a tua saída e a tua entrada.</td><td>Salmos 121:8</td><td>Para onde você foi hoje? Quem estava cuidando de você?</td><td>Ao sair de casa amanhã, digam juntos: o Senhor vai conosco.</td></tr>
+      <tr><td class="cod">DEV-006</td><td>Soberania</td><td>6</td><td>Este é o dia que o Senhor fez; alegremo-nos nele.</td><td>Salmos 118:24</td><td>Se hoje foi um presente, qual foi a melhor parte dele?</td><td>Contem um para o outro a melhor parte do dia de hoje.</td></tr>
+      <tr><td class="cod">DEV-007</td><td>Soberania</td><td>7</td><td>Bendize, ó minha alma, ao Senhor.</td><td>Salmos 103:1</td><td>O que você quer dizer para Deus hoje?</td><td>Cantem juntos uma música que a família goste.</td></tr>
+      <tr><td class="cod">DEV-008</td><td>Individualidade</td><td>1</td><td>Eu te louvarei, porque de um modo assombroso fui formado.</td><td>Salmos 139:14</td><td>O que só você sabe fazer do seu jeito aqui em casa?</td><td>Cada um diz uma coisa que admira no outro.</td></tr>
+      <tr><td class="cod">DEV-009</td><td>Individualidade</td><td>2</td><td>Antes que eu te formasse no ventre, eu te conheci.</td><td>Jeremias 1:5</td><td>Como era você quando bebê? Alguém conta uma história.</td><td>Vejam juntos uma foto de quando cada um era pequeno.</td></tr>
+      <tr><td class="cod">DEV-010</td><td>Individualidade</td><td>3</td><td>Deus criou o homem à sua imagem.</td><td>Gênesis 1:27</td><td>Por que ninguém no mundo é igual a você?</td><td>Comparem as mãos de todos. Nenhuma é igual à outra.</td></tr>
+      <tr><td class="cod">DEV-011</td><td>Individualidade</td><td>4</td><td>Cada um administre aos outros o dom como o recebeu.</td><td>1 Pedro 4:10</td><td>Você é bom em quê? Como isso pode ajudar alguém?</td><td>Use hoje uma coisa que você faz bem para ajudar alguém de casa.</td></tr>
+      <tr><td class="cod">DEV-012</td><td>Individualidade</td><td>5</td><td>Ensina a criança no caminho em que deve andar.</td><td>Provérbios 22:6</td><td>O que você quer aprender a fazer que ainda não sabe?</td><td>Escolham juntos uma coisa nova para aprender nesta semana.</td></tr>
+      <tr><td class="cod">DEV-013</td><td>Individualidade</td><td>6</td><td>Até a criança se dá a conhecer pelas suas ações.</td><td>Provérbios 20:11</td><td>Se alguém olhasse só o que você fez hoje, o que ia pensar de você?</td><td>Cada um conta uma coisa boa que fez hoje sem ninguém pedir.</td></tr>
+      <tr><td class="cod">DEV-014</td><td>Individualidade</td><td>7</td><td>Vós sois a luz do mundo.</td><td>Mateus 5:14</td><td>Como uma criança pode iluminar a casa onde mora?</td><td>Faça uma coisa hoje que deixe alguém da casa mais feliz.</td></tr>
+      <tr><td class="cod">DEV-015</td><td>Autogoverno</td><td>1</td><td>Melhor é o que tarda em irar-se do que o valente.</td><td>Provérbios 16:32</td><td>O que te deixa bravo? O que dá para fazer antes de responder?</td><td>Hoje, quando alguém ficar bravo, todos contam até cinco antes de falar.</td></tr>
+      <tr><td class="cod">DEV-016</td><td>Autogoverno</td><td>2</td><td>A resposta branda desvia o furor.</td><td>Provérbios 15:1</td><td>Já aconteceu de uma palavra mansa acalmar uma briga aqui em casa?</td><td>Hoje ninguém grita dentro de casa. Nem os adultos.</td></tr>
+      <tr><td class="cod">DEV-017</td><td>Autogoverno</td><td>3</td><td>Sobre tudo o que se deve guardar, guarda o teu coração.</td><td>Provérbios 4:23</td><td>O que entra pelos seus olhos e ouvidos hoje? Isso faz bem?</td><td>Escolham juntos uma coisa boa para ver ou ouvir hoje.</td></tr>
+      <tr><td class="cod">DEV-018</td><td>Autogoverno</td><td>4</td><td>O que guarda a sua boca guarda a sua alma.</td><td>Provérbios 21:23</td><td>Tem alguma palavra que você falou e queria voltar atrás?</td><td>Hoje, cada um pensa antes de responder pelo menos uma vez.</td></tr>
+      <tr><td class="cod">DEV-019</td><td>Autogoverno</td><td>5</td><td>Como cidade derribada, é o homem que não tem domínio próprio.</td><td>Provérbios 25:28</td><td>O que é mais difícil: mandar nos outros ou mandar em si mesmo?</td><td>Cada um escolhe uma coisa para não fazer hoje, e cumpre.</td></tr>
+      <tr><td class="cod">DEV-020</td><td>Autogoverno</td><td>6</td><td>Sede fortes e corajosos; não temas nem te espantes.</td><td>Josué 1:9</td><td>O que exige coragem de você hoje?</td><td>Faça hoje a coisa certa que estava adiando.</td></tr>
+      <tr><td class="cod">DEV-021</td><td>Autogoverno</td><td>7</td><td>Ouve o conselho e recebe a instrução.</td><td>Provérbios 19:20</td><td>Quem te ajuda a escolher direito quando você não sabe?</td><td>Peça um conselho a alguém mais velho da casa e siga.</td></tr>
+      <tr><td class="cod">DEV-022</td><td>Caráter</td><td>1</td><td>O que anda em sinceridade anda seguro.</td><td>Provérbios 10:9</td><td>É mais fácil dizer a verdade ou esconder? Por quê?</td><td>Hoje, se alguém errar, conta antes de ser descoberto.</td></tr>
+      <tr><td class="cod">DEV-023</td><td>Caráter</td><td>2</td><td>O amor cobre todas as faltas.</td><td>Provérbios 10:12</td><td>Alguém precisa do seu perdão hoje? E você, do de quem?</td><td>Peça desculpa a alguém, olhando no olho.</td></tr>
+      <tr><td class="cod">DEV-024</td><td>Caráter</td><td>3</td><td>O coração alegre aformoseia o rosto.</td><td>Provérbios 15:13</td><td>O que faz você rir de verdade?</td><td>Contem piadas na mesa hoje até alguém rir alto.</td></tr>
+      <tr><td class="cod">DEV-025</td><td>Caráter</td><td>4</td><td>Uma boa palavra alegra o coração.</td><td>Provérbios 12:25</td><td>Qual elogio você recebeu e nunca esqueceu?</td><td>Diga hoje uma coisa boa para alguém que não esperava ouvir.</td></tr>
+      <tr><td class="cod">DEV-026</td><td>Caráter</td><td>5</td><td>Não deixes de fazer o bem a quem precisa, estando em tuas mãos fazê-lo.</td><td>Provérbios 3:27</td><td>Você viu alguém precisando de ajuda hoje? Deu para ajudar?</td><td>Ajude alguém hoje sem que ninguém peça.</td></tr>
+      <tr><td class="cod">DEV-027</td><td>Caráter</td><td>6</td><td>O justo cai sete vezes e torna a levantar-se.</td><td>Provérbios 24:16</td><td>Em que você errou e tentou de novo até conseguir?</td><td>Tente hoje de novo aquilo que não deu certo ontem.</td></tr>
+      <tr><td class="cod">DEV-028</td><td>Caráter</td><td>7</td><td>Tudo quanto fizerdes, fazei de coração.</td><td>Colossenses 3:23</td><td>Dá para fazer bem feito até o que a gente não gosta?</td><td>Faça bem feita hoje a tarefa que você menos gosta.</td></tr>
+      <tr><td class="cod">DEV-029</td><td>Aliança</td><td>1</td><td>Quão bom e quão suave é que os irmãos vivam em união!</td><td>Salmos 133:1</td><td>O que é melhor de fazer junto do que sozinho?</td><td>Façam hoje uma tarefa da casa juntos, sem dividir.</td></tr>
+      <tr><td class="cod">DEV-030</td><td>Aliança</td><td>2</td><td>Em todo o tempo ama o amigo.</td><td>Provérbios 17:17</td><td>Quem é seu amigo? O que faz dele um amigo?</td><td>Mande hoje uma lembrança a alguém que você não vê há tempo.</td></tr>
+      <tr><td class="cod">DEV-031</td><td>Aliança</td><td>3</td><td>Como o ferro afia o ferro, assim o homem afia o seu amigo.</td><td>Provérbios 27:17</td><td>Quem te faz querer ser melhor?</td><td>Agradeça hoje a quem te ensinou alguma coisa.</td></tr>
+      <tr><td class="cod">DEV-032</td><td>Aliança</td><td>4</td><td>Honra a teu pai e a tua mãe.</td><td>Êxodo 20:12</td><td>O que seus pais fazem por você que você quase não vê?</td><td>Diga obrigado a quem preparou a sua comida hoje.</td></tr>
+      <tr><td class="cod">DEV-033</td><td>Aliança</td><td>5</td><td>Há amigo mais chegado do que um irmão.</td><td>Provérbios 18:24</td><td>Quem você chama quando alguma coisa dá errado?</td><td>Combinem uma frase da família para pedir ajuda sem vergonha.</td></tr>
+      <tr><td class="cod">DEV-034</td><td>Aliança</td><td>6</td><td>Se um prevalecer contra um, os dois lhe resistirão.</td><td>Eclesiastes 4:12</td><td>Quando é que dois conseguem o que um sozinho não consegue?</td><td>Resolvam juntos uma coisa que estava travada.</td></tr>
+      <tr><td class="cod">DEV-035</td><td>Aliança</td><td>7</td><td>Alegrei-me quando me disseram: vamos à casa do Senhor.</td><td>Salmos 122:1</td><td>O que a nossa família gosta de fazer junto?</td><td>Marquem uma coisa para fazer em família nesta semana.</td></tr>
+      <tr><td class="cod">DEV-036</td><td>Semeadura e Colheita</td><td>1</td><td>O que o homem semear, isso também ceifará.</td><td>Gálatas 6:7</td><td>O que você plantou hoje com o que fez e falou?</td><td>Plantem uma semente num copo com terra e cuidem dela.</td></tr>
+      <tr><td class="cod">DEV-037</td><td>Semeadura e Colheita</td><td>2</td><td>A alma generosa prosperará.</td><td>Provérbios 11:25</td><td>O que acontece dentro da gente quando a gente dá alguma coisa?</td><td>Separem um brinquedo ou uma roupa para dar a quem precisa.</td></tr>
+      <tr><td class="cod">DEV-038</td><td>Semeadura e Colheita</td><td>3</td><td>Lança o teu pão sobre as águas, porque depois de muitos dias o acharás.</td><td>Eclesiastes 11:1</td><td>Tem coisa boa que demora a aparecer. Você lembra de alguma?</td><td>Comecem hoje uma coisa boa que só vai dar fruto depois.</td></tr>
+      <tr><td class="cod">DEV-039</td><td>Semeadura e Colheita</td><td>4</td><td>Ensina-nos a contar os nossos dias.</td><td>Salmos 90:12</td><td>No que você gastou o seu dia de hoje?</td><td>Escolham juntos uma hora de amanhã para usar bem.</td></tr>
+      <tr><td class="cod">DEV-040</td><td>Semeadura e Colheita</td><td>5</td><td>A mão diligente enriquecerá.</td><td>Provérbios 10:4</td><td>O que você fez hoje com capricho, e o que fez com pressa?</td><td>Refaçam com capricho uma coisa que ficou pela metade.</td></tr>
+      <tr><td class="cod">DEV-041</td><td>Semeadura e Colheita</td><td>6</td><td>Anda com os sábios e serás sábio.</td><td>Provérbios 13:20</td><td>Com quem você anda? Essas pessoas te puxam para cima?</td><td>Contem sobre uma pessoa que faz bem a vocês.</td></tr>
+      <tr><td class="cod">DEV-042</td><td>Semeadura e Colheita</td><td>7</td><td>O que semeia com lágrimas, com alegria ceifará.</td><td>Salmos 126:5</td><td>Já foi difícil e depois valeu a pena? Quando?</td><td>Não desistam hoje daquilo que está custando.</td></tr>
+      <tr><td class="cod">DEV-043</td><td>Mordomia</td><td>1</td><td>O Senhor Deus pôs o homem no jardim para o lavrar e o guardar.</td><td>Gênesis 2:15</td><td>O que está sob os seus cuidados aqui em casa?</td><td>Cada um cuida hoje de uma coisa da casa sem ninguém mandar.</td></tr>
+      <tr><td class="cod">DEV-044</td><td>Mordomia</td><td>2</td><td>Sê fiel no pouco.</td><td>Mateus 25:21</td><td>Por que cuidar bem das coisas pequenas importa?</td><td>Arrumem juntos uma gaveta ou uma prateleira.</td></tr>
+      <tr><td class="cod">DEV-045</td><td>Mordomia</td><td>3</td><td>O justo atende à vida dos seus animais.</td><td>Provérbios 12:10</td><td>Como a gente trata os bichos e as plantas daqui?</td><td>Cuidem hoje de um bicho ou de uma planta.</td></tr>
+      <tr><td class="cod">DEV-046</td><td>Mordomia</td><td>4</td><td>Confia ao Senhor as tuas obras.</td><td>Provérbios 16:3</td><td>O que você quer fazer amanhã e precisa de ajuda para dar certo?</td><td>Orem juntos pelo dia de amanhã de cada um.</td></tr>
+      <tr><td class="cod">DEV-047</td><td>Mordomia</td><td>5</td><td>Melhor é o pouco com justiça do que a abundância sem direito.</td><td>Provérbios 16:8</td><td>É melhor ter muito ou ter o suficiente do jeito certo?</td><td>Contem quantas coisas cada um tem e não usa.</td></tr>
+      <tr><td class="cod">DEV-048</td><td>Mordomia</td><td>6</td><td>Em paz me deitarei e logo dormirei.</td><td>Salmos 4:8</td><td>O que tira o seu sono? Dá para entregar isso a Deus?</td><td>Deixem os aparelhos de lado meia hora antes de dormir.</td></tr>
+      <tr><td class="cod">DEV-049</td><td>Mordomia</td><td>7</td><td>Servi ao Senhor com alegria.</td><td>Salmos 100:2</td><td>Dá para fazer as obrigações de casa com alegria?</td><td>Façam uma tarefa cantando, hoje.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="caderno">
+  <h2>As perguntas do caderno <span class="conta">28 linhas</span></h2>
+  <p class="vira"><strong>O que isto vira no app:</strong> ao fim de uma rodada de qualquer jogo, uma delas aparece e liga o que a criança acabou de jogar a um dos princípios. Ela escreve a resposta no caderno dela.</p>
+  <p class="nota">Não são corrigidas, não valem ponto e ninguém as compara: são para a criança pensar e para o adulto conversar. Se alguma soar como prova, é erro.</p>
+  <table>
+    <thead><tr><th class="cod">Código</th><th>Princípio</th><th>Pergunta</th></tr></thead>
+    <tbody>
+      <tr><td class="cod">CAD-001</td><td>Soberania</td><td>O que você aprendeu hoje que mostra como o mundo é grande?</td></tr>
+      <tr><td class="cod">CAD-002</td><td>Soberania</td><td>Que coisa que você viu hoje só Deus poderia ter feito?</td></tr>
+      <tr><td class="cod">CAD-003</td><td>Soberania</td><td>O que te deixou admirado hoje?</td></tr>
+      <tr><td class="cod">CAD-004</td><td>Soberania</td><td>Você descobriu algo maior do que imaginava? O quê?</td></tr>
+      <tr><td class="cod">CAD-005</td><td>Individualidade</td><td>O que você aprendeu hoje que ninguém mais da sua casa sabe?</td></tr>
+      <tr><td class="cod">CAD-006</td><td>Individualidade</td><td>O que você faz melhor hoje do que fazia ontem?</td></tr>
+      <tr><td class="cod">CAD-007</td><td>Individualidade</td><td>Que coisa diferente você descobriu hoje?</td></tr>
+      <tr><td class="cod">CAD-008</td><td>Individualidade</td><td>O que só você reparou nesta rodada?</td></tr>
+      <tr><td class="cod">CAD-009</td><td>Autogoverno</td><td>Teve alguma hora que você quis desistir e continuou? Conte.</td></tr>
+      <tr><td class="cod">CAD-010</td><td>Autogoverno</td><td>O que você fez para não errar de novo?</td></tr>
+      <tr><td class="cod">CAD-011</td><td>Autogoverno</td><td>Como você se acalmou quando ficou difícil?</td></tr>
+      <tr><td class="cod">CAD-012</td><td>Autogoverno</td><td>Você parou para pensar antes de responder? O que mudou?</td></tr>
+      <tr><td class="cod">CAD-013</td><td>Caráter</td><td>Você foi honesto hoje mesmo quando ninguém estava olhando?</td></tr>
+      <tr><td class="cod">CAD-014</td><td>Caráter</td><td>O que você aprendeu hoje que quer levar para a vida?</td></tr>
+      <tr><td class="cod">CAD-015</td><td>Caráter</td><td>Do que você se orgulha nesta rodada?</td></tr>
+      <tr><td class="cod">CAD-016</td><td>Caráter</td><td>O que você faria diferente na próxima vez?</td></tr>
+      <tr><td class="cod">CAD-017</td><td>Aliança</td><td>Quem você quer ensinar o que aprendeu hoje?</td></tr>
+      <tr><td class="cod">CAD-018</td><td>Aliança</td><td>Alguém te ajudou hoje? Como?</td></tr>
+      <tr><td class="cod">CAD-019</td><td>Aliança</td><td>O que você aprendeu que serve para a sua família?</td></tr>
+      <tr><td class="cod">CAD-020</td><td>Aliança</td><td>Como você pode ajudar alguém com o que sabe agora?</td></tr>
+      <tr><td class="cod">CAD-021</td><td>Semeadura e Colheita</td><td>O que você treinou hoje que vai te ajudar amanhã?</td></tr>
+      <tr><td class="cod">CAD-022</td><td>Semeadura e Colheita</td><td>Onde o seu esforço apareceu nesta rodada?</td></tr>
+      <tr><td class="cod">CAD-023</td><td>Semeadura e Colheita</td><td>O que você errou hoje e não vai errar de novo?</td></tr>
+      <tr><td class="cod">CAD-024</td><td>Semeadura e Colheita</td><td>Que semente pequena você plantou hoje?</td></tr>
+      <tr><td class="cod">CAD-025</td><td>Mordomia</td><td>O que você aprendeu hoje sobre cuidar do mundo?</td></tr>
+      <tr><td class="cod">CAD-026</td><td>Mordomia</td><td>Como você cuidou do seu tempo hoje?</td></tr>
+      <tr><td class="cod">CAD-027</td><td>Mordomia</td><td>O que é seu e precisa ser mais bem cuidado?</td></tr>
+      <tr><td class="cod">CAD-028</td><td>Mordomia</td><td>O que você viu hoje que merece ser cuidado?</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p><strong>Lumus — Kids Game Hub</strong> · ElCamargo Soluções em TI LTDA · Blumenau, SC<br>
+  Gerado a partir de <code>src/data/versos.js, devocional.js e caderno.js (npm run doc-bancos)</code>.
+  Os códigos seguem a ordem das tabelas: acrescentar uma linha no meio desloca
+  as seguintes, então vale marcar tudo neste mesmo documento e só depois gerar
+  o próximo. Cada linha traz o nome ao lado do código, que desfaz qualquer dúvida.</p>
+  <p>O devocional e o versículo do dia existem hoje em português, inglês e espanhol.
+  Francês, alemão e italiano dependem de uma edição em domínio público conferida para
+  cada língua, e estão no roadmap. Não é erro do banco.</p>
+</footer>
+
+</div>
+</body>
+</html>
