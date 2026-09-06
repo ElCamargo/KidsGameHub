@@ -21,6 +21,7 @@ export const NOVIDADES = [
       pt: {
         titulo: "Ler, contar e lembrar",
         itens: [
+          "O jogo do Brasil começa pelo estado onde a criança mora — é só dizer na ficha dela",
           "Mais dois: Corpo e Natureza (corpo, plantas, água) e O Brasil (regiões e estados)",
           "Dois jogos novos: Problema do Dia e Arma a Conta, com vai-um e empresta-um",
           "Jogo novo: Como Se Escreve — ç ou ss, s ou z, m antes de p e b",
@@ -40,6 +41,7 @@ export const NOVIDADES = [
       en: {
         titulo: "Reading, counting and remembering",
         itens: [
+          "The Brazil game starts with the state where your child lives — just set it in their card",
           "Two more: Body and Nature (body, plants, water) and Brazil (regions and states)",
           "Two new games: Word Problem and Stack the Sum, with carrying and borrowing",
           "New game: How Do You Spell It — fill the gap in the word you hear",
@@ -59,6 +61,7 @@ export const NOVIDADES = [
       es: {
         titulo: "Leer, contar y recordar",
         itens: [
+          "El juego de Brasil empieza por el estado donde vive el niño — basta decirlo en su ficha",
           "Dos más: Cuerpo y Naturaleza (cuerpo, plantas, agua) y Brasil (regiones y estados)",
           "Dos juegos nuevos: Problema del Día y Arma la Cuenta, con llevadas y préstamos",
           "Juego nuevo: Cómo Se Escribe — completa el hueco de la palabra que escuchas",
@@ -78,6 +81,7 @@ export const NOVIDADES = [
       fr: {
         titulo: "Lire, compter et se souvenir",
         itens: [
+          "Le jeu du Brésil commence par l'état où vit l'enfant — il suffit de le dire sur sa fiche",
           "Deux de plus : Corps et Nature (corps, plantes, eau) et Le Brésil (régions et états)",
           "Deux nouveaux jeux : Problème du Jour et Pose l'Opération, avec retenues",
           "Nouveau jeu : Comment Ça S'écrit — complète le trou du mot que tu entends",
@@ -97,6 +101,7 @@ export const NOVIDADES = [
       de: {
         titulo: "Lesen, rechnen und behalten",
         itens: [
+          "Das Brasilien-Spiel beginnt mit dem Bundesstaat, in dem das Kind wohnt",
           "Zwei weitere: Körper und Natur (Körper, Pflanzen, Wasser) und Brasilien (Regionen)",
           "Zwei neue Spiele: Sachaufgabe und Schriftlich Rechnen, mit Übertrag",
           "Neues Spiel: Wie Schreibt Man Das — füll die Lücke im gehörten Wort",
@@ -116,6 +121,7 @@ export const NOVIDADES = [
       it: {
         titulo: "Leggere, contare e ricordare",
         itens: [
+          "Il gioco del Brasile inizia dallo stato in cui vive il bambino — basta dirlo nella scheda",
           "Altri due: Corpo e Natura (corpo, piante, acqua) e Il Brasile (regioni e stati)",
           "Due giochi nuovi: Problema del Giorno e Incolonna il Conto, con il riporto",
           "Gioco nuovo: Come Si Scrive — completa lo spazio della parola che ascolti",

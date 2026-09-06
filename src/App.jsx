@@ -86,7 +86,7 @@ function AppInterno() {
      nasce aberto — ver jogosGratisPara. Perfis antigos não têm esses campos:
      tratamos como criança que já lê, que era o comportamento de antes. */
   const [player, setPlayer] = useState({
-    name: "", papel: "filho", idade: null, leitor: null, pin: null,
+    name: "", papel: "filho", idade: null, leitor: null, pin: null, estado: null,
     avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
   });
   const [coins, setCoins] = useState(ECON.start);
@@ -268,6 +268,7 @@ function AppInterno() {
       papel: perfil.papel || "filho",
       idade: perfil.idade ?? null,
       leitor: perfil.leitor ?? null,
+      estado: perfil.estado ?? null,
       pin: perfil.pin || null,
     });
     // Cada jogador tem o seu idioma: um irmão pode jogar em inglês e o outro
@@ -868,7 +869,7 @@ function AppInterno() {
     const d = blankSave();
     setActiveId(`p${Date.now()}`);
     applySave(d, {
-      name: "", papel: "filho", idade: null, leitor: null, pin: null,
+      name: "", papel: "filho", idade: null, leitor: null, pin: null, estado: null,
       avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
     });
     setScreen("create");
@@ -926,9 +927,9 @@ function AppInterno() {
       const has = ps.some(p => p.id === activeId);
       const next = has
         ? ps.map(p => p.id === activeId
-            ? { ...p, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin }
+            ? { ...p, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin, estado: player.estado }
             : p)
-        : [...ps, { id: activeId, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin }];
+        : [...ps, { id: activeId, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin, estado: player.estado }];
       try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
@@ -1041,7 +1042,7 @@ function AppInterno() {
     if (coins < custo) { setToast(t.notEnough); return; }
     if (custo) setCoins(c => c - custo);
     const quiz = quizDe(sel.cont);
-    const r = quiz ? quiz.montar(sel.stage, t, lang, sel.cont) : buildRound(sel.cont, sel.stage, lang);
+    const r = quiz ? quiz.montar(sel.stage, t, lang, sel.cont, player) : buildRound(sel.cont, sel.stage, lang);
     const quantos = (comTurma?.length || 0) + 1;
     setRound(comTurma?.length
       ? { ...r, qs: perguntasParaTodos(r.qs, quantos), duo: comTurma, pontos: Array(quantos).fill(0) }

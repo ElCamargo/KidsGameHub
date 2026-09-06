@@ -370,8 +370,12 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
             {perfil.idade ? `${perfil.idade} ${t.years} · ` : ""}
             {ehLeitor(perfil) ? t.reads : t.readsNot}
           </div>
-          {save?.ano && (
-            <div style={{ color: "#00875A", fontWeight: 900, fontSize: 11 }}>🎒 {nomeDoAno(save.ano, t)}</div>
+          {(save?.ano || perfil.estado) && (
+            <div style={{ color: "#00875A", fontWeight: 900, fontSize: 11 }}>
+              {save?.ano ? `🎒 ${nomeDoAno(save.ano, t)}` : ""}
+              {save?.ano && perfil.estado ? " · " : ""}
+              {perfil.estado ? `📍 ${perfil.estado}` : ""}
+            </div>
           )}
         </div>
       </div>
