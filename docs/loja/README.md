@@ -52,6 +52,12 @@ e nenhum dado de ninguém saiu do aparelho para produzir isto.
 Os números da semana nos perfis são massa de teste plausível, montada para a
 tela do responsável não aparecer vazia na ficha.
 
+## Refeitas na troca de nome
+
+Todas as dezenove imagens foram regeradas em 07/09/2026, quando o app deixou de
+se chamar Lumus e passou a se chamar Clarim. As anteriores mostravam o nome
+antigo na tela e não servem mais para nada.
+
 ## Quando refazer
 
 Sempre que a interface mudar de um jeito que apareça nestas telas — cor,
