@@ -112,22 +112,30 @@ test("save quebrado não vira app quebrado", () => {
 });
 
 
-/* ---------- o selo não muda de nome ----------
-   O app se chamou Lumus até 07/09/2026. As cópias salvas naquela época trazem
-   `marca: "lumus:copia"` dentro, e é por esse campo que `lerCopia` reconhece
-   um arquivo nosso. Este teste escreve a string à mão, sem passar por MARCA,
-   justamente para falhar se alguém "arrumar" a constante numa busca-e-troca
-   de nome: quem fizer isso faria o app recusar os próprios arquivos, e a
-   família que guardou o progresso perderia tudo na hora de restaurar. */
-test("cópia salva com o nome antigo do app continua sendo aceita", () => {
-  const antiga = JSON.stringify({
-    marca: "lumus:copia", v: 1,
-    app: "Lumus — Kids Game Hub",
-    perfil: { id: "p2", name: "Heitor", papel: "filho", leitor: true },
-    save: { coins: 50, stats: { rounds: 0 } },
+/* ---------- o selo de ontem continua valendo ----------
+   O app se chamou Mundi, depois Lumus, e desde 07/09/2026 se chama Clarim. O
+   arquivo NOVO sai com o selo de hoje, mas há cópias salvas com os selos
+   antigos guardadas em celular de gente de verdade, esperando o dia em que o
+   aparelho quebrar. Recusar aquele arquivo seria destruir o seguro da família
+   — e ela só descobriria no pior momento possível.
+
+   Os selos são escritos à mão aqui, sem passar por MARCAS_ACEITAS, para que
+   este teste falhe se alguém tirar um nome da lista em vez de acrescentar. */
+for (const [selo, quando] of [["lumus:copia", "Lumus"], ["mundi:copia", "Mundi"]]) {
+  test(`cópia salva na época do ${quando} continua sendo aceita`, () => {
+    const antiga = JSON.stringify({
+      marca: selo, v: 1,
+      app: `${quando} — Kids Game Hub`,
+      perfil: { id: "p2", name: "Heitor", papel: "filho", leitor: true },
+      save: { coins: 50, stats: { rounds: 0 } },
+    });
+    const { erro, perfil, save } = lerCopia(antiga);
+    assert.equal(erro, undefined, "o app novo recusou um arquivo do app antigo");
+    assert.equal(perfil.name, "Heitor");
+    assert.equal(save.coins, 50);
   });
-  const { erro, perfil, save } = lerCopia(antiga);
-  assert.equal(erro, undefined, "o app novo recusou um arquivo do app antigo");
-  assert.equal(perfil.name, "Heitor");
-  assert.equal(save.coins, 50);
+}
+
+test("o arquivo novo sai com o selo de hoje", () => {
+  assert.equal(JSON.parse(copiaCrua()).marca, "clarim:copia");
 });

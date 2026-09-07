@@ -32,12 +32,12 @@ export const MADE_BY = "ElCamargo Soluções em TI LTDA";
 export async function loadLang(code) {
   if (T[code]) return true;
   try {
-    const c = await window.storage.get(`lumus:lang:${code}`);
+    const c = await window.storage.get(`clarim:lang:${code}`);
     if (c?.value) { T[code] = JSON.parse(c.value); return true; }
   } catch { }
   if (PACKS[code]) {
     T[code] = PACKS[code];
-    try { window.storage.set(`lumus:lang:${code}`, JSON.stringify(PACKS[code])); } catch { }
+    try { window.storage.set(`clarim:lang:${code}`, JSON.stringify(PACKS[code])); } catch { }
     return true;
   }
   return false;

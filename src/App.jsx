@@ -22,7 +22,8 @@ import { AVATAR_PADRAO, Btn, Marca, Modal, useSomDeFundo } from "./telas/base.js
 import { Coloring, Gallery, acharArte } from "./telas/desenho.jsx";
 import { CadernoScreen, DevocionalScreen, EscreverScreen, FamilyScreen, PlayerCard } from "./telas/familia.jsx";
 import { CapMap, EscolaScreen, Home, LangGame, MapScreen, Stages } from "./telas/hub.jsx";
-import { Create, LangScreen, PinModal, Profiles, resumoSenha } from "./telas/inicio.jsx";
+import { Create, LangScreen, PinModal, Profiles, conferirSenha, resumoSenha } from "./telas/inicio.jsx";
+import { migrarChaves } from "./lib/migracao.js";
 import { Game, Placar, PlacarDaRevisao, PlacarDeTempo, Result } from "./telas/jogo.jsx";
 import { Awards, Shop } from "./telas/loja.jsx";
 import { EscolherTurma, MemLevels, MemoryGame } from "./telas/memoria.jsx";
@@ -148,7 +149,7 @@ function AppInterno() {
 
   /* ----- Momento em Família -----
      Isto não é do jogador, é do lar: o devocional é feito junto, uma vez por
-     dia, por quem estiver ali. Por isso mora em "lumus:familia", fora dos
+     dia, por quem estiver ali. Por isso mora em "clarim:familia", fora dos
      saves de cada perfil, e a sequência é da família inteira.
 
      fe: null = ninguém escolheu ainda · true = a família quer · false = não. */
@@ -193,10 +194,10 @@ function AppInterno() {
   const temNovidade = novidadeVista !== ULTIMA_NOVIDADE;
   const marcarNovidadeLida = () => {
     setNovidadeVista(ULTIMA_NOVIDADE);
-    try { window.storage.set("lumus:novidades", ULTIMA_NOVIDADE); } catch { }
+    try { window.storage.set("clarim:novidades", ULTIMA_NOVIDADE); } catch { }
   };
   const trocarSom = () => setSom(v => {
-    try { window.storage.set("lumus:som", v ? "0" : "1"); } catch { }
+    try { window.storage.set("clarim:som", v ? "0" : "1"); } catch { }
     return !v;
   });
   /* A pergunta que está sendo respondida agora, e para onde voltar depois. */
@@ -243,11 +244,11 @@ function AppInterno() {
   useEffect(() => { try { document.documentElement.lang = lang; } catch { } }, [lang]);
 
   /* ----- perfis: vários jogadores no mesmo aparelho -----
-     Índice leve em "lumus:profiles" (id, nome, avatar) para desenhar a
+     Índice leve em "clarim:profiles" (id, nome, avatar) para desenhar a
      tela de escolha sem abrir todos os saves. O progresso de cada um fica
-     em "lumus:p:<id>", separado — irmão não mexe no do irmão.
+     em "clarim:p:<id>", separado — irmão não mexe no do irmão.
 
-     O PREFIXO "lumus:" NÃO É ERRO DE BUSCA-E-TROCA. O app se chamava Lumus
+     O PREFIXO "clarim:" NÃO É ERRO DE BUSCA-E-TROCA. O app se chamava Lumus
      quando estas chaves foram escritas, e o nome mudou para Clarim em
      07/09/2026. Renomear a chave torna invisível o que já está gravado: a
      criança abre o app e o progresso dela sumiu. Chave de armazenamento é
@@ -313,39 +314,26 @@ function AppInterno() {
 
   useEffect(() => {
     (async () => {
+      /* O app já se chamou Mundi e Lumus, e cada nome deixou um prefixo de
+         chave no aparelho. Isto roda ANTES de qualquer leitura: quem instalou
+         numa época antiga abre o app e encontra o progresso onde sempre
+         esteve, sem fazer nada. Ver src/lib/migracao.js. */
+      try { await migrarChaves(window.storage); } catch { }
+
       let list = [];
       try {
-        const r = await window.storage.get("lumus:profiles");
+        const r = await window.storage.get("clarim:profiles");
         if (r?.value) list = JSON.parse(r.value);
       } catch { }
-      /* O app já se chamou Mundi: traz o que foi salvo com o nome antigo.
-         Não há resgate parecido para a troca Lumus → Clarim porque não é
-         preciso: ali a chave continuou a mesma justamente para ninguém ter
-         de migrar nada. */
-      if (!list.length) {
-        try {
-          const velho = await window.storage.get("mundi:profiles");
-          if (velho?.value) {
-            list = JSON.parse(velho.value);
-            window.storage.set("lumus:profiles", velho.value);
-            for (const pr of list) {
-              try {
-                const sv = await window.storage.get(`mundi:p:${pr.id}`);
-                if (sv?.value) window.storage.set(`lumus:p:${pr.id}`, sv.value);
-              } catch { }
-            }
-          }
-        } catch { }
-      }
-      try { const sm = await window.storage.get("lumus:som"); setSom(sm?.value !== "0"); } catch { }
+      try { const sm = await window.storage.get("clarim:som"); setSom(sm?.value !== "0"); } catch { }
       /* Quem nunca viu nada é quem acabou de instalar: para ele não há
          novidade, há o app inteiro. Só marca como não lido quem já usava. */
       try {
-        const nv = await window.storage.get("lumus:novidades");
+        const nv = await window.storage.get("clarim:novidades");
         setNovidadeVista(nv?.value || (list.length ? "" : ULTIMA_NOVIDADE));
       } catch { setNovidadeVista(list.length ? "" : ULTIMA_NOVIDADE); }
       let chosen = null;
-      try { const l = await window.storage.get("lumus:lang"); chosen = l?.value || null; } catch { }
+      try { const l = await window.storage.get("clarim:lang"); chosen = l?.value || null; } catch { }
       const want = chosen || deviceLang();
       if (await loadLang(want)) setLang(want);
       setProfiles(list);
@@ -359,11 +347,11 @@ function AppInterno() {
       // Convite para instalar: só fora do app instalado e só até ser dispensado.
       if (!jaInstalado()) {
         let visto = false;
-        try { const v = await window.storage.get("lumus:installTip"); visto = !!v?.value; } catch { }
+        try { const v = await window.storage.get("clarim:installTip"); visto = !!v?.value; } catch { }
         if (!visto) setInstallTip(true);
       }
       try {
-        const f = await window.storage.get("lumus:familia");
+        const f = await window.storage.get("clarim:familia");
         if (f?.value) setMomento(m => ({ ...m, ...JSON.parse(f.value) }));
       } catch { }
       setLoaded(true);
@@ -373,7 +361,7 @@ function AppInterno() {
   /* O lar tem um arquivo só, fora dos perfis: irmão não reinicia a sequência. */
   useEffect(() => {
     if (!loaded) return;
-    try { window.storage.set("lumus:familia", JSON.stringify(momento)); } catch { }
+    try { window.storage.set("clarim:familia", JSON.stringify(momento)); } catch { }
   }, [loaded, momento]);
 
   /* ----- memória ----- */
@@ -420,7 +408,7 @@ function AppInterno() {
             maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
         }
         d.stats = { ...d.stats, duplas: (d.stats?.duplas || 0) + 1 };
-        window.storage.set(`lumus:p:${o.id}`, JSON.stringify(d));
+        window.storage.set(`clarim:p:${o.id}`, JSON.stringify(d));
       } catch { }
     }
   }
@@ -759,12 +747,12 @@ function AppInterno() {
 
   function dispensarInstallTip() {
     setInstallTip(false);
-    try { window.storage.set("lumus:installTip", "1"); } catch { }
+    try { window.storage.set("clarim:installTip", "1"); } catch { }
   }
 
   async function openProfile(pr) {
     try {
-      const r = await window.storage.get(`lumus:p:${pr.id}`);
+      const r = await window.storage.get(`clarim:p:${pr.id}`);
       applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr);
     } catch { applySave(blankSave(), pr); }
     setActiveId(pr.id);
@@ -782,7 +770,7 @@ function AppInterno() {
      escrever no save do irmão falha calado justamente na primeira vez. */
   async function lerSave(id) {
     try {
-      const r = await window.storage.get(`lumus:p:${id}`);
+      const r = await window.storage.get(`clarim:p:${id}`);
       /* Nunca devolver o que estava gravado sem misturar: save de uma versão
          antiga não tem os campos que a versão de hoje lê, e um `stats` faltando
          derruba o app inteiro. Ver juntarSave em src/lib/transferir.js. */
@@ -808,7 +796,7 @@ function AppInterno() {
         valor: (d.presenteRecebido?.valor || 0) + valor,
         de: player.name || t.roleParent,
       };
-      window.storage.set(`lumus:p:${pr.id}`, JSON.stringify(d));
+      window.storage.set(`clarim:p:${pr.id}`, JSON.stringify(d));
     } catch { return; }
     setPresente({ semana: sem, restante: cofre.restante - valor });
     setToast(`🎁 ${pr.name} +${valor} 🪙`);
@@ -839,9 +827,9 @@ function AppInterno() {
     const id = `p${Date.now()}`;
     const completo = juntarSave(blankSave(), save);
     try {
-      window.storage.set(`lumus:p:${id}`, JSON.stringify(completo));
+      window.storage.set(`clarim:p:${id}`, JSON.stringify(completo));
       const lista = [...profiles, { id, ...perfil }];
-      window.storage.set("lumus:profiles", JSON.stringify(lista));
+      window.storage.set("clarim:profiles", JSON.stringify(lista));
       setProfiles(lista);
     } catch { setToast(t.restoreErr.formato); return; }
     setToast(`✅ ${perfil.name}`);
@@ -859,19 +847,31 @@ function AppInterno() {
 
   async function conferirPin(digitado) {
     const { pr, acao } = pedirPin;
-    if (await resumoSenha(digitado, pr.id) !== pr.pin) { setPinErrado(true); return; }
+    const { ok, regravar } = await conferirSenha(digitado, pr.id, pr.pin);
+    if (!ok) { setPinErrado(true); return; }
+
+    /* Senha certa, guardada com o tempero antigo: regrava com o de hoje. Só
+       aqui dá para fazer isso — é o único momento em que a senha digitada
+       existe em memória. O responsável não percebe nada, e da próxima vez o
+       resumo já é o novo. */
+    if (regravar) {
+      const next = profiles.map(p => p.id === pr.id ? { ...p, pin: regravar } : p);
+      setProfiles(next);
+      try { window.storage.set("clarim:profiles", JSON.stringify(next)); } catch { }
+    }
+
     setPedirPin(null); setPinErrado(false);
     acao(pr);
   }
 
   /* Editar um jogador que já existe.
-     A ficha (nome, avatar, papel, idade, leitura) mora em "lumus:profiles";
-     o progresso mora em "lumus:p:<id>", outro arquivo. Editar a ficha não
+     A ficha (nome, avatar, papel, idade, leitura) mora em "clarim:profiles";
+     o progresso mora em "clarim:p:<id>", outro arquivo. Editar a ficha não
      encosta no progresso — e mesmo assim carrego o save antes de abrir a
      tela, para que o "Pronto" grave de volta exatamente o que estava lá. */
   async function editProfile(pr) {
     try {
-      const r = await window.storage.get(`lumus:p:${pr.id}`);
+      const r = await window.storage.get(`clarim:p:${pr.id}`);
       applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr);
     } catch { applySave(blankSave(), pr); }
     setActiveId(pr.id);
@@ -899,7 +899,7 @@ function AppInterno() {
     for (const pr of profiles) {
       if (pr.papel === "pai" || pr.id === eu) continue;
       try {
-        const r = await window.storage.get(`lumus:p:${pr.id}`);
+        const r = await window.storage.get(`clarim:p:${pr.id}`);
         filhos.push({ perfil: pr, save: r?.value ? JSON.parse(r.value) : null });
       } catch { filhos.push({ perfil: pr, save: null }); }
     }
@@ -908,7 +908,7 @@ function AppInterno() {
 
   function resetProfile(id) {
     const zerado = blankSave();
-    try { window.storage.set(`lumus:p:${id}`, JSON.stringify(zerado)); } catch { }
+    try { window.storage.set(`clarim:p:${id}`, JSON.stringify(zerado)); } catch { }
     if (id === activeId) {
       applySave(zerado, player);
       setToast("↺");
@@ -919,8 +919,8 @@ function AppInterno() {
     const next = profiles.filter(p => p.id !== id);
     setProfiles(next);
     try {
-      window.storage.set("lumus:profiles", JSON.stringify(next));
-      window.storage.delete(`lumus:p:${id}`);
+      window.storage.set("clarim:profiles", JSON.stringify(next));
+      window.storage.delete(`clarim:p:${id}`);
     } catch { }
     if (id === activeId) { setActiveId(null); setScreen(next.length ? "profiles" : "create"); }
   }
@@ -929,7 +929,7 @@ function AppInterno() {
     const ok = await loadLang(code);
     if (!ok) return false;
     setLang(code);
-    try { if (!activeId) window.storage.set("lumus:lang", code); } catch { }  // padrão para novos jogadores
+    try { if (!activeId) window.storage.set("clarim:lang", code); } catch { }  // padrão para novos jogadores
     return true;
   }
 
@@ -937,7 +937,7 @@ function AppInterno() {
   useEffect(() => {
     if (!loaded || !activeId || screen === "create" || screen === "boot" || screen === "profiles") return;
     const d = { lang, coins, lastRefill, unlocked, progress, owned, stats, seenAch, stars, records, memBest, pzlBest, palBest, ditBest, cntBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano };
-    try { window.storage.set(`lumus:p:${activeId}`, JSON.stringify(d)); } catch { }
+    try { window.storage.set(`clarim:p:${activeId}`, JSON.stringify(d)); } catch { }
     setProfiles(ps => {
       const has = ps.some(p => p.id === activeId);
       const next = has
@@ -945,7 +945,7 @@ function AppInterno() {
             ? { ...p, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin, estado: player.estado }
             : p)
         : [...ps, { id: activeId, name: player.name, avatar: player.avatar, papel: player.papel, idade: player.idade, leitor: player.leitor, pin: player.pin, estado: player.estado }];
-      try { window.storage.set("lumus:profiles", JSON.stringify(next)); } catch { }
+      try { window.storage.set("clarim:profiles", JSON.stringify(next)); } catch { }
       return next;
     });
   }, [loaded, activeId, screen, lang, coins, unlocked, progress, owned, stats, player, seenAch, stars, records, memBest, pzlBest, palBest, ditBest, cntBest, revisao, gallery, colorDay, gerados, jogosAbertos, secoes, presente, semanas, presenteRecebido, caderno, duplaDia, voz, ano]);

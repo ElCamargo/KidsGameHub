@@ -24,12 +24,17 @@
  */
 
 export const VERSAO = 1;
-/* "lumus:" e não "clarim:" de propósito. Este selo é o que `lerCopia` confere
-   para saber que o arquivo é nosso, e já existem cópias salvas com ele — a
-   família que guardou o progresso antes da troca de nome, em 07/09/2026.
-   Mudar o selo faria o app recusar os próprios arquivos, com "erro: outro".
-   O nome do ARQUIVO mudou (clarim-fulano-data.json); o selo de dentro, não. */
-export const MARCA = "lumus:copia";
+
+/* O selo que diz "este arquivo é nosso". Arquivo novo sai com o selo de hoje. */
+export const MARCA = "clarim:copia";
+
+/* Mas LER aceita os selos antigos, e isso não é gentileza: é obrigação. Uma
+   cópia salva na época em que o app se chamava Lumus está no celular de
+   alguém agora, esperando o dia em que o aparelho quebrar. Se `lerCopia`
+   recusasse aquele arquivo, o app teria destruído o próprio seguro — e o
+   dono só descobriria no pior momento possível.
+   Acrescentar nome novo aqui é acrescentar; nunca substituir. */
+export const MARCAS_ACEITAS = [MARCA, "lumus:copia", "mundi:copia"];
 
 /* 8 MB: um save com galeria cheia não passa de algumas centenas de KB. Acima
    disso é outra coisa, e nem tentamos ler. */
@@ -69,7 +74,7 @@ export function lerCopia(cru) {
   try { dados = JSON.parse(cru); }
   catch { return { erro: "formato" }; }
 
-  if (!dados || typeof dados !== "object" || dados.marca !== MARCA) return { erro: "outro" };
+  if (!dados || typeof dados !== "object" || !MARCAS_ACEITAS.includes(dados.marca)) return { erro: "outro" };
   // Versão maior que a nossa: o arquivo veio de um app mais novo, e adivinhar
   // o que mudou é pior do que dizer que não dá.
   if (!Number.isInteger(dados.v) || dados.v > VERSAO) return { erro: "versao" };

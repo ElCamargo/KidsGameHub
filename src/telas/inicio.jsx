@@ -499,13 +499,14 @@ export function LangScreen({ t, lang, pickLang, setScreen, back }) {
 
    ponytail: quatro dígitos e resumo local. Se um dia isso virar conta de
    verdade, aí sim entra senha forte e servidor. */
-export async function resumoSenha(pin, id) {
-  /* "lumus:" é tempero, não marca — e tempero não se troca. Os resumos já
-     gravados foram calculados com ele; mudar para "clarim:" faria TODA senha
-     de responsável parar de conferir, e cada pai ficaria trancado fora da
-     própria área sem nenhuma forma de voltar. Ficou assim na troca de nome de
-     07/09/2026, de propósito. */
-  const txt = `lumus:${id}:${pin}`;
+/* O tempero entra no resumo junto com a senha. Ele mudou quando o app mudou
+   de nome, e por isso os antigos continuam listados: um resumo gravado na
+   época do Lumus só confere se for recalculado com o tempero daquela época.
+   Sem esta lista, a troca de nome trancaria todo pai fora da própria área. */
+const TEMPERO = "clarim:";
+const TEMPEROS_ANTIGOS = ["lumus:", "mundi:"];
+
+async function resumir(txt) {
   try {
     const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
@@ -515,6 +516,32 @@ export async function resumoSenha(pin, id) {
     for (const c of txt) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
     return "fraco:" + h.toString(16);
   }
+}
+
+/* O resumo de hoje. É o que se GRAVA. */
+export async function resumoSenha(pin, id) {
+  return resumir(`${TEMPERO}${id}:${pin}`);
+}
+
+/**
+ * Confere a senha digitada contra o que está gravado, aceitando resumos
+ * feitos com temperos antigos.
+ *
+ * Devolve `{ ok, regravar }`. Quando `regravar` vem preenchido, a senha estava
+ * guardada com tempero velho e conferiu: quem chamou deve gravar esse valor no
+ * lugar do antigo. Assim a migração acontece sozinha, no primeiro acerto, sem
+ * pedir nada ao responsável — e a partir daí só o tempero de hoje é usado.
+ */
+export async function conferirSenha(pin, id, guardado) {
+  if (!guardado) return { ok: true, regravar: null };
+  if (await resumoSenha(pin, id) === guardado) return { ok: true, regravar: null };
+
+  for (const velho of TEMPEROS_ANTIGOS) {
+    if (await resumir(`${velho}${id}:${pin}`) === guardado) {
+      return { ok: true, regravar: await resumoSenha(pin, id) };
+    }
+  }
+  return { ok: false, regravar: null };
 }
 
 
