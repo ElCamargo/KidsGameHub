@@ -55,10 +55,16 @@ export default defineConfig({
         background_color: "#1B2A6B",
         theme_color: "#3C4FC4",
         categories: ["education", "games", "kids"],
+        /* `any` e `maskable` são desenhos diferentes, não tamanhos diferentes.
+           O Android recorta o maskable num círculo ou num squircle e só garante
+           os 80% centrais: o ícone quadrado usado nos dois lugares perdia as
+           pontas dos raios, as beiradas do livro, e mostrava canto transparente
+           onde o quadrado tem borda arredondada. O maskable tem fundo sangrando
+           até a borda e o desenho reduzido para caber no círculo. */
         icons: [
-          { src: "icon-192.png", sizes: "192x192", type: "image/png" },
-          { src: "icon-512.png", sizes: "512x512", type: "image/png" },
-          { src: "icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+          { src: "icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: "icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+          { src: "icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
         ],
       },
       workbox: {

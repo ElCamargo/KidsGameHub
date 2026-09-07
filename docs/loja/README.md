@@ -50,6 +50,7 @@ percebe.
 
 - **Capturas de tablet 7" e 10"** — opcionais, mas sem elas o app não aparece
   nas buscas feitas em tablet.
-- **Ícone maskable próprio.** O `vite.config.js` usa o mesmo `icon-512.png`
-  para `any` e para `maskable`, e maskable é recortado em círculo: só os 80%
-  centrais sobrevivem. É a primeira coisa que um pai vê.
+~~**Ícone maskable próprio.**~~ Feito: `public/icon-maskable-512.png`. Fundo
+sangrando até a borda e o desenho a 78,5%, o que põe tudo dentro da zona
+segura (raio 190 dos 204,8 permitidos). O antigo perdia as pontas dos raios e
+as beiradas do livro no recorte circular.
