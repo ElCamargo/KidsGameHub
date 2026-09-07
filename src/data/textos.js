@@ -202,6 +202,7 @@ export const T = {
     deleteAsk: "Apagar este jogador e todo o progresso dele?", cancel: "Cancelar", del: "Apagar",
     parents: "Área dos pais",
     parentsInfo: "Sem anúncios. Sem links externos. Sem coleta de dados. Funciona offline.",
+    copyIntro: "O progresso fica neste aparelho, e só nele. Para jogar em outro, salve a cópia aqui e abra o arquivo lá.",
   },
   en: {
     tagline: "Travel the world by playing",
@@ -364,6 +365,7 @@ export const T = {
     language: "Language", use: "Use",
     deleteAsk: "Delete this player and all their progress?", cancel: "Cancel", del: "Delete",
     parents: "Parents", parentsInfo: "No ads. No external links. No data collection. Works offline.",
+    copyIntro: "Progress lives on this device, and only here. To play on another one, save a copy here and open the file there.",
   },
   es: {
     tagline: "Viaja por el mundo jugando",
@@ -526,6 +528,7 @@ export const T = {
     language: "Idioma", use: "Usar",
     deleteAsk: "¿Borrar este jugador y todo su progreso?", cancel: "Cancelar", del: "Borrar",
     parents: "Padres", parentsInfo: "Sin anuncios. Sin enlaces externos. Sin datos. Funciona sin internet.",
+    copyIntro: "El progreso queda en este aparato, y solo en él. Para jugar en otro, guarda la copia aquí y abre el archivo allá.",
   },
 };
 
@@ -689,6 +692,7 @@ export const PACKS = {
     language: "Langue", use: "Utiliser",
     deleteAsk: "Supprimer ce joueur et toute sa progression ?", cancel: "Annuler", del: "Supprimer",
     parents: "Espace parents", parentsInfo: "Sans pub. Sans liens externes. Sans collecte de données. Fonctionne hors ligne.",
+    copyIntro: "La progression reste sur cet appareil, et seulement ici. Pour jouer sur un autre, enregistre une copie ici et ouvre le fichier là-bas.",
   },
   de: {
     tagline: "Spielend um die Welt reisen", play: "Spielen", start: "Los", hi: "Hallo",
@@ -844,6 +848,7 @@ export const PACKS = {
     language: "Sprache", use: "Verwenden",
     deleteAsk: "Diesen Spieler und den ganzen Fortschritt löschen?", cancel: "Abbrechen", del: "Löschen",
     parents: "Elternbereich", parentsInfo: "Keine Werbung. Keine externen Links. Keine Datensammlung. Offline nutzbar.",
+    copyIntro: "Der Fortschritt bleibt auf diesem Gerät, und nur hier. Um auf einem anderen zu spielen, speichere hier eine Kopie und öffne die Datei dort.",
   },
   it: {
     tagline: "Viaggia per il mondo giocando", play: "Gioca", start: "Inizia", hi: "Ciao",
@@ -999,5 +1004,6 @@ export const PACKS = {
     language: "Lingua", use: "Usa",
     deleteAsk: "Eliminare questo giocatore e tutti i suoi progressi?", cancel: "Annulla", del: "Elimina",
     parents: "Area genitori", parentsInfo: "Niente pubblicità. Niente link esterni. Nessun dato raccolto. Funziona offline.",
+    copyIntro: "I progressi restano su questo apparecchio, e solo qui. Per giocare su un altro, salva la copia qui e apri il file là.",
   },
 };
