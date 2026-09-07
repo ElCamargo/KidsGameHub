@@ -26,7 +26,7 @@ escolhidas para responder, nessa ordem, as duas perguntas que um pai faz:
 | 02 | Escolha um jogo | A quantidade de conteúdo, em áreas separadas |
 | 03 | Monta a Palavra | Alfabetização de verdade, arrastando sílabas |
 | 04 | Bandeiras do Mundo | Geografia, continente a continente |
-| 05 | Leitura do Lumus | Interpretação de texto — e o selo 🐢 **SEM PRESSA**, que diz que não há cronômetro |
+| 05 | Leitura do Clarim | Interpretação de texto — e o selo 🐢 **SEM PRESSA**, que diz que não há cronômetro |
 | 06 | Meus filhos | O responsável acompanha; o Momento em Família existe |
 
 ## Como foram feitas

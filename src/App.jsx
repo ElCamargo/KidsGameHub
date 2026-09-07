@@ -31,7 +31,7 @@ import { PuzzleGame, PuzzleLevels, cartazDe, coresDeFabrica } from "./telas/queb
 
 
 /* ============================================================
-   LUMUS — Kids Game Hub
+   CLARIM — Kids Game Hub
    "Iluminar a mente"
    © ElCamargo Soluções em TI LTDA — https://github.com/ElCamargo/KidsGameHub
    Licença MIT (ver LICENSE)
@@ -48,7 +48,7 @@ import { PuzzleGame, PuzzleLevels, cartazDe, coresDeFabrica } from "./telas/queb
 class Guarda extends React.Component {
   constructor(p) { super(p); this.state = { erro: null }; }
   static getDerivedStateFromError(e) { return { erro: e }; }
-  componentDidCatch(e, info) { console.error("Lumus:", e, info); }
+  componentDidCatch(e, info) { console.error("Clarim:", e, info); }
   render() {
     if (!this.state.erro) return this.props.children;
     return (
@@ -62,7 +62,7 @@ class Guarda extends React.Component {
             Algo deu errado
           </div>
           <div style={{ color: "#C9D2FF", fontWeight: 600, fontSize: 14, lineHeight: 1.7, maxWidth: 320 }}>
-            Seu progresso continua salvo. Feche e abra o Lumus de novo.
+            Seu progresso continua salvo. Feche e abra o Clarim de novo.
           </div>
           <button onClick={() => window.location.reload()}
             style={{
@@ -171,7 +171,7 @@ function AppInterno() {
   const [turma, setTurma] = useState(null);
   const [escolhendoTurma, setEscolhendoTurma] = useState(false);
 
-  /* ----- a voz do Lumus -----
+  /* ----- a voz do Clarim -----
      Quem ainda não lê nasce com ela ligada: é o que faz a pergunta existir
      para essa criança. Quem já lê pode ligar quando quiser.
 
@@ -245,7 +245,16 @@ function AppInterno() {
   /* ----- perfis: vários jogadores no mesmo aparelho -----
      Índice leve em "lumus:profiles" (id, nome, avatar) para desenhar a
      tela de escolha sem abrir todos os saves. O progresso de cada um fica
-     em "lumus:p:<id>", separado — irmão não mexe no do irmão. */
+     em "lumus:p:<id>", separado — irmão não mexe no do irmão.
+
+     O PREFIXO "lumus:" NÃO É ERRO DE BUSCA-E-TROCA. O app se chamava Lumus
+     quando estas chaves foram escritas, e o nome mudou para Clarim em
+     07/09/2026. Renomear a chave torna invisível o que já está gravado: a
+     criança abre o app e o progresso dela sumiu. Chave de armazenamento é
+     endereço, não marca — e endereço não se troca por causa de nome novo.
+     Os outros dois lugares congelados pelo mesmo motivo são o selo do
+     arquivo de cópia (src/lib/transferir.js) e o tempero do resumo da senha
+     do responsável (src/telas/inicio.jsx). */
   const [profiles, setProfiles] = useState([]);
   const [activeId, setActiveId] = useState(null);
 
@@ -309,7 +318,10 @@ function AppInterno() {
         const r = await window.storage.get("lumus:profiles");
         if (r?.value) list = JSON.parse(r.value);
       } catch { }
-      // O app já se chamou Mundi: traz o que foi salvo com o nome antigo.
+      /* O app já se chamou Mundi: traz o que foi salvo com o nome antigo.
+         Não há resgate parecido para a troca Lumus → Clarim porque não é
+         preciso: ali a chave continuou a mesma justamente para ninguém ter
+         de migrar nada. */
       if (!list.length) {
         try {
           const velho = await window.storage.get("mundi:profiles");
@@ -995,9 +1007,9 @@ function AppInterno() {
   }, [screen]);
 
   useEffect(() => {
-    try { window.history.pushState({ lumus: true }, ""); } catch { }
+    try { window.history.pushState({ clarim: true }, ""); } catch { }
     const aoVoltar = () => {
-      try { window.history.pushState({ lumus: true }, ""); } catch { }
+      try { window.history.pushState({ clarim: true }, ""); } catch { }
       const t = trilha.current;
       if (t.length > 1) {
         t.pop();

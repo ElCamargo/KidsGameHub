@@ -1,5 +1,5 @@
 /**
- * KidsGameHub — a voz do Lumus
+ * KidsGameHub — a voz do Clarim
  * ElCamargo Soluções em TI LTDA
  *
  * Ler a pergunta em voz alta para quem ainda não lê. É o pedaço do app que
@@ -17,7 +17,7 @@
  *
  * DOIS TONS, de propósito:
  *
- *   LUMUS  — o mascote falando com a criança: agudo, animado, um pouco
+ *   CLARIM  — o mascote falando com a criança: agudo, animado, um pouco
  *            devagar, porque criança pequena precisa de tempo entre as
  *            palavras.
  *   PALAVRA — a leitura do versículo no Momento em Família: grave, pausada,
@@ -26,7 +26,7 @@
 
 /* pitch: 0 a 2 (1 é o normal) · rate: 0.1 a 10 (1 é o normal) */
 export const TONS = {
-  lumus:   { pitch: 1.35, rate: 0.92 },
+  clarim:   { pitch: 1.35, rate: 0.92 },
   palavra: { pitch: 0.85, rate: 0.80 },
 };
 
@@ -87,7 +87,7 @@ export function falando() {
 
    `aoTerminar` avisa quem chamou que a fala acabou — sozinha, cortada ou com
    erro. Sem isso o botão ficaria mostrando "parar" depois do fim da frase. */
-export function falar(texto, { lang = "pt", tom = "lumus", aoTerminar } = {}) {
+export function falar(texto, { lang = "pt", tom = "clarim", aoTerminar } = {}) {
   if (!disponivel() || !texto) return false;
   const voz = vozDe(lang);
   if (!voz) return false;
@@ -96,7 +96,7 @@ export function falar(texto, { lang = "pt", tom = "lumus", aoTerminar } = {}) {
     const u = new window.SpeechSynthesisUtterance(String(texto));
     u.voice = voz;
     u.lang = voz.lang;
-    const { pitch, rate } = TONS[tom] || TONS.lumus;
+    const { pitch, rate } = TONS[tom] || TONS.clarim;
     u.pitch = pitch;
     u.rate = rate;
     if (aoTerminar) {

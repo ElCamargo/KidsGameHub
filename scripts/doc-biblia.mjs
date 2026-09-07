@@ -131,12 +131,12 @@ const total = [LIVROS, PERSONAGENS, PARENTESCO, MAES, LUGARES, MILAGRES, PARABOL
 
 pagina({
   arquivo: "docs/revisao-biblia.html",
-  titulo: "Lumus — revisão do banco bíblico",
+  titulo: "Clarim — revisão do banco bíblico",
   vindoDe: "src/data/biblia-*.js (npm run doc-biblia)",
   total, secoes,
   caixa: `<div class="caixa">
   <h3>O que é isto, e o que se espera de quem lê</h3>
-  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  <p style="margin-top:0">O Clarim é um app de jogos educativos para crianças, sem anúncio, sem cobrança
   e sem coleta de dados, dado de graça a famílias. Uma das áreas é a Bíblia.</p>
 
   <p><strong>As perguntas do app não são escritas uma a uma: elas são geradas a partir

@@ -31,7 +31,7 @@ realmente se comporta.
 | 02 | Escolha um jogo | A quantidade de conteúdo, em quatro colunas |
 | 03 | Monta a Palavra | Alfabetização de verdade, arrastando sílabas |
 | 04 | Bandeiras do Mundo | Geografia, continente a continente |
-| 05 | Leitura do Lumus | Interpretação de texto, e o selo 🐢 **SEM PRESSA** |
+| 05 | Leitura do Clarim | Interpretação de texto, e o selo 🐢 **SEM PRESSA** |
 | 06 | Meus filhos | O acompanhamento do responsável, o presente da semana e o cartão do esforço |
 
 ## Como refazer

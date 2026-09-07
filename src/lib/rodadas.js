@@ -1174,7 +1174,7 @@ export function montarRodadaBrasil(stage, t, estado = null) {
 /* ---------- Rimas ----------
    Ouvir que "gato" e "pato" terminam igual é consciência fonológica pura, e
    vem antes de ler. A figura pergunta, as palavras respondem — e a voz do
-   Lumus lê as alternativas para quem ainda não lê. */
+   Clarim lê as alternativas para quem ainda não lê. */
 export function montarRodadaRima(stage, t) {
   const band = bandFor("rimas", stage);
   const qCount = qtdPerguntas(band);

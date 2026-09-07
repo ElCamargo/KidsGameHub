@@ -6,7 +6,7 @@
 
 ## O contexto
 
-O Lumus é hoje um **PWA** (aplicativo web progressivo) publicado no GitHub Pages,
+O Clarim é hoje um **PWA** (aplicativo web progressivo) publicado no GitHub Pages,
 instalável na tela inicial de Android e iPhone, funcionando integralmente offline
 depois da primeira abertura.
 
@@ -64,7 +64,7 @@ plano até existir uma necessidade concreta que o PWA não atenda.
 ## Por quê
 
 **1. Equidade de acesso é um pilar do projeto, não um detalhe.**
-O Lumus é para crianças de todas as classes sociais. Um PWA de 3,3 MB abre num
+O Clarim é para crianças de todas as classes sociais. Um PWA de 3,3 MB abre num
 Android de entrada, num plano de dados curto, sem download de loja e sem espaço
 livre no aparelho. Um app nativo de dezenas de megabytes exclui exatamente a
 família que mais precisa. Esse argumento sozinho decide a questão.
@@ -81,7 +81,7 @@ diferença é de qualidade percebida, não de conveniência do desenvolvedor.
 
 **4. Não usamos nada que exija nativo.**
 Não há câmera, GPS, Bluetooth, compras, login, notificação em segundo plano nem
-processamento pesado. Tudo o que o Lumus faz — desenhar, sortear, tocar voz,
+processamento pesado. Tudo o que o Clarim faz — desenhar, sortear, tocar voz,
 guardar progresso — o navegador faz.
 
 ## O que estamos abrindo mão, com todas as letras

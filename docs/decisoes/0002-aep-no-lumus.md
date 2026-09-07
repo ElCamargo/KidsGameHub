@@ -1,4 +1,4 @@
-# 0002 — Como a Abordagem Educacional por Princípios entra no Lumus
+# 0002 — Como a Abordagem Educacional por Princípios entra no Clarim
 
 - **Data:** setembro de 2026
 - **Situação:** aceita
@@ -6,7 +6,7 @@
 
 ## O contexto
 
-O Lumus nasceu como um hub de jogos educativos. Hoje ele tem 15 jogos e mais de
+O Clarim nasceu como um hub de jogos educativos. Hoje ele tem 15 jogos e mais de
 2.600 perguntas conferidas — e, medido com honestidade, **faz uma coisa só**:
 mostra um estímulo e pede que a criança reconheça a resposta certa entre quatro.
 
@@ -39,7 +39,7 @@ Semeadura e Colheita · Mordomia.
 
 ## A decisão
 
-**O ciclo PRRR passa a ser a estrutura de uma sessão no Lumus**, e os 7
+**O ciclo PRRR passa a ser a estrutura de uma sessão no Clarim**, e os 7
 princípios passam a ser o vocabulário das reflexões e o ciclo do devocional em
 família.
 

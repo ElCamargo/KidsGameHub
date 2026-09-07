@@ -2,7 +2,7 @@
  * KidsGameHub — levar o progresso para outro aparelho
  * ElCamargo Soluções em TI LTDA
  *
- * O Lumus não tem conta, não tem servidor e não quer ter. Mas o celular
+ * O Clarim não tem conta, não tem servidor e não quer ter. Mas o celular
  * quebra, a família troca de aparelho, e dois anos de fases vencidas não
  * podem morrer com o telefone.
  *
@@ -24,6 +24,11 @@
  */
 
 export const VERSAO = 1;
+/* "lumus:" e não "clarim:" de propósito. Este selo é o que `lerCopia` confere
+   para saber que o arquivo é nosso, e já existem cópias salvas com ele — a
+   família que guardou o progresso antes da troca de nome, em 07/09/2026.
+   Mudar o selo faria o app recusar os próprios arquivos, com "erro: outro".
+   O nome do ARQUIVO mudou (clarim-fulano-data.json); o selo de dentro, não. */
 export const MARCA = "lumus:copia";
 
 /* 8 MB: um save com galeria cheia não passa de algumas centenas de KB. Acima
@@ -39,7 +44,7 @@ export function montarCopia(perfil, save) {
   return {
     marca: MARCA,
     v: VERSAO,
-    app: "Lumus — Kids Game Hub",
+    app: "Clarim — Kids Game Hub",
     criado: new Date().toISOString(),
     perfil: fichaSemSenha,
     save: objeto(save),
@@ -54,7 +59,7 @@ export function nomeDoArquivo(nome, quando = new Date()) {
     .replace(/^-+|-+$/g, "")
     .toLowerCase() || "jogador";
   const d = quando.toISOString().slice(0, 10);
-  return `lumus-${limpo}-${d}.json`;
+  return `clarim-${limpo}-${d}.json`;
 }
 
 /* Lê o que veio do arquivo. Devolve { erro } ou { perfil, save }.
@@ -92,7 +97,7 @@ export function lerCopia(cru) {
  * Um save gravado ontem, lido pelo app de hoje.
  *
  * Mora aqui porque é o arquivo que torna isto comum: uma cópia salva hoje pode
- * ser aberta daqui a seis meses, num Lumus que ganhou campo novo no meio do
+ * ser aberta daqui a seis meses, num Clarim que ganhou campo novo no meio do
  * caminho. Mas vale para todo save — inclusive o que só envelheceu no próprio
  * aparelho, sem nunca ter virado arquivo.
  *

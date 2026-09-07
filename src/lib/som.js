@@ -13,7 +13,7 @@
  *
  * Regras que este arquivo cumpre e que não são detalhe:
  *   - toca baixo, e só dentro de uma fase; menu é silêncio;
- *   - cala enquanto o Lumus está lendo a pergunta — a voz é que importa;
+ *   - cala enquanto o Clarim está lendo a pergunta — a voz é que importa;
  *   - entra e sai com desvanecimento, nunca de estalo;
  *   - só acorda depois de um toque da criança, que é o que os navegadores
  *     exigem para deixar um site fazer barulho.
@@ -86,7 +86,7 @@ function tocarNota(freq, quando) {
 
 function bater() {
   if (!ctx) return;
-  // Enquanto o Lumus lê, o fundo se cala inteiro: a pergunta é que importa.
+  // Enquanto o Clarim lê, o fundo se cala inteiro: a pergunta é que importa.
   if (!vozFalando()) {
     indice = proximaNota(indice);
     tocarNota(NOTAS[indice], ctx.currentTime + 0.02);

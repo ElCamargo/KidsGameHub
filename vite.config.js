@@ -29,8 +29,8 @@ export default defineConfig({
   // O site ainda vive em https://elcamargo.github.io/KidsGameHub/ — sem esta
   // base os arquivos são buscados na raiz do domínio e a página abre em branco.
   //
-  // A MUDANÇA PARA lumus.elcamargo.com.br ESTÁ PRONTA E SEGURA NO GIT (commit
-  // "O Lumus ganha domínio próprio"), mas não pode sair ainda: o navegador
+  // A MUDANÇA PARA clarim.elcamargo.com.br ESTÁ PRONTA E SEGURA NO GIT (commit
+  // "O Clarim ganha domínio próprio"), mas não pode sair ainda: o navegador
   // guarda o progresso por ORIGEM, não por aplicativo. No endereço novo o app
   // abriria vazio, e o que cada criança conquistou ficaria preso no endereço
   // antigo para sempre.
@@ -44,8 +44,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["icon-180.png", "icon-192.png", "icon-512.png", "privacidade.html", "termos.html"],
       manifest: {
-        name: "Lumus — Kids Game Hub",
-        short_name: "Lumus",
+        name: "Clarim — Kids Game Hub",
+        short_name: "Clarim",
         description: "Jogos educativos para crianças, sem anúncios.",
         lang: "pt-BR",
         start_url: "./",

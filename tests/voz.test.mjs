@@ -1,5 +1,5 @@
 /**
- * KidsGameHub — a voz do Lumus
+ * KidsGameHub — a voz do Clarim
  * ElCamargo Soluções em TI LTDA
  *
  * O que dá para testar sem aparelho: a frase que vai ser falada. Se ela sair
@@ -48,8 +48,8 @@ test("pergunta vazia não vira fala", () => {
 });
 
 test("os dois tons são diferentes, e o da Palavra é mais grave e mais lento", () => {
-  assert.ok(TONS.palavra.pitch < TONS.lumus.pitch, "a leitura do versículo tem que ser mais grave");
-  assert.ok(TONS.palavra.rate < TONS.lumus.rate, "e mais pausada");
+  assert.ok(TONS.palavra.pitch < TONS.clarim.pitch, "a leitura do versículo tem que ser mais grave");
+  assert.ok(TONS.palavra.rate < TONS.clarim.rate, "e mais pausada");
   for (const tom of Object.values(TONS)) {
     assert.ok(tom.pitch > 0 && tom.pitch <= 2, "pitch fora do que a API aceita");
     assert.ok(tom.rate >= 0.1 && tom.rate <= 10, "rate fora do que a API aceita");

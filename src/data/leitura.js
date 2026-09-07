@@ -13,7 +13,7 @@
  *   id — chave curta, usada pela revisão para saber que pergunta é qual
  *   n  — o degrau: 1 (três frases curtas) a 4 (seis frases, com inferência)
  *   e  — a figura, que dá o assunto antes de a criança ler a primeira palavra
- *   t  — o texto, que a voz do Lumus lê inteiro para quem ainda não lê
+ *   t  — o texto, que a voz do Clarim lê inteiro para quem ainda não lê
  *   p  — as perguntas
  *
  * Cada pergunta traz `tipo`:
@@ -28,7 +28,7 @@
  *    criança elimina sem ler o texto, e aí a pergunta não mediu leitura.
  * 2. Nada de pegadinha de palavra. Se duas alternativas podem ser defendidas
  *    lendo o texto, a pergunta está errada — não a criança.
- * 3. Texto curto, frase curta, nada de assustar: o Lumus é para criança de 5
+ * 3. Texto curto, frase curta, nada de assustar: o Clarim é para criança de 5
  *    a 10 anos, e ela lê isso sozinha, sem adulto do lado para explicar.
  * 4. A explicação (`porque`) diz ONDE no texto está a resposta. Errar sem
  *    saber por quê ensina só que errou.

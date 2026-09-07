@@ -1,4 +1,4 @@
-# Lumus — Kids Game Hub
+# Clarim — Kids Game Hub
 
 [![CI](https://github.com/ElCamargo/KidsGameHub/actions/workflows/ci.yml/badge.svg)](https://github.com/ElCamargo/KidsGameHub/actions/workflows/ci.yml)
 [![Deploy](https://github.com/ElCamargo/KidsGameHub/actions/workflows/deploy.yml/badge.svg)](https://github.com/ElCamargo/KidsGameHub/actions/workflows/deploy.yml)
@@ -21,11 +21,11 @@ internet nenhuma.
 
 ## Por que isto existe
 
-O Lumus começou porque dois filhos, de 5 e 6 anos, pediam o celular — e o que
+O Clarim começou porque dois filhos, de 5 e 6 anos, pediam o celular — e o que
 havia do outro lado era anúncio, compra dentro do jogo e um algoritmo medindo
 quanto tempo a criança consegue ficar presa ali.
 
-Fizemos o contrário. **O Lumus não quer o tempo da criança: quer o tempo da
+Fizemos o contrário. **O Clarim não quer o tempo da criança: quer o tempo da
 família junta.** Ele não tem anúncio para vender, não tem dado para coletar e
 não tem nada que empurre a criança a voltar sozinha. O que ele tem é motivo
 para pai e filho abrirem o app na mesma mesa.
@@ -42,7 +42,7 @@ abre o app é criança querendo jogar, mas quem instala é adulto, e ele merece
 saber em dois toques o que este app é e o que ele nunca vai fazer.
 
 **E é escolha da família.** No primeiro acesso, só o responsável vê o convite:
-*"sua família quer isso no Lumus?"*. Quem diz não tem um app de jogos
+*"sua família quer isso no Clarim?"*. Quem diz não tem um app de jogos
 educativos completo, sem uma única menção a fé. Esconder o que somos seria
 desonesto; empurrar seria pior.
 
@@ -69,14 +69,14 @@ não numa apresentação:
 
 ## A espinha pedagógica: a Abordagem Educacional por Princípios
 
-Este é o pilar que mais decide o que entra e o que não entra no Lumus, e por
+Este é o pilar que mais decide o que entra e o que não entra no Clarim, e por
 isso ele não cabe numa linha de tabela.
 
 Um app que mostra um estímulo e pede que a criança reconheça a resposta certa
 entre quatro está no **degrau mais raso** do aprendizado. É um bom quiz. Não é
 formação. A **AEP — Abordagem Educacional por Princípios**, do trabalho de Hall
 e Rosalie Slater, é o método que os filhos dos fundadores encontram na escola,
-e é o que o Lumus adota — por convicção, e por coerência: a criança não deveria
+e é o que o Clarim adota — por convicção, e por coerência: a criança não deveria
 achar em casa um jeito de aprender que contradiz o da escola.
 
 ### Os 4 R, e onde cada um vive no app
@@ -101,7 +101,7 @@ Momento em Família — sete princípios, sete semanas.
 
 ### A regra para o que vier depois
 
-Toda funcionalidade nova do Lumus **declara qual dos 4 R ela serve**, e nenhuma
+Toda funcionalidade nova do Clarim **declara qual dos 4 R ela serve**, e nenhuma
 entra existindo só como exercício. Um jogo que só pergunta e corrige está no
 Pesquisar e para por aí; para entrar, precisa dizer onde estão o porquê, a
 ligação com a vida da criança e o registro dela.
@@ -110,7 +110,7 @@ Isso vale para a etapa de alfabetização e reforço escolar que vem a seguir, e
 a régua pela qual ela deve ser cobrada.
 
 Detalhes e o histórico da decisão em
-[docs/decisoes/0002](docs/decisoes/0002-aep-no-lumus.md).
+[docs/decisoes/0002](docs/decisoes/0002-aep-no-clarim.md).
 
 ## Em 30 segundos
 
@@ -143,8 +143,8 @@ São **36 jogos em 7 áreas**.
 | 📚 Ler e Escrever | Que Letra Começa | a figura e a letra inicial |
 | 📚 Ler e Escrever | Rimas | consciência fonológica: o que termina igual |
 | 📚 Ler e Escrever | Família Silábica | ouve a palavra e acha a sílaba escrita que a abre |
-| 📚 Ler e Escrever | Ditado do Lumus | ouve a palavra e escreve letra por letra |
-| 📚 Ler e Escrever | Leitura do Lumus | lê (ou ouve) um texto e responde sobre ele |
+| 📚 Ler e Escrever | Ditado do Clarim | ouve a palavra e escreve letra por letra |
+| 📚 Ler e Escrever | Leitura do Clarim | lê (ou ouve) um texto e responde sobre ele |
 | 📚 Ler e Escrever | Como Se Escreve | ouve a palavra e completa a lacuna: ç ou ss, s ou z |
 | 🌍 Geografia | Bandeiras do Mundo | 203 bandeiras — países, estados e regiões — em 60 fases por continente |
 | 🌍 Geografia | Memória do Mundo | memória visual com bandeiras, 6 níveis até 5×8 |
@@ -396,7 +396,7 @@ celular de entrada.
 
 ### Levar o progresso para outro aparelho
 
-O Lumus não tem conta e não tem servidor — e não vai ter. Mas o celular
+O Clarim não tem conta e não tem servidor — e não vai ter. Mas o celular
 quebra, a família troca de aparelho, e **dois anos de fases vencidas não podem
 morrer com o telefone**.
 
@@ -426,7 +426,7 @@ tudo isso vira campo são ou vira recusa, nunca vira erro no meio da partida.
 São 7 testes só para isso, em
 [`tests/transferir.test.mjs`](tests/transferir.test.mjs).
 
-### A voz do Lumus
+### A voz do Clarim
 
 Ler a pergunta em voz alta. É o pedaço do app que mais muda **quem consegue
 jogar**: uma criança de quatro anos não lê *"Qual destes voa?"*, mas escuta.
@@ -439,7 +439,7 @@ sintetizador leria *"rosto de coelho"* no meio da frase.
 
 | Tom | Onde | Como soa |
 |---|---|---|
-| **Lumus** | as perguntas e o porquê do erro | agudo e animado, um pouco devagar — criança pequena precisa de tempo entre as palavras |
+| **Clarim** | as perguntas e o porquê do erro | agudo e animado, um pouco devagar — criança pequena precisa de tempo entre as palavras |
 | **Palavra** | o versículo do Momento em Família | grave, pausado e firme: uma voz de pai lendo para a família, não de locutor |
 
 **Só voz do próprio aparelho.** O navegador também oferece vozes que falam
@@ -729,7 +729,7 @@ ou rr, x ou ch. São **64 palavras** em quatro degraus.
 
 O exercício clássico de prova mostra *casa / caza / caça / cassa* e manda
 escolher. **Aqui não.** A criança passaria metade do tempo olhando grafia
-errada, que é o que ela copia depois. No Lumus aparece a palavra com uma
+errada, que é o que ela copia depois. No Clarim aparece a palavra com uma
 **lacuna** e as alternativas são só os pedaços:
 
 > **Como se escreve?** 👂 `ore__a` → `l` `ch` `nh` `lh`
@@ -830,7 +830,7 @@ coisa que ela precisa saber. É o caminho da escola — do próximo ao distante.
 
 O campo **só aparece em português**: mostrar 27 siglas brasileiras para uma
 família italiana seria ruído. É opcional, tem a opção de não dizer, e — como
-tudo no Lumus — **fica no aparelho**. A ficha do responsável mostra o estado ao
+tudo no Clarim — **fica no aparelho**. A ficha do responsável mostra o estado ao
 lado do ano escolar.
 
 Dois bancos escritos à mão passaram a ter as mesmas 27 siglas, em arquivos
@@ -839,7 +839,7 @@ aponta para nada, e o jogo continuaria funcionando sem ninguém perceber.
 
 ### A escola pede por ano; o app entregava por dificuldade
 
-O Lumus se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
+O Clarim se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
 se organiza por **ano**. Uma criança do 4º ano que abria a Tabuada caía no
 Fácil — ×2, ×5 e ×10, que ela já sabe — e teria de vencer trinta fases, ou
 pagar moeda, para chegar no 6, 7 e 8 que a professora cobrou esta semana.
@@ -919,7 +919,7 @@ que seria um pedaço da história que aquela família nunca leria.
 
 ### O app lembra o que a criança errou
 
-Até aqui o Lumus guardava estrela por fase e nada mais. A criança errava
+Até aqui o Clarim guardava estrela por fase e nada mais. A criança errava
 "girafa é mamífero" na segunda, acertava por sorte na quinta, e ninguém
 aprendia nada. Agora **a pergunta errada volta**.
 
@@ -960,7 +960,7 @@ aprende.
 
 ### Ler e Escrever
 
-A área que faltava, e a razão de existir da próxima etapa: o Lumus tinha
+A área que faltava, e a razão de existir da próxima etapa: o Clarim tinha
 "Idiomas" — palavras em seis línguas — e **nada que ensinasse uma criança
 brasileira a ler a própria língua**, que é o conteúdo dos 4 aos 7 anos.
 
@@ -999,7 +999,7 @@ cansar, e **também quando a criança foi mal** — aí ela nunca cobra, convida
 elogio aparece na hora em que a palavra fecha, que é o momento em que ela
 acabou de conseguir.
 
-### O som do Lumus
+### O som do Clarim
 
 Duas coisas diferentes, e as duas se desligam num toque.
 
@@ -1022,7 +1022,7 @@ Três decisões que a fazem não incomodar:
   numa fase de 19 segundos, o intervalo entre as notas vai de 907 a 723 ms.
   Acelerar desde o começo deixaria a criança apressada a rodada inteira, e
   pressa é o contrário do que queremos;
-- **ela se cala enquanto o Lumus fala**, e nas telas do Momento em Família e do
+- **ela se cala enquanto o Clarim fala**, e nas telas do Momento em Família e do
   Meu Caderno — que são para ler junto e para pensar, não para correr.
 
 O interruptor fica em dois lugares: na **tela de escolher jogador**, ao lado do
@@ -1088,7 +1088,7 @@ Colheita, Mordomia) e os sete dias daquela semana o aprofundam. Demorar numa
 ideia é o método; sete assuntos soltos em sete dias não é.
 
 **É opcional, e a família decide.** Na primeira vez, só o responsável vê o
-convite: *"Sua família quer isso no Lumus?"*. Quem diz "agora não" tem um app
+convite: *"Sua família quer isso no Clarim?"*. Quem diz "agora não" tem um app
 de jogos educativos completo, sem nenhuma menção a fé; quem diz "queremos" tem
 o cartão no alto do hub, e o responsável pode reativar depois se mudar de
 ideia.
@@ -1122,7 +1122,7 @@ Luther, Diodati — e conferir isso é trabalho de gente, não de tradução
 automática nossa.
 
 O porquê de tudo isto está em
-[`docs/decisoes/0002-aep-no-lumus.md`](docs/decisoes/0002-aep-no-lumus.md).
+[`docs/decisoes/0002-aep-no-clarim.md`](docs/decisoes/0002-aep-no-clarim.md).
 
 ### Senha do responsável
 
@@ -1261,7 +1261,7 @@ estavam na mesa e o que abrimos mão em cada uma:
 | # | Decisão |
 |---|---|
 | [0001](docs/decisoes/0001-pwa-ou-apps-nativos.md) | PWA única ou aplicativos nativos por plataforma |
-| [0002](docs/decisoes/0002-aep-no-lumus.md) | Como a Abordagem Educacional por Princípios entra no Lumus |
+| [0002](docs/decisoes/0002-aep-no-clarim.md) | Como a Abordagem Educacional por Princípios entra no Clarim |
 | [0003](docs/decisoes/0003-um-arquivo-para-a-interface.md) | Dados em arquivos separados, interface num arquivo só |
 
 ## Rodando na sua máquina
@@ -1334,12 +1334,12 @@ As duas páginas legais ficam em `public/` e são copiadas para a raiz do site n
 
 ### A mudança de endereço, que ainda não aconteceu
 
-O Lumus vai para `lumus.elcamargo.com.br`. O domínio já está registrado no CNPJ e
+O Clarim vai para `clarim.elcamargo.com.br`. O domínio já está registrado no CNPJ e
 o DNS já resolve; a mudança é condição para entrar na Play Store, porque o TWA
 exige um arquivo na raiz do domínio e pasta de projeto no `github.io` não tem
 raiz.
 
-**Ela está pronta no git e propositalmente fora do ar.** O commit *"O Lumus ganha
+**Ela está pronta no git e propositalmente fora do ar.** O commit *"O Clarim ganha
 domínio próprio"* traz o `public/CNAME` e o `base: "/"`; os dois foram desfeitos
 na v1.2.0, e voltam quando chegar a hora.
 
@@ -1384,7 +1384,7 @@ src/
   lib/catalogo.js  catálogo de jogos, escada de fases, preços, economia e conquistas
   lib/rodadas.js   como cada rodada é sorteada, trilha por trilha
   lib/storage.js   persistência — as 4 funções que um app nativo trocaria
-  lib/voz.js       a voz do Lumus: só vozes locais, dois tons
+  lib/voz.js       a voz do Clarim: só vozes locais, dois tons
   lib/transferir.js  salvar e restaurar o progresso por arquivo, sem conta
   lib/turma.js     jogar junto: quantos cabem, quem venceu, perguntas iguais para todos
   lib/quebracabeca.js  o quebra-cabeça: grade por nível, estrelas e o desenho do encaixe
@@ -1509,14 +1509,14 @@ O app não faz **nenhuma** requisição a terceiros. Bandeiras e fontes (Baloo 2
 
 ### A próxima etapa: de hub de jogos a reforço escolar
 
-O Lumus faz bem o que se propôs em [v1.0.0](https://github.com/ElCamargo/KidsGameHub/releases/tag/v1.0.0).
+O Clarim faz bem o que se propôs em [v1.0.0](https://github.com/ElCamargo/KidsGameHub/releases/tag/v1.0.0).
 O que ele **não** faz é ensinar uma criança brasileira a ler a própria língua —
 e é justamente o conteúdo dos 4 aos 7 anos. Esta é a etapa em curso, e cada
 item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educacional-por-princípios) ele serve**.
 
 - [x] **Testar a voz do aparelho com letras e sílabas** — feito, e decidiu o resto: a voz do aparelho lê **frases e palavras muito bem**, diz o **nome** da letra e não o som, e **soletra sílaba solta**. Escrever com acento (`bá`) faz ela falar, mas só nas vogais a, e, o — `bí` e `bú` continuam soletrados. Conclusão e consequências na [ADR 0004](docs/decisoes/0004-a-voz-da-alfabetizacao.md)
 - [x] **Memória de erro e revisão espaçada** *(Raciocinar)* — feito: a pergunta errada volta em 1, 3, 7 e 21 dias e sai da fila quando é aprendida
-- [x] **Área 📚 Ler e Escrever, completa** *(Pesquisar → Registrar)* — Monta a Palavra, Que Letra Começa, Rimas, Família Silábica e **Ditado do Lumus**, todos com a **palavra inteira** falada pelo aparelho — e por isso nenhum deles esperou a gravação
+- [x] **Área 📚 Ler e Escrever, completa** *(Pesquisar → Registrar)* — Monta a Palavra, Que Letra Começa, Rimas, Família Silábica e **Ditado do Clarim**, todos com a **palavra inteira** falada pelo aparelho — e por isso nenhum deles esperou a gravação
 - [x] **Famílias silábicas** *(Pesquisar)* — feito **sem gravação**: o app diz a palavra e a criança acha a sílaba escrita ([ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md))
 - [x] **O som da letra** *(Pesquisar)* — resolvido **sem gravação**, e o item estava mal escrito: metade das consoantes não tem som isolado nem gravado (são oclusivas). O que se ensina é comparar, e isso é o jogo **Começa Igual** ([ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md))
 - [x] **Ficha do responsável dizendo onde o filho está devendo** *(Relacionar)* — feito, e saiu de graça da memória de erro
@@ -1525,8 +1525,8 @@ item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educa
 - [x] **Separar as telas de jogo em arquivos** — feito: o `App.jsx` foi de 6.689 para 1.378 linhas, em treze arquivos, sem reescrever lógica ([ADR 0005](docs/decisoes/0005-as-telas-em-arquivos.md))
 
 **Onde decidimos não ir:** 6º ao 8º ano. Um menino de 13 anos não abre um app
-com mascote e lumicoins, e mudar a cara do Lumus para atendê-lo estragaria o
-que funciona para uma criança de cinco. O Lumus é dos 3 aos 10; atender os
+com mascote e lumicoins, e mudar a cara do Clarim para atendê-lo estragaria o
+que funciona para uma criança de cinco. O Clarim é dos 3 aos 10; atender os
 maiores seria outro app, reusando esta base.
 
 ### O reforço escolar de verdade
@@ -1597,7 +1597,7 @@ O app não coleta dados, não faz requisições a serviços de análise, não ex
 
 ## In English, briefly
 
-**Lumus** is a free, ad-free, offline-first educational game hub for children,
+**Clarim** is a free, ad-free, offline-first educational game hub for children,
 built by **ElCamargo Soluções em TI LTDA** (Blumenau, Brazil) and given away to
 families worldwide.
 

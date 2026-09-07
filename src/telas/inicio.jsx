@@ -38,7 +38,7 @@ export function Create({ t, lang, onLang, player, setPlayer, onDone, editando = 
   return (
     <div className="narrow">
       <div style={{ textAlign: "center", marginBottom: 10 }}>
-        <div className="display" style={{ color: "#fff", fontSize: 44, lineHeight: 1 }}>LUMUS</div>
+        <div className="display" style={{ color: "#fff", fontSize: 44, lineHeight: 1 }}>CLARIM</div>
         <div style={{ color: "#C9D2FF", fontWeight: 700, fontSize: 14 }}>{t.tagline}</div>
         <button onClick={onLang} className="chunky" style={{ marginTop: 10, padding: "7px 16px", fontSize: 13, background: "rgba(255,255,255,.22)" }}>
           🌐 {LANG_CATALOG[lang] || lang}
@@ -291,7 +291,7 @@ export function Profiles({ t, profiles, openProfile, newProfile, editProfile, de
         <div style={{ display: "grid", placeItems: "center", marginBottom: 6 }}>
           <Mundi size={72} />
         </div>
-        <div className="display" style={{ color: "#fff", fontSize: 40, lineHeight: 1 }}>LUMUS</div>
+        <div className="display" style={{ color: "#fff", fontSize: 40, lineHeight: 1 }}>CLARIM</div>
         <div className="display" style={{ color: "#C9D2FF", fontSize: 18, marginTop: 6 }}>{t.players}</div>
       </div>
 
@@ -500,6 +500,11 @@ export function LangScreen({ t, lang, pickLang, setScreen, back }) {
    ponytail: quatro dígitos e resumo local. Se um dia isso virar conta de
    verdade, aí sim entra senha forte e servidor. */
 export async function resumoSenha(pin, id) {
+  /* "lumus:" é tempero, não marca — e tempero não se troca. Os resumos já
+     gravados foram calculados com ele; mudar para "clarim:" faria TODA senha
+     de responsável parar de conferir, e cada pai ficaria trancado fora da
+     própria área sem nenhuma forma de voltar. Ficou assim na troca de nome de
+     07/09/2026, de propósito. */
   const txt = `lumus:${id}:${pin}`;
   try {
     const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));

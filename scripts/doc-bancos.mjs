@@ -73,7 +73,7 @@ const nQuestoes = LEITURAS.reduce((s, l) => s + l.p.length, 0);
 const TIPO = { literal: "literal", inferencia: "inferência", vocabulario: "vocabulário" };
 escola.push(secao({
   id: "leitura", titulo: "Textos de leitura", quantos: LEITURAS.length,
-  vira: `${nQuestoes} perguntas de interpretação. A voz do Lumus lê o texto inteiro para quem ainda não lê sozinho.`,
+  vira: `${nQuestoes} perguntas de interpretação. A voz do Clarim lê o texto inteiro para quem ainda não lê sozinho.`,
   nota: "A regra do banco: as três erradas têm que ser <strong>plausíveis para quem não leu</strong> e <strong>claramente erradas para quem leu</strong>. Alternativa absurda a criança elimina sem ler, e aí a pergunta não mediu leitura nenhuma. E se duas alternativas podem ser defendidas lendo o texto, quem está errada é a pergunta.",
   corpo: LEITURAS.map((L, i) => `
   <div class="bloco">
@@ -90,14 +90,14 @@ escola.push(secao({
 
 pagina({
   arquivo: "docs/revisao-escola.html",
-  titulo: "Lumus — revisão do reforço escolar",
+  titulo: "Clarim — revisão do reforço escolar",
   vindoDe: "src/data/palavras.js, ortografia.js e leitura.js (npm run doc-bancos)",
   total: PALAVRAS.length + ORTOGRAFIA.length + LEITURAS.length + nQuestoes,
   unidade: "linhas para conferir",
   secoes: escola,
   caixa: `<div class="caixa">
   <h3>O que é isto, e o que se espera de quem lê</h3>
-  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  <p style="margin-top:0">O Clarim é um app de jogos educativos para crianças, sem anúncio, sem cobrança
   e sem coleta de dados, dado de graça a famílias. Esta parte é a que acompanha a
   escola: alfabetização, ortografia e interpretação de texto, do 1º ao 5º ano.</p>
 
@@ -214,7 +214,7 @@ mundo.push(secao({
 
 pagina({
   arquivo: "docs/revisao-mundo.html",
-  titulo: "Lumus — revisão de ciências, mundo e Brasil",
+  titulo: "Clarim — revisão de ciências, mundo e Brasil",
   vindoDe: "src/data/ciencias.js, ciencias-mundo.js, curiosidades.js, brasil.js e geografia.js (npm run doc-bancos)",
   total: ANIMAIS.length + CIENCIAS_MUNDO.length + CURIOSIDADES.length + ESTADOS.length
     + FATOS_BR.length + paisesDoJogo.length + BR_ESTADOS.length + US_ESTADOS.length,
@@ -222,7 +222,7 @@ pagina({
   secoes: mundo,
   caixa: `<div class="caixa">
   <h3>O que é isto, e o que se espera de quem lê</h3>
-  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  <p style="margin-top:0">O Clarim é um app de jogos educativos para crianças, sem anúncio, sem cobrança
   e sem coleta de dados, dado de graça a famílias. Esta parte é o mundo: os bichos,
   o corpo, as plantas, a água, os monumentos, o Brasil e as capitais.</p>
 
@@ -302,14 +302,14 @@ familia.push(secao({
 
 pagina({
   arquivo: "docs/revisao-familia.html",
-  titulo: "Lumus — revisão do devocional e do versículo do dia",
+  titulo: "Clarim — revisão do devocional e do versículo do dia",
   vindoDe: "src/data/versos.js, devocional.js e caderno.js (npm run doc-bancos)",
   total: PRINCIPIOS.length + VERSOS.length + linhasDev.length + linhasCad.length,
   unidade: "linhas para conferir",
   secoes: familia,
   caixa: `<div class="caixa">
   <h3>O que é isto, e o que se espera de quem lê</h3>
-  <p style="margin-top:0">O Lumus é um app de jogos educativos para crianças, sem anúncio, sem cobrança
+  <p style="margin-top:0">O Clarim é um app de jogos educativos para crianças, sem anúncio, sem cobrança
   e sem coleta de dados, dado de graça a famílias. Além dos jogos, ele tem um
   <strong>Momento em Família</strong>: um devocional curto por dia, para fazer junto.</p>
 

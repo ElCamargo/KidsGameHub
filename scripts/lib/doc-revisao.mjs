@@ -130,7 +130,7 @@ ${caixa}
 ${secoes.join("\n")}
 
 <footer>
-  <p><strong>Lumus — Kids Game Hub</strong> · ElCamargo Soluções em TI LTDA · Blumenau, SC<br>
+  <p><strong>Clarim — Kids Game Hub</strong> · ElCamargo Soluções em TI LTDA · Blumenau, SC<br>
   Gerado a partir de <code>${esc(vindoDe)}</code>.
   Os códigos seguem a ordem das tabelas: acrescentar uma linha no meio desloca
   as seguintes, então vale marcar tudo neste mesmo documento e só depois gerar

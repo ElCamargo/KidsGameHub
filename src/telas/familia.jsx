@@ -712,7 +712,7 @@ export function PlayerCard({ t, lang, player, coins, stats, progress, unlocked, 
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 4 }}>
               <Mundi size={24} />
-              <span className="display" style={{ color: "#8B93AD", fontSize: 12, letterSpacing: 1 }}>LUMUS</span>
+              <span className="display" style={{ color: "#8B93AD", fontSize: 12, letterSpacing: 1 }}>CLARIM</span>
             </div>
             <div style={{ color: "#3B4468", fontWeight: 800, fontSize: 13, lineHeight: 1.45 }}>
               “{verso.texto}”

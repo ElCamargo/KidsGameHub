@@ -6,12 +6,12 @@
 
 ## O contexto
 
-A próxima etapa do Lumus é uma área de **alfabetização** — o buraco maior do
+A próxima etapa do Clarim é uma área de **alfabetização** — o buraco maior do
 app hoje, e o conteúdo dos 4 aos 7 anos. Ela precisa fazer o aparelho **falar
 sons de letra e sílabas**: "que som começa com…", as famílias BA-BE-BI-BO-BU,
 ditado.
 
-O app já fala. A `voz do Lumus` usa o `speechSynthesis` do próprio aparelho,
+O app já fala. A `voz do Clarim` usa o `speechSynthesis` do próprio aparelho,
 filtrado para vozes **locais** — nada é baixado, e ela lê as perguntas em voz
 alta desde a v1.0.0. A pergunta era simples: **essa mesma voz serve para
 ensinar a ler?**
@@ -66,7 +66,7 @@ E, junto, uma decisão de desenho que veio do mesmo teste:
 | Monta a palavra | a palavra inteira: *"bola"* | a criança separa BO + LA sozinha — **é ela quem faz o trabalho fonológico** |
 | Que letra começa | a palavra inteira | idem |
 | Rimas | duas palavras inteiras | idem |
-| Ditado do Lumus | a palavra inteira | idem |
+| Ditado do Clarim | a palavra inteira | idem |
 | Som das letras · famílias silábicas | **áudio gravado** | é o único caso em que o som isolado é o conteúdo |
 
 Isto não é consolo por falta de recurso. Se o app dissesse "bo" e "la", a

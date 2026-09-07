@@ -187,7 +187,7 @@ export function Marca() {
         <rect x="38" y="72" width="24" height="8" rx="4" fill="#B8C2DA" />
         <rect x="41" y="83" width="18" height="7" rx="3.5" fill="#96A2C3" />
       </svg>
-      <span className="display" style={{ color: "#C9D2FF", fontSize: 13, letterSpacing: 3 }}>LUMUS</span>
+      <span className="display" style={{ color: "#C9D2FF", fontSize: 13, letterSpacing: 3 }}>CLARIM</span>
     </div>
   );
 }

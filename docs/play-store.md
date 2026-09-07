@@ -1,6 +1,6 @@
-# Publicar o Lumus na Play Store — pela conta CNPJ
+# Publicar o Clarim na Play Store — pela conta CNPJ
 
-> **O que este documento é:** o passo a passo completo para levar o Lumus à Google
+> **O que este documento é:** o passo a passo completo para levar o Clarim à Google
 > Play como **TWA**, usando a conta de desenvolvedor da **ElCamargo Soluções em TI
 > LTDA**. A decisão de entrar por TWA em vez de reescrever em nativo está na
 > [ADR 0001](decisoes/0001-pwa-ou-apps-nativos.md); aqui é só a execução.
@@ -22,10 +22,10 @@ endereço do Chrome por cima — se o site provar que autoriza aquele app, e a p
 é um arquivo que o Android procura **na raiz do domínio**:
 
 ```
-https://lumus.elcamargo.com.br/.well-known/assetlinks.json
+https://clarim.elcamargo.com.br/.well-known/assetlinks.json
 ```
 
-Enquanto o Lumus morava em `elcamargo.github.io/KidsGameHub/`, isso era
+Enquanto o Clarim morava em `elcamargo.github.io/KidsGameHub/`, isso era
 impossível: o GitHub Pages não deixa um repositório de projeto publicar arquivo na
 raiz de `elcamargo.github.io`. Num subdomínio próprio, a raiz é nossa — e o
 arquivo sai direto de `public/.well-known/`.
@@ -42,7 +42,7 @@ O que já está no repositório:
 > ORIGEM, não por aplicativo: no endereço novo o app abre vazio e o que cada
 > criança conquistou fica preso no antigo. Antes de virar, cada aparelho precisa
 > salvar a cópia de cada perfil pela tela de quem vai jogar (o app faz isso desde
-> a v1.1.0) e restaurá-la do outro lado. O commit *"O Lumus ganha domínio
+> a v1.1.0) e restaurá-la do outro lado. O commit *"O Clarim ganha domínio
 > próprio"* tem as duas linhas prontas para voltar.
 
 ### O que falta no DNS — painel do Registro.br
@@ -51,11 +51,11 @@ O que já está no repositório:
 conta a menos para manter. Em *Painel → ELCAMARGO.COM.BR → DNS*:
 
 ```
-lumus    CNAME    elcamargo.github.io.
+clarim    CNAME    elcamargo.github.io.
 ```
 
 E no repositório KidsGameHub, em *Settings → Pages → Custom domain*, digitar
-`lumus.elcamargo.com.br` e marcar **Enforce HTTPS** depois que o certificado sair
+`clarim.elcamargo.com.br` e marcar **Enforce HTTPS** depois que o certificado sair
 (leva de minutos a uma hora).
 
 Para o site da empresa no apex (`elcamargo.com.br`), são quatro registros A:
@@ -114,9 +114,9 @@ Dados do pacote, para ficar decidido antes de gerar:
 
 | Campo | Valor sugerido | Por quê |
 |---|---|---|
-| `applicationId` | `br.com.elcamargo.lumus` | domínio da empresa invertido; **nunca muda depois de publicado** |
-| Nome do app | `Lumus — Kids Game Hub` | igual ao `name` do manifest |
-| Nome curto | `Lumus` | é o que cabe embaixo do ícone |
+| `applicationId` | `br.com.elcamargo.clarim` | domínio da empresa invertido; **nunca muda depois de publicado** |
+| Nome do app | `Clarim — Kids Game Hub` | igual ao `name` do manifest |
+| Nome curto | `Clarim` | é o que cabe embaixo do ícone |
 | `versionCode` | `1`, e +1 a cada envio | número inteiro, só cresce |
 | `versionName` | `1.1.0` | acompanha o `package.json` |
 | Orientação | retrato | igual ao manifest |
@@ -164,7 +164,7 @@ preenche:
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "br.com.elcamargo.lumus",
+    "package_name": "br.com.elcamargo.clarim",
     "sha256_cert_fingerprints": ["<a SHA-256 do Play Console, com dois-pontos>"]
   }
 }]
@@ -201,7 +201,7 @@ Jogos educativos para crianças. Sem anúncios, sem cobrança, funciona offline.
 ### Descrição completa (rascunho)
 
 ```
-O Lumus é um hub de jogos educativos para crianças de 3 a 10 anos, feito por uma
+O Clarim é um hub de jogos educativos para crianças de 3 a 10 anos, feito por uma
 família e dado de graça a outras famílias.
 
 SEM NADA DO QUE VOCÊ ESTÁ CANSADO
@@ -269,7 +269,7 @@ sincronizar entre aparelhos, esta resposta muda no mesmo dia.
 
 Marcar "direcionado a crianças" liga a **Política de Famílias** do Google, que é
 mais dura: nada de publicidade comportamental, nada de coletar identificador de
-anúncio, nada de link para fora sem barreira de adulto. O Lumus já cumpre todas —
+anúncio, nada de link para fora sem barreira de adulto. O Clarim já cumpre todas —
 por decisão de projeto, não por causa da loja. É a vantagem de ter construído
 assim desde o começo.
 

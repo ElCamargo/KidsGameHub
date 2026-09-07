@@ -1,8 +1,8 @@
 {
   "name": "kidsgamehub",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "private": true,
-  "description": "Lumus — hub de jogos educativos para crianças. Sem anúncios, sem links externos, sem coleta de dados.",
+  "description": "Clarim — hub de jogos educativos para crianças. Sem anúncios, sem links externos, sem coleta de dados.",
   "author": "ElCamargo Soluções em TI LTDA",
   "license": "MIT",
   "repository": {

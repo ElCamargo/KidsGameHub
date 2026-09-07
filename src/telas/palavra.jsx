@@ -37,7 +37,7 @@ export function PalavraGame({ t, lang, palavras, voz, onFinish, onQuit, titulo }
   const fala = useFala(lang);
   const p = palavras[i];
 
-  /* Palavra nova: bandeja limpa, e o Lumus diz qual é. */
+  /* Palavra nova: bandeja limpa, e o Clarim diz qual é. */
   useEffect(() => {
     setPostas([]); setPronta(false); setErrou(null); setBravo("");
     if (!voz) return;

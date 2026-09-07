@@ -32,7 +32,7 @@ test("a senha do responsável nunca viaja no arquivo", () => {
   assert.equal(lerCopia(forjado).perfil.pin, null);
 });
 
-test("arquivo que não é do Lumus é recusado", () => {
+test("arquivo que não é do Clarim é recusado", () => {
   assert.equal(lerCopia("").erro, "formato");
   assert.equal(lerCopia("isto não é json").erro, "formato");
   assert.equal(lerCopia("null").erro, "outro");
@@ -65,14 +65,14 @@ test("campo torto vira campo são, não vira erro no meio do jogo", () => {
 
 test("o nome do arquivo é reconhecível e sem acento", () => {
   const dia = new Date(2026, 8, 2);
-  assert.equal(nomeDoArquivo("José Ângelo", dia), "lumus-jose-angelo-2026-09-02.json");
-  assert.equal(nomeDoArquivo("", dia), "lumus-jogador-2026-09-02.json");
-  assert.match(nomeDoArquivo("../../etc/passwd", dia), /^lumus-[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.json$/);
+  assert.equal(nomeDoArquivo("José Ângelo", dia), "clarim-jose-angelo-2026-09-02.json");
+  assert.equal(nomeDoArquivo("", dia), "clarim-jogador-2026-09-02.json");
+  assert.match(nomeDoArquivo("../../etc/passwd", dia), /^clarim-[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.json$/);
 });
 
 
 /* ---------- save velho chegando em app novo ----------
-   Uma cópia salva hoje pode ser aberta daqui a seis meses, num Lumus que
+   Uma cópia salva hoje pode ser aberta daqui a seis meses, num Clarim que
    ganhou campo novo no meio do caminho. E o mesmo vale para o save que só
    envelheceu no próprio aparelho, sem nunca ter virado arquivo: era ali que o
    app caía na tela de erro, lendo `stats.rounds` de um `stats` inexistente. */
@@ -109,4 +109,25 @@ test("save quebrado não vira app quebrado", () => {
   const d = juntarSave(vazio(), { coins: 7, stats: "nada" });
   assert.equal(d.coins, 7);
   assert.equal(d.stats.rounds, 0);
+});
+
+
+/* ---------- o selo não muda de nome ----------
+   O app se chamou Lumus até 07/09/2026. As cópias salvas naquela época trazem
+   `marca: "lumus:copia"` dentro, e é por esse campo que `lerCopia` reconhece
+   um arquivo nosso. Este teste escreve a string à mão, sem passar por MARCA,
+   justamente para falhar se alguém "arrumar" a constante numa busca-e-troca
+   de nome: quem fizer isso faria o app recusar os próprios arquivos, e a
+   família que guardou o progresso perderia tudo na hora de restaurar. */
+test("cópia salva com o nome antigo do app continua sendo aceita", () => {
+  const antiga = JSON.stringify({
+    marca: "lumus:copia", v: 1,
+    app: "Lumus — Kids Game Hub",
+    perfil: { id: "p2", name: "Heitor", papel: "filho", leitor: true },
+    save: { coins: 50, stats: { rounds: 0 } },
+  });
+  const { erro, perfil, save } = lerCopia(antiga);
+  assert.equal(erro, undefined, "o app novo recusou um arquivo do app antigo");
+  assert.equal(perfil.name, "Heitor");
+  assert.equal(save.coins, 50);
 });
