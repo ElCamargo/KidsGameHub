@@ -16,6 +16,65 @@
  */
 export const NOVIDADES = [
   {
+    v: "1.2.3", d: "2026-09-07",
+    t: {
+      pt: {
+        titulo: "Mais lumicoins, e o esforço também conta",
+        itens: [
+          "Todos os jogos pagam bem mais lumicoins — quem faz 1 estrela ganhou quase o dobro, porque abrir jogo novo estava demorado demais para os pequenos",
+          "Terminar a fase continua valendo mais: 3 estrelas ainda pagam o dobro de 1",
+          "Na tela do responsável: o cartão da semana agora mostra as rodadas que a criança terminou sem estrela — o esforço que não aparecia em número nenhum",
+          "O presente da semana subiu para 170 lumicoins, em parcelas de 20, 50 ou 100",
+        ],
+      },
+      en: {
+        titulo: "More lumicoins, and effort counts too",
+        itens: [
+          "Every game pays far more lumicoins — a 1-star round now earns almost double, because unlocking a new game was taking the little ones too long",
+          "Finishing well still pays more: 3 stars are still worth double 1 star",
+          "On the grown-up screen: the weekly card now shows the rounds the child finished without a star — the effort that showed up in no number at all",
+          "The weekly gift went up to 170 lumicoins, in portions of 20, 50 or 100",
+        ],
+      },
+      es: {
+        titulo: "Más lumicoins, y el esfuerzo también cuenta",
+        itens: [
+          "Todos los juegos pagan muchas más lumicoins — quien saca 1 estrella gana casi el doble, porque abrir un juego nuevo tardaba demasiado para los pequeños",
+          "Terminar bien sigue valiendo más: 3 estrellas siguen pagando el doble que 1",
+          "En la pantalla del adulto: la tarjeta de la semana ahora muestra las rondas que la criatura terminó sin estrella — el esfuerzo que no aparecía en ningún número",
+          "El regalo de la semana subió a 170 lumicoins, en partes de 20, 50 o 100",
+        ],
+      },
+      fr: {
+        titulo: "Plus de lumicoins, et l'effort compte aussi",
+        itens: [
+          "Tous les jeux paient bien plus de lumicoins — une manche à 1 étoile rapporte presque le double, car débloquer un nouveau jeu prenait trop longtemps aux petits",
+          "Bien finir vaut toujours plus : 3 étoiles paient encore le double d'une seule",
+          "Sur l'écran du parent : la carte de la semaine montre maintenant les manches terminées sans étoile — l'effort qui n'apparaissait dans aucun chiffre",
+          "Le cadeau de la semaine passe à 170 lumicoins, par tranches de 20, 50 ou 100",
+        ],
+      },
+      de: {
+        titulo: "Mehr Lumicoins, und der Einsatz zählt auch",
+        itens: [
+          "Alle Spiele zahlen viel mehr Lumicoins — eine Runde mit 1 Stern bringt fast das Doppelte, denn ein neues Spiel freizuschalten dauerte den Kleinen zu lange",
+          "Gut abschließen zahlt weiter mehr: 3 Sterne sind immer noch doppelt so viel wert wie 1",
+          "Im Bereich der Erwachsenen: die Wochenkarte zeigt jetzt die Runden, die das Kind ohne Stern beendet hat — der Einsatz, der in keiner Zahl auftauchte",
+          "Das Wochengeschenk steigt auf 170 Lumicoins, in Portionen von 20, 50 oder 100",
+        ],
+      },
+      it: {
+        titulo: "Più lumicoins, e conta anche l'impegno",
+        itens: [
+          "Tutti i giochi pagano molte più lumicoins — chi fa 1 stella guadagna quasi il doppio, perché sbloccare un gioco nuovo era troppo lungo per i piccoli",
+          "Finire bene vale ancora di più: 3 stelle pagano sempre il doppio di 1",
+          "Nella schermata del genitore: la scheda della settimana ora mostra le partite finite senza stella — l'impegno che non appariva in nessun numero",
+          "Il regalo della settimana sale a 170 lumicoins, in parti da 20, 50 o 100",
+        ],
+      },
+    },
+  },
+  {
     v: "1.2.2", d: "2026-09-07",
     t: {
       pt: {
