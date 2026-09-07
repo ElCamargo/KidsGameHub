@@ -1087,7 +1087,7 @@ function AppInterno() {
     const limite1 = r.qs.length >= 10 ? 3 : 2;   // erros ainda aceitos para 1 estrela
     const st = erros === 0 ? 3 : erros === 1 ? 2 : erros <= limite1 ? 1 : 0;
     let reward = ECON.reward[st] || 0;
-    if (r.hintsUsed === 0 && st > 0) reward += 5;
+    if (r.hintsUsed === 0 && st > 0) reward += 8;   // acompanha o aumento de 07/09
     setCoins(c => Math.min(ECON.cap, c + reward));
     const today = diaISO();
     const yest = diaISO(new Date(Date.now() - 864e5));
