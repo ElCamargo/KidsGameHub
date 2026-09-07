@@ -55,12 +55,9 @@ mesma tela chegam quase juntos e a ordem não é garantida: numa das rodadas o
 
 ## Os nomes dos perfis
 
-Aqui os perfis são **Paulo, Bento e Téo** — nomes inventados.
-
-⚠️ As capturas de celular em `../` mostram **Ederson, Heitor e Miguel**, que são
-nomes reais da família. Os dois conjuntos estão inconsistentes de propósito, à
-espera de decisão: ou as de celular são refeitas com nomes inventados, ou estas
-são refeitas com os nomes reais.
+**Paulo, Bento e Téo** — inventados, e os mesmos das capturas de celular em
+`../`, que foram refeitas em 07/09/2026 para bater com estas. Nenhuma criança
+real aparece em nenhum dos dois conjuntos.
 
 Os números da semana nos perfis são massa de teste plausível, montada para a
 tela do responsável não aparecer vazia na ficha. Nenhum dado de ninguém saiu do

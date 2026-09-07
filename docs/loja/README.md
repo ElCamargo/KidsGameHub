@@ -40,20 +40,17 @@ O gráfico de destaque é desenhado em `canvas` dentro da própria página do ap
 para usar as fontes reais (Baloo 2 e Nunito) e o mascote do
 `src/telas/base.jsx`, e não uma imitação.
 
-Nenhum dado de ninguém saiu do aparelho para produzir isto.
+Os perfis são inventados: **Paulo, Bento e Téo**. Nenhuma criança real aparece,
+e nenhum dado de ninguém saiu do aparelho para produzir isto.
 
-> ⚠️ **CORREÇÃO.** Esta seção dizia "os dados dos perfis são de teste, nenhuma
-> criança real aparece". **A segunda metade era falsa**: os perfis destas seis
-> imagens são *Ederson, Heitor e Miguel* — nomes reais da família. Os avatares
-> são desenhos e não há foto, sobrenome nem idade exposta, mas são primeiros
-> nomes de crianças reais numa ficha de loja pública, global e permanente, ao
-> lado do CNPJ e do endereço da empresa.
->
-> As capturas de tablet em `tablet/` foram feitas com nomes inventados (Paulo,
-> Bento, Téo). Os dois conjuntos estão inconsistentes **de propósito**, à espera
-> de decisão: refazer estas seis com nomes inventados, ou refazer as de tablet
-> com os nomes reais. Refazer qualquer um dos lados são poucos minutos agora que
-> existe `scripts/capturas-loja.js`.
+> **Nota de correção.** Até 07/09/2026 esta seção afirmava que nenhuma criança
+> real aparecia — e era falso: os perfis eram *Ederson, Heitor e Miguel*, nomes
+> reais da família. As seis imagens foram **refeitas** com nomes inventados
+> (Paulo, Bento, Téo), e agora a frase acima é verdadeira. Fica registrado
+> porque a versão errada chegou a ser publicada no repositório.
+
+Os números da semana nos perfis são massa de teste plausível, montada para a
+tela do responsável não aparecer vazia na ficha.
 
 ## Quando refazer
 
