@@ -183,8 +183,8 @@ O que a Play pede, e o que já existe:
 | Item | Situação |
 |---|---|
 | Ícone 512×512 PNG | ✅ `public/icon-512.png` |
-| Gráfico de destaque 1024×500 | ❌ **falta** — posso desenhar |
-| Capturas de tela do celular (mín. 2, ideal 8) | ❌ **faltam** — posso gerar do app rodando |
+| Gráfico de destaque 1024×500 | ✅ [`docs/loja/destaque-1024x500.png`](loja/destaque-1024x500.png) |
+| Capturas de tela do celular (mín. 2, ideal 8) | ✅ seis em 1080×1920, em [`docs/loja/`](loja/README.md) |
 | Capturas de tablet 7" e 10" | ❌ faltam — opcionais, mas sem elas o app não aparece nas buscas de tablet |
 | Política de privacidade (URL pública) | ✅ `/privacidade.html` |
 | Termos de uso | ✅ `/termos.html` |
