@@ -285,10 +285,18 @@ Nada sai do aparelho — é o mesmo armazenamento, aberto por outra porta.
 **Ele também joga.** É um perfil como os outros, com progresso próprio; a tela
 de acompanhamento tem um botão *Jogar*, e o hub tem o caminho de volta.
 
-**Presente da semana: 100 lumicoins.** Toda semana o responsável recebe cem
-lumicoins que não são para ele gastar — são para dar de presente a quem ele
-quiser, em parcelas de 10, 25 ou 50, direto no cartão de cada filho. O que
-sobra não acumula.
+**Presente da semana: 170 lumicoins.** Toda semana o responsável recebe cento
+e setenta lumicoins que não são para ele gastar — são para dar de presente a
+quem ele quiser, em parcelas de 20, 50 ou 100, direto no cartão de cada filho.
+O que sobra não acumula.
+
+**E o cartão diz quando usar.** Uma rodada terminada com erros demais não paga
+estrela nenhuma, e não paga lumicoin nenhuma — a criança pagou a entrada e saiu
+de mãos vazias. Isso não aparece em nenhum número: soma em 🎮 e não soma em ⭐.
+Então o cartão diz em voz alta: *🫂 3 rodadas terminadas sem estrela. Jogou até
+o fim mesmo assim.* A régua da estrela não muda por isso — conquistar a fase
+continua sendo conquistar a fase. O que muda é o adulto poder premiar o
+esforço, que é uma decisão dele e não do sistema.
 
 O ponto não é o dinheiro: é dar ao adulto um motivo concreto para abrir o app,
 olhar como cada filho está indo e escolher quem premiar. Acompanhar vira um
