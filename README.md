@@ -13,7 +13,7 @@ celular de entrada.
 Uma criação da **ElCamargo Soluções em TI LTDA** · CNPJ 57.299.418/0001-69 ·
 Blumenau, Santa Catarina, Brasil.
 
-🎮 **[Jogar agora](https://lumus.elcamargo.com.br/)** — abre no
+🎮 **[Jogar agora](https://elcamargo.github.io/KidsGameHub/)** — abre no
 navegador, dá para instalar na tela inicial, e depois disso funciona sem
 internet nenhuma.
 
@@ -1318,23 +1318,33 @@ Antes do primeiro deploy, no GitHub: **Settings → Pages → Source → GitHub 
 
 | Página | URL |
 |---|---|
-| Jogo | `https://lumus.elcamargo.com.br/` |
-| Política de Privacidade | `https://lumus.elcamargo.com.br/privacidade.html` |
-| Termos de Uso | `https://lumus.elcamargo.com.br/termos.html` |
-| Verificação do TWA | `https://lumus.elcamargo.com.br/.well-known/assetlinks.json` |
+| Jogo | `https://elcamargo.github.io/KidsGameHub/` |
+| Política de Privacidade | `https://elcamargo.github.io/KidsGameHub/privacidade.html` |
+| Termos de Uso | `https://elcamargo.github.io/KidsGameHub/termos.html` |
 
 As duas páginas legais ficam em `public/` e são copiadas para a raiz do site no build. Elas são exigidas pelas lojas quando o app for publicado — tenha os endereços à mão.
 
-**O endereço mudou em 06/09/2026.** O Lumus morava em
-`elcamargo.github.io/KidsGameHub/`; agora tem subdomínio próprio, o que era
-condição para entrar na Play Store — o TWA exige um arquivo na raiz do domínio, e
-pasta de projeto no `github.io` não tem raiz. O GitHub redireciona o endereço
-antigo, então quem já instalou não perde nada.
+### A mudança de endereço, que ainda não aconteceu
 
-> ⚠️ **Ordem importa.** O `public/CNAME` só entra em vigor no próximo deploy, e um
-> deploy antes de o DNS existir tira o site do ar até a propagação. Configure
-> primeiro o `lumus CNAME elcamargo.github.io.` no painel do Registro.br, e só
-> depois marque a tag.
+O Lumus vai para `lumus.elcamargo.com.br`. O domínio já está registrado no CNPJ e
+o DNS já resolve; a mudança é condição para entrar na Play Store, porque o TWA
+exige um arquivo na raiz do domínio e pasta de projeto no `github.io` não tem
+raiz.
+
+**Ela está pronta no git e propositalmente fora do ar.** O commit *"O Lumus ganha
+domínio próprio"* traz o `public/CNAME` e o `base: "/"`; os dois foram desfeitos
+na v1.2.0, e voltam quando chegar a hora.
+
+O motivo é o único que importa: **o navegador guarda o progresso por origem, não
+por aplicativo.** No endereço novo o app abriria vazio, e o que cada criança
+conquistou ficaria preso no endereço antigo para sempre — nada apagado, e tudo
+invisível.
+
+A ordem, então:
+
+1. Cada aparelho salva a cópia de cada perfil, na tela de quem vai jogar.
+2. `public/CNAME` volta, `base` vira `"/"`, e sai a tag.
+3. Cada aparelho restaura a cópia no endereço novo, por 📥 Restaurar.
 
 ## Instalando no celular
 

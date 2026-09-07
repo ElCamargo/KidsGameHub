@@ -8,7 +8,7 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { montarCopia, lerCopia, nomeDoArquivo, MARCA, VERSAO } from "../src/lib/transferir.js";
+import { montarCopia, lerCopia, nomeDoArquivo, juntarSave, MARCA, VERSAO } from "../src/lib/transferir.js";
 
 const PERFIL = { name: "Bento", avatar: { skin: "#F2C9A0" }, papel: "filho", idade: 6, leitor: true, pin: "1234" };
 const SAVE = { coins: 320, stats: { rounds: 12 }, caderno: [{ d: "2026-09-01", t: "aprendi" }] };
@@ -68,4 +68,45 @@ test("o nome do arquivo é reconhecível e sem acento", () => {
   assert.equal(nomeDoArquivo("José Ângelo", dia), "lumus-jose-angelo-2026-09-02.json");
   assert.equal(nomeDoArquivo("", dia), "lumus-jogador-2026-09-02.json");
   assert.match(nomeDoArquivo("../../etc/passwd", dia), /^lumus-[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.json$/);
+});
+
+
+/* ---------- save velho chegando em app novo ----------
+   Uma cópia salva hoje pode ser aberta daqui a seis meses, num Lumus que
+   ganhou campo novo no meio do caminho. E o mesmo vale para o save que só
+   envelheceu no próprio aparelho, sem nunca ter virado arquivo: era ali que o
+   app caía na tela de erro, lendo `stats.rounds` de um `stats` inexistente. */
+
+const vazio = () => ({
+  coins: 100, progress: {}, owned: [], caderno: [],
+  stats: { rounds: 0, perfect: 0, maxCoins: 100 },
+});
+
+test("save de versão antiga ganha o campo que falta, sem perder o que tinha", () => {
+  const d = juntarSave(vazio(), { coins: 940, progress: { sa: 3 } });   // nem stats existia
+  assert.equal(d.coins, 940, "o que o save trazia tem que vencer");
+  assert.deepEqual(d.progress, { sa: 3 });
+  assert.equal(d.stats.rounds, 0, "o campo que faltava tem que aparecer");
+  assert.deepEqual(d.owned, [], "campo novo entra com o padrão");
+});
+
+test("stats é misturado por dentro, e não trocado inteiro", () => {
+  // Era o defeito: espalhar só o nível de cima trazia o stats antigo com
+  // buraco e tudo, e o app lia undefined lá de dentro.
+  const d = juntarSave(vazio(), { stats: { rounds: 57 } });
+  assert.equal(d.stats.rounds, 57, "o que o save tinha tem que vencer");
+  assert.equal(d.stats.perfect, 0, "o campo novo de dentro do stats sumiu");
+});
+
+test("save quebrado não vira app quebrado", () => {
+  for (const lixo of [null, undefined, "texto", 42, [], [1, 2]]) {
+    const d = juntarSave(vazio(), lixo);
+    assert.equal(d.stats.rounds, 0, `${JSON.stringify(lixo)} passou`);
+    assert.equal(d.coins, 100);
+  }
+  // `stats` que não é objeto é o caso traiçoeiro: o nível de cima parece bom
+  // e o app só quebra lá dentro.
+  const d = juntarSave(vazio(), { coins: 7, stats: "nada" });
+  assert.equal(d.coins, 7);
+  assert.equal(d.stats.rounds, 0);
 });

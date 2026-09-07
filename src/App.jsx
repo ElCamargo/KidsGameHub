@@ -15,7 +15,7 @@ import { estrelasDo, pecasDe, sortearBordas, totalDePecas } from "./lib/quebraca
 import { aRevisar, acertouNaRevisao, errouNaRevisao, guardarErro } from "./lib/revisao.js";
 import { ANIMAIS, BIBLIA_EMOJI, VOCAB, alvoDe, buildRound, nomeDaTrilha, quizDe, todosEmojis } from "./lib/rodadas.js";
 import { temSom } from "./lib/som.js";
-import { TAMANHO_MAX, baixar, lerCopia, montarCopia, nomeDoArquivo } from "./lib/transferir.js";
+import { TAMANHO_MAX, baixar, juntarSave, lerCopia, montarCopia, nomeDoArquivo } from "./lib/transferir.js";
 import { perguntasParaTodos, vencedorDe } from "./lib/turma.js";
 import { iniciarVozes, parar as pararVoz, temVoz } from "./lib/voz.js";
 import { Btn, HAIRS, Marca, Modal, SHIRTS, SKINS, useSomDeFundo } from "./telas/base.jsx";
@@ -771,7 +771,10 @@ function AppInterno() {
   async function lerSave(id) {
     try {
       const r = await window.storage.get(`lumus:p:${id}`);
-      if (r?.value) return JSON.parse(r.value);
+      /* Nunca devolver o que estava gravado sem misturar: save de uma versão
+         antiga não tem os campos que a versão de hoje lê, e um `stats` faltando
+         derruba o app inteiro. Ver juntarSave em src/lib/transferir.js. */
+      if (r?.value) return juntarSave(blankSave(), JSON.parse(r.value));
     } catch { }
     return blankSave();
   }
@@ -822,7 +825,7 @@ function AppInterno() {
 
     // Id novo sempre: restaurar nunca escreve por cima de quem já joga aqui.
     const id = `p${Date.now()}`;
-    const completo = { ...blankSave(), ...save };
+    const completo = juntarSave(blankSave(), save);
     try {
       window.storage.set(`lumus:p:${id}`, JSON.stringify(completo));
       const lista = [...profiles, { id, ...perfil }];

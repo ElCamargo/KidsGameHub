@@ -26,11 +26,18 @@ export default defineConfig({
       },
     },
   },
-  // O site vive em https://lumus.elcamargo.com.br/ — domínio próprio, então a
-  // raiz é nossa. Era "/KidsGameHub/" enquanto morava numa pasta do
-  // elcamargo.github.io; mudou junto com o public/CNAME, e é o que permite
-  // servir /.well-known/assetlinks.json, que o TWA da Play Store exige na raiz.
-  base: "/",
+  // O site ainda vive em https://elcamargo.github.io/KidsGameHub/ — sem esta
+  // base os arquivos são buscados na raiz do domínio e a página abre em branco.
+  //
+  // A MUDANÇA PARA lumus.elcamargo.com.br ESTÁ PRONTA E SEGURA NO GIT (commit
+  // "O Lumus ganha domínio próprio"), mas não pode sair ainda: o navegador
+  // guarda o progresso por ORIGEM, não por aplicativo. No endereço novo o app
+  // abriria vazio, e o que cada criança conquistou ficaria preso no endereço
+  // antigo para sempre.
+  //
+  // A ordem é: cada aparelho salva a cópia pela tela de perfis → aí este base
+  // vira "/" e o public/CNAME volta → aí cada um restaura a cópia.
+  base: "/KidsGameHub/",
   plugins: [
     react(),
     VitePWA({

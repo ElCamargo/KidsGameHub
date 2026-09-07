@@ -88,6 +88,29 @@ export function lerCopia(cru) {
   return { perfil, save, criado: texto(dados.criado, 40) };
 }
 
+/**
+ * Um save gravado ontem, lido pelo app de hoje.
+ *
+ * Mora aqui porque é o arquivo que torna isto comum: uma cópia salva hoje pode
+ * ser aberta daqui a seis meses, num Lumus que ganhou campo novo no meio do
+ * caminho. Mas vale para todo save — inclusive o que só envelheceu no próprio
+ * aparelho, sem nunca ter virado arquivo.
+ *
+ * Sem esta mistura, um save sem `stats` derruba o app inteiro na tela de erro:
+ * `stats.rounds` de um `stats` que não existe.
+ *
+ * `stats` precisa de mistura própria porque é aninhado. Espalhar só o nível de
+ * cima traria o `stats` antigo inteiro, buraco e tudo — que é exatamente o que
+ * o `{ ...blankSave(), ...save }` de antes fazia.
+ */
+export function juntarSave(vazio, lido) {
+  return {
+    ...vazio,
+    ...objeto(lido),
+    stats: { ...vazio.stats, ...objeto(objeto(lido).stats) },
+  };
+}
+
 /* Entrega o arquivo ao aparelho. Fora do navegador (ou se o download for
    bloqueado) devolve false, e a tela avisa em vez de fingir que salvou. */
 export function baixar(nomeArquivo, conteudo) {

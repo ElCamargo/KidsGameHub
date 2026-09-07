@@ -16,6 +16,53 @@
  */
 export const NOVIDADES = [
   {
+    v: "1.2.0", d: "2026-09-07",
+    t: {
+      pt: {
+        titulo: "O progresso não se perde",
+        itens: [
+          "Progresso guardado por uma versão antiga volta a abrir sem erro, mesmo depois de meses",
+          "Salve a cópia de cada filho na tela de quem vai jogar — o Lumus vai mudar de endereço em breve",
+        ],
+      },
+      en: {
+        titulo: "Progress does not get lost",
+        itens: [
+          "Progress saved by an older version opens again without errors, even after months",
+          "Save a copy of each child on the who-is-playing screen — Lumus is moving to a new address soon",
+        ],
+      },
+      es: {
+        titulo: "El progreso no se pierde",
+        itens: [
+          "El progreso guardado por una versión antigua vuelve a abrir sin error, incluso después de meses",
+          "Guarda la copia de cada hijo en la pantalla de quién va a jugar — Lumus va a cambiar de dirección pronto",
+        ],
+      },
+      fr: {
+        titulo: "La progression ne se perd pas",
+        itens: [
+          "Une progression enregistrée par une ancienne version se rouvre sans erreur, même après des mois",
+          "Enregistre la copie de chaque enfant sur l'écran des joueurs — Lumus va bientôt changer d'adresse",
+        ],
+      },
+      de: {
+        titulo: "Der Fortschritt geht nicht verloren",
+        itens: [
+          "Fortschritt aus einer alten Version öffnet wieder ohne Fehler, auch nach Monaten",
+          "Speichere die Kopie jedes Kindes im Spieler-Bildschirm — Lumus bekommt bald eine neue Adresse",
+        ],
+      },
+      it: {
+        titulo: "I progressi non si perdono",
+        itens: [
+          "I progressi salvati da una versione vecchia si riaprono senza errore, anche dopo mesi",
+          "Salva la copia di ogni figlio nella schermata di chi gioca — Lumus cambierà indirizzo a breve",
+        ],
+      },
+    },
+  },
+  {
     v: "1.1.0", d: "2026-09-06",
     t: {
       pt: {

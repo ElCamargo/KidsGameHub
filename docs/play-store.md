@@ -34,9 +34,16 @@ O que já está no repositório:
 
 | Arquivo | Estado |
 |---|---|
-| `public/CNAME` | ✅ `lumus.elcamargo.com.br` |
-| `vite.config.js` → `base` | ✅ `"/"` (era `"/KidsGameHub/"`) |
 | `public/.well-known/assetlinks.json` | ✅ criado, faltando só a impressão digital (seção 3) |
+| `public/CNAME` | ⏸️ escrito e **desfeito** na v1.2.0 — ver abaixo |
+| `vite.config.js` → `base` | ⏸️ idem: continua `"/KidsGameHub/"` |
+
+> ⏸️ **Por que a mudança está segurada.** O navegador guarda o progresso por
+> ORIGEM, não por aplicativo: no endereço novo o app abre vazio e o que cada
+> criança conquistou fica preso no antigo. Antes de virar, cada aparelho precisa
+> salvar a cópia de cada perfil pela tela de quem vai jogar (o app faz isso desde
+> a v1.1.0) e restaurá-la do outro lado. O commit *"O Lumus ganha domínio
+> próprio"* tem as duas linhas prontas para voltar.
 
 ### O que falta no DNS — painel do Registro.br
 
