@@ -16,6 +16,59 @@
  */
 export const NOVIDADES = [
   {
+    v: "1.2.2", d: "2026-09-07",
+    t: {
+      pt: {
+        titulo: "Levar o progresso para outro aparelho",
+        itens: [
+          "Botão novo na tela de quem vai jogar: 💾 Levar para outro aparelho — salve a cópia de cada filho e abra no celular ou no notebook",
+          "Salve a cópia agora: o Lumus vai mudar de endereço, e é ela que leva o progresso junto",
+          "Salve pelo aparelho onde a criança jogou. No aparelho vazio, a cópia sai vazia",
+        ],
+      },
+      en: {
+        titulo: "Take progress to another device",
+        itens: [
+          "New button on the who-is-playing screen: 💾 Move to another device — save each child's copy and open it on the phone or laptop",
+          "Save the copy now: Lumus is changing address, and the copy is what carries progress along",
+          "Save from the device where the child played. On an empty device, the copy comes out empty",
+        ],
+      },
+      es: {
+        titulo: "Llevar el progreso a otro aparato",
+        itens: [
+          "Botón nuevo en la pantalla de quién va a jugar: 💾 Llevar a otro aparato — guarda la copia de cada hijo y ábrela en el móvil o el portátil",
+          "Guarda la copia ahora: Lumus va a cambiar de dirección, y es ella la que lleva el progreso",
+          "Guarda desde el aparato donde jugó la criatura. En un aparato vacío, la copia sale vacía",
+        ],
+      },
+      fr: {
+        titulo: "Emporter la progression sur un autre appareil",
+        itens: [
+          "Nouveau bouton sur l'écran des joueurs : 💾 Emporter sur un autre appareil — enregistre la copie de chaque enfant et ouvre-la sur le téléphone ou l'ordinateur",
+          "Enregistre la copie maintenant : Lumus va changer d'adresse, et c'est elle qui emporte la progression",
+          "Enregistre depuis l'appareil où l'enfant a joué. Sur un appareil vide, la copie sort vide",
+        ],
+      },
+      de: {
+        titulo: "Den Fortschritt auf ein anderes Gerät mitnehmen",
+        itens: [
+          "Neuer Knopf im Spieler-Bildschirm: 💾 Auf ein anderes Gerät mitnehmen — speichere die Kopie jedes Kindes und öffne sie auf dem Handy oder Laptop",
+          "Speichere die Kopie jetzt: Lumus bekommt eine neue Adresse, und die Kopie nimmt den Fortschritt mit",
+          "Speichere von dem Gerät, auf dem das Kind gespielt hat. Auf einem leeren Gerät kommt eine leere Kopie heraus",
+        ],
+      },
+      it: {
+        titulo: "Portare i progressi su un altro apparecchio",
+        itens: [
+          "Pulsante nuovo nella schermata di chi gioca: 💾 Porta su un altro apparecchio — salva la copia di ogni figlio e aprila sul telefono o sul portatile",
+          "Salva la copia adesso: Lumus cambierà indirizzo, ed è lei che porta i progressi",
+          "Salva dall'apparecchio dove il bambino ha giocato. Su un apparecchio vuoto, la copia esce vuota",
+        ],
+      },
+    },
+  },
+  {
     v: "1.2.0", d: "2026-09-07",
     t: {
       pt: {
