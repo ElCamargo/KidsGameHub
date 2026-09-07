@@ -282,6 +282,7 @@ export function Profiles({ t, profiles, openProfile, newProfile, editProfile, de
   const [ask, setAsk] = useState(null);
   const [zerar, setZerar] = useState(null);
   const [copiar, setCopiar] = useState(null);   // perfil esperando confirmação
+  const [levar, setLevar] = useState(false);    // a porta de "levar para outro aparelho"
   const entrada = useRef(null);
   return (
     <div style={{ paddingTop: 24 }}>
@@ -321,8 +322,6 @@ export function Profiles({ t, profiles, openProfile, newProfile, editProfile, de
                   style={{ position: "absolute", top: -6, left: -6, width: 34, height: 34, borderRadius: 17, background: "#F9A826", fontSize: 15 }}>↺</button>
                 <button onClick={() => comSenha(pr, editProfile)} className="chunky" aria-label={t.editProfile}
                   style={{ position: "absolute", bottom: -6, right: -6, width: 34, height: 34, borderRadius: 17, background: "#4C6FFF", fontSize: 14 }}>✏️</button>
-                <button onClick={() => comSenha(pr, setCopiar)} className="chunky" aria-label={t.copyTitle}
-                  style={{ position: "absolute", bottom: -6, left: -6, width: 34, height: 34, borderRadius: 17, background: "#00B894", fontSize: 14 }}>💾</button>
               </>
             )}
           </div>
@@ -345,19 +344,60 @@ export function Profiles({ t, profiles, openProfile, newProfile, editProfile, de
         )}
       </div>
 
-      {/* Restaurar fica no modo de edição, junto do resto que só o adulto
-          mexe — e o arquivo é escolhido pelo seletor do próprio aparelho. */}
-      {editing && (
-        <div style={{ marginTop: 10 }}>
-          <input ref={entrada} type="file" accept="application/json,.json" style={{ display: "none" }}
-            onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; restaurarCopia(f); }} />
-          <Btn full small color="rgba(255,255,255,.2)" onClick={() => entrada.current?.click()}>
-            📥 {t.restoreTitle}
-          </Btn>
-          <div style={{ color: "#8E9CE0", fontSize: 11, fontWeight: 700, textAlign: "center", marginTop: 8, lineHeight: 1.6 }}>
-            {t.restoreHint}
+      {/* FORA do modo de edição, e com o nome do problema em vez do nome da
+          ferramenta. Estava atrás do lápis, e um pai relatou ter perdido o
+          progresso da filha ao trocar de aparelho — o recurso existia desde a
+          v1.1.0 e ele não achou. Lápis quer dizer "mexer nos jogadores", não
+          "levar para o notebook".
+
+          Uma porta só: salvar e restaurar moram os dois aqui dentro. Duas
+          entradas com nomes parecidos, em telas diferentes, é como se perde
+          gente. */}
+      {/* `display:grid` e não a prop `full`: a classe `w-full` que ela põe no
+          botão não existe em CSS nenhum do projeto. Item de grid já estica
+          sozinho para a coluna inteira. */}
+      <div style={{ display: "grid", marginTop: 10 }}>
+        <input ref={entrada} type="file" accept="application/json,.json" style={{ display: "none" }}
+          onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; setLevar(false); restaurarCopia(f); }} />
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setLevar(true)}>
+          💾 {t.copyTitle}
+        </Btn>
+      </div>
+
+      {levar && (
+        <Modal onClose={() => setLevar(false)}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 40 }}>💾</div>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 20, margin: "8px 0 6px" }}>{t.copyTitle}</div>
+            <div style={{ color: "#3B4468", fontWeight: 700, fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
+              {t.copyIntro}
+            </div>
+
+            {/* Salvar: escolher de quem. A senha do responsável continua
+                valendo — é o comSenha que abre a confirmação. */}
+            <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, letterSpacing: 1, marginBottom: 8 }}>
+              💾 {t.copySave}
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 18 }}>
+              {profiles.map(pr => (
+                <button key={pr.id} className="card" onClick={() => { setLevar(false); comSenha(pr, setCopiar); }}
+                  style={{ border: "none", padding: "8px 10px", display: "grid", placeItems: "center", cursor: "pointer", minWidth: 84 }}>
+                  <Avatar a={pr.avatar} size={48} />
+                  <div className="display" style={{ color: "#1B2A6B", fontSize: 13, marginTop: 4 }}>{pr.name}</div>
+                </button>
+              ))}
+            </div>
+
+            <div style={{ borderTop: "2px solid #E4E8F5", paddingTop: 14 }}>
+              <Btn full small color="#4C6FFF" onClick={() => entrada.current?.click()}>
+                📥 {t.restoreTitle}
+              </Btn>
+              <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 700, marginTop: 8, lineHeight: 1.6 }}>
+                {t.restoreHint}
+              </div>
+            </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       {copiar && (
