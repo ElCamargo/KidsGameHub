@@ -131,18 +131,31 @@ function ShirtPattern({ kind }) {
 }
 
 
+/* O avatar de fábrica. Mora aqui, junto das paletas, porque é usado em três
+   lugares: criar perfil, restaurar cópia e desenhar. Estava escrito à mão em
+   dois deles, e o terceiro não tinha nenhum. */
+export const AVATAR_PADRAO = {
+  skin: SKINS[1], hair: HAIRS[0], hairStyle: "short",
+  cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null,
+};
+
 export function Avatar({ a, size = 96 }) {
-  const hs = a.hairStyle === undefined ? "short" : a.hairStyle;
+  /* Um avatar pode chegar sem cor: perfil restaurado de uma cópia gravada
+     antes de o campo existir, ou ficha remendada à mão. SVG sem `fill` pinta
+     de PRETO — e a criança abre o app e vê uma silhueta no lugar do boneco
+     dela. Cair no de fábrica é feio; silhueta preta é assustador. */
+  const av = { ...AVATAR_PADRAO, ...(a && typeof a === "object" ? a : null) };
+  const hs = av.hairStyle === undefined ? "short" : av.hairStyle;
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" style={{ display: "block" }}>
-      <path d="M20 100 Q20 74 50 74 Q80 74 80 100 Z" fill={a.shirt} />
-      <ShirtPattern kind={a.shirtPattern} />
-      <rect x="43" y="64" width="14" height="14" rx="6" fill={a.skin} />
-      <HairBack style={hs} color={a.hair} />
-      <ellipse cx="50" cy="44" rx="26" ry="27" fill={a.skin} />
-      <circle cx="23" cy="46" r="5" fill={a.skin} />
-      <circle cx="77" cy="46" r="5" fill={a.skin} />
-      <HairFront style={hs} color={a.hair} />
+      <path d="M20 100 Q20 74 50 74 Q80 74 80 100 Z" fill={av.shirt} />
+      <ShirtPattern kind={av.shirtPattern} />
+      <rect x="43" y="64" width="14" height="14" rx="6" fill={av.skin} />
+      <HairBack style={hs} color={av.hair} />
+      <ellipse cx="50" cy="44" rx="26" ry="27" fill={av.skin} />
+      <circle cx="23" cy="46" r="5" fill={av.skin} />
+      <circle cx="77" cy="46" r="5" fill={av.skin} />
+      <HairFront style={hs} color={av.hair} />
       <ellipse cx="40" cy="45" rx="4" ry="5" fill="#2b2b2b" />
       <ellipse cx="60" cy="45" rx="4" ry="5" fill="#2b2b2b" />
       <circle cx="41.5" cy="43" r="1.4" fill="#fff" />
@@ -150,8 +163,8 @@ export function Avatar({ a, size = 96 }) {
       <circle cx="32" cy="53" r="4.5" fill="#FF8FA3" opacity=".55" />
       <circle cx="68" cy="53" r="4.5" fill="#FF8FA3" opacity=".55" />
       <path d="M42 57 Q50 64 58 57" stroke="#2b2b2b" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      <Glasses kind={a.glasses} />
-      <Headwear value={a.cap} />
+      <Glasses kind={av.glasses} />
+      <Headwear value={av.cap} />
     </svg>
   );
 }
