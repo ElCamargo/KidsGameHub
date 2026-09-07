@@ -174,7 +174,7 @@ O que a Play pede, e o que já existe:
 | Capturas de tablet 7" e 10" | ✅ doze, em [`docs/loja/tablet/`](loja/tablet/README.md) |
 | Política de privacidade (URL pública) | ✅ `/privacidade.html` |
 | Termos de uso | ✅ `/termos.html` |
-| E-mail de contato | ⚠️ `contato@elcamargo.com.br` — precisa EXISTIR antes, e fica **público** na ficha |
+| E-mail de contato | ✅ `contato@elcamargo.com.br` — Zoho Mail, alias da caixa do Ederson |
 | Descrição curta (80 caracteres) | rascunho abaixo |
 | Descrição completa (4000 caracteres) | rascunho abaixo |
 
@@ -252,6 +252,37 @@ O app se chamou **Lumus** até 07/09/2026. O nome mudou porque LUMUS estava
 registrada e em vigor no INPI na classe 9 (software), marca nominativa da
 israelense LUMUS LTD desde 2006. Publicar com um nome que não se pode defender
 seria construir a ficha em cima de areia. Ver a seção 8.
+
+---
+
+### O e-mail de contato — como ficou
+
+`contato@elcamargo.com.br` é um **alias** da caixa `ederson.luiz.camargo@`, no
+Zoho Mail (plano gratuito vitalício, 5 usuários). Alias e não usuário separado:
+não gasta vaga, cai na mesma caixa de entrada, e o remetente sai como
+**"ElCamargo Soluções em TI"** — endereço de função, que envelhece melhor numa
+ficha pública que o nome de uma pessoa.
+
+O DNS do domínio ficou assim, e cada peça tem um papel:
+
+| Registro | Para quê |
+|---|---|
+| `MX` 10/20/50 → `mx.zoho.com` e irmãos | para onde o e-mail do domínio vai |
+| `TXT` `v=spf1 include:zohomail.com ~all` | quem pode enviar em nome do domínio |
+| `TXT` `zmail._domainkey` | a chave pública que assina as mensagens (DKIM) |
+| `TXT` `zoho-verification=...` | prova de posse do domínio — **não apagar** |
+
+Sem SPF e DKIM a mensagem chega, mas cai no spam de boa parte dos destinatários.
+Numa ficha de loja, endereço que cai no spam é pior que endereço nenhum.
+
+**Só existe um SPF por domínio.** Se algum dia entrar outro serviço de envio,
+não crie um segundo registro `v=spf1` — junte os dois no mesmo.
+
+**A chave DKIM foi conferida por decodificação, não a olho.** O valor tem 234
+caracteres com `l`, `I` e `1` misturados; comparar visualmente não prova nada.
+O teste extraiu o `p=`, decodificou o base64 e confirmou que os 162 bytes são um
+`SubjectPublicKeyInfo` RSA legítimo. Um caractere trocado passaria no base64 e
+falharia aqui.
 
 ---
 
