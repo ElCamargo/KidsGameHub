@@ -1572,6 +1572,30 @@ revisar uma tabela é um fim de semana; revisar milhares de perguntas ninguém f
 
 O app não coleta dados, não faz requisições a serviços de análise, não exibe anúncios e não tem links que levem para fora. Tudo o que a criança cria fica no aparelho.
 
+### A cópia de segurança
+
+Não ter servidor é a promessa do projeto — e é também o único jeito de perder
+tudo. Celular novo, navegador limpo, "limpar dados do site": o progresso some. E
+some também quando o **endereço** muda, porque o navegador guarda por origem e
+não por aplicativo: o mesmo Lumus servido de outro domínio abre vazio.
+
+Por isso a área do responsável tem **Salvar uma cópia** e **Trazer uma cópia**
+(`src/lib/copia.js`). A cópia é um JSON só, com todas as chaves do aparelho
+dentro — sem compressão e sem criptografia, para que o responsável consiga abrir,
+ler e guardar onde quiser. No celular, salvar abre o compartilhamento do sistema
+(WhatsApp, Drive, e-mail); no computador, baixa o arquivo.
+
+Trazer **substitui**, e pergunta antes dizendo quantos perfis entram no lugar.
+Não existe "mesclar": fundir dois progressos exigiria decidir quem ganha em cada
+fase e em cada moeda, e qualquer decisão dessas inventaria um histórico que não
+aconteceu.
+
+O cache de idioma (`lumus:lang:*`) fica de fora da cópia — é um espelho do que já
+viaja embutido no app, e sozinho dobraria o tamanho do arquivo. Arquivo que não
+tem a marca do Lumus, que vem de uma versão mais nova, ou cujas chaves foram
+remendadas à mão é recusado com o motivo na tela; `tests/copia.test.mjs` cobre
+cada um desses casos.
+
 ## Documentos legais
 
 - [Política de Privacidade](public/privacidade.html) — PT-BR e EN

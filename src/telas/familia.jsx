@@ -6,18 +6,19 @@
  * (ver docs/decisoes/0005-as-telas-em-arquivos.md).
  */
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { CARIMBOS, carimboPorId } from "../data/caderno.js";
 import { devocionalDoDia } from "../data/devocional.js";
 import { NOVIDADES } from "../data/novidades.js";
-import { LANG_CATALOG } from "../data/textos.js";
+import { LANG_CATALOG, T } from "../data/textos.js";
 import { versoDoDia } from "../data/versos.js";
 import { ACHIEVEMENTS, BADGES, BAND_COLOR, CORES_PRINCIPIO, DIFFS, ECON, MEM_LEVELS, ROUTE, SEMANA_VAZIA, diaCurto, ehLeitor, intervaloDaSemana, semanaAtual, tempoFmt, totalDe } from "../lib/catalogo.js";
 import { partirChaveMemoria } from "../lib/memoria.js";
 import { ondeEstaDevendo } from "../lib/revisao.js";
 import { alvoDe, nomeDaTrilha } from "../lib/rodadas.js";
+import { montarCopia, lerCopia, aplicarCopia, nomeDoArquivo, quantosPerfis } from "../lib/copia.js";
 import { juntar } from "../lib/voz.js";
-import { Avatar, Btn, Coin, Mundi, useFala } from "./base.jsx";
+import { Avatar, Btn, Coin, Modal, Mundi, useFala } from "./base.jsx";
 import { Mini, acharArte } from "./desenho.jsx";
 import { nomeDoAno } from "../lib/escola.js";
 
@@ -621,6 +622,121 @@ function Novidades({ t, lang, novo, aoAbrir }) {
 }
 
 
+/* ---------- A cópia de segurança ----------
+   O app não tem login e não tem servidor: o progresso mora neste aparelho e em
+   mais nenhum. É a promessa do projeto, e é também o único jeito de perder
+   tudo — celular novo, navegador limpo, ou o endereço do site mudando, porque
+   o navegador guarda por ORIGEM e não por aplicativo.
+
+   Fica na área do responsável porque é ele quem troca de celular, e porque
+   trazer uma cópia apaga o que está aqui: não é botão para criança.
+
+   `tx` existe por causa de um defeito conhecido: os idiomas fr/de/it são lidos
+   de um cache no aparelho que ganha do pacote embutido, então quem já escolheu
+   um deles não recebe frase nova numa atualização. Até isso ser resolvido, a
+   frase em inglês aparece no lugar de um buraco. */
+function CartaoCopia({ t }) {
+  const tx = k => t[k] || T.en[k];
+  const [aviso, setAviso] = useState(null);      // { ok, texto }
+  const [perguntar, setPerguntar] = useState(null);
+  const entrada = useRef(null);
+
+  const salvar = async () => {
+    try {
+      const doc = await montarCopia();
+      const nome = nomeDoArquivo();
+      const arq = new File([JSON.stringify(doc)], nome, { type: "application/json" });
+
+      /* No celular, "compartilhar" abre o WhatsApp, o Drive e o e-mail — que é
+         onde o responsável de verdade guarda o arquivo. O download direto só é
+         bom no computador, e no iPhone instalado ele nem sempre acontece. */
+      if (navigator.canShare?.({ files: [arq] })) {
+        try {
+          await navigator.share({ files: [arq], title: nome });
+          setAviso({ ok: true, texto: nome });
+          return;
+        } catch (e) {
+          if (e?.name === "AbortError") return;   // desistiu no meio: não é erro
+        }
+      }
+      const url = URL.createObjectURL(arq);
+      const a = document.createElement("a");
+      a.href = url; a.download = nome;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      setAviso({ ok: true, texto: nome });
+    } catch {
+      setAviso({ ok: false, texto: tx("backupBad") });
+    }
+  };
+
+  const escolheu = async ev => {
+    const f = ev.target.files?.[0];
+    ev.target.value = "";              // deixa escolher o mesmo arquivo de novo
+    if (!f) return;
+    try {
+      setPerguntar(lerCopia(await f.text()));
+    } catch (e) {
+      setAviso({ ok: false, texto: e.message === "formato-novo" ? tx("backupOld") : tx("backupBad") });
+    }
+  };
+
+  /* Recarrega em vez de reconstruir o estado à mão: o app inteiro lê o
+     armazenamento na abertura, e meia dúzia de telas já montadas com os dados
+     antigos daria bug difícil de achar. */
+  const trazer = async () => {
+    await aplicarCopia(perguntar);
+    setPerguntar(null);
+    window.location.reload();
+  };
+
+  return (
+    <div className="card" style={{ padding: 14, marginBottom: 12 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 10 }}>
+        <div style={{ fontSize: 26 }}>💾</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{tx("backup")}</div>
+          <div style={{ color: "#8B93AD", fontWeight: 700, fontSize: 11, lineHeight: 1.5 }}>{tx("backupHint")}</div>
+        </div>
+      </div>
+
+      {aviso && (
+        <div style={{
+          background: aviso.ok ? "#E6F7F0" : "#FDECEA", color: aviso.ok ? "#0A7A55" : "#B3261E",
+          borderRadius: 10, padding: "8px 10px", fontWeight: 800, fontSize: 12, marginBottom: 10,
+          wordBreak: "break-all",
+        }}>
+          {aviso.ok ? "✅ " : "⚠️ "}{aviso.texto}
+        </div>
+      )}
+
+      <div style={{ display: "flex", gap: 8 }}>
+        <Btn full small color="#00B894" onClick={salvar}>⬇️ {tx("backupSave")}</Btn>
+        <Btn full small color="#4C6FFF" onClick={() => entrada.current?.click()}>⬆️ {tx("backupLoad")}</Btn>
+      </div>
+
+      <input ref={entrada} type="file" accept="application/json,.json" onChange={escolheu}
+        style={{ display: "none" }} aria-hidden="true" tabIndex={-1} />
+
+      {perguntar && (
+        <Modal onClose={() => setPerguntar(null)}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 40 }}>⚠️</div>
+            <div style={{ color: "#1B2A6B", fontWeight: 800, margin: "12px 0", fontSize: 15, lineHeight: 1.5 }}>
+              {tx("backupAsk").replace("{n}", quantosPerfis(perguntar))}
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Btn full small color="#8B93AD" onClick={() => setPerguntar(null)}>{t.cancel}</Btn>
+              <Btn full small color="#E74C3C" onClick={trazer}>{tx("backupLoad")}</Btn>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+
 export function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }) {
   return (
     <div>
@@ -648,6 +764,8 @@ export function FamilyScreen({ t, lang, familia, setScreen, presente, presentear
           🪙 {presente.restante}
         </div>
       </div>
+
+      <CartaoCopia t={t} />
 
       {!familia.length && (
         <div className="card" style={{ padding: 20, textAlign: "center", color: "#6C7695", fontWeight: 800, fontSize: 14 }}>
