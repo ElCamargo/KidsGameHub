@@ -172,7 +172,7 @@ O que a Play pede, e o que já existe:
 | Gráfico de destaque 1024×500 | ✅ [`docs/loja/destaque-1024x500.png`](loja/destaque-1024x500.png) |
 | Capturas de tela do celular (mín. 2, ideal 8) | ✅ seis em 1080×1920, em [`docs/loja/`](loja/README.md) |
 | Capturas de tablet 7" e 10" | ✅ doze, em [`docs/loja/tablet/`](loja/tablet/README.md) |
-| Política de privacidade (URL pública) | ✅ `/privacidade.html` |
+| Política de privacidade (URL pública) | ✅ `/privacidade.html` — v1.2, revisada para a Política de Famílias |
 | Termos de uso | ✅ `/termos.html` |
 | E-mail de contato | ✅ `contato@elcamargo.com.br` — Zoho Mail, alias da caixa do Ederson |
 | Descrição curta (80 caracteres) | rascunho abaixo |
@@ -290,6 +290,27 @@ falharia aqui.
 
 Estas respostas saem direto do que o app é. Guardadas aqui para não ter que
 pensar de novo a cada atualização.
+
+### A política de privacidade tem que BATER com este formulário
+
+A Google compara as duas coisas. Se a política omite um dado que o app guarda,
+a inconsistência é motivo de recusa — mesmo que o dado nunca saia do aparelho.
+
+A revisão de 07/09/2026 (v1.2) corrigiu justamente isso. A lista de "o que fica
+guardado" tinha ficado para trás do produto: faltavam **o caderno da criança**,
+**os desenhos**, a idade, o ano escolar, o estado, os números da semana e o
+resumo da senha do responsável. O caderno é o mais sério da lista — é a criança
+escrevendo com as próprias palavras, e uma política que não o menciona está
+errada mesmo quando a resposta "não coletamos" continua verdadeira.
+
+Também entrou a função de **levar o progresso para outro aparelho**: é o único
+momento em que os dados saem do aparelho, por ação do adulto, e o arquivo leva o
+caderno junto. Estava avisado na tela do app e faltava no documento.
+
+E um ajuste de precisão: a política dizia que, depois de instalado, o app não
+faz mais conexão nenhuma. Não é exato — ele consulta o **nosso próprio** servidor
+para saber se há versão nova. Nunca terceiros, mas dizer "nenhuma" seria uma
+afirmação que a Google poderia testar e desmentir.
 
 ### Segurança dos dados (Data Safety)
 
