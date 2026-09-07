@@ -105,36 +105,22 @@ Ordem:
 
 ## 2. O pacote — o TWA
 
-O TWA é um APK/AAB pequeno que abre o mesmo PWA em tela cheia. **Não há
-reescrita**: o conteúdo continua sendo o site, e continua se atualizando sozinho
-sem passar pela loja. Só mudanças de empacotamento (ícone, nome, permissões)
-pedem versão nova na Play.
+O Clarim é um site; o que vai para a loja é uma casca de Android que o abre em
+tela cheia. Atualizar o site atualiza o app, sem passar por revisão.
 
-Dados do pacote, para ficar decidido antes de gerar:
+**Preparado, não construído.** Bubblewrap instalado e apontando para o JDK 17 e
+o SDK que já existiam nesta máquina, e o manifesto escrito. O detalhe todo, com
+os dois comandos que faltam no SDK e o aviso sobre a chave de assinatura, está
+em [`twa/README.md`](../twa/README.md).
 
-| Campo | Valor sugerido | Por quê |
-|---|---|---|
-| `applicationId` | `br.com.elcamargo.clarim` | domínio da empresa invertido; **nunca muda depois de publicado** |
-| Nome do app | `Clarim — Kids Game Hub` | igual ao `name` do manifest |
-| Nome curto | `Clarim` | é o que cabe embaixo do ícone |
-| `versionCode` | `1`, e +1 a cada envio | número inteiro, só cresce |
-| `versionName` | `1.1.0` | acompanha o `package.json` |
-| Orientação | retrato | igual ao manifest |
-| Cor da barra | `#3C4FC4` | igual ao `theme_color` |
-| Splash | `#1B2A6B` | igual ao `background_color` |
+Não dá para gerar o pacote ainda por dois motivos que não são de código:
 
-**A ferramenta.** O empacotador oficial é o **Bubblewrap** (`@bubblewrap/cli`),
-que roda em Node e baixa por conta própria o JDK 17 e o Android SDK que precisa.
-Não é dependência do projeto — é ferramenta de máquina, instalada global.
-
-> **Preciso da sua autorização para instalar.** A regra do projeto é não instalar
-> nada além do `package.json` sem perguntar, e ela vale aqui mesmo sendo global.
-> A alternativa sem instalar nada é o **PWABuilder** (site do próprio time do
-> Microsoft/Google Chrome), que gera o pacote assinado a partir da URL. Ele é um
-> serviço externo: o site é público, então não há segredo indo para lá, mas a
-> escolha é sua.
-
----
+1. **`clarim.elcamargo.com.br` devolve 404.** Está no DNS, mas o repositório
+   ainda não tem domínio próprio — a troca de endereço espera as famílias
+   salvarem a cópia. Um pacote gerado agora abriria numa página de erro.
+2. **A impressão digital do certificado ainda não existe.** Ela só aparece
+   depois do primeiro envio, porque a Google re-assina o pacote com a chave
+   dela. Ver a seção 3.
 
 ## 3. A assinatura — onde quase todo mundo erra
 
@@ -185,10 +171,10 @@ O que a Play pede, e o que já existe:
 | Ícone 512×512 PNG | ✅ `public/icon-512.png` |
 | Gráfico de destaque 1024×500 | ✅ [`docs/loja/destaque-1024x500.png`](loja/destaque-1024x500.png) |
 | Capturas de tela do celular (mín. 2, ideal 8) | ✅ seis em 1080×1920, em [`docs/loja/`](loja/README.md) |
-| Capturas de tablet 7" e 10" | ❌ faltam — opcionais, mas sem elas o app não aparece nas buscas de tablet |
+| Capturas de tablet 7" e 10" | ✅ doze, em [`docs/loja/tablet/`](loja/tablet/README.md) |
 | Política de privacidade (URL pública) | ✅ `/privacidade.html` |
 | Termos de uso | ✅ `/termos.html` |
-| E-mail de contato | ⚠️ decidir qual — vai aparecer **público** na ficha |
+| E-mail de contato | ⚠️ `contato@elcamargo.com.br` — precisa EXISTIR antes, e fica **público** na ficha |
 | Descrição curta (80 caracteres) | rascunho abaixo |
 | Descrição completa (4000 caracteres) | rascunho abaixo |
 
@@ -235,8 +221,37 @@ CRESCE COM A CRIANÇA
 Seis faixas de dificuldade em cada trilha. O jogo acompanha o ano escolar em vez
 de repetir sempre a mesma coisa.
 
+PARA O RESPONSÁVEL
+• Uma tela só sua, protegida por senha de quatro dígitos
+• A semana de cada filho: rodadas, acertos, estrelas, desenhos e minutos
+• As rodadas que a criança terminou sem estrela — o esforço que nenhum número
+  mostra, para você premiar quando achar justo
+• Um presente semanal de lumicoins para dar a quem quiser
+• Momento em Família: um devocional curto por dia, para fazer junto
+
+LEVE O PROGRESSO PARA OUTRO APARELHO
+Um arquivo, salvo por você, aberto no aparelho novo. Sem conta, sem nuvem, sem
+enviar nada para lugar nenhum. Funciona até em modo avião.
+
+SEIS IDIOMAS
+Português, inglês, espanhol, francês, alemão e italiano.
+
 Feito por ElCamargo Soluções em TI LTDA, em Blumenau, Santa Catarina.
 ```
+
+**Conferir antes de colar:** a Play corta a descrição curta em 80 caracteres e a
+completa em 4000. A curta acima tem 77.
+
+### O nome na loja
+
+```
+Clarim — Jogos educativos para crianças
+```
+
+O app se chamou **Lumus** até 07/09/2026. O nome mudou porque LUMUS estava
+registrada e em vigor no INPI na classe 9 (software), marca nominativa da
+israelense LUMUS LTD desde 2006. Publicar com um nome que não se pode defender
+seria construir a ficha em cima de areia. Ver a seção 8.
 
 ---
 

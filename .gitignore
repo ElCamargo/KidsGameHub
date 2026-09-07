@@ -18,3 +18,10 @@ public/flags/
 
 # temporário do scripts/check-rodadas.mjs
 src/.rodadas-*.tmp.mjs
+
+# O projeto Android é GERADO a partir de twa/twa-manifest.json — não se versiona.
+# A chave de assinatura é segredo do dono do app e nunca entra no repositório:
+# perdê-la significa não conseguir mais atualizar o app na loja.
+twa/*
+!twa/twa-manifest.json
+!twa/README.md
