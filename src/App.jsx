@@ -456,7 +456,7 @@ function AppInterno() {
       dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
       lastDay: today,
     }));
-    registrarSemana({ memorias: 1, estrelas: st, lumicoins: reward });
+    registrarSemana({ memorias: 1, estrelas: st, lumicoins: reward, esforco: st ? 0 : 1 });
     setMem(m => ({ ...m, done: true, seg, jogadas, st, reward, recorde }));
     setScreen("memResult");
   }
@@ -518,7 +518,7 @@ function AppInterno() {
       dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
       lastDay: today,
     }));
-    registrarSemana({ quebras: 1, estrelas: st, lumicoins: reward });
+    registrarSemana({ quebras: 1, estrelas: st, lumicoins: reward, esforco: st ? 0 : 1 });
     setPzl(q => ({ ...q, done: true, seg, st, reward, recorde }));
     setScreen("pzlResult");
   }
@@ -627,7 +627,7 @@ function AppInterno() {
       dayStreak: x.lastDay === today ? x.dayStreak : x.lastDay === yest ? x.dayStreak + 1 : 1,
       lastDay: today,
     }));
-    registrarSemana({ palavras: quantas, estrelas: st, lumicoins: reward });
+    registrarSemana({ palavras: quantas, estrelas: st, lumicoins: reward, esforco: st ? 0 : 1 });
     setPal(x => ({ ...x, done: true, erros, st, reward, recorde }));
     setScreen("palResult");
   }
@@ -1124,7 +1124,7 @@ function AppInterno() {
       dayStreak: s.lastDay === today ? s.dayStreak : s.lastDay === yest ? s.dayStreak + 1 : 1,
       lastDay: today,
     }));
-    registrarSemana({ rodadas: 1, certas: r.right, estrelas: st, lumicoins: reward });
+    registrarSemana({ rodadas: 1, certas: r.right, estrelas: st, lumicoins: reward, esforco: st ? 0 : 1 });
     const seg = Math.round((Date.now() - (r.t0 || Date.now())) / 1000);
     if (st > 0) {
       setProgress(p => ({ ...p, [r.cont]: Math.max(p[r.cont] || 0, r.stage) }));

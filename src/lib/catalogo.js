@@ -312,11 +312,18 @@ export const ECON = {
   /* Cada erro consertado na revisão paga pouco, e não pode ser fábrica de
      moeda: a pergunta sai da fila quando é aprendida. */
   revisaoReward: 7,
-  /* O responsável ganha 100 lumicoins por semana para dar de presente a
-     quem quiser. Não é para ele gastar: é o motivo de ele abrir o app,
-     olhar como os filhos estão indo e escolher quem premiar. O dinheiro
-     que ele mesmo usa jogando é o dele, ganho como o de todo mundo. */
-  presenteSemanal: 100,
+  /* O responsável ganha lumicoins por semana para dar de presente a quem
+     quiser. Não é para ele gastar: é o motivo de ele abrir o app, olhar como
+     os filhos estão indo e escolher quem premiar. O dinheiro que ele mesmo
+     usa jogando é o dele, ganho como o de todo mundo.
+
+     SUBIU DE 100 PARA 170 EM 07/09/2026, junto com o aumento das rodadas.
+     Não é generosidade nova: 100 era pouco mais de uma rodada de 3 estrelas
+     quando ela pagava 65, e teria virado menos de uma agora que paga 110.
+     Sem este reajuste, a única ferramenta que o responsável tem para premiar
+     um filho teria encolhido no mesmo dia em que ficou mais necessária —
+     porque é ela que cobre a rodada que não pagou nada. */
+  presenteSemanal: 170,
   /* O primeiro registro do dia paga; o segundo não. Escrever tem que valer a
      pena, mas não pode virar uma torneira de moedas — senão a criança escreve
      dez linhas vazias e o caderno morre no mesmo dia em que nasceu. */
@@ -652,7 +659,11 @@ export function intervaloDaSemana(chave, lang) {
 export const SEMANAS_GUARDADAS = 12;
 
 
-export const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, quebras: 0, palavras: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0 };
+/* `esforco` conta a rodada terminada que não tirou nenhuma estrela — a que
+   paga zero. Existe para o responsável ver o que nenhum outro número mostra:
+   a criança jogou até o fim e saiu de mãos vazias. A régua da estrela não
+   muda por isso; o que muda é o adulto ter como saber quando dar o presente. */
+export const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, quebras: 0, palavras: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0, esforco: 0 };
 
 
 /* A mesma cor de cada princípio em devocional.js. Está repetida aqui porque é

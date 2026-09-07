@@ -339,7 +339,7 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
   /* O que dá para dar agora. Se nem o menor degrau couber, o degrau é o
      próprio resto: 5 lumicoins guardadas não valem nada para ninguém. */
   const valoresDoPresente = (() => {
-    const cabem = [10, 25, 50].filter(v => v <= presente.restante);
+    const cabem = [20, 50, 100].filter(v => v <= presente.restante);
     return cabem.length ? cabem : presente.restante > 0 ? [presente.restante] : [];
   })();
   const semanas = save?.semanas || {};
@@ -413,6 +413,20 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
           </div>
         )}
 
+        {/* A rodada que terminou sem estrela não aparece em nenhum número
+            acima: ela soma em 🎮 e não soma em ⭐ nem em 🪙, e ninguém lê uma
+            subtração. Dita em voz alta, ela é o que o responsável precisa para
+            decidir o presente — a criança que insistiu é justamente a que
+            passou a semana sem receber nada. */}
+        {semana.esforco > 0 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, background: "#FFF3D6", borderRadius: 12, padding: "6px 10px" }}>
+            <span style={{ fontSize: 14 }}>🫂</span>
+            <span style={{ color: "#7A5A12", fontWeight: 800, fontSize: 11, lineHeight: 1.4 }}>
+              <b>{semana.esforco}</b> {t.weekTried}
+            </span>
+          </div>
+        )}
+
         {desenhosDaSemana.length > 0 && (
           <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 8 }}>
             {desenhosDaSemana.slice(-5).reverse().map((g, i) => {
@@ -429,7 +443,7 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
         <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎁 {t.giveGift}</div>
-        {/* Com 5 lumicoins no cofre, os três botões de 10, 25 e 50 ficavam
+        {/* Com 5 lumicoins no cofre, os três botões de 20, 50 e 100 ficavam
             apagados e o resto da semana morria ali sem ninguém receber.
             Agora aparece o que cabe — e, quando nada cabe, o que sobrou. */}
         {valoresDoPresente.length
