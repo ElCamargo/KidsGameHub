@@ -18,7 +18,7 @@ import { temSom } from "./lib/som.js";
 import { TAMANHO_MAX, baixar, juntarSave, lerCopia, montarCopia, nomeDoArquivo } from "./lib/transferir.js";
 import { perguntasParaTodos, vencedorDe } from "./lib/turma.js";
 import { iniciarVozes, parar as pararVoz, temVoz } from "./lib/voz.js";
-import { Btn, HAIRS, Marca, Modal, SHIRTS, SKINS, useSomDeFundo } from "./telas/base.jsx";
+import { AVATAR_PADRAO, Btn, Marca, Modal, useSomDeFundo } from "./telas/base.jsx";
 import { Coloring, Gallery, acharArte } from "./telas/desenho.jsx";
 import { CadernoScreen, DevocionalScreen, EscreverScreen, FamilyScreen, PlayerCard } from "./telas/familia.jsx";
 import { CapMap, EscolaScreen, Home, LangGame, MapScreen, Stages } from "./telas/hub.jsx";
@@ -87,7 +87,7 @@ function AppInterno() {
      tratamos como criança que já lê, que era o comportamento de antes. */
   const [player, setPlayer] = useState({
     name: "", papel: "filho", idade: null, leitor: null, pin: null, estado: null,
-    avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
+    avatar: { ...AVATAR_PADRAO },
   });
   const [coins, setCoins] = useState(ECON.start);
   const [lastRefill, setLastRefill] = useState(Date.now());
@@ -873,7 +873,7 @@ function AppInterno() {
     setActiveId(`p${Date.now()}`);
     applySave(d, {
       name: "", papel: "filho", idade: null, leitor: null, pin: null, estado: null,
-      avatar: { skin: SKINS[1], hair: HAIRS[0], hairStyle: "short", cap: null, glasses: null, shirt: SHIRTS[0], shirtPattern: null },
+      avatar: { ...AVATAR_PADRAO },
     });
     setScreen("create");
   }
