@@ -300,11 +300,18 @@ export const ECON = {
   refillMs: 3 * 60 * 60 * 1000,
   cap: Infinity,                   // sem teto: o contador só anda quando se resgata
   hint1: 8, hint2: 20, hint3: 80,
-  reward: { 1: 25, 2: 45, 3: 65 },  // por estrela, +5 extra se não usar dica
-  memReward: { 1: 10, 2: 25, 3: 50 },
+  /* AUMENTO DE 07/09/2026, ~70%: estava caro demais para criança pequena.
+     A dinâmica de mérito continua — 3 estrelas ainda pagam o dobro de 1 —, mas
+     o degrau de baixo subiu MAIS que o de cima, e isso é de propósito. Quem
+     tira 1 estrela é justamente quem tem 5 anos, quem ainda não lê, e quem
+     leva mais tempo nos jogos em que a estrela sai do relógio (memória e
+     quebra-cabeça). A régua antiga cobrava a mesma entrada dessa criança e
+     pagava a ela menos da metade. */
+  reward: { 1: 45, 2: 77, 3: 110 },  // por estrela, +8 extra se não usar dica
+  memReward: { 1: 20, 2: 45, 3: 85 },
   /* Cada erro consertado na revisão paga pouco, e não pode ser fábrica de
      moeda: a pergunta sai da fila quando é aprendida. */
-  revisaoReward: 4,
+  revisaoReward: 7,
   /* O responsável ganha 100 lumicoins por semana para dar de presente a
      quem quiser. Não é para ele gastar: é o motivo de ele abrir o app,
      olhar como os filhos estão indo e escolher quem premiar. O dinheiro
@@ -313,14 +320,14 @@ export const ECON = {
   /* O primeiro registro do dia paga; o segundo não. Escrever tem que valer a
      pena, mas não pode virar uma torneira de moedas — senão a criança escreve
      dez linhas vazias e o caderno morre no mesmo dia em que nasceu. */
-  cadernoReward: 15,
+  cadernoReward: 25,
   /* Jogar junto é de graça, e paga todo mundo — ganhando ou perdendo. O que
      queremos que aconteça de novo amanhã é o irmão chamar o irmão, e os dois
      chamarem a mãe; não um vencer o outro. Uma vez por dia, senão vira
      fábrica de lumicoins. */
-  duplaReward: 20,
-  colorReward: 10,                 // por desenho terminado
-  colorDailyCap: 200,              // 20 desenhos premiados por dia (20 × 10)
+  duplaReward: 34,
+  colorReward: 17,                 // por desenho terminado
+  colorDailyCap: 340,              // 20 desenhos premiados por dia (20 × 17)
 };
 
 
