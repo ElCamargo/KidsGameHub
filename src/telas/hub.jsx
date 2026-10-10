@@ -8,11 +8,66 @@
 
 import React, { useState } from "react";
 import { LANG_CATALOG, T } from "../data/textos.js";
+import { devocionalDoDia } from "../data/devocional.js";
 import { BAND_COLOR, BAND_PRECO, CAP_PRECO, CATALOG, DIFFS, ECON, MADE_BY, ROUTE, bandFor, custoDaFase, ehLeitor, fmt, jogoDe, precoDe, tempoFmt, totalDe } from "../lib/catalogo.js";
 import { conteudoDoAno, nomeDoAno } from "../lib/escola.js";
 import { CAP_REGIOES, alvoDe, quizDe } from "../lib/rodadas.js";
 import { Btn, Caras, Coin, Modal, Mundi, TopBar } from "./base.jsx";
 import { CartaoMomento } from "./familia.jsx";
+
+/* O princípio que a conversa de hoje puxa. Era o que o cartão grande do
+   Momento mostrava, e continua sendo a linha mais útil para o adulto: diz
+   sobre o que se fala hoje, sem precisar abrir. */
+const principioDoDia = lang => {
+  const { principio } = devocionalDoDia();
+  return `${principio.icone} ${principio[lang] || principio.en}`;
+};
+
+/* A sequencia de dias vivia num selo ao lado do titulo, e num cartao de meia
+   tela ela roubava justamente a largura que "Momento em Familia" precisava
+   para caber. Desceu para a linha de baixo, onde nao disputa com ninguem. */
+const subDoMomento = (t, lang, momento, feitoHoje) => {
+  if (!momento.fe) return t.momentTurnOn;
+  const fogo = momento.sequencia > 0 ? `\u{1F525} ${momento.sequencia} · ` : "";
+  return fogo + (feitoHoje ? t.momentDone : principioDoDia(lang));
+};
+
+
+/* ---------- Um atalho da fileira do topo ----------
+   Metade da largura e uns 50px de altura, contra o cartão largo de 76 que
+   havia antes. Cabe ícone, nome e a linha de baixo que diz o estado - o ano,
+   quantas faltam revisar, com quem a criança está jogando.
+
+   `acao` existe para o único atalho que não é um botão inteiro: com turma
+   escolhida, o ✕ desfaz a turma, e botão dentro de botão não é HTML válido
+   nem funciona no toque. Ali o atalho vira div. */
+function Atalho({ icon, titulo, sub, cor, onClick, acao }) {
+  const Tag = acao ? "div" : "button";
+  return (
+    <Tag onClick={acao ? undefined : onClick} className="card pop"
+      style={{ border: "none", padding: "8px 10px", textAlign: "left", width: "100%",
+        cursor: acao ? "default" : "pointer", borderLeft: `6px solid ${cor}`,
+        display: "flex", alignItems: "center", gap: 9, minWidth: 0 }}>
+      <div style={{ fontSize: 21, lineHeight: 1 }}>{icon}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        {/* O titulo pode quebrar em duas linhas: "O meu ano na escola" em meia
+            tela de 375px nao cabe numa so, e cortar no "...es" fica pior que
+            quebrar. Da terceira em diante corta, que ai e titulo grande demais. */}
+        <div className="display" style={{ color: "#1B2A6B", fontSize: 12.5, lineHeight: 1.2,
+          overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical", wordBreak: "break-word" }}>{titulo}</div>
+        {sub && (
+          <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 10, lineHeight: 1.25,
+            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{sub}</div>
+        )}
+      </div>
+      {acao && (
+        <Btn small color="#8B93AD" onClick={acao.aoTocar} rotulo={acao.rotulo}>{acao.texto}</Btn>
+      )}
+    </Tag>
+  );
+}
+
 
 export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, abrirCategoria, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz, quantasRevisar, revisar, ano, turma, pedirTurma, sairDaTurma }) {
   return (
@@ -21,93 +76,67 @@ export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, 
         onAvatar={() => setScreen("player")} onSwitch={() => setScreen("profiles")} quantos={profiles?.length || 1}
         podeResgatar={podeResgatar} resgatar={resgatar} />
 
-      {/* O que ela errou, de volta. Fica antes dos jogos porque é a coisa que
-          mais ensina no app — e é de graça: cobrar da criança para consertar
-          o próprio erro seria o avesso do que este app quer ser. */}
-      {!!quantasRevisar && (
-        <button onClick={revisar} className="card pop"
-          style={{ border: "none", width: "100%", textAlign: "left", cursor: "pointer",
-            padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ fontSize: 34 }}>🔁</div>
-          <div style={{ flex: 1 }}>
-            <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.reviewTitle}</div>
-            <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>
-              {t.reviewHint.replace("{n}", quantasRevisar)}
-            </div>
-          </div>
-          <div style={{ background: "#00B894", color: "#fff", borderRadius: 999, padding: "6px 13px", fontWeight: 900 }}>
-            {quantasRevisar}
-          </div>
-        </button>
-      )}
+      {/* Eram quatro cartões largos empilhados - revisão, escola, jogar junto
+          e momento - e juntos comiam mais de meia tela antes de aparecer um
+          jogo sequer. São as mesmas quatro portas, agora do tamanho de um
+          atalho. O que some é o espaço, não a informação: cada uma continua
+          dizendo o número que importa. */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 12 }}>
 
-      {/* A porta da escola. Vem antes dos jogos porque é o que o pai abre
-          quando a professora mandou bilhete — e o que a criança abre quando
-          tem prova. */}
-      <button onClick={() => setScreen("escola")} className="card pop"
-        style={{ border: "none", width: "100%", textAlign: "left", cursor: "pointer",
-          padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
-        <div style={{ fontSize: 34 }}>🎒</div>
-        <div style={{ flex: 1 }}>
-          <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.school}</div>
-          <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>
-            {nomeDoAno(ano, t)}
-          </div>
-        </div>
-        <div style={{ fontSize: 20, color: "#8B93AD" }}>▶</div>
-      </button>
+        {/* O que ela errou, de volta. Vem primeiro porque é a coisa que mais
+            ensina no app - e é de graça: cobrar da criança para consertar o
+            próprio erro seria o avesso do que este app quer ser. */}
+        {!!quantasRevisar && (
+          <Atalho icon="🔁" cor="#00B894" titulo={t.reviewTitle}
+            sub={t.reviewHint.replace("{n}", quantasRevisar)}
+            onClick={revisar} />
+        )}
 
-      {/* Jogar junto no mesmo aparelho so existia dentro da tela de fases, e
-          nenhum adulto achava: para convidar o primo era preciso entrar num
-          jogo e escolher uma fase primeiro. Agora a porta esta na home, e a
-          turma escolhida vale para o jogo que a crianca abrir em seguida. */}
-      {turma ? (
-        <div className="card pop" style={{ padding: 12, marginBottom: 14, display: "flex", alignItems: "center", gap: 11 }}>
-          <Caras turma={turma} size={36} />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div className="display" style={{ color: "#1B2A6B", fontSize: 16, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {t.duoWith} {turma.map(j => j.name).join(", ")}
-            </div>
-            <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>{t.duoTakeTurns}</div>
-          </div>
-          <Btn small color="#8B93AD" onClick={sairDaTurma} rotulo={t.a11yClose}>✕</Btn>
-        </div>
-      ) : (
-        <button onClick={pedirTurma} className="card pop"
-          style={{ border: "none", width: "100%", textAlign: "left", cursor: "pointer",
-            padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ fontSize: 34 }}>👥</div>
-          <div style={{ flex: 1 }}>
-            <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.duoPlay}</div>
-            <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>{t.duoHint}</div>
-          </div>
-          <div style={{ fontSize: 20, color: "#8B93AD" }}>▶</div>
-        </button>
-      )}
+        {/* A porta da escola: o que o pai abre quando a professora mandou
+            bilhete, e a criança quando tem prova. */}
+        <Atalho icon="🎒" cor="#F9A826" titulo={t.school} sub={nomeDoAno(ano, t)}
+          onClick={() => setScreen("escola")} />
 
-      {podeResgatar && (
-        <div className="card pop" style={{ padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ fontSize: 34 }}>🎁</div>
-          <div style={{ flex: 1 }}>
-            <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.claimTitle}</div>
-            <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>+{ECON.refillAmount} 🪙</div>
-          </div>
-          <Btn small color="#00B894" onClick={resgatar}>{t.claim}</Btn>
-        </div>
-      )}
+        {/* Jogar junto no mesmo aparelho só existia dentro da tela de fases, e
+            nenhum adulto achava. Com turma escolhida o atalho vira o lembrete
+            de quem está na partida, e o ✕ desfaz. */}
+        {turma ? (
+          <Atalho icon="👥" cor="#00C2CB"
+            titulo={`${t.duoWith} ${turma.map(j => j.name).join(", ")}`}
+            sub={t.duoTakeTurns} acao={{ rotulo: t.a11yClose, texto: "✕", aoTocar: sairDaTurma }} />
+        ) : (
+          <Atalho icon="👥" cor="#00C2CB" titulo={t.duoPlay} sub={t.duoHint}
+            onClick={pedirTurma} />
+        )}
 
-      <div style={{ display: "flex", gap: 10, alignItems: "flex-end", marginBottom: 16 }}>
-        <Mundi size={64} />
-        <div className="card" style={{ padding: "12px 14px", flex: 1, borderBottomLeftRadius: 6 }}>
-          <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 14 }}>{t.mascotHome}</div>
-        </div>
+        {/* A família vem antes dos jogos. O convite inteiro, com as duas
+            respostas, fica fora da fileira: é pergunta, e pergunta não cabe
+            num atalho. Respondida uma vez, vira atalho como os outros. */}
+        {momento.fe != null && (player.papel === "pai" || momento.fe) && (
+          <Atalho icon={momentoFeitoHoje ? "💚" : "🕊️"} cor="#9B59B6"
+            titulo={t.momentTitle}
+            sub={subDoMomento(t, lang, momento, momentoFeitoHoje)}
+            onClick={() => { if (!momento.fe) setMomento(m => ({ ...m, fe: true })); setScreen("devocional"); }} />
+        )}
+
+        {podeResgatar && (
+          <Atalho icon="🎁" cor="#E84393" titulo={t.claimTitle}
+            sub={`+${ECON.refillAmount} 🪙`} onClick={resgatar} />
+        )}
       </div>
 
-      {/* Antes dos jogos: a família vem primeiro, e o convite só o adulto
-          responde — a decisão é do lar, não da criança. */}
-      {(momento.fe != null || player.papel === "pai") && (
+      {/* O convite do Momento em Família, a única vez que ele aparece inteiro:
+          só o adulto responde, e a decisão é do lar, não da criança. */}
+      {momento.fe == null && player.papel === "pai" && (
         <CartaoMomento {...{ t, lang, momento, setMomento, feitoHoje: momentoFeitoHoje, abrir: () => setScreen("devocional") }} />
       )}
+
+      <div style={{ display: "flex", gap: 9, alignItems: "flex-end", marginBottom: 14 }}>
+        <Mundi size={46} />
+        <div className="card" style={{ padding: "9px 12px", flex: 1, borderBottomLeftRadius: 6 }}>
+          <div style={{ color: "#1B2A6B", fontWeight: 800, fontSize: 13 }}>{t.mascotHome}</div>
+        </div>
+      </div>
 
       <div className="display" style={{ color: "#fff", fontSize: 22, marginBottom: 10 }}>{t.home}</div>
 
