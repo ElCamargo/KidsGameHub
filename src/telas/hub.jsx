@@ -9,12 +9,12 @@
 import React, { useState } from "react";
 import { LANG_CATALOG, T } from "../data/textos.js";
 import { BAND_COLOR, BAND_PRECO, CAP_PRECO, CATALOG, DIFFS, ECON, MADE_BY, ROUTE, bandFor, custoDaFase, ehLeitor, fmt, jogoDe, precoDe, tempoFmt, totalDe } from "../lib/catalogo.js";
-import { ANOS, IDADE_DO_ANO, conteudoDoAno, nomeDoAno } from "../lib/escola.js";
+import { conteudoDoAno, nomeDoAno } from "../lib/escola.js";
 import { CAP_REGIOES, alvoDe, quizDe } from "../lib/rodadas.js";
 import { Btn, Caras, Coin, Modal, Mundi, TopBar } from "./base.jsx";
 import { CartaoMomento } from "./familia.jsx";
 
-export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, onPickGame, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz, quantasRevisar, revisar, ano }) {
+export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, abrirCategoria, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo, momento, setMomento, momentoFeitoHoje, voz, quantasRevisar, revisar, ano, turma, pedirTurma, sairDaTurma }) {
   return (
     <div>
       <TopBar t={t} player={player} coins={coins} nextRefill={nextRefill}
@@ -51,11 +51,39 @@ export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, 
         <div style={{ flex: 1 }}>
           <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.school}</div>
           <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>
-            {ano ? nomeDoAno(ano, t) : t.schoolPick}
+            {nomeDoAno(ano, t)}
           </div>
         </div>
         <div style={{ fontSize: 20, color: "#8B93AD" }}>▶</div>
       </button>
+
+      {/* Jogar junto no mesmo aparelho so existia dentro da tela de fases, e
+          nenhum adulto achava: para convidar o primo era preciso entrar num
+          jogo e escolher uma fase primeiro. Agora a porta esta na home, e a
+          turma escolhida vale para o jogo que a crianca abrir em seguida. */}
+      {turma ? (
+        <div className="card pop" style={{ padding: 12, marginBottom: 14, display: "flex", alignItems: "center", gap: 11 }}>
+          <Caras turma={turma} size={36} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 16, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {t.duoWith} {turma.map(j => j.name).join(", ")}
+            </div>
+            <div style={{ color: "#00B894", fontWeight: 900, fontSize: 11 }}>{t.duoTakeTurns}</div>
+          </div>
+          <Btn small color="#8B93AD" onClick={sairDaTurma} rotulo={t.a11yClose}>✕</Btn>
+        </div>
+      ) : (
+        <button onClick={pedirTurma} className="card pop"
+          style={{ border: "none", width: "100%", textAlign: "left", cursor: "pointer",
+            padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ fontSize: 34 }}>👥</div>
+          <div style={{ flex: 1 }}>
+            <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{t.duoPlay}</div>
+            <div style={{ color: "#6C7695", fontWeight: 800, fontSize: 12 }}>{t.duoHint}</div>
+          </div>
+          <div style={{ fontSize: 20, color: "#8B93AD" }}>▶</div>
+        </button>
+      )}
 
       {podeResgatar && (
         <div className="card pop" style={{ padding: 14, marginBottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
@@ -82,51 +110,38 @@ export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, 
       )}
 
       <div className="display" style={{ color: "#fff", fontSize: 22, marginBottom: 10 }}>{t.home}</div>
-      {/* Para quem ainda não lê, os jogos de texto aparecem trancados. Dizer
-          por quê evita a criança achar que quebrou — e o adulto, que faltou. */}
-      {!ehLeitor(player) && (
-        <div style={{ color: "#A7B3EA", fontWeight: 700, fontSize: 11, marginTop: -6, marginBottom: 10 }}>
-          {voz ? `🔊 ${t.voiceOpens}` : `🔒 ${t.needsReading}`}
-        </div>
-      )}
 
-      {CATALOG.map(c => (
-        <div key={c.id} style={{ marginBottom: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <span style={{ fontSize: 20 }}>{c.icon}</span>
-            <span className="display" style={{ color: "#C9D2FF", fontSize: 16 }}>{t.cat[c.id]}</span>
-          </div>
-          <div className="grid2">
-            {c.games.map((g, gi) => {
-              const aberto = jogosAbertos.includes(g.id);
-              const anteriorOk = gi === 0 || jogosAbertos.includes(c.games[gi - 1].id);
-              const compravel = !aberto && anteriorOk && g.ready;
-              return (
-                <button key={g.id} disabled={!g.ready || (!aberto && !compravel)}
-                  onClick={() => aberto ? onPickGame(g.id) : compravel && abrirJogo(g.id)}
-                  className="card" style={{
-                    border: "none", padding: 14, textAlign: "left",
-                    cursor: aberto || compravel ? "pointer" : "default",
-                    opacity: !g.ready ? .35 : aberto ? 1 : compravel ? .92 : .4,
-                    borderTop: `7px solid ${aberto ? g.color : "#B9C0CC"}`,
-                  }}>
-                  <div style={{ fontSize: 32 }}>{!g.ready ? "🔒" : aberto ? g.icon : compravel ? "🔓" : "🔒"}</div>
-                  <div className="display" style={{ color: "#1B2A6B", fontSize: 15, lineHeight: 1.15, marginTop: 4 }}>{t.games[g.id]}</div>
-                  {!g.ready && <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 800, marginTop: 2 }}>{t.soon}</div>}
-                  {g.ready && compravel && (
-                    <div style={{ color: coins >= precoDe(g) ? "#E84393" : "#8B93AD", fontSize: 12, fontWeight: 900, marginTop: 3 }}>
-                      🪙 {precoDe(g)}
-                    </div>
-                  )}
-                  {g.ready && !aberto && !compravel && (
-                    <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 800, marginTop: 2 }}>{t.needPrev}</div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ))}
+      {/* Antes os 36 jogos das sete areas ficavam todos abertos aqui, e a tela
+          virava uma parede: a crianca rolava procurando o que queria em vez de
+          escolher. Agora a home mostra as areas, e os jogos moram dentro de
+          cada uma - ver CategoriaScreen. */}
+      <div className="grid2">
+        {CATALOG.map(c => {
+          const abertos = c.games.filter(g => jogosAbertos.includes(g.id)).length;
+          /* A moeda no canto diz "tem coisa para abrir aqui dentro, e voce tem
+             como pagar". E o convite a entrar, e nao precisa de traducao. */
+          const temParaAbrir = c.games.some((g, i) =>
+            g.ready && !jogosAbertos.includes(g.id)
+            && (i === 0 || jogosAbertos.includes(c.games[i - 1].id))
+            && coins >= precoDe(g));
+          return (
+            <button key={c.id} onClick={() => abrirCategoria(c.id)} className="card pop"
+              style={{ border: "none", padding: 14, textAlign: "left", cursor: "pointer",
+                position: "relative", borderTop: `7px solid ${c.color}` }}>
+              <div style={{ fontSize: 34 }}>{c.icon}</div>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 16, lineHeight: 1.15, marginTop: 4 }}>
+                {t.cat[c.id]}
+              </div>
+              <div style={{ color: "#6C7695", fontWeight: 900, fontSize: 12, marginTop: 3 }}>
+                🔓 {abertos}/{c.games.length}
+              </div>
+              {temParaAbrir && (
+                <div style={{ position: "absolute", top: 10, right: 11, fontSize: 17 }}>🪙</div>
+              )}
+            </button>
+          );
+        })}
+      </div>
 
       <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
         <Btn full color="#8D6E3A" onClick={() => abrir("caderno", "home")}>📔 {t.notebook}</Btn>
@@ -150,6 +165,65 @@ export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, 
 }
 
 
+
+/* ---------- Os jogos de uma area ----------
+   Recortada da Home: os cartoes abaixo sao os mesmos de antes, com a mesma
+   escada (um jogo abre quando o anterior dele ja esta aberto). O que mudou e
+   so onde eles aparecem. */
+export function CategoriaScreen({ t, player, coins, cat, jogosAbertos, abrirJogo, onPickGame, setScreen, voz }) {
+  const c = CATALOG.find(x => x.id === cat);
+  if (!c) return null;
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => setScreen("home")} rotulo={t.a11yBack}>←</Btn>
+        <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>{c.icon} {t.cat[c.id]}</div>
+        <div style={{ background: "#F9A826", color: "#5A3B00", borderRadius: 999, padding: "6px 12px", fontWeight: 900 }}><Coin n={coins} /></div>
+      </div>
+
+      {/* Para quem ainda nao le, os jogos de texto aparecem trancados. Dizer
+          por que evita a crianca achar que quebrou - e o adulto, que faltou. */}
+      {!ehLeitor(player) && (
+        <div style={{ color: "#A7B3EA", fontWeight: 700, fontSize: 11, marginBottom: 10 }}>
+          {voz ? `🔊 ${t.voiceOpens}` : `🔒 ${t.needsReading}`}
+        </div>
+      )}
+
+      <div className="grid2">
+        {c.games.map((g, gi) => {
+          const aberto = jogosAbertos.includes(g.id);
+          const anteriorOk = gi === 0 || jogosAbertos.includes(c.games[gi - 1].id);
+          const compravel = !aberto && anteriorOk && g.ready;
+          return (
+            <button key={g.id} disabled={!g.ready || (!aberto && !compravel)}
+              onClick={() => aberto ? onPickGame(g.id) : compravel && abrirJogo(g.id)}
+              className="card" style={{
+                border: "none", padding: 14, textAlign: "left",
+                cursor: aberto || compravel ? "pointer" : "default",
+                opacity: !g.ready ? .35 : aberto ? 1 : compravel ? .92 : .4,
+                borderTop: `7px solid ${aberto ? g.color : "#B9C0CC"}`,
+              }}>
+              <div style={{ fontSize: 32 }}>{!g.ready ? "🔒" : aberto ? g.icon : compravel ? "🔓" : "🔒"}</div>
+              <div className="display" style={{ color: "#1B2A6B", fontSize: 15, lineHeight: 1.15, marginTop: 4 }}>{t.games[g.id]}</div>
+              {!g.ready && <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 800, marginTop: 2 }}>{t.soon}</div>}
+              {g.ready && compravel && (
+                <div style={{ color: coins >= precoDe(g) ? "#E84393" : "#8B93AD", fontSize: 12, fontWeight: 900, marginTop: 3 }}>
+                  🪙 {precoDe(g)}
+                </div>
+              )}
+              {g.ready && !aberto && !compravel && (
+                <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 800, marginTop: 2 }}>{t.needPrev}</div>
+              )}
+            </button>
+          );
+        })}
+      </div>
+      <div style={{ height: 20 }} />
+    </div>
+  );
+}
+
+
 /* ---------- Home do hub ---------- */
 /* ---------- A trilha do ano escolar ----------
    O app se organiza por dificuldade; a escola, por ano. Esta tela é a ponte:
@@ -158,7 +232,7 @@ export function Home({ t, lang, player, coins, nextRefill, setScreen, profiles, 
    graça, e é de propósito: a criança que mais precisa de reforço é justamente
    a que não tem tempo de jogo para juntar moeda. */
 
-export function EscolaScreen({ t, ano, escolherAno, abrirItem, progress, setScreen }) {
+export function EscolaScreen({ t, ano, abrirItem, progress, setScreen }) {
   const atual = ano || "a1";
   return (
     <div className="narrow">
@@ -167,16 +241,16 @@ export function EscolaScreen({ t, ano, escolherAno, abrirItem, progress, setScre
         <div className="display" style={{ color: "#fff", fontSize: 21, flex: 1 }}>🎒 {t.school}</div>
       </div>
 
-      {/* Seis anos não cabem numa fileira de celular: três por linha em 375px. */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
-        {ANOS.map(a => (
-          <button key={a} onClick={() => escolherAno(a)} className="chunky"
-            style={{ flex: "1 1 30%", padding: "8px 4px", fontSize: 12, lineHeight: 1.2,
-              background: a === atual ? "#00B894" : "rgba(255,255,255,.22)" }}>
-            <div>{nomeDoAno(a, t)}</div>
-            <div style={{ fontSize: 10, opacity: .85 }}>{t.schoolAge.replace("{n}", IDADE_DO_ANO[a])}</div>
-          </button>
-        ))}
+      {/* O ano aqui só se LÊ. Trocar é decisão do responsável, na área dele:
+          quem escolhe o ano escolhe o que a professora cobrou, e a criança que
+          troca sozinha usa isto para fugir da tarefa - era exatamente o que
+          este atalho permitia. */}
+      <div className="card" style={{ padding: "11px 13px", marginBottom: 14, display: "flex", alignItems: "center", gap: 11 }}>
+        <span style={{ fontSize: 24 }}>🎒</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="display" style={{ color: "#1B2A6B", fontSize: 17 }}>{nomeDoAno(atual, t)}</div>
+          <div style={{ color: "#8B93AD", fontWeight: 800, fontSize: 11 }}>{t.schoolSetBy}</div>
+        </div>
       </div>
 
       <div className="display" style={{ color: "#C9D2FF", fontSize: 15, marginBottom: 8 }}>{t.schoolHint}</div>

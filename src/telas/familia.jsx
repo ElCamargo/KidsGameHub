@@ -19,7 +19,7 @@ import { alvoDe, nomeDaTrilha } from "../lib/rodadas.js";
 import { juntar } from "../lib/voz.js";
 import { Avatar, Btn, Coin, Mundi, useFala } from "./base.jsx";
 import { Mini, acharArte } from "./desenho.jsx";
-import { nomeDoAno } from "../lib/escola.js";
+import { ANOS, IDADE_DO_ANO, nomeDoAno } from "../lib/escola.js";
 
 
 /* ---------- Meu Caderno ----------
@@ -334,7 +334,7 @@ function nomeDoTemaMemoria(tema, t) {
 
 /* Um cartão de criança: os números da semana escolhida, os desenhos daquela
    semana, os recordes de memória e o progresso por trilha. */
-function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
+function CartaoFilho({ t, lang, perfil, save, presente, presentear, definirAno }) {
   const st = save?.stats || {};
   /* O que dá para dar agora. Se nem o menor degrau couber, o degrau é o
      próprio resto: 5 lumicoins guardadas não valem nada para ninguém. */
@@ -377,6 +377,26 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear }) {
               {perfil.estado ? `📍 ${perfil.estado}` : ""}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* O ano escolar mora aqui, e nao na tela da crianca: e o adulto que
+          recebe o bilhete da professora e sabe o que foi cobrado. Seis anos
+          nao cabem numa fileira de celular - tres por linha em 375px. */}
+      <div style={{ background: "#EEF1FF", borderRadius: 16, padding: 10, marginBottom: 10 }}>
+        <div className="display" style={{ color: "#1B2A6B", fontSize: 13, marginBottom: 7 }}>
+          🎒 {t.schoolYearSet}
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+          {ANOS.map(a => (
+            <button key={a} onClick={() => definirAno(perfil, a)} className="chunky"
+              style={{ flex: "1 1 30%", padding: "7px 3px", fontSize: 11, lineHeight: 1.2,
+                background: a === save?.ano ? "#00B894" : "#C7CEE0",
+                color: a === save?.ano ? "#fff" : "#4A5273" }}>
+              <div>{nomeDoAno(a, t)}</div>
+              <div style={{ fontSize: 9, opacity: .85 }}>{t.schoolAge.replace("{n}", IDADE_DO_ANO[a])}</div>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -635,7 +655,7 @@ function Novidades({ t, lang, novo, aoAbrir }) {
 }
 
 
-export function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }) {
+export function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, definirAno, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -671,7 +691,7 @@ export function FamilyScreen({ t, lang, familia, setScreen, presente, presentear
 
       <div className="lista">
         {familia.map(({ perfil, save }) => (
-          <CartaoFilho key={perfil.id} {...{ t, lang, perfil, save, presente, presentear }} />
+          <CartaoFilho key={perfil.id} {...{ t, lang, perfil, save, presente, presentear, definirAno }} />
         ))}
       </div>
 

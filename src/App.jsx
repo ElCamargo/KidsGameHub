@@ -21,7 +21,7 @@ import { iniciarVozes, parar as pararVoz, temVoz } from "./lib/voz.js";
 import { AVATAR_PADRAO, Btn, Marca, Modal, useSomDeFundo } from "./telas/base.jsx";
 import { Coloring, Gallery, acharArte } from "./telas/desenho.jsx";
 import { CadernoScreen, DevocionalScreen, EscreverScreen, FamilyScreen, PlayerCard } from "./telas/familia.jsx";
-import { CapMap, EscolaScreen, Home, LangGame, MapScreen, Stages } from "./telas/hub.jsx";
+import { CapMap, CategoriaScreen, EscolaScreen, Home, LangGame, MapScreen, Stages } from "./telas/hub.jsx";
 import { Create, LangScreen, PinModal, Profiles, conferirSenha, resumoSenha } from "./telas/inicio.jsx";
 import { migrarChaves } from "./lib/migracao.js";
 import { Game, Placar, PlacarDaRevisao, PlacarDeTempo, Result } from "./telas/jogo.jsx";
@@ -170,6 +170,9 @@ function AppInterno() {
      {id, name, avatar}. id nulo = convidado, alguém que não tem perfil no
      aparelho e por isso não recebe lumicoins. Null = partida de um só. */
   const [turma, setTurma] = useState(null);
+  /* Qual area de jogos esta aberta. Estado de tela: nao entra no save, porque
+     onde a crianca estava ontem nao importa para o progresso dela. */
+  const [catAberta, setCatAberta] = useState(null);
   const [escolhendoTurma, setEscolhendoTurma] = useState(false);
 
   /* ----- a voz do Clarim -----
@@ -803,6 +806,20 @@ function AppInterno() {
     carregarFamilia(activeId);
   }
 
+  /* O ano escolar do filho, escrito no save DELE. A crianca nao troca o
+     proprio ano: quem sabe o que a professora cobrou e o adulto, e o atalho
+     na tela da escola era um jeito de fugir da tarefa. Mesmo aparelho, outro
+     arquivo - igual ao presente. */
+  async function definirAno(pr, a) {
+    try {
+      const d = await lerSave(pr.id);
+      d.ano = a;
+      window.storage.set(`clarim:p:${pr.id}`, JSON.stringify(d));
+    } catch { return; }
+    setToast(`\u{1F392} ${pr.name}`);
+    carregarFamilia(activeId);
+  }
+
   /* ----- levar o progresso para outro aparelho -----
      Sem conta e sem servidor: um arquivo que o responsável guarda e abre no
      aparelho novo. Ver src/lib/transferir.js para o que vai e o que não vai
@@ -1049,6 +1066,32 @@ function AppInterno() {
   /* Fase já vencida com 3 estrelas é treino livre: cobrar de novo por algo
      que a criança já dominou só a empurra para longe de repetir. As outras
      continuam custando — é o que dá sentido às lumicoins. */
+  /* Qual tela cada jogo abre. Vivia dentro das props da Home; saiu de la
+     quando a tela da categoria passou a chamar a mesma coisa. Nenhuma linha
+     mudou no caminho. */
+  function escolherJogo(g) {
+    const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
+    const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
+      corpo: "corpo", brasil: "brasil",
+      curiosidades: "curiosidades", sciAnimals: "ciencias", inicial: "inicial", rimas: "rimas",
+      silabas: "silabas", aliteracao: "aliteracao", leitura: "leitura", ortografia: "ortografia",
+      tabuada: "tabuada", horas: "horas", dinheiro: "dinheiro", problema: "problema" };
+    if (g === "capitals") { setScreen("capMap"); return; }
+    if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
+    if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
+    if (g === "montar") { setPorEscola(false); setScreen("palLevels"); return; }
+    if (g === "ditado") { setPorEscola(false); setScreen("ditLevels"); return; }
+    if (g === "conta") { setPorEscola(false); setScreen("cntLevels"); return; }
+    if (PZL_TEMAS[g]) { setPzlTema(PZL_TEMAS[g]); setScreen("pzlLevels"); return; }
+    if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
+    if (quizzes[g]) {
+      const k = quizzes[g];
+      setSel({ cont: k, stage: Math.min(totalDe(k), (progress[k] || 0) + 1) });
+      setScreen("stages"); return;
+    }
+    setScreen("map"); if (!stats.rounds) setTutorial(true);
+  }
+
   function startRound(comTurma = null) {
     /* Em grupo é de graça, como a memória, e pelo mesmo motivo. Pela trilha
        do ano escolar também: dever de escola não se paga com lumicoin. */
@@ -1364,7 +1407,7 @@ function AppInterno() {
             repetirBloqueado: coins < custoDoQuebra(pzlBest, pzl.tema, pzl.nivel),
             aoSair: () => setScreen("pzlLevels") }} />
         )}
-        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }} />}
+        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, definirAno, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }} />}
         {screen === "caderno" && <CadernoScreen {...{ t, lang, caderno, setScreen, voltar: voltaPara,
           novo: () => { abrirCaderno(perguntaDoRegistro(sementeDoTexto(diaISO())), ""); } }} />}
         {screen === "escrever" && rascunho && <EscreverScreen {...{ t, lang, rascunho,
@@ -1376,33 +1419,15 @@ function AppInterno() {
           voz, setVoz, vozOk, som, trocarSom, somOk: temSom() }} />}
         {screen === "lang" && <LangScreen {...{ t, lang, pickLang, setScreen, back: activeId ? "home" : "profiles" }} />}
         {screen === "home" && <Home {...{ t, lang, player, coins, nextRefill, setScreen, profiles, abrir, podeResgatar, resgatar, jogosAbertos, abrirJogo,
-          quantasRevisar: paraRevisar.length, revisar: comecarRevisao, ano,
+          quantasRevisar: paraRevisar.length, revisar: comecarRevisao,
+          ano: ano || anoPorIdade(player.idade),
           momento, setMomento, momentoFeitoHoje, voz: voz && vozOk,
-          onPickGame: (g) => {
-            const memTemas = { memory: "flags", animals: "animals", artMem: "arts", bibleMem: "bible" };
-            const quizzes = { count: "math", animalQuiz: "bichos", colors: "arts", bible: "bible",
-              corpo: "corpo", brasil: "brasil",
-              curiosidades: "curiosidades", sciAnimals: "ciencias", inicial: "inicial", rimas: "rimas",
-              silabas: "silabas", aliteracao: "aliteracao", leitura: "leitura", ortografia: "ortografia",
-              tabuada: "tabuada", horas: "horas", dinheiro: "dinheiro", problema: "problema" };
-            if (g === "capitals") { setScreen("capMap"); return; }
-            if (g === "words" || g === "wordMem") { setDestinoIdioma(g === "wordMem" ? "mem" : "quiz"); setScreen("langGame"); return; }
-            if (g === "color") { if (!gerados.length) gerarMais(false); setScreen("gallery"); return; }
-            if (g === "montar") { setPorEscola(false); setScreen("palLevels"); return; }
-            if (g === "ditado") { setPorEscola(false); setScreen("ditLevels"); return; }
-            if (g === "conta") { setPorEscola(false); setScreen("cntLevels"); return; }
-            if (PZL_TEMAS[g]) { setPzlTema(PZL_TEMAS[g]); setScreen("pzlLevels"); return; }
-            if (memTemas[g]) { setMemTema(memTemas[g]); setScreen("memLevels"); return; }
-            if (quizzes[g]) {
-              const k = quizzes[g];
-              setSel({ cont: k, stage: Math.min(totalDe(k), (progress[k] || 0) + 1) });
-              setScreen("stages"); return;
-            }
-            setScreen("map"); if (!stats.rounds) setTutorial(true);
-          } }} />}
+          turma, pedirTurma: () => setEscolhendoTurma(true), sairDaTurma: () => setTurma(null),
+          abrirCategoria: (id) => { setCatAberta(id); setScreen("categoria"); } }} />}
+        {screen === "categoria" && <CategoriaScreen {...{ t, player, coins, cat: catAberta,
+          jogosAbertos, abrirJogo, setScreen, voz: voz && vozOk, onPickGame: escolherJogo }} />}
         {screen === "escola" && <EscolaScreen {...{ t, progress, setScreen,
           ano: ano || anoPorIdade(player.idade),
-          escolherAno: setAno,
           /* Entra pela faixa que o ano cobra, mas continua de onde a criança
              parou se ela já estiver dentro dela. O sel.escola é o que faz a
              faixa abrir e a fase não custar — e some sozinho quando qualquer
