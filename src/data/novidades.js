@@ -16,6 +16,65 @@
  */
 export const NOVIDADES = [
   {
+    v: "1.4.0", d: "2026-10-10",
+    t: {
+      pt: {
+        titulo: "A tela inicial ficou mais fácil de usar",
+        itens: [
+          "A tela inicial agora mostra as áreas — Ler e Escrever, Geografia, Matemática, Natureza, Arte, Idiomas e Fé — e os jogos ficam dentro de cada uma. Menos rolagem para achar o que a criança quer jogar",
+          "Jogar junto no mesmo aparelho saiu do fundo: o convite para o irmão, o primo ou o amigo está na própria tela inicial, e vale para o jogo que ela abrir em seguida",
+          "O ano escolar agora é definido pelo responsável, no cartão do filho. A criança vê o ano dela, mas não troca mais sozinha",
+          "Corrigido: abrir um perfil gravado por uma versão antiga do app podia travar a tela. Não trava mais",
+        ],
+      },
+      en: {
+        titulo: "The home screen is easier to use",
+        itens: [
+          "The home screen now shows the areas — Reading and Writing, Geography, Maths, Nature, Art, Languages and Faith — with the games inside each one. Less scrolling to find what the child wants to play",
+          "Playing together on one device came out of hiding: the invite for a sibling, cousin or friend is right on the home screen, and it carries into whatever game they open next",
+          "The school year is now set by the grown-up, on the child's card. The child still sees their year, but no longer changes it alone",
+          "Fixed: opening a profile saved by an older version of the app could freeze the screen. It no longer does",
+        ],
+      },
+      es: {
+        titulo: "La pantalla de inicio es más fácil de usar",
+        itens: [
+          "La pantalla de inicio ahora muestra las áreas — Leer y Escribir, Geografía, Matemáticas, Naturaleza, Arte, Idiomas y Fe — y los juegos están dentro de cada una. Menos desplazamiento para encontrar lo que quiere jugar",
+          "Jugar juntos en el mismo aparato salió del fondo: la invitación para el hermano, el primo o el amigo está en la propia pantalla de inicio, y vale para el juego que abra después",
+          "El año escolar ahora lo define la persona responsable, en la tarjeta del hijo. El niño ve su año, pero ya no lo cambia solo",
+          "Corregido: abrir un perfil guardado por una versión antigua de la aplicación podía bloquear la pantalla. Ya no ocurre",
+        ],
+      },
+      fr: {
+        titulo: "L'écran d'accueil est plus simple à utiliser",
+        itens: [
+          "L'écran d'accueil montre maintenant les domaines — Lire et Écrire, Géographie, Mathématiques, Nature, Art, Langues et Foi — et les jeux se trouvent dans chacun. Moins de défilement pour trouver ce que l'enfant veut jouer",
+          "Jouer ensemble sur le même appareil n'est plus caché : l'invitation pour le frère, le cousin ou l'ami est sur l'écran d'accueil, et vaut pour le jeu ouvert ensuite",
+          "L'année scolaire est maintenant définie par l'adulte, sur la carte de l'enfant. L'enfant voit son année, mais ne la change plus seul",
+          "Corrigé : ouvrir un profil enregistré par une ancienne version de l'application pouvait bloquer l'écran. Ce n'est plus le cas",
+        ],
+      },
+      de: {
+        titulo: "Der Startbildschirm ist einfacher geworden",
+        itens: [
+          "Der Startbildschirm zeigt jetzt die Bereiche — Lesen und Schreiben, Geografie, Mathematik, Natur, Kunst, Sprachen und Glaube — und die Spiele stecken in jedem davon. Weniger Scrollen, bis das Kind findet, was es spielen will",
+          "Gemeinsam auf einem Gerät spielen war versteckt: die Einladung für Geschwister, Cousine oder Freund steht jetzt auf dem Startbildschirm und gilt für das Spiel, das danach geöffnet wird",
+          "Das Schuljahr legt jetzt die erwachsene Person auf der Karte des Kindes fest. Das Kind sieht sein Jahr weiterhin, ändert es aber nicht mehr allein",
+          "Behoben: ein Profil, das eine ältere Version der App gespeichert hatte, konnte den Bildschirm blockieren. Das passiert nicht mehr",
+        ],
+      },
+      it: {
+        titulo: "La schermata iniziale è più facile da usare",
+        itens: [
+          "La schermata iniziale ora mostra le aree — Leggere e Scrivere, Geografia, Matematica, Natura, Arte, Lingue e Fede — e i giochi stanno dentro ciascuna. Meno scorrimento per trovare quello che il bambino vuole giocare",
+          "Giocare insieme sullo stesso apparecchio non è più nascosto: l'invito per il fratello, il cugino o l'amico è sulla schermata iniziale, e vale per il gioco che apre dopo",
+          "L'anno scolastico ora lo decide l'adulto, sulla scheda del figlio. Il bambino vede il suo anno, ma non lo cambia più da solo",
+          "Corretto: aprire un profilo salvato da una vecchia versione dell'app poteva bloccare lo schermo. Adesso non succede più",
+        ],
+      },
+    },
+  },
+  {
     v: "1.3.0", d: "2026-09-07",
     t: {
       pt: {

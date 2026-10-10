@@ -837,6 +837,25 @@ Dois bancos escritos à mão passaram a ter as mesmas 27 siglas, em arquivos
 diferentes. Um teste cruza os dois: sigla errada aqui viraria um seletor que
 aponta para nada, e o jogo continuaria funcionando sem ninguém perceber.
 
+### A tela inicial era uma parede de 36 jogos
+
+Escolhido o jogador, as sete áreas abriam todas de uma vez: 36 cartões numa
+coluna só. A criança **rolava a tela procurando** em vez de escolher, e o que
+ela não alcançava com o polegar simplesmente não existia para ela.
+
+Agora a tela inicial mostra as **áreas**, e os jogos moram dentro de cada uma.
+O cartão da área diz quantos jogos já estão abertos (`🔓 3/8`) e ganha uma
+moeda no canto quando há algo lá dentro que ela **tem como abrir hoje** — o
+convite a entrar, e sem uma palavra para traduzir.
+
+A escada não mudou: dentro da área, um jogo continua abrindo quando o anterior
+dele está aberto, pelo mesmo preço de antes.
+
+**Jogar junto também saiu do fundo.** Convidar o irmão, o primo ou o amigo só
+existia dentro da tela de fases — era preciso entrar num jogo e escolher uma
+fase antes de descobrir que dava. Agora o convite está na tela inicial, e a
+turma escolhida vale para o jogo que a criança abrir em seguida.
+
 ### A escola pede por ano; o app entregava por dificuldade
 
 O Clarim se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
@@ -844,7 +863,7 @@ se organiza por **ano**. Uma criança do 4º ano que abria a Tabuada caía no
 Fácil — ×2, ×5 e ×10, que ela já sabe — e teria de vencer trinta fases, ou
 pagar moeda, para chegar no 6, 7 e 8 que a professora cobrou esta semana.
 
-Agora a tela inicial tem **🎒 O meu ano na escola**. Escolhido o ano, aparecem
+Agora a tela inicial tem **🎒 O meu ano na escola**. Definido o ano, aparecem
 as poucas coisas que a escola cobra nele, **já na faixa certa**:
 
 | Ano | O que abre |
@@ -855,6 +874,12 @@ as poucas coisas que a escola cobra nele, **já na faixa certa**:
 | **3º** | o resto da tabuada, notas, **interpretação de texto**, ortografia, situação-problema, ciências |
 | **4º** | 6, 7 e 8, troco, textos mais longos, ortografia, estados do Brasil |
 | **5º** | divisão, troco de nota alta, as regiões do Brasil, o mundo |
+
+**Quem define o ano é o responsável**, no cartão do filho dentro da área dele.
+Na tela da criança o ano só se lê. O seletor já esteve na tela da escola e saiu
+de lá pelo motivo óbvio depois de ver acontecer: um toque e o 4º ano virava
+"Antes do 1º" — o atalho para fugir da tarefa morava dentro da própria lição.
+Quem recebe o bilhete da professora é o adulto.
 
 O ano é sugerido pela idade do perfil e fica **no save do filho**, não no
 aparelho: dois irmãos no mesmo celular estão em anos diferentes. A ficha do
@@ -1371,7 +1396,7 @@ src/
   main.jsx         ponto de entrada
   telas/           uma tela por assunto — ver a ADR 0005
     base.jsx           avatar, botão, moeda, topo, mascote, e os hooks de voz e som
-    hub.jsx            escolher jogo, ano escolar, mapa, capitais e fase
+    hub.jsx            áreas, jogos da área, ano escolar, mapa, capitais e fase
     jogo.jsx           a rodada de perguntas e os placares
     familia.jsx        a área do responsável, o caderno e o Momento em Família
     inicio.jsx         quem vai jogar, o cadastro e a senha

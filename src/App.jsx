@@ -753,11 +753,13 @@ function AppInterno() {
     try { window.storage.set("clarim:installTip", "1"); } catch { }
   }
 
+  /* Sempre por lerSave, nunca por JSON.parse direto. Um save gravado por uma
+     versao anterior nao tem os campos que a versao de hoje le, e um `stats`
+     faltando derruba o app inteiro na hora de abrir o perfil - sem volta, e
+     sem a crianca ter feito nada. O juntarSave la dentro e que tapa o buraco.
+     Ver src/lib/transferir.js. */
   async function openProfile(pr) {
-    try {
-      const r = await window.storage.get(`clarim:p:${pr.id}`);
-      applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr);
-    } catch { applySave(blankSave(), pr); }
+    applySave(await lerSave(pr.id), pr);
     setActiveId(pr.id);
     // Responsável não joga: entra direto no acompanhamento dos filhos.
     if (pr.papel === "pai") { carregarFamilia(pr.id); setScreen("familia"); }
@@ -887,10 +889,7 @@ function AppInterno() {
      encosta no progresso — e mesmo assim carrego o save antes de abrir a
      tela, para que o "Pronto" grave de volta exatamente o que estava lá. */
   async function editProfile(pr) {
-    try {
-      const r = await window.storage.get(`clarim:p:${pr.id}`);
-      applySave(r?.value ? JSON.parse(r.value) : blankSave(), pr);
-    } catch { applySave(blankSave(), pr); }
+    applySave(await lerSave(pr.id), pr);
     setActiveId(pr.id);
     setEditando(true);
     setScreen("create");
