@@ -1235,6 +1235,35 @@ instalado, com as fontes e 203 bandeiras:      3,8 MB
 Três pedaços em vez de um só: quem já tem o app baixa apenas o que mudou de
 verdade.
 
+### Como a versão nova chega no celular
+
+Não há loja nem notificação: quem instalou na tela inicial recebe a versão
+nova pelo *service worker*, e isso tem uma armadilha que já nos pegou.
+
+O trabalhador novo assume sozinho (`skipWaiting` + `clientsClaim`), **mas a
+página aberta continua rodando o código velho até recarregar** — e num app
+instalado "recarregar" não existe como gesto. Dava no clássico: o adulto abre,
+nada mudou; fecha, abre de novo, aí sim. Quem não fechasse duas vezes ficava na
+versão antiga indefinidamente.
+
+`src/main.jsx` resolve com duas linhas: pede a conferência na abertura, e
+recarrega assim que o trabalhador novo assume. A troca acontece nos primeiros
+segundos, antes de a criança começar a jogar.
+
+A primeira instalação **não** recarrega, e isso é de propósito: ali o
+trabalhador assume uma página que nunca teve dono, e isso não é atualização,
+é estreia. Sem essa guarda, todo primeiro acesso piscaria.
+
+**Para conferir numa máquina só**, que é como este comportamento foi provado:
+
+```bash
+npm run build && npm run preview     # serve o build em :4173
+# abra, deixe o service worker instalar, mude algo, npm run build de novo,
+# e recarregue UMA vez: a página deve terminar no bundle novo sozinha
+```
+
+`npm run dev` não serve para isto — o service worker só existe no build.
+
 ### Offline e privacidade, verificáveis
 
 Não é promessa de marketing — é propriedade do build, e dá para conferir:
