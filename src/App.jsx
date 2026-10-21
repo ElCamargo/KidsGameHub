@@ -829,7 +829,8 @@ function AppInterno() {
   async function salvarCopia(pr) {
     const save = await lerSave(pr.id);
     const nome = nomeDoArquivo(pr.name);
-    const ok = baixar(nome, JSON.stringify(montarCopia(pr, save), null, 1));
+    const ok = await baixar(nome, JSON.stringify(montarCopia(pr, save), null, 1));
+    if (ok === null) return;           // fechou o menu sem salvar: nada a dizer
     setToast(ok ? `💾 ${nome}` : t.copyFail);
   }
 

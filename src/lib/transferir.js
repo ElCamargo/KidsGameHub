@@ -121,9 +121,39 @@ export function juntarSave(vazio, lido) {
   };
 }
 
-/* Entrega o arquivo ao aparelho. Fora do navegador (ou se o download for
-   bloqueado) devolve false, e a tela avisa em vez de fingir que salvou. */
-export function baixar(nomeArquivo, conteudo) {
+/* iPhone e iPad. O iPad com iPadOS se apresenta como Mac, e só o toque o
+   denuncia: Mac de verdade não tem tela de toque. */
+export function ehAppleMovel(nav = globalThis.navigator) {
+  const ua = nav?.userAgent || "";
+  return /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && nav?.maxTouchPoints > 1);
+}
+
+/* Entrega o arquivo ao aparelho. Devolve true se salvou, false se não deu, e
+   null se a pessoa desistiu no meio — aí a tela não diz nada, porque nada
+   deu errado.
+
+   No iPhone e no iPad o caminho é o menu Compartilhar, que tem "Salvar em
+   Arquivos". O download comum, no app aberto pelo ícone da tela inicial,
+   pode não salvar nada e não avisar: o clique "funciona", o nome do arquivo
+   aparece na tela, e a cópia não existe. Para quem está guardando o
+   progresso da criança antes de trocar de aparelho, isso é perder tudo
+   achando que salvou.
+
+   Só nos aparelhos da Apple, de propósito: no Android o download funciona,
+   e o Chrome de lá nem aceita compartilhar arquivo .json. */
+export async function baixar(nomeArquivo, conteudo, nav = globalThis.navigator) {
+  if (ehAppleMovel(nav)) {
+    try {
+      const arquivo = new File([conteudo], nomeArquivo, { type: "application/json" });
+      if (nav.canShare?.({ files: [arquivo] })) {
+        await nav.share({ files: [arquivo] });
+        return true;
+      }
+    } catch (e) {
+      if (e?.name === "AbortError") return null;
+      // Qualquer outra recusa (permissão, tipo de arquivo): tenta o download.
+    }
+  }
   try {
     const blob = new Blob([conteudo], { type: "application/json" });
     const url = URL.createObjectURL(blob);

@@ -8,7 +8,7 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { montarCopia, lerCopia, nomeDoArquivo, juntarSave, MARCA, VERSAO } from "../src/lib/transferir.js";
+import { montarCopia, lerCopia, nomeDoArquivo, juntarSave, baixar, ehAppleMovel, MARCA, VERSAO } from "../src/lib/transferir.js";
 
 const PERFIL = { name: "Bento", avatar: { skin: "#F2C9A0" }, papel: "filho", idade: 6, leitor: true, pin: "1234" };
 const SAVE = { coins: 320, stats: { rounds: 12 }, caderno: [{ d: "2026-09-01", t: "aprendi" }] };
@@ -138,4 +138,53 @@ for (const [selo, quando] of [["lumus:copia", "Lumus"], ["mundi:copia", "Mundi"]
 
 test("o arquivo novo sai com o selo de hoje", () => {
   assert.equal(JSON.parse(copiaCrua()).marca, "clarim:copia");
+});
+
+
+/* ---------- salvar o arquivo no aparelho ----------
+   O download comum, no iPhone com o app aberto pelo ícone da tela inicial,
+   pode não salvar nada e não avisar. Ali o caminho é o menu Compartilhar.
+   Estes testes fingem cada aparelho; o navegador de verdade não roda aqui. */
+const IPHONE = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)";
+const IPAD = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15";
+const ANDROID = "Mozilla/5.0 (Linux; Android 14; Pixel 8)";
+
+function aparelho(ua, { toque = 0, share } = {}) {
+  const chamadas = [];
+  return {
+    chamadas,
+    nav: {
+      userAgent: ua, maxTouchPoints: toque,
+      canShare: share ? () => true : undefined,
+      share: share ? async (dados) => { chamadas.push(dados); return share(); } : undefined,
+    },
+  };
+}
+
+test("reconhece iPhone e iPad, inclusive o iPad que diz ser Mac", () => {
+  assert.equal(ehAppleMovel({ userAgent: IPHONE }), true);
+  assert.equal(ehAppleMovel({ userAgent: IPAD, maxTouchPoints: 5 }), true);
+  assert.equal(ehAppleMovel({ userAgent: IPAD, maxTouchPoints: 0 }), false, "Mac de verdade não é celular");
+  assert.equal(ehAppleMovel({ userAgent: ANDROID, maxTouchPoints: 5 }), false);
+});
+
+test("no iPhone a cópia sai pelo menu Compartilhar, com o arquivo inteiro", async () => {
+  const { nav, chamadas } = aparelho(IPHONE, { share: () => undefined });
+  assert.equal(await baixar("clarim-bento.json", "{\"a\":1}", nav), true);
+  assert.equal(chamadas.length, 1);
+  const [arquivo] = chamadas[0].files;
+  assert.equal(arquivo.name, "clarim-bento.json");
+  assert.equal(await arquivo.text(), "{\"a\":1}");
+});
+
+test("fechar o menu sem salvar não é erro: a tela fica quieta", async () => {
+  const desistiu = () => { throw Object.assign(new Error("x"), { name: "AbortError" }); };
+  const { nav } = aparelho(IPHONE, { share: desistiu });
+  assert.equal(await baixar("c.json", "{}", nav), null);
+});
+
+test("no Android o menu Compartilhar nem é tentado", async () => {
+  const { nav, chamadas } = aparelho(ANDROID, { toque: 5, share: () => undefined });
+  await baixar("c.json", "{}", nav);   // sem document aqui, o download devolve false
+  assert.equal(chamadas.length, 0);
 });
