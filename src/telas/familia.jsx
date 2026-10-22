@@ -655,7 +655,7 @@ function Novidades({ t, lang, novo, aoAbrir }) {
 }
 
 
-export function FamilyScreen({ t, lang, familia, setScreen, presente, presentear, definirAno, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }) {
+export function FamilyScreen({ t, lang, familia, setScreen, newProfile, presente, presentear, definirAno, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
@@ -686,6 +686,12 @@ export function FamilyScreen({ t, lang, familia, setScreen, presente, presentear
       {!familia.length && (
         <div className="card" style={{ padding: 20, textAlign: "center", color: "#6C7695", fontWeight: 800, fontSize: 14 }}>
           {t.familyEmpty}
+          {/* O passo seguinte do primeiro acesso: o responsável acabou de se
+              cadastrar e cai aqui, numa área vazia. Sem este botão ele teria
+              que adivinhar que filho se cadastra em "+ Novo jogador". */}
+          <div style={{ display: "grid", marginTop: 12 }}>
+            <Btn small color="#4C6FFF" onClick={newProfile}>+ {t.addChild}</Btn>
+          </div>
         </div>
       )}
 

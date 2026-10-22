@@ -217,6 +217,15 @@ a anterior termina.
 
 ### Quem está jogando
 
+**O primeiro cadastro é do responsável** (v1.5.6). No primeiro acesso a ficha
+já vem marcada como Responsável, com a frase *"Primeiro, o responsável. Depois
+você cadastra cada criança."* — dá para trocar para Criança, mas a ordem
+sugerida é essa: o adulto tranca a própria área com a senha antes de entregar
+o aparelho. Do "Pronto" ele cai em *Meus filhos*, que, vazia, mostra
+**+ Cadastrar uma criança**. Antes o cadastro começava como Criança, e o
+responsável cadastrado depois achava a área dele sem nenhum caminho para o
+próximo passo.
+
 O cadastro pergunta três coisas antes da aparência:
 
 | Pergunta | Opções | Para que serve |

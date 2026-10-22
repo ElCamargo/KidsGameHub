@@ -60,6 +60,14 @@ export function Create({ t, lang, onLang, player, setPlayer, onDone, editando = 
         )}
       </div>
       <div className="card" style={{ padding: 18 }}>
+        {/* `restaurar` só chega no primeiro acesso: é quando o cadastro
+            começa pelo responsável e diz qual é o passo seguinte. */}
+        {restaurar && (
+          <div style={{ background: "#EEF1FF", borderRadius: 14, padding: "8px 12px", marginBottom: 12,
+            color: "#3B4468", fontWeight: 800, fontSize: 12, lineHeight: 1.5 }}>
+            🧑‍🏫 {t.firstParent}
+          </div>
+        )}
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
           <div style={{ background: "#EEF1FF", borderRadius: 24, padding: 6 }}><Avatar a={a} size={92} /></div>
           <div style={{ flex: 1 }}>

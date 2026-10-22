@@ -345,6 +345,9 @@ function AppInterno() {
         // Primeiro acesso: já nasce com identificador, senão o jogador
         // criado agora não teria onde ser gravado.
         setActiveId(`p${Date.now()}`);
+        // O responsável vem primeiro: é ele quem tranca a própria área antes
+        // de entregar o aparelho, e é da área dele que se cadastram os filhos.
+        setPlayer(p => ({ ...p, papel: "pai" }));
         setScreen("create");
       }
       // Convite para instalar: só fora do app instalado e só até ser dispensado.
@@ -1419,7 +1422,7 @@ function AppInterno() {
             repetirBloqueado: coins < custoDoQuebra(pzlBest, pzl.tema, pzl.nivel),
             aoSair: () => setScreen("pzlLevels") }} />
         )}
-        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, presente, presentear, definirAno, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }} />}
+        {screen === "familia" && <FamilyScreen {...{ t, lang, familia, setScreen, newProfile, presente, presentear, definirAno, momento, setMomento, momentoFeitoHoje, temNovidade, marcarNovidadeLida }} />}
         {screen === "caderno" && <CadernoScreen {...{ t, lang, caderno, setScreen, voltar: voltaPara,
           novo: () => { abrirCaderno(perguntaDoRegistro(sementeDoTexto(diaISO())), ""); } }} />}
         {screen === "escrever" && rascunho && <EscreverScreen {...{ t, lang, rascunho,
