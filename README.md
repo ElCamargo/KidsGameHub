@@ -1043,10 +1043,15 @@ Três decisões que a fazem não incomodar:
 - **a escala é pentatônica**, onde não existe intervalo que soe errado. Numa
   escala comum, uma sequência sorteada cedo ou tarde acerta um meio-tom e sai
   uma nota torta no meio da fase, com criança do lado;
-- **o passo acompanha o relógio da pergunta** e só acelera de verdade no fim —
-  numa fase de 19 segundos, o intervalo entre as notas vai de 907 a 723 ms.
-  Acelerar desde o começo deixaria a criança apressada a rodada inteira, e
-  pressa é o contrário do que queremos;
+- **o timbre é de caixinha de música**: onda senoidal, a mais pura, com uma
+  cauda longa em que uma nota ainda soa quando a próxima chega. Até a v1.4.4
+  era marimba, uma batida curta a cada 0,9 s que de fora soava como um
+  martelinho. A troca foi escolhida de ouvido, entre quatro versões tocadas
+  lado a lado (a de antes, um lo-fi, um violino suave e esta);
+- **o passo acompanha o relógio da pergunta** e só acelera de verdade no fim:
+  uma nota a cada 1,3 s com o tempo cheio, e nunca mais rápido que uma a cada
+  0,9 s quando ele acaba. Acelerar desde o começo deixaria a criança apressada
+  a rodada inteira, e pressa é o contrário do que queremos;
 - **ela se cala enquanto o Clarim fala**, e nas telas do Momento em Família e do
   Meu Caderno — que são para ler junto e para pensar, não para correr.
 

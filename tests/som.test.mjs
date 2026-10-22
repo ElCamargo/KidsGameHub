@@ -25,6 +25,12 @@ test("as notas sobem, e cabem no que um celular reproduz bem", () => {
   assert.ok(NOTAS[NOTAS.length - 1] <= 1200, "agudo demais incomoda");
 });
 
+test("nem no aperto a música vira martelinho", () => {
+  // A versão antiga chegava a uma nota a cada 0,26 s no fim do tempo, e soava
+  // marcada demais. O aviso de pressa continua, mas sem passar disso.
+  for (const f of [1, 0.5, 0.1, 0]) assert.ok(intervaloDaNota(f) >= 900, `em ${f} ficou rápido demais`);
+});
+
 test("o ritmo acelera conforme o tempo acaba, e nunca ao contrário", () => {
   let antes = Infinity;
   for (const f of [1, 0.8, 0.6, 0.4, 0.2, 0]) {
@@ -32,16 +38,16 @@ test("o ritmo acelera conforme o tempo acaba, e nunca ao contrário", () => {
     assert.ok(ms <= antes, `em ${f} o intervalo subiu em vez de descer`);
     antes = ms;
   }
-  assert.equal(intervaloDaNota(1), 900);
-  assert.equal(intervaloDaNota(0), 260);
+  assert.equal(intervaloDaNota(1), 1300);
+  assert.equal(intervaloDaNota(0), 900);
 });
 
 test("sem cronômetro o passo é calmo, e valor estranho não quebra", () => {
-  assert.equal(intervaloDaNota(null), 900);
-  assert.equal(intervaloDaNota(undefined), 900);
-  assert.equal(intervaloDaNota(NaN), 900);
-  assert.equal(intervaloDaNota(5), 900, "acima de 1 vale como cheio");
-  assert.equal(intervaloDaNota(-3), 260, "abaixo de 0 vale como acabado");
+  assert.equal(intervaloDaNota(null), 1300);
+  assert.equal(intervaloDaNota(undefined), 1300);
+  assert.equal(intervaloDaNota(NaN), 1300);
+  assert.equal(intervaloDaNota(5), 1300, "acima de 1 vale como cheio");
+  assert.equal(intervaloDaNota(-3), 900, "abaixo de 0 vale como acabado");
 });
 
 test("a melodia anda de vizinha em vizinha, e não sai da escala", () => {

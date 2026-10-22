@@ -24,17 +24,22 @@ export const NOTAS = [261.63, 293.66, 329.63, 392.00, 440.00,
                       523.25, 587.33, 659.25, 783.99, 880.00];
 
 /* Fundo é fundo: alto o bastante para dar presença, baixo o bastante para a
-   mãe do lado não desligar. */
-const VOLUME = 0.055;
+   mãe do lado não desligar. Baixou de 0,055 junto com o timbre novo: a nota
+   agora soa mais tempo, e a mesma altura somada pesava. */
+const VOLUME = 0.045;
 
 /* De quanto em quanto tempo cai uma nota, conforme o tempo da pergunta acaba.
    Só acelera de verdade no fim — acelerar desde o começo deixaria a criança
    apressada a rodada inteira, e pressa é o contrário do que queremos. Sem
-   cronômetro (fase Fácil, memória, quebra-cabeça) fica no passo calmo. */
+   cronômetro (fase Fácil, memória, quebra-cabeça) fica no passo calmo.
+
+   Era uma nota a cada 0,9 s, chegando a 0,26 s no aperto, e soava marcado
+   demais — quem ouvia de fora sentia um martelinho. Agora 1,3 s, e no fim do
+   tempo não passa de 0,9 s: o aviso de pressa continua, mas sussurrado. */
 export function intervaloDaNota(fracaoRestante) {
-  if (fracaoRestante == null || Number.isNaN(fracaoRestante)) return 900;
+  if (fracaoRestante == null || Number.isNaN(fracaoRestante)) return 1300;
   const f = Math.min(1, Math.max(0, fracaoRestante));
-  return Math.round(900 - 640 * Math.pow(1 - f, 2));
+  return Math.round(1300 - 400 * Math.pow(1 - f, 2));
 }
 
 /* A próxima nota é vizinha da anterior, e só de vez em quando pula dois
@@ -66,22 +71,27 @@ function acordar() {
   return ctx;
 }
 
-/* Uma nota: triângulo passado por um filtro grave, com ataque curto e cauda
-   longa. Dá um som de marimba, que é redondo e não corta a atenção. */
+/* Uma nota de caixinha de música: onda senoidal, que é a mais pura e não tem
+   aresta nenhuma, com ataque curto e cauda longa de 1,6 s. Uma nota ainda está
+   soando quando a próxima chega, e é isso que tira o picotado.
+
+   Antes era triângulo com cauda de 0,9 s, um som de marimba. Escolhido de
+   ouvido em 22/10/2026, entre quatro versões tocadas lado a lado: a atual, um
+   lo-fi, um violino suave e esta. */
 function tocarNota(freq, quando) {
   const osc = ctx.createOscillator();
   const filtro = ctx.createBiquadFilter();
   const g = ctx.createGain();
-  osc.type = "triangle";
+  osc.type = "sine";
   osc.frequency.value = freq;
   filtro.type = "lowpass";
-  filtro.frequency.value = 1400;
+  filtro.frequency.value = 1800;
   g.gain.setValueAtTime(0.0001, quando);
-  g.gain.linearRampToValueAtTime(1, quando + 0.02);
-  g.gain.exponentialRampToValueAtTime(0.0001, quando + 0.9);
+  g.gain.linearRampToValueAtTime(1, quando + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, quando + 1.6);
   osc.connect(filtro); filtro.connect(g); g.connect(mestre);
   osc.start(quando);
-  osc.stop(quando + 1);
+  osc.stop(quando + 1.7);
 }
 
 function bater() {
