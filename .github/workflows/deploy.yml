@@ -51,6 +51,12 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+          # Sem isto a ação descarta tudo que começa com ponto, e com isso o
+          # /.well-known/assetlinks.json — o arquivo que prova ao Android que
+          # o app da Play Store e este site são da mesma empresa. Sem ele o
+          # app abre com a barra do navegador à mostra. Descoberto na v1.5.0,
+          # o primeiro deploy na raiz de um domínio.
+          include-hidden-files: true
 
   deploy:
     needs: build
