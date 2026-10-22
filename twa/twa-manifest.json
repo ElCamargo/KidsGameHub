@@ -16,7 +16,7 @@
   "startUrl": "/",
   "iconUrl": "https://clarim.elcamargo.com.br/icon-512.png",
   "maskableIconUrl": "https://clarim.elcamargo.com.br/icon-maskable-512.png",
-  "appVersionName": "1.4.3",
+  "appVersionName": "1.4.4",
   "appVersionCode": 1,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",

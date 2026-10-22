@@ -207,7 +207,7 @@ export function Game({ t, lang, round, setRound, coins, setCoins, finishRound, p
       {duo && (
         <div className="card" style={{ padding: "6px 10px", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
           <Rosto p={daVez} size={24} />
-          <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 13, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <div style={{ color: "#1B2A6B", fontWeight: 900, fontSize: 13, flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {daVez?.name}
           </div>
           <div style={{ color: "#F9A826", fontWeight: 900, fontSize: 10 }}>{t.yourTurn}</div>

@@ -58,6 +58,21 @@ Todas as dezenove imagens foram regeradas em 07/09/2026, quando o app deixou de
 se chamar Lumus e passou a se chamar Clarim. As anteriores mostravam o nome
 antigo na tela e não servem mais para nada.
 
+## Refeitas em 22/10/2026
+
+A **02** e a **06**, nos três tamanhos. A tela inicial passou a mostrar as
+áreas em vez dos 36 jogos (v1.4.0), e o ano escolar foi para o cartão de cada
+filho na área do responsável. As capturas antigas mostravam telas que não
+existiam mais.
+
+A massa de teste é nova e inventada do começo ao fim: Paulo (responsável),
+Bento (9 anos, 4º ano) e Téo (6 anos, antes do 1º ano), com números de semana
+plausíveis.
+
+Refazer a 06 achou um defeito de verdade: num celular de 360 px, a largura mais
+comum no Android, o nome de uma trilha comprida empurrava o cartão do filho
+para fora da tela e a página rolava para o lado. Corrigido na v1.4.4.
+
 ## Quando refazer
 
 Sempre que a interface mudar de um jeito que apareça nestas telas — cor,

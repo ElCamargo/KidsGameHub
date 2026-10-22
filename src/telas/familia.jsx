@@ -514,9 +514,9 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear, definirAno }
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
               {devendo.map(x => (
-                <div key={x.cont} style={{ display: "flex", alignItems: "center", gap: 8,
+                <div key={x.cont} style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0,
                   background: "#FFF4E0", borderRadius: 10, padding: "7px 10px" }}>
-                  <div style={{ flex: 1, color: "#6B4E00", fontWeight: 800, fontSize: 12,
+                  <div style={{ flex: 1, minWidth: 0, color: "#6B4E00", fontWeight: 800, fontSize: 12,
                     overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {nomeDaTrilha(x.cont, t)}
                   </div>
@@ -552,12 +552,12 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear, definirAno }
           <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, marginBottom: 5 }}>🧠 {t.memories}</div>
           <div style={{ display: "grid", gap: 4 }}>
             {memoriaResumo(save).map(m => (
-              <div key={m.tema} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div key={m.tema} style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
                 <div style={{ background: BAND_COLOR[m.nivel], color: "#fff", borderRadius: 8,
                   padding: "2px 6px", fontWeight: 900, fontSize: 10, whiteSpace: "nowrap" }}>
                   {MEM_LEVELS[m.nivel].cols}×{MEM_LEVELS[m.nivel].rows}
                 </div>
-                <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <div style={{ flex: 1, minWidth: 0, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {nomeDoTemaMemoria(m.tema, t)}
                 </div>
                 <div style={{ fontSize: 10, letterSpacing: -1 }}>
@@ -581,8 +581,8 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear, definirAno }
             {trilhas.map(([cont, feitas]) => {
               const total = totalDe(cont);
               return (
-                <div key={cont} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ flex: 1, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <div key={cont} style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+                  <div style={{ flex: 1, minWidth: 0, fontSize: 11, fontWeight: 800, color: "#3B4468", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {nomeDaTrilha(cont, t)}
                   </div>
                   <div style={{ width: 70, height: 8, borderRadius: 5, background: "#E9ECF7", overflow: "hidden" }}>
