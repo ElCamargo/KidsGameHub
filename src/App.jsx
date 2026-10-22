@@ -847,11 +847,19 @@ function AppInterno() {
     const id = `p${Date.now()}`;
     const completo = juntarSave(blankSave(), save);
     try {
-      window.storage.set(`clarim:p:${id}`, JSON.stringify(completo));
+      await window.storage.set(`clarim:p:${id}`, JSON.stringify(completo));
       const lista = [...profiles, { id, ...perfil }];
-      window.storage.set("clarim:profiles", JSON.stringify(lista));
+      await window.storage.set("clarim:profiles", JSON.stringify(lista));
       setProfiles(lista);
     } catch { setToast(t.restoreErr.formato); return; }
+    // A senha não viaja na cópia (ver lerCopia). Responsável restaurado
+    // chegava aberto e sem aviso nenhum; agora cai direto na própria ficha,
+    // onde fica o campo da senha nova.
+    if (perfil.papel === "pai") {
+      setToast(`✅ ${perfil.name} — ${t.pinRestored}`);
+      editProfile({ id, ...perfil });
+      return;
+    }
     setToast(`✅ ${perfil.name}`);
     // Do primeiro acesso a cópia vem pelo cadastro: o jogador restaurado
     // aparece na tela de quem vai jogar, e não num cadastro em branco.

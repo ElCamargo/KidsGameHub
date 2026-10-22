@@ -420,7 +420,10 @@ identificador novo — quem já joga naquele aparelho continua intacto.
 
 **A senha do responsável não viaja.** Um arquivo que carrega a tranca é um
 arquivo que abre a tranca; e mesmo que alguém escreva uma senha dentro dele à
-mão, ela é descartada na leitura.
+mão, ela é descartada na leitura. Por isso, desde a v1.5.5, restaurar um
+**responsável** abre direto a ficha dele, no campo da senha, avisando que a
+senha não veio e que é preciso criar uma nova. Antes ele chegava destrancado
+e sem aviso — e a criança entrava na área do responsável sem perceber nada.
 
 **O caderno da criança vai junto**, e a tela avisa isso em amarelo antes de
 salvar: são as palavras dela, e o arquivo se guarda como se guardaria um
