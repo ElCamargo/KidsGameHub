@@ -1,10 +1,15 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "br.com.elcamargo.clarim",
-      "sha256_cert_fingerprints": []
+      "sha256_cert_fingerprints": [
+        "99:17:ED:86:80:DD:E8:58:5B:EF:39:C5:9F:F4:FD:0A:06:E4:6D:A7:68:23:76:17:F4:36:0D:7E:F9:79:D2:44",
+        "62:2C:DD:29:D7:D4:74:BF:A0:19:D7:5C:ED:BA:00:23:73:CE:E4:AE:26:11:A1:3B:9C:EF:C7:D1:AB:C4:FD:FA"
+      ]
     }
   }
 ]
