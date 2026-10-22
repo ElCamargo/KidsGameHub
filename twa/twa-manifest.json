@@ -14,6 +14,7 @@
   "backgroundColor": "#1B2A6B",
   "enableNotifications": false,
   "startUrl": "/",
+  "splashScreenFadeOutDuration": 300,
   "iconUrl": "https://clarim.elcamargo.com.br/icon-512.png",
   "maskableIconUrl": "https://clarim.elcamargo.com.br/icon-maskable-512.png",
   "appVersion": "1.5.1",
