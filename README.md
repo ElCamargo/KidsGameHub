@@ -13,7 +13,7 @@ celular de entrada.
 Uma criação da **ElCamargo Soluções em TI LTDA** · CNPJ 57.299.418/0001-69 ·
 Blumenau, Santa Catarina, Brasil.
 
-🎮 **[Jogar agora](https://elcamargo.github.io/KidsGameHub/)** — abre no
+🎮 **[Jogar agora](https://clarim.elcamargo.com.br/)** — abre no
 navegador, dá para instalar na tela inicial, e depois disso funciona sem
 internet nenhuma.
 
@@ -1385,33 +1385,31 @@ Antes do primeiro deploy, no GitHub: **Settings → Pages → Source → GitHub 
 
 | Página | URL |
 |---|---|
-| Jogo | `https://elcamargo.github.io/KidsGameHub/` |
-| Política de Privacidade | `https://elcamargo.github.io/KidsGameHub/privacidade.html` |
-| Termos de Uso | `https://elcamargo.github.io/KidsGameHub/termos.html` |
+| Jogo | `https://clarim.elcamargo.com.br/` |
+| Política de Privacidade | `https://clarim.elcamargo.com.br/privacidade.html` |
+| Termos de Uso | `https://clarim.elcamargo.com.br/termos.html` |
 
 As duas páginas legais ficam em `public/` e são copiadas para a raiz do site no build. Elas são exigidas pelas lojas quando o app for publicado — tenha os endereços à mão.
 
-### A mudança de endereço, que ainda não aconteceu
+### A mudança de endereço
 
-O Clarim vai para `clarim.elcamargo.com.br`. O domínio já está registrado no CNPJ e
-o DNS já resolve; a mudança é condição para entrar na Play Store, porque o TWA
-exige um arquivo na raiz do domínio e pasta de projeto no `github.io` não tem
-raiz.
+Desde a **v1.5.0** o Clarim mora em `clarim.elcamargo.com.br`. Antes era
+`elcamargo.github.io/KidsGameHub/`. A mudança foi condição para entrar na Play
+Store: o TWA exige um arquivo na raiz do domínio, e pasta de projeto no
+`github.io` não tem raiz.
 
-**Ela está pronta no git e propositalmente fora do ar.** O commit *"O Clarim ganha
-domínio próprio"* traz o `public/CNAME` e o `base: "/"`; os dois foram desfeitos
-na v1.2.0, e voltam quando chegar a hora.
+Ela esperou um mês fora do ar por um motivo só: **o navegador guarda o progresso
+por origem, não por aplicativo.** No endereço novo o app abre vazio, e o que
+cada criança conquistou fica no endereço antigo — nada apagado, e tudo
+invisível. Por isso a ordem foi:
 
-O motivo é o único que importa: **o navegador guarda o progresso por origem, não
-por aplicativo.** No endereço novo o app abriria vazio, e o que cada criança
-conquistou ficaria preso no endereço antigo para sempre — nada apagado, e tudo
-invisível.
-
-A ordem, então:
-
-1. Cada aparelho salva a cópia de cada perfil, na tela de quem vai jogar.
-2. `public/CNAME` volta, `base` vira `"/"`, e sai a tag.
+1. Cada aparelho salvou a cópia de cada perfil, na tela de quem vai jogar.
+2. `public/CNAME` voltou, `base` virou `"/"`, e saiu a tag.
 3. Cada aparelho restaura a cópia no endereço novo, por 📥 Restaurar.
+
+O endereço antigo **redireciona** para o novo. No celular, quem tinha o Clarim
+na tela inicial deve adicioná-lo de novo a partir do endereço novo — o ícone
+antigo continua apontando para o endereço de antes.
 
 ## Instalando no celular
 

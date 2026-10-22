@@ -5,7 +5,7 @@
  * NÃO roda no Node. É um módulo para colar no console do navegador com o
  * servidor de desenvolvimento aberto:
  *
- *     const cap = await import("/KidsGameHub/scripts/capturas-loja.js");
+ *     const cap = await import("/scripts/capturas-loja.js");
  *     await cap.capturar({ largura: 1280, altura: 800, escala: 2, nome: "t10-01" });
  *
  * POR QUE NÃO É FOTO DE TELA DE APARELHO: o app é rasterizado a partir de um

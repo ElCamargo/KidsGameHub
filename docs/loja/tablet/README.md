@@ -40,7 +40,7 @@ Existe script agora: [`scripts/capturas-loja.js`](../../../scripts/capturas-loja
 Com o servidor de desenvolvimento aberto, no console do navegador:
 
 ```js
-const cap = await import("/KidsGameHub/scripts/capturas-loja.js");
+const cap = await import("/scripts/capturas-loja.js");
 await cap.capturar({ largura: 1280, altura: 800, escala: 2, nome: "t10-01-perfis" });
 await cap.capturar({ largura: 960,  altura: 600, escala: 2, nome: "t7-01-perfis"  });
 ```

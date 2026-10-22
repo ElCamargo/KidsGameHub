@@ -26,18 +26,15 @@ export default defineConfig({
       },
     },
   },
-  // O site ainda vive em https://elcamargo.github.io/KidsGameHub/ — sem esta
-  // base os arquivos são buscados na raiz do domínio e a página abre em branco.
+  // O Clarim mora na raiz de https://clarim.elcamargo.com.br desde a v1.5.0.
+  // Antes era elcamargo.github.io/KidsGameHub/, uma subpasta — e o pacote da
+  // Play Store exige um arquivo (/.well-known/assetlinks.json) na RAIZ do
+  // domínio, que pasta de projeto no github.io não tem.
   //
-  // A MUDANÇA PARA clarim.elcamargo.com.br ESTÁ PRONTA E SEGURA NO GIT (commit
-  // "O Clarim ganha domínio próprio"), mas não pode sair ainda: o navegador
-  // guarda o progresso por ORIGEM, não por aplicativo. No endereço novo o app
-  // abriria vazio, e o que cada criança conquistou ficaria preso no endereço
-  // antigo para sempre.
-  //
-  // A ordem é: cada aparelho salva a cópia pela tela de perfis → aí este base
-  // vira "/" e o public/CNAME volta → aí cada um restaura a cópia.
-  base: "/KidsGameHub/",
+  // O navegador guarda o progresso por ORIGEM: quem jogava no endereço antigo
+  // leva o progresso pela cópia em arquivo (salvar lá, restaurar aqui). Nada
+  // foi apagado no endereço antigo — só deixou de ser o endereço do app.
+  base: "/",
   plugins: [
     react(),
     VitePWA({
