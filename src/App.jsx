@@ -168,7 +168,7 @@ function AppInterno() {
   const [duplaDia, setDuplaDia] = useState("");
   /* Quem está jogando junto, fora o dono do perfil: de um a três, cada um
      {id, name, avatar}. id nulo = convidado, alguém que não tem perfil no
-     aparelho e por isso não recebe lumicoins. Null = partida de um só. */
+     aparelho e por isso não recebe mundis. Null = partida de um só. */
   const [turma, setTurma] = useState(null);
   /* Qual area de jogos esta aberta. Estado de tela: nao entra no save, porque
      onde a crianca estava ontem nao importa para o progresso dela. */
@@ -235,7 +235,7 @@ function AppInterno() {
       sequencia: m.ultimoDia === ontem ? (m.sequencia || 0) + 1 : 1,
     }));
     // Quem estava ali leva o crédito no próprio perfil. De propósito não há
-    // lumicoin nenhuma aqui: fé neste app não se troca por moeda.
+    // mundi nenhum aqui: fé neste app não se troca por moeda.
     if (activeId) setStats(x => ({ ...x, momentos: (x.momentos || 0) + 1 }));
     registrarSemana({ momentos: 1 });
   }
@@ -796,7 +796,7 @@ function AppInterno() {
       const d = await lerSave(pr.id);
       d.coins = Math.min(ECON.cap, (d.coins || 0) + valor);
       // O presente entra no cofre, mas não conta como ganho no jogo: quem
-      // ganhou lumicoins jogando é outra história, e as conquistas sabem.
+      // ganhou mundis jogando é outra história, e as conquistas sabem.
       d.stats = { ...d.stats, maxCoins: Math.max(d.stats?.maxCoins || 0, d.coins) };
       // Um recado esperando a criança abrir o perfil dela. Se o responsável
       // der duas vezes antes disso, soma: ela vê um bônus só, com o total.
@@ -1079,7 +1079,7 @@ function AppInterno() {
 
   /* Fase já vencida com 3 estrelas é treino livre: cobrar de novo por algo
      que a criança já dominou só a empurra para longe de repetir. As outras
-     continuam custando — é o que dá sentido às lumicoins. */
+     continuam custando — é o que dá sentido aos mundis. */
   /* Qual tela cada jogo abre. Vivia dentro das props da Home; saiu de la
      quando a tela da categoria passou a chamar a mesma coisa. Nenhuma linha
      mudou no caminho. */
@@ -1108,7 +1108,7 @@ function AppInterno() {
 
   function startRound(comTurma = null) {
     /* Em grupo é de graça, como a memória, e pelo mesmo motivo. Pela trilha
-       do ano escolar também: dever de escola não se paga com lumicoin. */
+       do ano escolar também: dever de escola não se paga com mundi. */
     const custo = comTurma?.length || bandFor(sel.cont, sel.stage) === sel.escola
       ? 0 : custoDaFase(stars, sel.cont, sel.stage);
     if (coins < custo) { setToast(t.notEnough); return; }

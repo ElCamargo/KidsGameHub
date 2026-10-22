@@ -4,13 +4,13 @@
  *
  * O app se organiza por DIFICULDADE e por moeda; a escola se organiza por
  * ANO. Uma criança do 4º ano que abre a Tabuada cai no Fácil (×2, ×5, ×10),
- * que ela já sabe, e teria de vencer trinta fases — ou pagar lumicoins — para
+ * que ela já sabe, e teria de vencer trinta fases — ou pagar mundis — para
  * chegar no 6, 7 e 8, que é o que a professora está cobrando esta semana.
  *
  * Aqui mora a ponte: para cada ano, QUE trilha e em QUE faixa. Entrando por
  * esta porta, aquela faixa abre e a fase não custa nada. Conteúdo de escola
  * não se tranca atrás de moeda: a criança que mais precisa é justamente a que
- * não tem tempo de jogo para juntar lumicoin.
+ * não tem tempo de jogo para juntar mundi.
  *
  * Só o que vem antes do 1º ano é sugestão nossa; do 1º ao 5º a ordem segue o
  * que a escola brasileira cobra — alfabetização e contagem no começo, tabuada

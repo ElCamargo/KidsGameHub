@@ -257,7 +257,7 @@ export function CategoriaScreen({ t, player, coins, cat, jogosAbertos, abrirJogo
 /* ---------- A trilha do ano escolar ----------
    O app se organiza por dificuldade; a escola, por ano. Esta tela é a ponte:
    escolhido o ano, ela mostra as poucas coisas que a escola cobra NELE, já na
-   faixa certa e sem cobrar lumicoin. É a única porta do app que abre faixa de
+   faixa certa e sem cobrar mundi. É a única porta do app que abre faixa de
    graça, e é de propósito: a criança que mais precisa de reforço é justamente
    a que não tem tempo de jogo para juntar moeda. */
 

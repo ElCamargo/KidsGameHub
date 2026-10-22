@@ -141,7 +141,7 @@ export const jogoDe = id => TODOS_JOGOS.find(g => g.id === id);
 
 /* O que já nasce aberto depende de quem está jogando: quem lê começa pelos
    jogos grátis de sempre; quem ainda não lê começa pelos que se joga
-   olhando. Os outros continuam ali, à vista, para abrir com lumicoins —
+   olhando. Os outros continuam ali, à vista, para abrir com mundis —
    ninguém fica sem ver o que ainda vai poder jogar. */
 export const jogosGratisPara = leitor =>
   TODOS_JOGOS.filter(g => leitor ? !g.preco : !g.leitura).map(g => g.id);
@@ -312,7 +312,7 @@ export const ECON = {
   /* Cada erro consertado na revisão paga pouco, e não pode ser fábrica de
      moeda: a pergunta sai da fila quando é aprendida. */
   revisaoReward: 7,
-  /* O responsável ganha lumicoins por semana para dar de presente a quem
+  /* O responsável ganha mundis por semana para dar de presente a quem
      quiser. Não é para ele gastar: é o motivo de ele abrir o app, olhar como
      os filhos estão indo e escolher quem premiar. O dinheiro que ele mesmo
      usa jogando é o dele, ganho como o de todo mundo.
@@ -331,7 +331,7 @@ export const ECON = {
   /* Jogar junto é de graça, e paga todo mundo — ganhando ou perdendo. O que
      queremos que aconteça de novo amanhã é o irmão chamar o irmão, e os dois
      chamarem a mãe; não um vencer o outro. Uma vez por dia, senão vira
-     fábrica de lumicoins. */
+     fábrica de mundis. */
   duplaReward: 34,
   colorReward: 17,                 // por desenho terminado
   colorDailyCap: 340,              // 20 desenhos premiados por dia (20 × 17)
@@ -419,8 +419,8 @@ export const ACHIEVEMENTS = [
   { id: "perfect20", cat: "geral", n: 3, icon: "👑", pt: "Vinte 100%", en: "Twenty perfect rounds", es: "Veinte perfectas", test: s => s.perfect >= 20 },
   { id: "streak5", cat: "geral", n: 1, icon: "🔥", pt: "5 acertos seguidos", en: "5 in a row", es: "5 seguidas", test: s => s.bestStreak >= 5 },
   { id: "streak20", cat: "geral", n: 3, icon: "⚡", pt: "20 acertos seguidos", en: "20 in a row", es: "20 seguidas", test: s => s.bestStreak >= 20 },
-  { id: "coins500", cat: "geral", n: 2, icon: "🪙", pt: "500 lumicoins ganhas", en: "500 lumicoins earned", es: "500 lumicoins", test: s => s.earned >= 500 },
-  { id: "rich", cat: "geral", n: 3, icon: "💰", pt: "2000 lumicoins no cofre", en: "2000 lumicoins saved", es: "2000 lumicoins ahorradas", test: s => s.maxCoins >= 2000 },
+  { id: "coins500", cat: "geral", n: 2, icon: "🪙", pt: "500 mundis ganhos", en: "500 mundis earned", es: "500 mundis", test: s => s.earned >= 500 },
+  { id: "rich", cat: "geral", n: 3, icon: "💰", pt: "2000 mundis no cofre", en: "2000 mundis saved", es: "2000 mundis ahorrados", test: s => s.maxCoins >= 2000 },
   { id: "nohint", cat: "geral", n: 2, icon: "🧠", pt: "10 rodadas sem dica", en: "10 rounds, no hints", es: "10 rondas sin pistas", test: s => s.noHintRounds >= 10 },
   { id: "genius", cat: "geral", n: 2, icon: "🎓", pt: "Fase Gênio vencida", en: "Genius stage cleared", es: "Nivel Genio superado", test: s => s.geniusCleared >= 1 },
   { id: "flash20", cat: "geral", n: 1, icon: "💨", pt: "20 respostas relâmpago", en: "20 lightning answers", es: "20 respuestas relámpago", test: s => s.flash >= 20 },
@@ -594,7 +594,7 @@ export const MEM_LEVELS = {
    Sobe de 5 em 5 com a dificuldade: quanto mais alto o degrau, mais a rodada
    vale — e mais pesa errar. Zero quando a fase já foi vencida com as três
    estrelas: cobrar de novo por algo que a criança já dominou só a empurra
-   para longe de repetir. É o que dá sentido às lumicoins sem punir treino. */
+   para longe de repetir. É o que dá sentido aos mundis sem punir treino. */
 export const CUSTO_FAIXA = { easy: 5, medium: 10, hard: 15, genius: 20, mestre: 25, lenda: 30 };
 
 export const custoDaFase = (stars, cont, stage) =>
@@ -610,7 +610,7 @@ export const custoDoQuebra = (pzlBest, tema, nivel) =>
   (pzlBest?.[`${tema}:${nivel}`]?.stars || 0) >= 3 ? 0 : CUSTO_FAIXA[nivel];
 
 /* Montar palavra custa METADE. Quem está aprendendo a ler é justamente quem
-   ainda não tem lumicoin nenhuma para gastar — cobrar caro aqui seria trancar
+   ainda não tem mundi nenhum para gastar — cobrar caro aqui seria trancar
    a porta de entrada. */
 export const custoDaPalavra = (palBest, nivel) =>
   (palBest?.[nivel]?.stars || 0) >= 3 ? 0 : Math.round(CUSTO_FAIXA[nivel] / 2);
@@ -663,6 +663,9 @@ export const SEMANAS_GUARDADAS = 12;
    paga zero. Existe para o responsável ver o que nenhum outro número mostra:
    a criança jogou até o fim e saiu de mãos vazias. A régua da estrela não
    muda por isso; o que muda é o adulto ter como saber quando dar o presente. */
+/* O campo `lumicoins` guarda o nome antigo da moeda de propósito: ele está
+   gravado no aparelho de cada criança e dentro das cópias de progresso.
+   Renomear zeraria a semana de quem já joga. Na tela, a moeda é mundis. */
 export const SEMANA_VAZIA = { rodadas: 0, certas: 0, estrelas: 0, desenhos: 0, memorias: 0, quebras: 0, palavras: 0, momentos: 0, registros: 0, duplas: 0, lumicoins: 0, esforco: 0 };
 
 

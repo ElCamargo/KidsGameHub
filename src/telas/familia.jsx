@@ -337,7 +337,7 @@ function nomeDoTemaMemoria(tema, t) {
 function CartaoFilho({ t, lang, perfil, save, presente, presentear, definirAno }) {
   const st = save?.stats || {};
   /* O que dá para dar agora. Se nem o menor degrau couber, o degrau é o
-     próprio resto: 5 lumicoins guardadas não valem nada para ninguém. */
+     próprio resto: 5 mundis guardados não valem nada para ninguém. */
   const valoresDoPresente = (() => {
     const cabem = [20, 50, 100].filter(v => v <= presente.restante);
     return cabem.length ? cabem : presente.restante > 0 ? [presente.restante] : [];
@@ -463,7 +463,7 @@ function CartaoFilho({ t, lang, perfil, save, presente, presentear, definirAno }
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
         <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, flex: 1 }}>🎁 {t.giveGift}</div>
-        {/* Com 5 lumicoins no cofre, os três botões de 20, 50 e 100 ficavam
+        {/* Com 5 mundis no cofre, os três botões de 20, 50 e 100 ficavam
             apagados e o resto da semana morria ali sem ninguém receber.
             Agora aparece o que cabe — e, quando nada cabe, o que sobrou. */}
         {valoresDoPresente.length

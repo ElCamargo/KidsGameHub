@@ -226,7 +226,7 @@ PARA O RESPONSÁVEL
 • A semana de cada filho: rodadas, acertos, estrelas, desenhos e minutos
 • As rodadas que a criança terminou sem estrela — o esforço que nenhum número
   mostra, para você premiar quando achar justo
-• Um presente semanal de lumicoins para dar a quem quiser
+• Um presente semanal de mundis para dar a quem quiser
 • Momento em Família: um devocional curto por dia, para fazer junto
 
 LEVE O PROGRESSO PARA OUTRO APARELHO

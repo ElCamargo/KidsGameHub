@@ -180,9 +180,13 @@ O carro-chefe é **Bandeiras do Mundo**: a bandeira aparece, a criança escolhe 
 - 60 fases por continente, em escada de seis faixas (ver abaixo)
 - Nas fases altas entram estados e regiões: os 27 do Brasil, doze dos EUA, e as regiões da Europa
 - Modo Fácil sem cronômetro; depois o tempo aperta a cada fase, até 6 segundos
-- Lumicoins: cada rodada custa conforme a faixa, dicas custam, acertar rende
+- Mundis: cada rodada custa conforme a faixa, dicas custam, acertar rende.
+  A moeda se chamava *lumicoins*, resto do nome Lumus, e virou mundis na
+  v1.5.7, por causa do Mundi. Por dentro, o campo da semana continua
+  `lumicoins`: ele está gravado no aparelho e nas cópias, e renomear zeraria
+  a semana de quem já joga
 - Mapa-múndi que se abre continente a continente, de carro, barco e avião
-- 74 conquistas em 10 categorias, valendo de 30 a 250 lumicoins cada
+- 74 conquistas em 10 categorias, valendo de 30 a 250 mundis cada
 - Perfis de criança e de responsável, com senha opcional e presente semanal
 - Avatar personalizável e loja de itens
 - Vários jogadores no mesmo aparelho, com progresso separado
@@ -262,8 +266,8 @@ aparelho aparece num cartão com idade, se já lê, e o que ela andou fazendo:
 
 | No cartão | O que mostra |
 |---|---|
-| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, páginas de caderno, partidas em grupo, momentos em família e lumicoins **desde domingo**, com os desenhos daquela semana |
-| ∑ No total | rodadas, estrelas, conquistas, dias seguidos e lumicoins de sempre |
+| **A semana** | rodadas, acertos, estrelas, desenhos, memórias, páginas de caderno, partidas em grupo, momentos em família e mundis **desde domingo**, com os desenhos daquela semana |
+| ∑ No total | rodadas, estrelas, conquistas, dias seguidos e mundis de sempre |
 | 📔 Meu Caderno | as **três últimas páginas da semana**, com as palavras da criança |
 | 🎨 Pintar e Colorir | os **últimos cinco desenhos**, desenhados ali — não um número dizendo quantos |
 | 🧠 Memória | o maior tabuleiro vencido em cada tema, com estrelas e melhor tempo |
@@ -294,13 +298,13 @@ Nada sai do aparelho — é o mesmo armazenamento, aberto por outra porta.
 **Ele também joga.** É um perfil como os outros, com progresso próprio; a tela
 de acompanhamento tem um botão *Jogar*, e o hub tem o caminho de volta.
 
-**Presente da semana: 170 lumicoins.** Toda semana o responsável recebe cento
-e setenta lumicoins que não são para ele gastar — são para dar de presente a
+**Presente da semana: 170 mundis.** Toda semana o responsável recebe cento
+e setenta mundis que não são para ele gastar — são para dar de presente a
 quem ele quiser, em parcelas de 20, 50 ou 100, direto no cartão de cada filho.
 O que sobra não acumula.
 
 **E o cartão diz quando usar.** Uma rodada terminada com erros demais não paga
-estrela nenhuma, e não paga lumicoin nenhuma — a criança pagou a entrada e saiu
+estrela nenhuma, e não paga mundi nenhum — a criança pagou a entrada e saiu
 de mãos vazias. Isso não aparece em nenhum número: soma em 🎮 e não soma em ⭐.
 Então o cartão diz em voz alta: *🫂 3 rodadas terminadas sem estrela. Jogou até
 o fim mesmo assim.* A régua da estrela não muda por isso — conquistar a fase
@@ -554,7 +558,7 @@ quatro dariam 3, 3, 2, 2 — e quem respondeu duas perderia de quem respondeu
 três sem ter errado nada. Então jogam-se oito, duas para cada.
 
 **Jogar junto é de graça, e paga todo mundo** — ganhando ou perdendo, 20
-lumicoins na primeira partida do dia, inclusive para quem não estava com o app
+mundis na primeira partida do dia, inclusive para quem não estava com o app
 aberto. O que queremos que aconteça de novo amanhã é o irmão chamar o irmão, e
 os dois chamarem a mãe; não um vencer o outro. Depois disso a partida continua
 livre, só não paga de novo.
@@ -879,7 +883,7 @@ turma escolhida vale para o jogo que a criança abrir em seguida.
 
 ### A escola pede por ano; o app entregava por dificuldade
 
-O Clarim se organiza por **faixa de dificuldade** e por **lumicoin**. A escola
+O Clarim se organiza por **faixa de dificuldade** e por **mundi**. A escola
 se organiza por **ano**. Uma criança do 4º ano que abria a Tabuada caía no
 Fácil — ×2, ×5 e ×10, que ela já sabe — e teria de vencer trinta fases, ou
 pagar moeda, para chegar no 6, 7 e 8 que a professora cobrou esta semana.
@@ -908,7 +912,7 @@ responsável passou a dizer em que ano cada um está.
 
 **Esta é a única porta do app que abre faixa de graça**, e é de propósito: a
 criança que mais precisa de reforço é justamente a que não tem tempo de jogo
-para juntar lumicoin. Entrando por aqui, a faixa daquele ano abre, as fases
+para juntar mundi. Entrando por aqui, a faixa daquele ano abre, as fases
 dela abrem, e a rodada não custa nada — **o resto da escada continua como
 sempre**, se comprando ou se vencendo. Quem entra no 4º ano recebe as dez
 fases do Difícil de tabuada; não recebe o Gênio nem o Lenda.
@@ -982,7 +986,7 @@ aprendida: insistir depois disso vira castigo.
 
 Na tela inicial aparece **🔁 Lembrar o que errei**, com quantas venceram hoje.
 **É de graça** — cobrar da criança para consertar o próprio erro seria o
-avesso do que este app quer ser — e paga 4 lumicoins por pergunta lembrada.
+avesso do que este app quer ser — e paga 4 mundis por pergunta lembrada.
 Não mexe em fase, estrela nem recorde: consertar não é conquista nova, é a
 mesma conquista ficando de pé.
 
@@ -1109,7 +1113,7 @@ carimbos vale tanto quanto uma página escrita.
 Dá para escrever também fora da rodada, pelo botão 📔 no hub — aí a pergunta
 do dia é a mesma para o dia inteiro.
 
-**15 lumicoins na primeira página do dia, e só nela.** Escrever tem que valer
+**15 mundis na primeira página do dia, e só nela.** Escrever tem que valer
 a pena, mas não pode virar torneira de moedas: sem esse limite a criança
 escreve dez linhas vazias e o caderno morre no mesmo dia em que nasceu. Depois
 disso são quatro conquistas — 1, 10, 30 e 100 páginas.
@@ -1150,7 +1154,7 @@ não reinicia a do irmão. Já o crédito individual (quem estava ali) vai para 
 perfil de quem marcou, e aparece na semana do cartão do responsável, na coluna
 🕊️.
 
-**Não paga lumicoin nenhuma, de propósito.** Todo o resto do app recompensa
+**Não paga mundi nenhum, de propósito.** Todo o resto do app recompensa
 acerto; se a fé virasse moeda, ela viraria tarefa. A recompensa é a sequência,
 e quatro conquistas ao longo do caminho — 1, 7, 30 e 100 momentos.
 
@@ -1599,11 +1603,11 @@ item abaixo diz **qual dos 4 R da [AEP](#a-espinha-pedagógica-a-abordagem-educa
 - [x] **O som da letra** *(Pesquisar)* — resolvido **sem gravação**, e o item estava mal escrito: metade das consoantes não tem som isolado nem gravado (são oclusivas). O que se ensina é comparar, e isso é o jogo **Começa Igual** ([ADR 0006](docs/decisoes/0006-a-familia-silabica-sem-dizer-silaba.md))
 - [x] **Ficha do responsável dizendo onde o filho está devendo** *(Relacionar)* — feito, e saiu de graça da memória de erro
 - [x] **Matemática: tabuada, dinheiro brasileiro e horas** *(Pesquisar)* — feito: três trilhas novas, com divisão nas faixas altas e troco no dinheiro
-- [x] **Trilha do ano escolar** *(Relacionar)* — feito: escolhido o ano, o app abre a faixa que a escola cobra e não cobra lumicoin por ela
+- [x] **Trilha do ano escolar** *(Relacionar)* — feito: escolhido o ano, o app abre a faixa que a escola cobra e não cobra mundi por ela
 - [x] **Separar as telas de jogo em arquivos** — feito: o `App.jsx` foi de 6.689 para 1.378 linhas, em treze arquivos, sem reescrever lógica ([ADR 0005](docs/decisoes/0005-as-telas-em-arquivos.md))
 
 **Onde decidimos não ir:** 6º ao 8º ano. Um menino de 13 anos não abre um app
-com mascote e lumicoins, e mudar a cara do Clarim para atendê-lo estragaria o
+com mascote e mundis, e mudar a cara do Clarim para atendê-lo estragaria o
 que funciona para uma criança de cinco. O Clarim é dos 3 aos 10; atender os
 maiores seria outro app, reusando esta base.
 

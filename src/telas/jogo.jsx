@@ -313,7 +313,7 @@ export function Game({ t, lang, round, setRound, coins, setCoins, finishRound, p
       </div>
 
       {/* dicas — em duelo não existem: comprar a vitória sobre o irmão
-          não é jogo, e o outro estaria pagando com as lumicoins dele */}
+          não é jogo, e o outro estaria pagando com os mundis dele */}
       <div style={{ marginTop: 14, display: duo ? "none" : "block" }}>
         <div style={{ color: "#C9D2FF", fontWeight: 800, fontSize: 12, marginBottom: 6 }}>💡 {t.hints}</div>
         <div style={{ display: "flex", gap: 7 }}>

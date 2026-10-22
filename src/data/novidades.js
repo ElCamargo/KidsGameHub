@@ -81,7 +81,7 @@ export const NOVIDADES = [
         titulo: "O app agora se chama Clarim",
         itens: [
           "Mesmo app, mesmos jogos, mesmo Mundi — só o nome mudou. Lumus já era marca registrada de outra empresa, e trocamos antes de publicar na loja",
-          "NADA SE PERDEU: os perfis, as lumicoins, as estrelas, o caderno e os desenhos continuam exatamente onde estavam",
+          "NADA SE PERDEU: os perfis, os mundis, as estrelas, o caderno e os desenhos continuam exatamente onde estavam",
           "A senha do responsável continua a mesma. Não é preciso recadastrar nada",
           "Clarim é o toque que anuncia — e é o que o app faz: anunciar o que a criança já sabe fazer",
         ],
@@ -90,7 +90,7 @@ export const NOVIDADES = [
         titulo: "The app is now called Clarim",
         itens: [
           "Same app, same games, same Mundi — only the name changed. Lumus was already another company's registered trademark, and we changed it before the store launch",
-          "NOTHING WAS LOST: profiles, lumicoins, stars, the notebook and the drawings are all exactly where they were",
+          "NOTHING WAS LOST: profiles, mundis, stars, the notebook and the drawings are all exactly where they were",
           "The grown-up's password is unchanged. Nothing needs to be set up again",
           "A clarim is the bugle call that announces — which is what the app does: announce what the child can already do",
         ],
@@ -99,7 +99,7 @@ export const NOVIDADES = [
         titulo: "La aplicación ahora se llama Clarim",
         itens: [
           "La misma aplicación, los mismos juegos, el mismo Mundi — solo cambió el nombre. Lumus ya era marca registrada de otra empresa, y lo cambiamos antes de publicar en la tienda",
-          "NO SE PERDIÓ NADA: los perfiles, las lumicoins, las estrellas, el cuaderno y los dibujos siguen donde estaban",
+          "NO SE PERDIÓ NADA: los perfiles, los mundis, las estrellas, el cuaderno y los dibujos siguen donde estaban",
           "La contraseña del adulto sigue siendo la misma. No hay que registrar nada de nuevo",
           "Un clarín es el toque que anuncia — y es lo que hace la aplicación: anunciar lo que la criatura ya sabe hacer",
         ],
@@ -108,7 +108,7 @@ export const NOVIDADES = [
         titulo: "L'application s'appelle maintenant Clarim",
         itens: [
           "Même application, mêmes jeux, même Mundi — seul le nom change. Lumus était déjà une marque déposée par une autre entreprise, et nous avons changé avant la publication",
-          "RIEN N'EST PERDU : les profils, les lumicoins, les étoiles, le carnet et les dessins sont exactement là où ils étaient",
+          "RIEN N'EST PERDU : les profils, les mundis, les étoiles, le carnet et les dessins sont exactement là où ils étaient",
           "Le mot de passe du parent ne change pas. Rien à refaire",
           "Un clairon est la sonnerie qui annonce — c'est ce que fait l'application : annoncer ce que l'enfant sait déjà faire",
         ],
@@ -117,7 +117,7 @@ export const NOVIDADES = [
         titulo: "Die App heißt jetzt Clarim",
         itens: [
           "Gleiche App, gleiche Spiele, gleicher Mundi — nur der Name ist neu. Lumus war bereits eine eingetragene Marke einer anderen Firma, und wir haben vor dem Store-Start gewechselt",
-          "NICHTS GING VERLOREN: Profile, Lumicoins, Sterne, das Heft und die Zeichnungen sind genau dort, wo sie waren",
+          "NICHTS GING VERLOREN: Profile, Mundis, Sterne, das Heft und die Zeichnungen sind genau dort, wo sie waren",
           "Das Passwort der Erwachsenen bleibt gleich. Es muss nichts neu eingerichtet werden",
           "Ein Clarim ist das Signalhorn, das ankündigt — und genau das tut die App: ankündigen, was das Kind schon kann",
         ],
@@ -126,7 +126,7 @@ export const NOVIDADES = [
         titulo: "L'app ora si chiama Clarim",
         itens: [
           "Stessa app, stessi giochi, stesso Mundi — è cambiato solo il nome. Lumus era già un marchio registrato di un'altra azienda, e abbiamo cambiato prima di pubblicare nel negozio",
-          "NON SI È PERSO NIENTE: i profili, le lumicoins, le stelle, il quaderno e i disegni sono esattamente dov'erano",
+          "NON SI È PERSO NIENTE: i profili, i mundis, le stelle, il quaderno e i disegni sono esattamente dov'erano",
           "La password dell'adulto resta la stessa. Non serve registrare nulla di nuovo",
           "Il clarino è lo squillo che annuncia — ed è quello che fa l'app: annunciare ciò che il bambino sa già fare",
         ],
@@ -137,57 +137,57 @@ export const NOVIDADES = [
     v: "1.2.3", d: "2026-09-07",
     t: {
       pt: {
-        titulo: "Mais lumicoins, e o esforço também conta",
+        titulo: "Mais mundis, e o esforço também conta",
         itens: [
-          "Todos os jogos pagam bem mais lumicoins — quem faz 1 estrela ganhou quase o dobro, porque abrir jogo novo estava demorado demais para os pequenos",
+          "Todos os jogos pagam bem mais mundis — quem faz 1 estrela ganhou quase o dobro, porque abrir jogo novo estava demorado demais para os pequenos",
           "Terminar a fase continua valendo mais: 3 estrelas ainda pagam o dobro de 1",
           "Na tela do responsável: o cartão da semana agora mostra as rodadas que a criança terminou sem estrela — o esforço que não aparecia em número nenhum",
-          "O presente da semana subiu para 170 lumicoins, em parcelas de 20, 50 ou 100",
+          "O presente da semana subiu para 170 mundis, em parcelas de 20, 50 ou 100",
         ],
       },
       en: {
-        titulo: "More lumicoins, and effort counts too",
+        titulo: "More mundis, and effort counts too",
         itens: [
-          "Every game pays far more lumicoins — a 1-star round now earns almost double, because unlocking a new game was taking the little ones too long",
+          "Every game pays far more mundis — a 1-star round now earns almost double, because unlocking a new game was taking the little ones too long",
           "Finishing well still pays more: 3 stars are still worth double 1 star",
           "On the grown-up screen: the weekly card now shows the rounds the child finished without a star — the effort that showed up in no number at all",
-          "The weekly gift went up to 170 lumicoins, in portions of 20, 50 or 100",
+          "The weekly gift went up to 170 mundis, in portions of 20, 50 or 100",
         ],
       },
       es: {
-        titulo: "Más lumicoins, y el esfuerzo también cuenta",
+        titulo: "Más mundis, y el esfuerzo también cuenta",
         itens: [
-          "Todos los juegos pagan muchas más lumicoins — quien saca 1 estrella gana casi el doble, porque abrir un juego nuevo tardaba demasiado para los pequeños",
+          "Todos los juegos pagan muchos más mundis — quien saca 1 estrella gana casi el doble, porque abrir un juego nuevo tardaba demasiado para los pequeños",
           "Terminar bien sigue valiendo más: 3 estrellas siguen pagando el doble que 1",
           "En la pantalla del adulto: la tarjeta de la semana ahora muestra las rondas que la criatura terminó sin estrella — el esfuerzo que no aparecía en ningún número",
-          "El regalo de la semana subió a 170 lumicoins, en partes de 20, 50 o 100",
+          "El regalo de la semana subió a 170 mundis, en partes de 20, 50 o 100",
         ],
       },
       fr: {
-        titulo: "Plus de lumicoins, et l'effort compte aussi",
+        titulo: "Plus de mundis, et l'effort compte aussi",
         itens: [
-          "Tous les jeux paient bien plus de lumicoins — une manche à 1 étoile rapporte presque le double, car débloquer un nouveau jeu prenait trop longtemps aux petits",
+          "Tous les jeux paient bien plus de mundis — une manche à 1 étoile rapporte presque le double, car débloquer un nouveau jeu prenait trop longtemps aux petits",
           "Bien finir vaut toujours plus : 3 étoiles paient encore le double d'une seule",
           "Sur l'écran du parent : la carte de la semaine montre maintenant les manches terminées sans étoile — l'effort qui n'apparaissait dans aucun chiffre",
-          "Le cadeau de la semaine passe à 170 lumicoins, par tranches de 20, 50 ou 100",
+          "Le cadeau de la semaine passe à 170 mundis, par tranches de 20, 50 ou 100",
         ],
       },
       de: {
-        titulo: "Mehr Lumicoins, und der Einsatz zählt auch",
+        titulo: "Mehr Mundis, und der Einsatz zählt auch",
         itens: [
-          "Alle Spiele zahlen viel mehr Lumicoins — eine Runde mit 1 Stern bringt fast das Doppelte, denn ein neues Spiel freizuschalten dauerte den Kleinen zu lange",
+          "Alle Spiele zahlen viel mehr Mundis — eine Runde mit 1 Stern bringt fast das Doppelte, denn ein neues Spiel freizuschalten dauerte den Kleinen zu lange",
           "Gut abschließen zahlt weiter mehr: 3 Sterne sind immer noch doppelt so viel wert wie 1",
           "Im Bereich der Erwachsenen: die Wochenkarte zeigt jetzt die Runden, die das Kind ohne Stern beendet hat — der Einsatz, der in keiner Zahl auftauchte",
-          "Das Wochengeschenk steigt auf 170 Lumicoins, in Portionen von 20, 50 oder 100",
+          "Das Wochengeschenk steigt auf 170 Mundis, in Portionen von 20, 50 oder 100",
         ],
       },
       it: {
-        titulo: "Più lumicoins, e conta anche l'impegno",
+        titulo: "Più mundis, e conta anche l'impegno",
         itens: [
-          "Tutti i giochi pagano molte più lumicoins — chi fa 1 stella guadagna quasi il doppio, perché sbloccare un gioco nuovo era troppo lungo per i piccoli",
+          "Tutti i giochi pagano molti più mundis — chi fa 1 stella guadagna quasi il doppio, perché sbloccare un gioco nuovo era troppo lungo per i piccoli",
           "Finire bene vale ancora di più: 3 stelle pagano sempre il doppio di 1",
           "Nella schermata del genitore: la scheda della settimana ora mostra le partite finite senza stella — l'impegno che non appariva in nessun numero",
-          "Il regalo della settimana sale a 170 lumicoins, in parti da 20, 50 o 100",
+          "Il regalo della settimana sale a 170 mundis, in parti da 20, 50 o 100",
         ],
       },
     },
