@@ -853,6 +853,9 @@ function AppInterno() {
       setProfiles(lista);
     } catch { setToast(t.restoreErr.formato); return; }
     setToast(`✅ ${perfil.name}`);
+    // Do primeiro acesso a cópia vem pelo cadastro: o jogador restaurado
+    // aparece na tela de quem vai jogar, e não num cadastro em branco.
+    setScreen("profiles");
   }
 
   /* Perfil com senha só é aberto, editado, zerado ou apagado depois dela.
@@ -1318,6 +1321,7 @@ function AppInterno() {
 
         {screen === "create" && <Create {...{ t, lang, onLang: () => setScreen("lang"), player, setPlayer,
           editando, perfilId: activeId,
+          restaurar: !profiles.length && !editando ? restaurarCopia : null,
           onDone: () => {
             // Perfil novo: troca a base do que nasce aberto, agora que se sabe
             // se a criança lê. Perfil que já jogou: só ACRESCENTA. Editar a

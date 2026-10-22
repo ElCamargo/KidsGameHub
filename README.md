@@ -400,11 +400,16 @@ O Clarim não tem conta e não tem servidor — e não vai ter. Mas o celular
 quebra, a família troca de aparelho, e **dois anos de fases vencidas não podem
 morrer com o telefone**.
 
-A solução é a mais velha que existe: **um arquivo**. No modo de edição da tela
-de jogadores, o 💾 de cada criança salva uma cópia; o adulto guarda ou manda
-para si mesmo como mandaria uma foto, e no aparelho novo abre em
+A solução é a mais velha que existe: **um arquivo**. Na tela de jogadores,
+💾 **Levar para outro aparelho** salva a cópia de cada criança; o adulto guarda
+ou manda para si mesmo como mandaria uma foto, e no aparelho novo abre em
 📥 **Restaurar de um arquivo**. Nada sobe para lugar nenhum, e funciona em
 modo avião.
+
+O 📥 aparece também **no primeiro acesso**, ao lado do idioma (v1.5.3). Sem
+nenhum jogador o app pula a tela de jogadores e abre direto no cadastro. Até a
+v1.5.2 o único 📥 morava lá, e quem chegava com a cópia na mão — endereço
+novo, app da loja, aparelho novo — só via o cadastro.
 
 **Restaurar nunca escreve por cima.** Cria sempre um jogador novo, com
 identificador novo — quem já joga naquele aparelho continua intacto.

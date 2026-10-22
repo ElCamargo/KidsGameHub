@@ -16,8 +16,9 @@ import { Avatar, Btn, HAIRS, Modal, Mundi, SHIRTS, SKINS } from "./base.jsx";
 /* ---------- Criação do avatar ----------
    Aqui só o básico e de graça. Chapéu, óculos e estampa vêm da loja,
    para a criança ter o que conquistar com as moedas. */
-export function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false, perfilId }) {
+export function Create({ t, lang, onLang, player, setPlayer, onDone, editando = false, perfilId, restaurar }) {
   const a = player.avatar;
+  const entrada = useRef(null);
   const set = (k, v) => setPlayer(p => ({ ...p, avatar: { ...p.avatar, [k]: v } }));
   const campo = (k, v) => setPlayer(p => ({ ...p, [k]: v }));
   const [pinNovo, setPinNovo] = useState("");
@@ -43,6 +44,20 @@ export function Create({ t, lang, onLang, player, setPlayer, onDone, editando = 
         <button onClick={onLang} className="chunky" style={{ marginTop: 10, padding: "7px 16px", fontSize: 13, background: "rgba(255,255,255,.22)" }}>
           🌐 {LANG_CATALOG[lang] || lang}
         </button>
+        {/* Só no primeiro acesso. Sem nenhum jogador o app pula a tela de
+            quem vai jogar — e era lá o único 📥 Restaurar. Quem chegava com
+            a cópia na mão (endereço novo, app da loja, aparelho novo) só
+            via o cadastro e achava que o progresso tinha sumido. */}
+        {restaurar && (
+          <>
+            <input ref={entrada} type="file" accept="application/json,.json" style={{ display: "none" }}
+              onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; restaurar(f); }} />
+            <button onClick={() => entrada.current?.click()} className="chunky"
+              style={{ marginTop: 10, marginLeft: 8, padding: "7px 16px", fontSize: 13, background: "rgba(255,255,255,.22)" }}>
+              📥 {t.restoreTitle}
+            </button>
+          </>
+        )}
       </div>
       <div className="card" style={{ padding: 18 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
