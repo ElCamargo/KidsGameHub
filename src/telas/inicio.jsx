@@ -365,17 +365,20 @@ export function Profiles({ t, profiles, openProfile, newProfile, editProfile, de
           v1.1.0 e ele não achou. Lápis quer dizer "mexer nos jogadores", não
           "levar para o notebook".
 
-          Uma porta só: salvar e restaurar moram os dois aqui dentro. Duas
-          entradas com nomes parecidos, em telas diferentes, é como se perde
-          gente. */}
+          Salvar e restaurar ficam lado a lado, na mesma tela. Restaurar já
+          morou dentro do 💾, e quem trazia três filhos de outro aparelho
+          tinha que abrir "Levar para outro aparelho" para trazer cada um. */}
       {/* `display:grid` e não a prop `full`: a classe `w-full` que ela põe no
           botão não existe em CSS nenhum do projeto. Item de grid já estica
           sozinho para a coluna inteira. */}
-      <div style={{ display: "grid", marginTop: 10 }}>
+      <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
         <input ref={entrada} type="file" accept="application/json,.json" style={{ display: "none" }}
-          onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; setLevar(false); restaurarCopia(f); }} />
+          onChange={e => { const f = e.target.files?.[0]; e.target.value = ""; restaurarCopia(f); }} />
         <Btn small color="rgba(255,255,255,.2)" onClick={() => setLevar(true)}>
           💾 {t.copyTitle}
+        </Btn>
+        <Btn small color="rgba(255,255,255,.2)" onClick={() => entrada.current?.click()}>
+          📥 {t.restoreTitle}
         </Btn>
       </div>
 
@@ -393,7 +396,7 @@ export function Profiles({ t, profiles, openProfile, newProfile, editProfile, de
             <div style={{ color: "#8B93AD", fontWeight: 900, fontSize: 11, letterSpacing: 1, marginBottom: 8 }}>
               💾 {t.copySave}
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 18 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
               {profiles.map(pr => (
                 <button key={pr.id} className="card" onClick={() => { setLevar(false); comSenha(pr, setCopiar); }}
                   style={{ border: "none", padding: "8px 10px", display: "grid", placeItems: "center", cursor: "pointer", minWidth: 84 }}>
@@ -401,15 +404,6 @@ export function Profiles({ t, profiles, openProfile, newProfile, editProfile, de
                   <div className="display" style={{ color: "#1B2A6B", fontSize: 13, marginTop: 4 }}>{pr.name}</div>
                 </button>
               ))}
-            </div>
-
-            <div style={{ borderTop: "2px solid #E4E8F5", paddingTop: 14 }}>
-              <Btn full small color="#4C6FFF" onClick={() => entrada.current?.click()}>
-                📥 {t.restoreTitle}
-              </Btn>
-              <div style={{ color: "#8B93AD", fontSize: 11, fontWeight: 700, marginTop: 8, lineHeight: 1.6 }}>
-                {t.restoreHint}
-              </div>
             </div>
           </div>
         </Modal>

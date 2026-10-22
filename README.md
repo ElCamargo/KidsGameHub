@@ -411,6 +411,10 @@ nenhum jogador o app pula a tela de jogadores e abre direto no cadastro. Até a
 v1.5.2 o único 📥 morava lá, e quem chegava com a cópia na mão — endereço
 novo, app da loja, aparelho novo — só via o cadastro.
 
+Na tela de jogadores, 💾 e 📥 ficam **um embaixo do outro** desde a v1.5.4.
+Antes o 📥 morava dentro do 💾, e quem trazia três filhos abria "Levar para
+outro aparelho" três vezes para *trazer*, que é o contrário de levar.
+
 **Restaurar nunca escreve por cima.** Cria sempre um jogador novo, com
 identificador novo — quem já joga naquele aparelho continua intacto.
 
