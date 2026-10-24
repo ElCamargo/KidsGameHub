@@ -211,11 +211,12 @@ O QUE TEM DENTRO
 • Ciências: os animais, o corpo humano, as plantas, a água
 • Bíblia: livros, personagens, milagres e parábolas
 • Momento em Família: um devocional curto por dia, para fazer junto
-• Memória, quebra-cabeça e desenho livre
+• Memória, quebra-cabeça e desenhos para pintar
 
-ATÉ QUATRO CRIANÇAS NO MESMO APARELHO
-Cada uma com o seu perfil, o seu progresso e o seu caderno. Ninguém compete com
-ninguém.
+A FAMÍLIA INTEIRA NO MESMO APARELHO
+Cada criança com o seu perfil, o seu progresso e o seu caderno, e nenhuma tela
+compara um irmão com o outro. Quando querem, até quatro jogam juntas na mesma
+partida.
 
 CRESCE COM A CRIANÇA
 Seis faixas de dificuldade em cada trilha. O jogo acompanha o ano escolar em vez
@@ -223,7 +224,7 @@ de repetir sempre a mesma coisa.
 
 PARA O RESPONSÁVEL
 • Uma tela só sua, protegida por senha de quatro dígitos
-• A semana de cada filho: rodadas, acertos, estrelas, desenhos e minutos
+• A semana de cada filho: rodadas, acertos, estrelas e desenhos
 • As rodadas que a criança terminou sem estrela — o esforço que nenhum número
   mostra, para você premiar quando achar justo
 • Um presente semanal de mundis para dar a quem quiser
@@ -342,12 +343,17 @@ assim desde o começo.
 
 ### Classificação de conteúdo (questionário IARC)
 
-Violência, sexo, drogas, linguagem, jogos de azar, conteúdo gerado por usuário,
-compartilhamento de localização, compartilhamento de dados pessoais:
-**não** em todas. O desenho livre fica só no aparelho e não é compartilhável, então
-não conta como conteúdo gerado por usuário.
+Violência e álcool: **sim, os dois só referidos em texto**. A trilha da Bíblia
+cita Caim e Abel, a crucificação, Golias, "as águas viraram sangue" e a água
+que virou vinho em Caná — responder "não" seria declarar falso. Sexo, drogas,
+linguagem, jogos de azar, conteúdo gerado por usuário, compartilhamento de
+localização e de dados pessoais: **não**. Os desenhos pintados ficam só no
+aparelho e não são compartilháveis, então não contam como conteúdo gerado por
+usuário.
 
-Resultado esperado: **Livre / Everyone**.
+Resultado (22/10/2026): **Livre** no Brasil, Everyone, PEGI 3, USK 6 e 3+ no
+resto — menos **Coreia do Sul (15+) e Arábia Saudita (12)**, que ficaram fora
+da distribuição para não contradizer o público infantil.
 
 ### Aprovado por Professores (*Teacher Approved*)
 
