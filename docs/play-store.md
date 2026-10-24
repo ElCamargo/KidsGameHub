@@ -175,8 +175,8 @@ O que a Play pede, e o que já existe:
 | Política de privacidade (URL pública) | ✅ `/privacidade.html` — v1.2, revisada para a Política de Famílias |
 | Termos de uso | ✅ `/termos.html` |
 | E-mail de contato | ✅ `contato@elcamargo.com.br` — Zoho Mail, alias da caixa do Ederson |
-| Descrição curta (80 caracteres) | rascunho abaixo |
-| Descrição completa (4000 caracteres) | rascunho abaixo |
+| Descrição curta (80 caracteres) | a publicada, abaixo |
+| Descrição completa (4000 caracteres) | a publicada, abaixo |
 
 ### Descrição curta (80 caracteres)
 
@@ -184,57 +184,54 @@ O que a Play pede, e o que já existe:
 Jogos educativos para crianças. Sem anúncios, sem cobrança, funciona offline.
 ```
 
-### Descrição completa (rascunho)
+### Descrição completa — a publicada
+
+Copiada da Play Console em 24/10/2026, com uma troca só: *lumicoins* virou
+*mundis*, como no app desde a v1.5.7. **Na loja ainda está lumicoins** — trocar
+depois da aprovação, para não abrir outra revisão no meio desta.
 
 ```
-O Clarim é um hub de jogos educativos para crianças de 3 a 10 anos, feito por uma
-família e dado de graça a outras famílias.
+O Clarim é um hub de jogos educativos para crianças do pré-escolar ao 5º ano, feito por uma família e oferecido de graça a outras famílias.
 
-SEM NADA DO QUE VOCÊ ESTÁ CANSADO
+Sem nada do que você está cansado
 • Sem anúncios. Nenhum, em lugar nenhum.
-• Sem compras dentro do app. Nada é bloqueado, nada é vendido.
+• Sem compras dentro do app. Nada é vendido.
 • Sem cadastro e sem login. A criança abre e joga.
 • Sem coleta de dados. O progresso fica no aparelho e não sai dele.
 • Sem links para fora. Não há como a criança sair do app sem querer.
 
-FUNCIONA SEM INTERNET
-Depois da primeira abertura, tudo funciona offline — no carro, na viagem, na casa
-da avó, no plano de dados que acabou.
+Funciona sem internet
+Depois da primeira abertura, tudo funciona offline: no carro, na viagem, na casa da avó, no plano de dados que acabou.
 
-O QUE TEM DENTRO
-• Alfabetização: montar palavras por sílabas, ditado, rimas e som inicial
-• Ortografia: as regras que o caderno cobra, sem nunca mostrar a palavra errada
-• Interpretação de texto: textos curtos com perguntas, e a voz lendo para quem
-  ainda não lê sozinho
-• Matemática: contas armadas com vai-um e empresta-um, e problemas em texto
-• Geografia: bandeiras e capitais do mundo inteiro, começando pelo Brasil
-• Ciências: os animais, o corpo humano, as plantas, a água
-• Bíblia: livros, personagens, milagres e parábolas
-• Momento em Família: um devocional curto por dia, para fazer junto
-• Memória, quebra-cabeça e desenhos para pintar
+O que tem dentro
+• Ler e escrever: montar palavras, família silábica, ditado, rimas, som inicial e leitura com interpretação de texto
+• Ortografia: as regras que o caderno cobra, sem nunca mostrar a palavra escrita errado
+• Matemática: contas armadas, tabuada, horas, dinheiro do Brasil e problemas do dia a dia
+• Geografia: bandeiras e capitais do mundo inteiro, e os estados do Brasil
+• Natureza: os animais, o corpo humano e curiosidades do mundo
+• Idiomas: palavras em outras línguas
+• Fé e Bíblia: livros, personagens, milagres e parábolas
+• Memória, quebra-cabeça e pintura
 
-A FAMÍLIA INTEIRA NO MESMO APARELHO
-Cada criança com o seu perfil, o seu progresso e o seu caderno, e nenhuma tela
-compara um irmão com o outro. Quando querem, até quatro jogam juntas na mesma
-partida.
+A voz lê para quem ainda não lê sozinho.
 
-CRESCE COM A CRIANÇA
-Seis faixas de dificuldade em cada trilha. O jogo acompanha o ano escolar em vez
-de repetir sempre a mesma coisa.
+Vários perfis no mesmo aparelho
+Cada criança com o seu progresso e o seu caderno. E até quatro podem jogar juntas, passando o aparelho de mão em mão.
 
-PARA O RESPONSÁVEL
-• Uma tela só sua, protegida por senha de quatro dígitos
+Cresce com a criança
+Seis faixas de dificuldade em cada trilha, e uma trilha pelo ano escolar, com o que a escola pede em cada ano.
+
+Para o responsável
+• Uma área só sua, protegida por senha
 • A semana de cada filho: rodadas, acertos, estrelas e desenhos
-• As rodadas que a criança terminou sem estrela — o esforço que nenhum número
-  mostra, para você premiar quando achar justo
+• As rodadas que a criança terminou sem estrela, o esforço que nenhum número mostra, para você reconhecer quando achar justo
 • Um presente semanal de mundis para dar a quem quiser
 • Momento em Família: um devocional curto por dia, para fazer junto
 
-LEVE O PROGRESSO PARA OUTRO APARELHO
-Um arquivo, salvo por você, aberto no aparelho novo. Sem conta, sem nuvem, sem
-enviar nada para lugar nenhum. Funciona até em modo avião.
+Leve o progresso para outro aparelho
+Um arquivo salvo por você e aberto no aparelho novo. Sem conta, sem nuvem, sem enviar nada para lugar nenhum.
 
-SEIS IDIOMAS
+Seis idiomas
 Português, inglês, espanhol, francês, alemão e italiano.
 
 Feito por ElCamargo Soluções em TI LTDA, em Blumenau, Santa Catarina.
@@ -246,7 +243,7 @@ completa em 4000. A curta acima tem 77.
 ### O nome na loja
 
 ```
-Clarim — Jogos educativos para crianças
+Clarim — Jogos para crianças
 ```
 
 O app se chamou **Lumus** até 07/09/2026. O nome mudou porque LUMUS estava
