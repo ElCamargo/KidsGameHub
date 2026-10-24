@@ -1,21 +1,52 @@
-MIT License
+Copyright (c) 2026 ElCamargo Soluções em TI LTDA — CNPJ 57.299.418/0001-69
+Todos os direitos reservados.
 
-Copyright (c) 2026 ElCamargo Soluções em TI LTDA
+O Clarim — o código-fonte, os textos, os bancos de perguntas, o conteúdo
+pedagógico, as imagens, o mascote Mundi, os avatares e o design — é de
+propriedade da ElCamargo Soluções em TI LTDA e está protegido pela
+Lei nº 9.609/1998 (programas de computador) e pela Lei nº 9.610/1998
+(direitos autorais).
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+O código fica à vista neste repositório para que qualquer pessoa possa
+conferir o que o aplicativo faz — por exemplo, que ele não coleta dados.
+Estar à vista não é licença: nenhuma permissão é concedida para copiar,
+modificar, distribuir, publicar, sublicenciar ou vender este material, no
+todo ou em parte, sem autorização por escrito da ElCamargo Soluções em TI
+LTDA.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Até a versão 1.5.7 (tag v1.5.7, 22 de outubro de 2026), este repositório foi
+distribuído sob a licença MIT. Quem obteve uma cópia de uma dessas versões
+mantém, sobre aquela cópia, os direitos daquela licença. Da versão 1.5.8 em
+diante vale este aviso.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Componentes de terceiros mantêm as próprias licenças: as dependências
+declaradas em package.json e as bandeiras obtidas de fontes públicas
+(ver scripts/baixar-bandeiras.mjs).
+
+Pedidos de autorização: contato@elcamargo.com.br
+
+---
+
+Copyright (c) 2026 ElCamargo Soluções em TI LTDA. All rights reserved.
+
+Clarim — its source code, texts, question banks, educational content,
+images, the Mundi mascot, avatars and design — is the property of ElCamargo
+Soluções em TI LTDA, protected under Brazilian Laws 9.609/1998 (software) and
+9.610/1998 (copyright).
+
+The code is visible in this repository so anyone can check what the app
+does — for instance, that it collects no data. Being visible is not a
+license: no permission is granted to copy, modify, distribute, publish,
+sublicense or sell this material, in whole or in part, without written
+authorization from ElCamargo Soluções em TI LTDA.
+
+Up to version 1.5.7 (tag v1.5.7, October 22, 2026), this repository was
+distributed under the MIT license. Anyone who obtained a copy of one of those
+versions keeps the rights of that license over that copy. From version 1.5.8
+on, this notice applies.
+
+Third-party components keep their own licenses: the dependencies declared in
+package.json and the flags obtained from public sources (see
+scripts/baixar-bandeiras.mjs).
+
+Permission requests: contato@elcamargo.com.br

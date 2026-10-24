@@ -1,10 +1,10 @@
 {
   "name": "kidsgamehub",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "private": true,
   "description": "Clarim — hub de jogos educativos para crianças. Sem anúncios, sem links externos, sem coleta de dados.",
   "author": "ElCamargo Soluções em TI LTDA",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "https://github.com/ElCamargo/KidsGameHub.git"

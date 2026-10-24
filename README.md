@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ElCamargo/KidsGameHub/actions/workflows/ci.yml/badge.svg)](https://github.com/ElCamargo/KidsGameHub/actions/workflows/ci.yml)
 [![Deploy](https://github.com/ElCamargo/KidsGameHub/actions/workflows/deploy.yml/badge.svg)](https://github.com/ElCamargo/KidsGameHub/actions/workflows/deploy.yml)
-[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
+[![Todos os direitos reservados](https://img.shields.io/badge/licen%C3%A7a-todos%20os%20direitos%20reservados-lightgrey)](LICENSE)
 [![PWA offline](https://img.shields.io/badge/PWA-100%25%20offline-00B894)](#offline)
 [![Sem coleta de dados](https://img.shields.io/badge/dados%20coletados-nenhum-E84393)](#privacidade)
 
@@ -125,7 +125,7 @@ Detalhes e o histórico da decisão em
 | Requisições a terceiros em execução | **0** |
 | Dados coletados | **0** |
 | Portão automático a cada alteração | 3 guardas de conteúdo + 189 testes |
-| Licença | MIT |
+| Licença | Todos os direitos reservados — código à vista, não liberado (MIT até a v1.5.7) |
 
 ---
 
@@ -1698,7 +1698,8 @@ Every change passes a build gate that checks the question banks for ambiguity,
 playable, and runs 44 tests — among them one that guarantees all six languages
 carry exactly the same 280 interface strings.
 
-The code is MIT-licensed. The reasoning behind the main technical choices is
+The code is visible so anyone can check what the app does, but all rights are
+reserved (it was MIT up to v1.5.7). The reasoning behind the main technical choices is
 recorded in [`docs/decisoes/`](docs/decisoes/), in Portuguese.
 
 ## Contato
@@ -1708,7 +1709,19 @@ Brasil · [github.com/ElCamargo](https://github.com/ElCamargo)
 
 ## Licença
 
-MIT — © 2026 ElCamargo Soluções em TI LTDA. Ver [LICENSE](LICENSE).
+© 2026 ElCamargo Soluções em TI LTDA. **Todos os direitos reservados.** Ver
+[LICENSE](LICENSE).
+
+O código fica à vista para qualquer um conferir o que o app faz — que ele não
+coleta dados, por exemplo. Estar à vista não é licença: copiar, modificar,
+distribuir ou vender depende de autorização por escrito.
+
+Até a **v1.5.7** o repositório era MIT. A troca, em 24/10/2026, veio com o
+plano de um dia monetizar jogos: a MIT autorizava qualquer um a copiar e
+vender o Clarim, mantido só o aviso de autoria. Quem copiou uma versão daquela
+época mantém, sobre aquela cópia, os direitos da MIT — licença dada não se
+retira. Nome, mascote, avatares e design nunca estiveram na MIT: são marca e
+identidade da empresa, como os termos de uso sempre disseram.
 
 ---
 

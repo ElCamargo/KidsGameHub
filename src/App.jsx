@@ -35,7 +35,7 @@ import { PuzzleGame, PuzzleLevels, cartazDe, coresDeFabrica } from "./telas/queb
    CLARIM — Kids Game Hub
    "Iluminar a mente"
    © ElCamargo Soluções em TI LTDA — https://github.com/ElCamargo/KidsGameHub
-   Licença MIT (ver LICENSE)
+   Todos os direitos reservados (ver LICENSE)
    ------------------------------------------------------------
    Este arquivo é o miolo, e só ele: o estado do jogador, a gravação no
    aparelho e qual tela aparece a cada momento. As telas moram em
